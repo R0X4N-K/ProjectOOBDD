@@ -6,11 +6,11 @@ public final class Sessione {
 
     }
 
-    public void logout(Autore a) {
+    public void logout (Autore a) {
 
     }
 
-    public Autore newAutore(String nomeUtente, String password) {
+    public Autore newAutore (String nomeUtente, String password) {
         float valutazione = 0.0f;
     }
 

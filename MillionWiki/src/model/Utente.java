@@ -3,9 +3,11 @@ package model;
 public class Utente {
 
 
-    public void visualizzaArticolo(Articolo);
+    public void visualizzaArticolo (Articolo articolo) {
 
-    public void cercaArticolo(String);
+    }
 
+    public void cercaArticolo (String nomeArticolo) {
 
+    }
 }

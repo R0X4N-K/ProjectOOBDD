@@ -11,6 +11,7 @@ public class Autore extends Utente {
     public String getNomeUtente(){
         return nomeUtente;
     }
+
     public void setNomeUtente(String nome){
 
         this.nomeUtente = nome;
@@ -29,19 +30,28 @@ public class Autore extends Utente {
 
         return valutazione;
     }
+
     public void setValutazione(float valutazione) {
         this.valutazione = valutazione;
     }
 
-    public Articolo scriviArticolo();
-    public Articolo scriviArticolo(VersioneArticolo versioneArticolo);
-
-    public void visualizzaProposta(VersioneArticolo versioneArticolo);
-
-    public void modificaStatoVersioneArticolo(VersioneArticolo versioneArticolo);
 
 
+    public Articolo scriviArticolo() {
+
+    }
+
+    public Articolo scriviArticolo(VersioneArticolo versioneArticolo) {
+
+    }
 
 
 
+    public void visualizzaProposta(VersioneArticolo versioneArticolo) {
+
+    }
+
+    public void modificaStatoVersioneArticolo(VersioneArticolo versioneArticolo) {
+
+    }
 }

@@ -8,6 +8,7 @@ public class VersioneArticolo {
         ACCETTATO,
         RIFIUTATO// opzionalmente può terminare con ";"
     }
+
     private Stato stato= Stato.ATTESA;
     private String titolo;
     private String testo;
@@ -19,6 +20,7 @@ public class VersioneArticolo {
     public Stato getStato(){
         return stato;
     }
+
     public void setStato(Stato stato) {
         this.stato = stato;
     }
@@ -62,7 +64,4 @@ public class VersioneArticolo {
     public void setDataRevisione(Date dataRevisione) {
         this.dataRevisione = dataRevisione;
     }
-
-
-
 }
