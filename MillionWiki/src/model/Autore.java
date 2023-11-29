@@ -8,7 +8,7 @@ public class Autore extends Utente {
     private float valutazione;
 
 
-    public String getNomeUtente{
+    public String getNomeUtente(){
         return nomeUtente;
     }
     public void setNomeUtente(String nome){
