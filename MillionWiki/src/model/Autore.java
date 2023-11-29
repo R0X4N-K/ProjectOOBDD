@@ -20,7 +20,7 @@ public class Autore extends Utente {
 
     public void setPassword(String password){
 
-        this.password= pass;
+        this.password= password;
     }
 
 
