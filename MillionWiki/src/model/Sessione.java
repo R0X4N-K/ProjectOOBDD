@@ -2,7 +2,7 @@ package model;
 
 public final class Sessione {
     private Sessione(){}
-    public Autore login () {
+    public Autore login (String nomeUtente, String password) {
 
     }
 
