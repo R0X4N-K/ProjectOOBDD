@@ -18,7 +18,7 @@ public class Autore extends Utente {
 
 
 
-    public void setPassword(String pass){
+    public void setPassword(String password){
 
         this.password= pass;
     }
@@ -34,11 +34,11 @@ public class Autore extends Utente {
     }
 
     public Articolo scriviArticolo();
-    public Articolo scriviArticolo(VersioneArticolo);
+    public Articolo scriviArticolo(VersioneArticolo versioneArticolo);
 
-    public void visualizzaProposta(VersioneArticolo);
+    public void visualizzaProposta(VersioneArticolo versioneArticolo);
 
-    public void modificaStatoVersioneArticolo(VersioneArticolo);
+    public void modificaStatoVersioneArticolo(VersioneArticolo versioneArticolo);
 
 
 

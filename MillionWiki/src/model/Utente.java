@@ -5,7 +5,7 @@ public class Utente {
 
     public void visualizzaArticolo(Articolo);
 
-    public void cercaArticolo(Articolo);
+    public void cercaArticolo(String);
 
 
 }
