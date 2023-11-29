@@ -8,9 +8,4 @@ public class Autore extends Utente {
     private float valutazione;
 
     private ArrayList <VersioneArticolo>
-
-
-
-
-
 }
