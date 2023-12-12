@@ -10,7 +10,7 @@ public class Articolo {
 
 
     public Articolo(String titolo){
-        this.titolo=titolo;
+        setTitolo(titolo);
 
         // TODO: dataCreazione deve riferirsi a orario Server
     }
@@ -41,7 +41,13 @@ public class Articolo {
         return titolo;
     }
 
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
+    public void setTitolo(String titolo) throws Exception {
+
+        if(!titolo.isEmpty() && !titolo.isBlank()) {
+            this.titolo = titolo;
+        }
+        else {
+            throw new Exception("Titolo Vuoto"); // TODO: Creare eccezione ad hoc
+        }
     }
 }
