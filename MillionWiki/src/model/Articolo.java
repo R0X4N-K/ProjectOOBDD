@@ -9,6 +9,12 @@ public class Articolo {
     boolean revisione = false;
 
 
+    public Articolo(String titolo){
+        this.titolo=titolo;
+
+        // TODO: dataCreazione deve riferirsi a orario Server
+    }
+
 
 
     public boolean isRevisione() {
