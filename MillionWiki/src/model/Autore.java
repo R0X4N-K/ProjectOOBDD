@@ -49,12 +49,16 @@ public class Autore extends Utente {
 
 
 
-    public Articolo scriviArticolo() {
+    public Articolo scriviArticolo(String titolo) {
 
     }
 
-    public VersioneArticolo scriviArticolo(Articolo articolo) {
+    public VersioneArticolo scriviArticolo(Articolo articolo, String testo) {
 
+    }
+
+    public VersioneArticolo scriviArticolo(Articolo articolo, String testo, String titolo) {
+        scriviArticolo(articolo, testo);
     }
 
 

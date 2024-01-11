@@ -9,11 +9,11 @@ public class VersioneArticolo {
         RIFIUTATO// opzionalmente può terminare con ";"
     }
 
-    private Stato stato= Stato.ATTESA;
-    private String titolo;
+    private Stato stato = Stato.ATTESA;
+    private String versioneTitolo;
     private String testo;
     private Date dataVersione;
-    private Date dataRevisione=null;
+    private Date dataRevisione = null;
 
 
 
@@ -27,12 +27,12 @@ public class VersioneArticolo {
 
 
 
-    public String getTitolo() {
-        return titolo;
+    public String getVersioneTitolo() {
+        return versioneTitolo;
     }
 
-    public void setTitolo(String titolo) {
-        this.titolo = titolo;
+    public void setVersioneTitolo(String versioneTitolo) {
+        this.versioneTitolo = versioneTitolo;
     }
 
 
