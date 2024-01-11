@@ -53,7 +53,7 @@ public class Autore extends Utente {
 
     }
 
-    public Articolo scriviArticolo(VersioneArticolo versioneArticolo) {
+    public VersioneArticolo scriviArticolo(Articolo articolo) {
 
     }
 
