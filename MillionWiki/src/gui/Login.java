@@ -1,6 +1,8 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Login {
     private JTextArea entraTextArea;
@@ -8,6 +10,15 @@ public class Login {
     private JTextField textField1;
     private JTextArea passwordTextArea;
     private JPasswordField passwordField1;
-    private JButton Entra;
+    private JButton entra;
     private JButton NonRegistrato;
+    private JPanel mainPanelLogin;
+
+    public Login() {
+        JFrame frame = new JFrame("Login");
+        frame.setContentPane(mainPanelLogin);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
+    }
 }

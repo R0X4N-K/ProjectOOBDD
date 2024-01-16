@@ -20,11 +20,8 @@ public class Home {
         accedi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                /*JFrame frame = new JFrame("Home");
-                frame.setContentPane(new Home().Accedi);
-                frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                frame.pack();
-                frame.setVisible(true);*/
+                frame.setVisible(false);
+                new Login();
             }
         });
     }
