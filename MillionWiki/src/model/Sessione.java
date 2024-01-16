@@ -1,5 +1,6 @@
 package model;
 import java.lang.String;
+import java.lang.Exception;
 
 public final class Sessione {
     private Sessione(){}
@@ -16,13 +17,13 @@ public final class Sessione {
     }
 
     public Autore newAutore (String nomeUtente, String password) {
-        float valutazione = 0.0f;
-        Autore nuovoAutore = new Autore(nomeUtente, password, valutazione);
+        Autore nuovoAutore = new Autore(nomeUtente, password);
         return nuovoAutore;
     }
 
     public Autore modificaNome (String nomeUtente) {
-
+        return null;
     }
-    public void modificaPassword (String password) { }
+    public void modificaPassword (String password) {
+    }
 }

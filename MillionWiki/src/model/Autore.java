@@ -7,11 +7,14 @@ public class Autore extends Utente {
     private String password;
     private float valutazione;
 
+
     public Autore (String nomeUtente, String password) throws Exception {
 
         setNomeUtente(nomeUtente);
 
         setPassword(password);
+
+        setValutazione(0.0f);
     }
 
     public String getNomeUtente(){
