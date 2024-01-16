@@ -17,7 +17,5 @@ public final class Sessione {
     public Autore modificaNome (String nomeUtente) {
 
     }
-    public modificaPassword (String password) {
-
-    }
+    public void modificaPassword (String password) { }
 }

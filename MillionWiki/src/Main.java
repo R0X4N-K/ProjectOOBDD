@@ -3,7 +3,7 @@
 public class Main {
     public static void main(String[] args) {
 
-        system.out.printl("Hello MOtherfucker");
+        //ystem.out.printl("Hello MOtherfucker");
 
     }
 }

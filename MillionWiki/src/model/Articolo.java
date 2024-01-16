@@ -1,5 +1,6 @@
 package model;
 import java.util.Date;
+import java.lang.Exception;
 
 
 public class Articolo {
