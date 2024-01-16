@@ -24,5 +24,12 @@ public class Home {
                 new Login();
             }
         });
+        registratiButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                frame.setVisible(false);
+                new Registrati();
+            }
+        });
     }
 }
