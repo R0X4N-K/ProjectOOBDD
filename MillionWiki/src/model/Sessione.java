@@ -4,7 +4,7 @@ import java.lang.Exception;
 
 public final class Sessione {
     private Sessione(){}
-    public Autore login (String nomeUtente, String password) {
+    public Autore login (String nomeUtente, String password) throws Exception {
 
         Autore autoreAutenticato = new Autore(nomeUtente, password);
 
@@ -16,7 +16,7 @@ public final class Sessione {
 
     }
 
-    public Autore newAutore (String nomeUtente, String password) {
+    public Autore newAutore (String nomeUtente, String password) throws Exception {
         Autore nuovoAutore = new Autore(nomeUtente, password);
         return nuovoAutore;
     }
