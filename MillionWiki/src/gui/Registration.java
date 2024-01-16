@@ -4,7 +4,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Registrati {
+public class Registration {
     private JLabel effettuaLaTuaRegistrazioneLabel;
     private JLabel inserisciLaTuaMailLabel;
     private JTextField mailTextField;
@@ -17,11 +17,11 @@ public class Registrati {
     private JTextField nickNameTextField;
     private JLabel passwordLabel2;
     private JPasswordField passwordTextField2;
-    private JPanel mainPanelRegistrati;
+    private JPanel mainPanelRegistration;
 
-    public Registrati() {
+    public Registration() {
         JFrame frame = new JFrame("Login");
-        frame.setContentPane(mainPanelRegistrati);
+        frame.setContentPane(mainPanelRegistration);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);

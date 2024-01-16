@@ -6,7 +6,6 @@ public class Main {
     public static void main(String[] args) {
 
         //ystem.outprintl("Hello MOtherfucker");
-        new Home();
-
+        new Window();
     }
 }

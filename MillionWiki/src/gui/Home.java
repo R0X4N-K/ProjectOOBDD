@@ -9,11 +9,11 @@ public class Home {
 
     private JButton accedi;
     private JButton registratiButton;
-    private JPanel mainPanel;
+    private JPanel mainPanelHome;
 
     public Home() {
         JFrame frame = new JFrame("Home");
-        frame.setContentPane(mainPanel);
+        frame.setContentPane(mainPanelHome);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
         frame.setVisible(true);
@@ -28,7 +28,7 @@ public class Home {
             @Override
             public void actionPerformed(ActionEvent e) {
                 frame.setVisible(false);
-                new Registrati();
+                new Registration();
             }
         });
     }
