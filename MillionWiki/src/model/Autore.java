@@ -51,14 +51,24 @@ public class Autore extends Utente {
 
     public Articolo scriviArticolo(String titolo) {
 
+        Articolo nuovoArticolo = new Articolo(titolo);
+
+        return nuovoArticolo;
     }
 
     public VersioneArticolo scriviArticolo(Articolo articolo, String testo) {
 
+        VersioneArticolo nuovaVersione = new VersioneArticolo();
+
+        return nuovaVersione;
     }
 
     public VersioneArticolo scriviArticolo(Articolo articolo, String testo, String titolo) {
         scriviArticolo(articolo, testo);
+
+        VersioneArticolo nuovaVersione = new VersioneArticolo();
+
+        return nuovaVersione;
     }
 
 

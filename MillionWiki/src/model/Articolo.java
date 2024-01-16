@@ -11,7 +11,14 @@ public class Articolo {
 
 
     public Articolo(String titolo){
-        setTitolo(titolo);
+        try {
+            setTitolo(titolo);
+        } catch (Exception e) {
+            // Gestisci l'eccezione qui, ad esempio, puoi stampare un messaggio o fare altro.
+            e.printStackTrace();
+
+        }
+
 
         // TODO: dataCreazione deve riferirsi a orario Server
     }
