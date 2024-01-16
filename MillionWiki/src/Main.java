@@ -5,7 +5,7 @@ import gui.*;
 public class Main {
     public static void main(String[] args) {
 
-        //ystem.out.printl("Hello MOtherfucker");
+        //ystem.outprintl("Hello MOtherfucker");
         new Home();
 
     }
