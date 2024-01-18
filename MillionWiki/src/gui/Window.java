@@ -14,6 +14,10 @@ public class Window {
     private JPanel unloggedUserPanel;
 
     public Window(){
-        new Home();
+        JFrame frame = new JFrame("Home");
+        frame.setContentPane(mainPanelWindow);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.pack();
+        frame.setVisible(true);
     }
 }
