@@ -16,7 +16,7 @@ public class Login {
     private JButton ritornaHome;
 
     public Login() {
-        JFrame frame = new JFrame("Login");
+        /*JFrame frame = new JFrame("Login");
         frame.setContentPane(mainPanelLogin);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -35,6 +35,6 @@ public class Login {
                 new Registration();
 
             }
-        });
+        });*/
     }
 }

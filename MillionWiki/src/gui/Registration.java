@@ -20,7 +20,7 @@ public class Registration {
     private JPanel mainPanelRegistration;
 
     public Registration() {
-        JFrame frame = new JFrame("Login");
+        /*JFrame frame = new JFrame("Login");
         frame.setContentPane(mainPanelRegistration);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
@@ -38,6 +38,6 @@ public class Registration {
                 frame.setVisible(false);
                 new Home();
             }
-        });
+        });*/
     }
 }
