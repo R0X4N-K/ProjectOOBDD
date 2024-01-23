@@ -6,12 +6,13 @@ public class Autore extends Utente {
     private String nomeUtente;
     private String password;
     private float valutazione;
-
+    private ArrayList<Articolo> pagineCreate;
     public Autore (String nomeUtente, String password) throws Exception {
 
         setNomeUtente(nomeUtente);
 
         setPassword(password);
+        this.pagineCreate = new ArrayList<>();
     }
 
     public String getNomeUtente(){
@@ -48,26 +49,35 @@ public class Autore extends Utente {
     }
 
 
+    public ArrayList<Articolo> getPagineCreate() {
+        return pagineCreate;
+    }
+    public void addPaginaCreata(Articolo articolo) {
+        this.pagineCreate.add(articolo);
+    }
 
     public Articolo scriviArticolo(String titolo) {
-
-        Articolo nuovoArticolo = new Articolo(titolo);
-
+        Articolo nuovoArticolo = null;
+        try {
+            nuovoArticolo = new Articolo(titolo, this);
+            addPaginaCreata(nuovoArticolo);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return nuovoArticolo;
     }
 
+
     public VersioneArticolo scriviArticolo(Articolo articolo, String testo) {
-
         VersioneArticolo nuovaVersione = new VersioneArticolo();
-
+        nuovaVersione.setAutoreProposta(this);
+        articolo.addModifica(nuovaVersione);
         return nuovaVersione;
     }
 
     public VersioneArticolo scriviArticolo(Articolo articolo, String testo, String titolo) {
-        scriviArticolo(articolo, testo);
-
-        VersioneArticolo nuovaVersione = new VersioneArticolo();
-
+        VersioneArticolo nuovaVersione = scriviArticolo(articolo, testo);
+        nuovaVersione.setVersioneTitolo(titolo);
         return nuovaVersione;
     }
 
@@ -80,4 +90,8 @@ public class Autore extends Utente {
     public void modificaStatoVersioneArticolo(VersioneArticolo versioneArticolo) {
 
     }
+
+
+
+
 }

@@ -3,24 +3,45 @@ package model;
 import java.util.ArrayList;
 
 public final class GestoreArticoli {
+    private static ArrayList<Articolo> articoli = new ArrayList<>(); //Aggiunto per memorizzare gli articoli
     private GestoreArticoli(){
 
     }
-
     public static Articolo fornisciArticolo(String nomeArticolo) {
-        return null; //momentaneamente ritorna null per evitare errori
+        for (Articolo articolo : articoli) {
+            if (articolo.getTitolo().equals(nomeArticolo)) {
+                return articolo;
+            }
+        }
+        return null;
     }
+
 
     public static VersioneArticolo fornisciVersioneArticolo(String nomeArticolo) {
-        return null; //momentaneamente ritorna null per evitare errori
+        Articolo articolo = fornisciArticolo(nomeArticolo);
+        if (articolo != null) {
+            ArrayList<VersioneArticolo> modifiche = articolo.getModifiche();
+            if (!modifiche.isEmpty()) {
+                return modifiche.get(modifiche.size() - 1); // Restituisce l'ultima modifica
+            }
+        }
+        return null;
     }
 
-    public static ArrayList<VersioneArticolo> notificaAutore() {
-        return null; //momentaneamente ritorna null per evitare errori
+    public static ArrayList<VersioneArticolo> notificaAutore(Autore autore) {
+        ArrayList<VersioneArticolo> modificheDaRivedere = new ArrayList<>();
+        for (Articolo articolo : autore.getPagineCreate()) {
+            for (VersioneArticolo modifica : articolo.getModifiche()) {
+                if (modifica.getStato() == VersioneArticolo.Stato.ATTESA) {
+                    modificheDaRivedere.add(modifica);
+                }
+            }
+        }
+        return modificheDaRivedere;
     }
 
     public static void memorizzaArticolo(Articolo articoloDaMemorizzare){
-
+        articoli.add(articoloDaMemorizzare);
     }
 
     /*

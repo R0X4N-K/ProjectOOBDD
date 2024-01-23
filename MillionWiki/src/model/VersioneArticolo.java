@@ -14,6 +14,7 @@ public class VersioneArticolo {
     private String testo;
     private Date dataVersione;
     private Date dataRevisione = null;
+    private Autore autoreProposta; // Aggiunto
 
 
 
@@ -63,5 +64,14 @@ public class VersioneArticolo {
 
     public void setDataRevisione(Date dataRevisione) {
         this.dataRevisione = dataRevisione;
+
     }
+    public Autore getAutoreProposta() {
+        return autoreProposta;
+    }
+
+    public void setAutoreProposta(Autore autoreProposta) {
+        this.autoreProposta = autoreProposta;
+    }
+
 }
