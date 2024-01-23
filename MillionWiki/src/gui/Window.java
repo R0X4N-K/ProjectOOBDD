@@ -15,7 +15,7 @@ public class Window extends JFrame{
         frame.setContentPane(mainPanelWindow);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
-        frame.setSize(800, 500);
+        frame.setSize(800, 700);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
