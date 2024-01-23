@@ -12,6 +12,8 @@ public class Window {
         frame.setContentPane(mainPanelWindow);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
+        frame.setSize(800, 500);
+        frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
 }
