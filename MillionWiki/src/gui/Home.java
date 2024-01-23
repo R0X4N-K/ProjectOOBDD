@@ -1,6 +1,8 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Home {
     private JButton accedi;
@@ -12,21 +14,18 @@ public class Home {
 
         this.window = window;
 
-        /*accedi.addActionListener(new ActionListener() {
+        accedi.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                new Login();
+                window.switchPanel(window.getLoginPanel());
             }
         });
         registratiButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                new Registration();
+                window.switchPanel(window.getRegistrationPanel());
             }
         });
-        */
     }
     public JPanel getPanel() {
         return mainPanelHome;

@@ -1,6 +1,9 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class Registration {
     private JLabel effettuaLaTuaRegistrazioneLabel;
@@ -20,25 +23,18 @@ public class Registration {
 
     public Registration(Window window) {
         this.window = window;
-        /*JFrame frame = new JFrame("Login");
-        frame.setContentPane(mainPanelRegistration);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                new Login();
+                window.switchPanel(window.getLoginPanel());
             }
         });
         ritornaHomeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                new Home();
+                window.switchPanel(window.getHomePanel());
             }
-        });*/
+        });
 
     }
     public JPanel getPanel() {

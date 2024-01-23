@@ -2,6 +2,9 @@ package gui;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 public class Login {
     private JLabel effettuaIlTuoAccessoLabel;
     private JLabel emailONicknameLabel;
@@ -17,27 +20,18 @@ public class Login {
     public Login(Window window) {
 
         this.window = window;
-
-        /*JFrame frame = new JFrame("Login");
-        frame.setContentPane(mainPanelLogin);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
         ritornaHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                new Home();
+            window.switchPanel(window.getHomePanel());
             }
         });
         NonRegistrato.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                frame.setVisible(false);
-                new Registration();
-
+                window.switchPanel(window.getRegistrationPanel());
             }
-        });*/
+        });
 
 
     }

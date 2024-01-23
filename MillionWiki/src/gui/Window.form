@@ -7,17 +7,13 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="aa5ab" binding="toolbarPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="aa5ab" binding="toolbarPanel" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="North"/>
         <properties>
           <visible value="true"/>
         </properties>
         <border type="none"/>
-        <children>
-          <nested-form id="b9bd2" form-file="gui/Toolbar.form" binding="toolbar">
-            <constraints border-constraint="Center"/>
-          </nested-form>
-        </children>
+        <children/>
       </grid>
       <grid id="84af8" binding="windowPane" layout-manager="CardLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
