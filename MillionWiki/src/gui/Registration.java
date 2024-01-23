@@ -1,7 +1,7 @@
 package gui;
 
 import javax.swing.*;
-import java.awt.*;
+
 public class Registration {
     private JLabel effettuaLaTuaRegistrazioneLabel;
     private JLabel inserisciLaTuaMailLabel;
@@ -16,8 +16,10 @@ public class Registration {
     private JLabel passwordLabel2;
     private JPasswordField passwordTextField2;
     private JPanel mainPanelRegistration;
+    private Window window;
 
-    public Registration() {
+    public Registration(Window window) {
+        this.window = window;
         /*JFrame frame = new JFrame("Login");
         frame.setContentPane(mainPanelRegistration);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -37,8 +39,9 @@ public class Registration {
                 new Home();
             }
         });*/
+
     }
-    public Component getPanel() {
+    public JPanel getPanel() {
         return mainPanelRegistration;
     }
 }

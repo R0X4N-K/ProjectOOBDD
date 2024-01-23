@@ -24,21 +24,33 @@
         <properties/>
         <border type="none"/>
         <children>
-          <nested-form id="440d6" form-file="gui/Home.form" binding="home">
+          <grid id="785b2" binding="homePanel" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="home"/>
+              <card name="Card1"/>
             </constraints>
-          </nested-form>
-          <nested-form id="fac95" form-file="gui/Login.form" binding="login">
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="168e7" binding="loginPanel" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="login"/>
+              <card name="Card2"/>
             </constraints>
-          </nested-form>
-          <nested-form id="675c2" form-file="gui/Registration.form" binding="registration">
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
+          <grid id="b9e7d" binding="registrationPanel" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
+            <margin top="0" left="0" bottom="0" right="0"/>
             <constraints>
-              <card name="registration"/>
+              <card name="Card3"/>
             </constraints>
-          </nested-form>
+            <properties/>
+            <border type="none"/>
+            <children/>
+          </grid>
         </children>
       </grid>
     </children>

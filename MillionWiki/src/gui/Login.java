@@ -12,8 +12,12 @@ public class Login {
     private JButton NonRegistrato;
     private JPanel mainPanelLogin;
     private JButton ritornaHome;
+    private Window window;
 
-    public Login() {
+    public Login(Window window) {
+
+        this.window = window;
+
         /*JFrame frame = new JFrame("Login");
         frame.setContentPane(mainPanelLogin);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -34,8 +38,10 @@ public class Login {
 
             }
         });*/
+
+
     }
-    public Component getPanel() {
+    public JPanel getPanel() {
         return mainPanelLogin;
     }
 }
