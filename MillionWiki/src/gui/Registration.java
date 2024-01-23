@@ -1,9 +1,7 @@
 package gui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.*;
 public class Registration {
     private JLabel effettuaLaTuaRegistrazioneLabel;
     private JLabel inserisciLaTuaMailLabel;
@@ -39,5 +37,8 @@ public class Registration {
                 new Home();
             }
         });*/
+    }
+    public Component getPanel() {
+        return mainPanelRegistration;
     }
 }

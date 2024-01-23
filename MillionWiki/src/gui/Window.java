@@ -6,6 +6,10 @@ public class Window {
     private JPanel mainPanelWindow;
     private JPanel toolbarPanel;
     private JPanel windowPane;
+    private Toolbar toolbar;
+    private Home home;
+    private Login login;
+    private Registration registration;
 
     public Window(){
         JFrame frame = new JFrame("Million Wiki");

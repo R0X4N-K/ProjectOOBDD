@@ -14,7 +14,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <nested-form id="b9bd2" form-file="gui/Toolbar.form">
+          <nested-form id="b9bd2" form-file="gui/Toolbar.form" binding="toolbar">
             <constraints border-constraint="Center"/>
           </nested-form>
         </children>
@@ -24,17 +24,17 @@
         <properties/>
         <border type="none"/>
         <children>
-          <nested-form id="440d6" form-file="gui/Home.form">
+          <nested-form id="440d6" form-file="gui/Home.form" binding="home">
             <constraints>
               <card name="home"/>
             </constraints>
           </nested-form>
-          <nested-form id="fac95" form-file="gui/Login.form">
+          <nested-form id="fac95" form-file="gui/Login.form" binding="login">
             <constraints>
               <card name="login"/>
             </constraints>
           </nested-form>
-          <nested-form id="675c2" form-file="gui/Registration.form">
+          <nested-form id="675c2" form-file="gui/Registration.form" binding="registration">
             <constraints>
               <card name="registration"/>
             </constraints>

@@ -1,9 +1,7 @@
 package gui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.*;
 public class Login {
     private JLabel effettuaIlTuoAccessoLabel;
     private JLabel emailONicknameLabel;
@@ -36,5 +34,8 @@ public class Login {
 
             }
         });*/
+    }
+    public Component getPanel() {
+        return mainPanelLogin;
     }
 }

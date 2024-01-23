@@ -1,9 +1,7 @@
 package gui;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
+import java.awt.*;
 public class Home {
 
 
@@ -28,5 +26,8 @@ public class Home {
             }
         });
         */
+    }
+    public Component getPanel() {
+        return mainPanelHome;
     }
 }
