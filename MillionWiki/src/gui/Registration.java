@@ -6,8 +6,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Registration {
-    private JLabel effettuaLaTuaRegistrazioneLabel;
-    private JLabel inserisciLaTuaMailLabel;
     private JTextField mailTextField;
     private JLabel passwordLabel;
     private JPasswordField passwordTextField;
@@ -19,6 +17,8 @@ public class Registration {
     private JLabel passwordLabel2;
     private JPasswordField passwordTextField2;
     private JPanel mainPanelRegistration;
+    private JLabel inserisciLaTuaMailLabel;
+    private JLabel effettuaLaTuaRegistrazioneLabel;
     private Window window;
 
     public Registration(Window window) {
