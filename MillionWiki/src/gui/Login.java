@@ -1,5 +1,4 @@
 package gui;
-
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -23,7 +22,7 @@ public class Login {
         ritornaHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            window.switchPanel(window.getHomePanel());
+                window.switchPanel(window.getHomePanel());
             }
         });
         NonRegistrato.addActionListener(new ActionListener() {

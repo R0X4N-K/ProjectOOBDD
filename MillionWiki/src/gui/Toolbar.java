@@ -13,11 +13,11 @@ public class Toolbar {
     private JButton registerButton;
     private JPanel Toolbar;
     private Window window;
-    public Toolbar(){
+    public Toolbar() {
 
     }
     public Toolbar(Window window) {
-        this.window= window;
+        this.window = window;
         homeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -37,7 +37,9 @@ public class Toolbar {
             }
         });
     }
+
     public JPanel getPanel() {
         return Toolbar;
     }
+
 }

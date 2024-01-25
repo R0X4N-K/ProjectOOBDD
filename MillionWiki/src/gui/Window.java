@@ -1,8 +1,11 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
+import java.util.logging.Logger;
 
-public class Window extends JFrame{
+public class Window extends JFrame {
+    private static final Logger logger = Logger.getLogger(Window.class.getName());
     private JPanel mainPanelWindow;
     private JPanel toolbarPanel;
     private JPanel windowPane;
@@ -10,7 +13,11 @@ public class Window extends JFrame{
     private JPanel loginPanel;
     private JPanel registrationPanel;
 
-    public Window(){
+    public Window() throws HeadlessException {
+        if (GraphicsEnvironment.isHeadless()) {
+            logger.severe("Ambiente senza display grafico. Non posso creare JFrame.");
+            throw new HeadlessException("Ambiente senza display grafico. Non posso creare JFrame.");
+        }
         JFrame frame = new JFrame("Million Wiki");
         frame.setContentPane(mainPanelWindow);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,12 +28,12 @@ public class Window extends JFrame{
     }
 
     private void createUIComponents() {
-        toolbarPanel= new Toolbar(this).getPanel();
+        toolbarPanel = new Toolbar(this).getPanel();
         homePanel = new Home(this).getPanel();
         loginPanel = new Login(this).getPanel();
-        registrationPanel =  new Registration(this).getPanel();
+        registrationPanel = new Registration(this).getPanel();
     }
-    public void switchPanel(JPanel refPanel){
+    public void switchPanel(JPanel refPanel) {
         windowPane.removeAll();
         windowPane.add(refPanel);
         windowPane.repaint();
@@ -36,10 +43,10 @@ public class Window extends JFrame{
     public JPanel getHomePanel() {
         return this.homePanel;
     }
-    public JPanel getLoginPanel(){
+    public JPanel getLoginPanel() {
         return this.loginPanel;
     }
-    public JPanel getRegistrationPanel(){
+    public JPanel getRegistrationPanel() {
         return this.registrationPanel;
     }
 
