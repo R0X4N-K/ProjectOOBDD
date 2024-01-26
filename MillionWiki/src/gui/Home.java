@@ -8,9 +8,8 @@ public class Home {
     private JPanel mainPanelHome;
     private Window window;
 
-    public Home(Window window) {
+    public Home() {
 
-        this.window = window;
     }
     public JPanel getPanel() {
         return mainPanelHome;

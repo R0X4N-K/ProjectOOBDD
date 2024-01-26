@@ -1,16 +1,18 @@
 package gui;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Window extends JFrame{
     private JPanel mainPanelWindow;
     private JPanel toolbarPanel;
     private JPanel windowPane;
-    private JPanel homePanel;
-    private JPanel loginPanel;
-    private JPanel registrationPanel;
+    private Login loginPanel;
+    private Home homePanel;
+    private Registration registrationPanel;
 
     public Window(){
+        super("Million Wiki");
         setContentPane(mainPanelWindow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -19,12 +21,6 @@ public class Window extends JFrame{
         setVisible(true);
     }
 
-    private void createUIComponents() {
-        toolbarPanel= new Toolbar(this).getPanel();
-        homePanel = new Home(this).getPanel();
-        loginPanel = new Login(this).getPanel();
-        registrationPanel =  new Registration(this).getPanel();
-    }
     public void switchPanel(JPanel refPanel){
         windowPane.removeAll();
         windowPane.add(refPanel);
@@ -33,13 +29,24 @@ public class Window extends JFrame{
     }
 
     public JPanel getHomePanel() {
-        return this.homePanel;
+        return homePanel.getPanel();
     }
     public JPanel getLoginPanel(){
-        return this.loginPanel;
+        return loginPanel.getPanel();
     }
     public JPanel getRegistrationPanel(){
-        return this.registrationPanel;
+        return registrationPanel.getPanel();
+    }
+
+    public static Window checkWindow(Window window, Component leaf) throws NullPointerException {
+        if (leaf != null) {
+            if (window == null)
+                window = (Window) SwingUtilities.getAncestorOfClass(Window.class, leaf);
+            return window;
+        }
+        else {
+            throw new NullPointerException("Non è possibile trovare \"window\", poiché \"leaf\" è null");
+        }
     }
 
 }

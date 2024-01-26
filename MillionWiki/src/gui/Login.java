@@ -17,18 +17,19 @@ public class Login {
     private JButton ritornaHome;
     private Window window;
 
-    public Login(Window window) {
+    public Login() {
 
-        this.window = window;
         ritornaHome.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            window.switchPanel(window.getHomePanel());
+                window = Window.checkWindow(window, mainPanelLogin);
+                window.switchPanel(window.getHomePanel());
             }
         });
         NonRegistrato.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                window = Window.checkWindow(window, mainPanelLogin);
                 window.switchPanel(window.getRegistrationPanel());
             }
         });

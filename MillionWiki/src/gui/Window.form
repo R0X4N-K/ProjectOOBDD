@@ -7,46 +7,38 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="aa5ab" binding="toolbarPanel" custom-create="true" layout-manager="BorderLayout" hgap="0" vgap="0">
+      <grid id="aa5ab" binding="toolbarPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="0">
         <constraints border-constraint="North"/>
         <properties>
           <visible value="true"/>
         </properties>
         <border type="none"/>
-        <children/>
+        <children>
+          <nested-form id="a9fab" form-file="gui/Toolbar.form">
+            <constraints/>
+          </nested-form>
+        </children>
       </grid>
       <grid id="84af8" binding="windowPane" layout-manager="CardLayout" hgap="0" vgap="0">
         <constraints border-constraint="Center"/>
         <properties/>
         <border type="none"/>
         <children>
-          <grid id="785b2" binding="homePanel" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+          <nested-form id="b6d54" form-file="gui/Home.form" binding="homePanel">
             <constraints>
-              <card name="Card1"/>
+              <card name="Home"/>
             </constraints>
-            <properties/>
-            <border type="none"/>
-            <children/>
-          </grid>
-          <grid id="168e7" binding="loginPanel" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+          </nested-form>
+          <nested-form id="e1939" form-file="gui/Login.form" binding="loginPanel">
             <constraints>
-              <card name="Card2"/>
+              <card name="Login"/>
             </constraints>
-            <properties/>
-            <border type="none"/>
-            <children/>
-          </grid>
-          <grid id="b9e7d" binding="registrationPanel" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+          </nested-form>
+          <nested-form id="830d9" form-file="gui/Registration.form" binding="registrationPanel">
             <constraints>
-              <card name="Card3"/>
+              <card name="Registration"/>
             </constraints>
-            <properties/>
-            <border type="none"/>
-            <children/>
-          </grid>
+          </nested-form>
         </children>
       </grid>
     </children>

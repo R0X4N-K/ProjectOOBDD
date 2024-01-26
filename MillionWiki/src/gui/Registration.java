@@ -21,17 +21,18 @@ public class Registration {
     private JLabel effettuaLaTuaRegistrazioneLabel;
     private Window window;
 
-    public Registration(Window window) {
-        this.window = window;
+    public Registration() {
         loginButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                window = Window.checkWindow(window, mainPanelRegistration);
                 window.switchPanel(window.getLoginPanel());
             }
         });
         ritornaHomeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                window = Window.checkWindow(window, mainPanelRegistration);
                 window.switchPanel(window.getHomePanel());
             }
         });
