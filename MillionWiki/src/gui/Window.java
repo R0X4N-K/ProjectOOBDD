@@ -11,13 +11,12 @@ public class Window extends JFrame{
     private JPanel registrationPanel;
 
     public Window(){
-        JFrame frame = new JFrame("Million Wiki");
-        frame.setContentPane(mainPanelWindow);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setSize(800, 700);
-        frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
+        setContentPane(mainPanelWindow);
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        pack();
+        setSize(800, 700);
+        setLocationRelativeTo(null);
+        setVisible(true);
     }
 
     private void createUIComponents() {

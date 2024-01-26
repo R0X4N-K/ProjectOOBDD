@@ -11,7 +11,6 @@ public class Home {
     public Home(Window window) {
 
         this.window = window;
-
     }
     public JPanel getPanel() {
         return mainPanelHome;
