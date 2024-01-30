@@ -32,16 +32,4 @@ public final class Sessione {
     Questo è fatto per gestire le operazioni di creazione di articoli e
     proposta di modifiche attraverso la sessione dell'utente, garantendo
      che solo gli utenti autenticati possano eseguire queste operazioni.*/
-    public Articolo creaArticolo(Autore autore, String titolo) throws Exception { // Aggiunto
-        // Implementa la logica per creare un nuovo articolo
-        Articolo nuovoArticolo = autore.scriviArticolo(titolo);
-        return nuovoArticolo;
-    }
-
-    public VersioneArticolo proponeModifica(Autore autore, Articolo articolo, String testo) { // Aggiunto
-        // Implementa la logica per proporre una modifica a un articolo
-        VersioneArticolo nuovaVersione = autore.scriviArticolo(articolo, testo);
-        return nuovaVersione;
-    }
-
 }
