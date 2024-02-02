@@ -3,20 +3,24 @@ package model;
 import java.util.Date;
 
 public class VersioneArticolo {
+
     public enum Stato{
         ATTESA,
         ACCETTATO,
         RIFIUTATO// opzionalmente può terminare con ";"
     }
 
+    private Articolo articoloPrimordiale;
     private Stato stato = Stato.ATTESA;
-    private String versioneTitolo;
+    private int id;
     private String testo;
     private Date dataVersione;
     private Date dataRevisione = null;
     private Autore autoreProposta; // Aggiunto
 
-
+    public int getId() {
+        return id;
+    }
 
     public Stato getStato(){
         return stato;
@@ -25,17 +29,6 @@ public class VersioneArticolo {
     public void setStato(Stato stato) {
         this.stato = stato;
     }
-
-
-
-    public String getVersioneTitolo() {
-        return versioneTitolo;
-    }
-
-    public void setVersioneTitolo(String versioneTitolo) {
-        this.versioneTitolo = versioneTitolo;
-    }
-
 
 
     public String getTesto() {

@@ -20,7 +20,7 @@ public final class GestoreArticoli {
     public static VersioneArticolo fornisciVersioneArticolo(String nomeArticolo) {
         Articolo articolo = fornisciArticolo(nomeArticolo);
         if (articolo != null) {
-            ArrayList<VersioneArticolo> modifiche = articolo.getModifiche();
+            ArrayList<VersioneArticolo> modifiche = articolo.getProposteDiModifica();
             if (!modifiche.isEmpty()) {
                 return modifiche.get(modifiche.size() - 1); // Restituisce l'ultima modifica
             }
@@ -31,7 +31,7 @@ public final class GestoreArticoli {
     public static ArrayList<VersioneArticolo> notificaAutore(Autore autore) {
         ArrayList<VersioneArticolo> modificheDaRivedere = new ArrayList<>();
         for (Articolo articolo : autore.getPagineCreate()) {
-            for (VersioneArticolo modifica : articolo.getModifiche()) {
+            for (VersioneArticolo modifica : articolo.getProposteDiModifica()) {
                 if (modifica.getStato() == VersioneArticolo.Stato.ATTESA) {
                     modificheDaRivedere.add(modifica);
                 }

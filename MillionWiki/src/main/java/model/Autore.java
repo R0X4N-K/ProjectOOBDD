@@ -3,25 +3,25 @@ package model;
 import java.util.ArrayList;
 
 public class Autore extends Utente {
-    private String nomeUtente;
+    private String nickname;
     private String password;
     private float valutazione;
     private ArrayList<Articolo> pagineCreate;
     public Autore (String nomeUtente, String password) throws Exception {
 
-        setNomeUtente(nomeUtente);
+        setNickname(nomeUtente);
 
         setPassword(password);
         this.pagineCreate = new ArrayList<>();
     }
 
-    public String getNomeUtente(){
-        return nomeUtente;
+    public String getNickname(){
+        return nickname;
     }
 
-    public void setNomeUtente(String nome) throws Exception{
-        if (!nomeUtente.isEmpty() && !password.isBlank()) {
-            this.nomeUtente = nome;
+    public void setNickname(String nome) throws Exception{
+        if (!nickname.isEmpty() && !password.isBlank()) {
+            this.nickname = nome;
         } else {
             throw new Exception("NOME UTENTE VUOTO!"); // TODO: creare eccezione ad hoc
         }

@@ -3,7 +3,9 @@ import java.lang.String;
 import java.lang.Exception;
 
 public final class Sessione {
-    private Sessione(){}
+    private Sessione(){
+
+    }
     public Autore login (String nomeUtente, String password) throws Exception {
 
         Autore autoreAutenticato = new Autore(nomeUtente, password);

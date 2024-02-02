@@ -10,7 +10,8 @@ public class Articolo {
     Date dataCreazione;
     boolean revisione = false;
     private Autore autore;
-    private ArrayList<VersioneArticolo> modifiche;
+    private VersioneArticolo versioneArticoloCorrente;
+    private ArrayList<VersioneArticolo> proposteDiModifica;
 
 
 
@@ -18,7 +19,7 @@ public class Articolo {
         setTitolo(titolo);
         this.autore = autore;
         this.dataCreazione = new Date();
-        this.modifiche = new ArrayList<>();
+        this.proposteDiModifica = new ArrayList<>();
 
         // TODO: dataCreazione deve riferirsi a orario Server
     }
@@ -60,7 +61,7 @@ public class Articolo {
     }
 
     public void addModifica(VersioneArticolo nuovaVersione) {
-        this.modifiche.add(nuovaVersione);
+        this.proposteDiModifica.add(nuovaVersione);
     }
     public Autore getAutore() {
         return autore;
@@ -68,8 +69,8 @@ public class Articolo {
     public void setAutore(Autore autore) {
         this.autore = autore;
     }
-    public ArrayList<VersioneArticolo> getModifiche() {
-        return modifiche;
+    public ArrayList<VersioneArticolo> getProposteDiModifica() {
+        return proposteDiModifica;
     }
 
 
