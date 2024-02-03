@@ -1,17 +1,17 @@
 package dao;
 
-import model.Articolo;
+import model.Article;
 
 import java.util.ArrayList;
 
 public interface ArticoloDAO {
-    Articolo getArticolo(String titolo);
-    ArrayList<Articolo> getAllArticoli();
-    ArrayList<Articolo> getAllArticoliByAutore(String nicknameAutore);
+    Article getArticolo(String titolo);
+    ArrayList<Article> getAllArticoli();
+    ArrayList<Article> getAllArticoliByAutore(String nicknameAutore);
 
-    void saveArticolo(Articolo articolo);
-    void updateArticolo(Articolo articolo, Articolo nuovoArticolo);
-    void updateRevisioneArticolo(Articolo articolo, boolean nuovoStatoRevisione);
-    void deleteArticolo(Articolo articolo);
+    void saveArticolo(Article article);
+    void updateArticolo(Article article, Article nuovoArticle);
+    void updateRevisioneArticolo(Article article, boolean nuovoStatoRevisione);
+    void deleteArticolo(Article article);
 
 }

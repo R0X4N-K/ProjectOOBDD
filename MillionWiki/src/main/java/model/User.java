@@ -1,9 +1,9 @@
 package model;
 
-public class Utente {
+public class User {
 
 
-    public void visualizzaArticolo (Articolo articolo) {
+    public void visualizzaArticolo (Article article) {
 
     }
 

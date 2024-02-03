@@ -2,7 +2,7 @@ package model;
 
 import java.util.Date;
 
-public class VersioneArticolo {
+public class ArticleVersion {
 
     public enum Stato{
         ATTESA,
@@ -10,13 +10,13 @@ public class VersioneArticolo {
         RIFIUTATO// opzionalmente può terminare con ";"
     }
 
-    private Articolo articoloPrimordiale;
+    private Article articlePrimordiale;
     private Stato stato = Stato.ATTESA;
     private int id;
     private String testo;
     private Date dataVersione;
     private Date dataRevisione = null;
-    private Autore autoreProposta; // Aggiunto
+    private Author authorProposta; // Aggiunto
 
     public int getId() {
         return id;
@@ -59,12 +59,12 @@ public class VersioneArticolo {
         this.dataRevisione = dataRevisione;
 
     }
-    public Autore getAutoreProposta() {
-        return autoreProposta;
+    public Author getAutoreProposta() {
+        return authorProposta;
     }
 
-    public void setAutoreProposta(Autore autoreProposta) {
-        this.autoreProposta = autoreProposta;
+    public void setAutoreProposta(Author authorProposta) {
+        this.authorProposta = authorProposta;
     }
 
 }

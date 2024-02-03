@@ -1,9 +1,9 @@
 package dao;
 
-import model.VersioneArticolo;
+import model.ArticleVersion;
 
 import java.util.ArrayList;
 
 public interface VersioneArticoloDAO {
-    ArrayList<VersioneArticolo> getAllVersioniArticolo();
+    ArrayList<ArticleVersion> getAllVersioniArticolo();
 }

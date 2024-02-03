@@ -1,20 +1,19 @@
 package dao;
 
-import model.Articolo;
-import model.Autore;
+import model.Article;
+import model.Author;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public interface AutoreDAO {
-    Autore getAutoreByNickname(String nickname);
-    ArrayList<Autore> getAllAutori();
-    ArrayList<Autore> getAllAutoriByRating();
-    void saveAutore(Autore autore);
-    void updateAutore(Autore autore, Autore nuovoAutore);
-    void updateNicknameAutore(Autore autore, String nuovoNickname);
-    void updatePasswordAutore(Autore autore, String nuovaPassword);
-    void updateValutazioneAutore(Autore autore, float nuovaValutazione);
-    void updateArticoliAutore(Autore autore, ArrayList<Articolo> nuoviArticoli);
+    Author getAutoreByNickname(String nickname);
+    ArrayList<Author> getAllAutori();
+    ArrayList<Author> getAllAutoriByRating();
+    void saveAutore(Author author);
+    void updateAutore(Author author, Author nuovoAuthor);
+    void updateNicknameAutore(Author author, String nuovoNickname);
+    void updatePasswordAutore(Author author, String nuovaPassword);
+    void updateValutazioneAutore(Author author, float nuovaValutazione);
+    void updateArticoliAutore(Author author, ArrayList<Article> nuoviArticoli);
     void deleteAutore(String nickname);
 }

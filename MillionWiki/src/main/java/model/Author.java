@@ -2,12 +2,12 @@ package model;
 
 import java.util.ArrayList;
 
-public class Autore extends Utente {
+public class Author extends User {
     private String nickname;
     private String password;
     private float valutazione;
-    private ArrayList<Articolo> pagineCreate;
-    public Autore (String nomeUtente, String password) throws Exception {
+    private ArrayList<Article> pagineCreate;
+    public Author(String nomeUtente, String password) throws Exception {
 
         setNickname(nomeUtente);
 
@@ -49,45 +49,45 @@ public class Autore extends Utente {
     }
 
 
-    public ArrayList<Articolo> getPagineCreate() {
+    public ArrayList<Article> getPagineCreate() {
         return pagineCreate;
     }
-    public void addPaginaCreata(Articolo articolo) {
-        this.pagineCreate.add(articolo);
+    public void addPaginaCreata(Article article) {
+        this.pagineCreate.add(article);
     }
 
-    public Articolo scriviArticolo(String titolo) {
-        Articolo nuovoArticolo = null;
+    public Article scriviArticolo(String titolo) {
+        Article nuovoArticle = null;
         try {
-            nuovoArticolo = new Articolo(titolo, this);
-            addPaginaCreata(nuovoArticolo);
+            nuovoArticle = new Article(titolo, this);
+            addPaginaCreata(nuovoArticle);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return nuovoArticolo;
+        return nuovoArticle;
     }
 
 
-    public VersioneArticolo scriviArticolo(Articolo articolo, String testo) {
-        VersioneArticolo nuovaVersione = new VersioneArticolo();
+    public ArticleVersion scriviArticolo(Article article, String testo) {
+        ArticleVersion nuovaVersione = new ArticleVersion();
         nuovaVersione.setAutoreProposta(this);
-        articolo.addModifica(nuovaVersione);
+        article.addModifica(nuovaVersione);
         return nuovaVersione;
     }
 
-    public VersioneArticolo scriviArticolo(Articolo articolo, String testo, String titolo) {
-        VersioneArticolo nuovaVersione = scriviArticolo(articolo, testo);
+    public ArticleVersion scriviArticolo(Article article, String testo, String titolo) {
+        ArticleVersion nuovaVersione = scriviArticolo(article, testo);
         nuovaVersione.setVersioneTitolo(titolo);
         return nuovaVersione;
     }
 
 
 
-    public void visualizzaProposta(VersioneArticolo versioneArticolo) {
+    public void visualizzaProposta(ArticleVersion articleVersion) {
 
     }
 
-    public void modificaStatoVersioneArticolo(VersioneArticolo versioneArticolo) {
+    public void modificaStatoVersioneArticolo(ArticleVersion articleVersion) {
 
     }
 
