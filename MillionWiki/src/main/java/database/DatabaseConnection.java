@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-public class ConnessioneDatabase {
+public class DatabaseConnection {
 
     // ATTRIBUTI
-    private static ConnessioneDatabase instance;
+    private static DatabaseConnection instance;
     public Connection connection = null;
     private String nome = "postgres";
     private String password = "j9b!3fsq9k#"; // TODO:  CAMBIARE PASSWORD!!!!!!
@@ -15,7 +15,7 @@ public class ConnessioneDatabase {
     private String driver = "org.postgresql.Driver";
 
     // COSTRUTTORE
-    private ConnessioneDatabase() throws SQLException {
+    private DatabaseConnection() throws SQLException {
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, nome, password);
@@ -28,11 +28,11 @@ public class ConnessioneDatabase {
     }
 
 
-    public static ConnessioneDatabase getInstance() throws SQLException {
+    public static DatabaseConnection getInstance() throws SQLException {
         if (instance == null) {
-            instance = new ConnessioneDatabase();
+            instance = new DatabaseConnection();
         } else if (instance.connection.isClosed()) {
-            instance = new ConnessioneDatabase();
+            instance = new DatabaseConnection();
         }
         return instance;
     }

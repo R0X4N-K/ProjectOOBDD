@@ -56,38 +56,38 @@ public class Author extends User {
         this.createdPages.add(article);
     }
 
-    public Article scriviArticolo(String titolo) {
-        Article nuovoArticle = null;
+    public Article writeArticle(String title) {
+        Article newArticle = null;
         try {
-            nuovoArticle = new Article(titolo, this);
-            addNewArticle(nuovoArticle);
+            newArticle = new Article(title, this);
+            addNewArticle(newArticle);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return nuovoArticle;
+        return newArticle;
     }
 
 
-    public ArticleVersion scriviArticolo(Article article, String testo) {
-        ArticleVersion nuovaVersione = new ArticleVersion();
-        nuovaVersione.setAuthorProposal(this);
-        article.addModifica(nuovaVersione);
-        return nuovaVersione;
+    public ArticleVersion writeArticle(Article article, String testo) {
+        ArticleVersion newVersione = new ArticleVersion();
+        newVersione.setAuthorProposal(this);
+        article.addModifica(newVersione);
+        return newVersione;
     }
 
-    public ArticleVersion scriviArticolo(Article article, String testo, String titolo) {
-        ArticleVersion nuovaVersione = scriviArticolo(article, testo);
-        nuovaVersione.setVersioneTitolo(titolo);
-        return nuovaVersione;
+    public ArticleVersion writeArticle(Article article, String text, String title) {
+        ArticleVersion newVersion = writeArticle(article, text);
+        newVersion.setVersioneTitolo(title);
+        return newVersion;
     }
 
 
 
-    public void visualizzaProposta(ArticleVersion articleVersion) {
+    public void viewProposal(ArticleVersion articleVersion) {
 
     }
 
-    public void modificaStatoVersioneArticolo(ArticleVersion articleVersion) {
+    public void editStatusArticleVersion(ArticleVersion articleVersion) {
 
     }
 

@@ -6,27 +6,22 @@ public final class Session {
     private Session(){
 
     }
-    public Author login (String nomeUtente, String password) throws Exception {
-
-        Author authorAutenticato = new Author(nomeUtente, password);
-
-        return authorAutenticato;
-
+    public Author login (String nickname, String password) throws Exception {
+        return null;
     }
 
     public void logout (Author a) {
 
     }
 
-    public Author newAutore (String nomeUtente, String password) throws Exception {
-        Author nuovoAuthor = new Author(nomeUtente, password);
-        return nuovoAuthor;
-    }
-
-    public Author modificaNome (String nomeUtente) {
+    public Author newAuthor (String nickname, String password) throws Exception {
         return null;
     }
-    public void modificaPassword (String password) {
+
+    public Author editName (String nickname) {
+        return null;
+    }
+    public void editPassword (String password) {
     }
 
     /*nella classe Session, abbiamo i metodi creaArticolo e proponeModifica

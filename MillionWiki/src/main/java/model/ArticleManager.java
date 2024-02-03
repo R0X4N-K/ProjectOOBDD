@@ -31,9 +31,9 @@ public final class ArticleManager {
     public static ArrayList<ArticleVersion> notificationAuthor(Author author) {
         ArrayList<ArticleVersion> modificheDaRivedere = new ArrayList<>();
         for (Article article : author.getCreatedPages()) {
-            for (ArticleVersion modifica : article.getProposedChanges()) {
-                if (modifica.getStatus() == ArticleVersion.Status.WAITING) {
-                    modificheDaRivedere.add(modifica);
+            for (ArticleVersion edit : article.getProposedChanges()) {
+                if (edit.getStatus() == ArticleVersion.Status.WAITING) {
+                    modificheDaRivedere.add(edit);
                 }
             }
         }
