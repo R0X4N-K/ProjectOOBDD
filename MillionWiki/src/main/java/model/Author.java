@@ -5,14 +5,14 @@ import java.util.ArrayList;
 public class Author extends User {
     private String nickname;
     private String password;
-    private float valutazione;
-    private ArrayList<Article> pagineCreate;
-    public Author(String nomeUtente, String password) throws Exception {
+    private float rating;
+    private ArrayList<Article> createdPages;
+    public Author(String nickname, String password) throws Exception {
 
-        setNickname(nomeUtente);
+        setNickname(nickname);
 
         setPassword(password);
-        this.pagineCreate = new ArrayList<>();
+        this.createdPages = new ArrayList<>();
     }
 
     public String getNickname(){
@@ -39,28 +39,28 @@ public class Author extends User {
 
 
 
-    public float getValutazione(){
+    public float getRating(){
 
-        return valutazione;
+        return rating;
     }
 
-    public void setValutazione (float valutazione) {
-        this.valutazione = valutazione;
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
 
-    public ArrayList<Article> getPagineCreate() {
-        return pagineCreate;
+    public ArrayList<Article> getCreatedPages() {
+        return createdPages;
     }
-    public void addPaginaCreata(Article article) {
-        this.pagineCreate.add(article);
+    public void addNewArticle(Article article) {
+        this.createdPages.add(article);
     }
 
     public Article scriviArticolo(String titolo) {
         Article nuovoArticle = null;
         try {
             nuovoArticle = new Article(titolo, this);
-            addPaginaCreata(nuovoArticle);
+            addNewArticle(nuovoArticle);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -70,7 +70,7 @@ public class Author extends User {
 
     public ArticleVersion scriviArticolo(Article article, String testo) {
         ArticleVersion nuovaVersione = new ArticleVersion();
-        nuovaVersione.setAutoreProposta(this);
+        nuovaVersione.setAuthorProposal(this);
         article.addModifica(nuovaVersione);
         return nuovaVersione;
     }
