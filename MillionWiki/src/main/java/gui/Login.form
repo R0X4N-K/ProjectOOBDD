@@ -16,7 +16,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="a7a0" class="javax.swing.JLabel" binding="effettuaIlTuoAccessoLabel" default-binding="true">
+          <component id="a7a0" class="javax.swing.JLabel" binding="loginPageTitleLbl">
             <constraints>
               <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="2" fill="0" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="50"/>
@@ -26,7 +26,7 @@
               <text value="Effettua il tuo Accesso"/>
             </properties>
           </component>
-          <component id="61c3" class="javax.swing.JLabel" binding="emailONicknameLabel" default-binding="true">
+          <component id="61c3" class="javax.swing.JLabel" binding="emailNicknameLbl">
             <constraints>
               <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="2" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="50"/>
@@ -36,7 +36,7 @@
               <text value="Email o Nickname"/>
             </properties>
           </component>
-          <component id="367e7" class="javax.swing.JTextField" binding="textField1" default-binding="true">
+          <component id="367e7" class="javax.swing.JTextField" binding="emailNicknameTxtFld">
             <constraints>
               <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -44,7 +44,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="15f3e" class="javax.swing.JLabel" binding="passwordLabel" default-binding="true">
+          <component id="15f3e" class="javax.swing.JLabel" binding="passwordLbl">
             <constraints>
               <grid row="4" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="2" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="50"/>
@@ -54,7 +54,7 @@
               <text value="Password"/>
             </properties>
           </component>
-          <component id="b450a" class="javax.swing.JPasswordField" binding="passwordField1" default-binding="true">
+          <component id="b450a" class="javax.swing.JPasswordField" binding="passwordTxtFld">
             <constraints>
               <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="9" fill="1" indent="0" use-parent-layout="false">
                 <preferred-size width="150" height="-1"/>
@@ -62,7 +62,7 @@
             </constraints>
             <properties/>
           </component>
-          <component id="c6c63" class="javax.swing.JButton" binding="NonRegistrato">
+          <component id="c6c63" class="javax.swing.JButton" binding="toRegistrationPanelBtn">
             <constraints>
               <grid row="8" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -70,7 +70,7 @@
               <text value="Non sei registrato?"/>
             </properties>
           </component>
-          <component id="b66a0" class="javax.swing.JButton" binding="ritornaHome">
+          <component id="b66a0" class="javax.swing.JButton" binding="toHomePanelBtn">
             <constraints>
               <grid row="9" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
             </constraints>
@@ -96,7 +96,7 @@
             <properties/>
             <border type="none"/>
             <children>
-              <component id="2bd47" class="javax.swing.JButton" binding="entra">
+              <component id="2bd47" class="javax.swing.JButton" binding="submitBtn">
                 <constraints>
                   <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
                 </constraints>

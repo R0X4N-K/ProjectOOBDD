@@ -5,29 +5,29 @@ import java.awt.event.ActionListener;
 
 public class Toolbar {
     private JPanel commonToolbar;
-    private JButton homeButton;
-    private JTextField textField1;
+    private JButton homeBtn;
+    private JTextField searchTxtFld;
     private JPanel unloggedUserPanel;
-    private JButton loginButton;
-    private JButton registerButton;
+    private JButton loginBtn;
+    private JButton registrationBtn;
     private JPanel mainPanelToolbar;
     private Window window;
     public Toolbar() {
-        homeButton.addActionListener(new ActionListener() {
+        homeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 window = Window.checkWindow(window, mainPanelToolbar);
                 window.switchPanel(window.getHomePanel());
             }
         });
-        loginButton.addActionListener(new ActionListener() {
+        loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 window = Window.checkWindow(window, mainPanelToolbar);
                 window.switchPanel(window.getLoginPanel());
             }
         });
-        registerButton.addActionListener(new ActionListener() {
+        registrationBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 window = Window.checkWindow(window, mainPanelToolbar);

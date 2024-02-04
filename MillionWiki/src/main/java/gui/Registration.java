@@ -1,35 +1,34 @@
 package gui;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Registration {
-    private JTextField mailTextField;
-    private JLabel passwordLabel;
-    private JPasswordField passwordTextField;
-    private JButton registratiButton;
-    private JButton loginButton;
-    private JButton ritornaHomeButton;
-    private JLabel nickNameLabel;
-    private JTextField nickNameTextField;
-    private JLabel passwordLabel2;
-    private JPasswordField passwordTextField2;
+    private JTextField mailTxtFld;
+    private JLabel passwordLbl;
+    private JPasswordField passwordTxtFld;
+    private JButton submitBtn;
+    private JButton toLoginPanelBtn;
+    private JButton toHomePanelBtn;
+    private JLabel nicknameLbl;
+    private JTextField nicknameTxtFld;
+    private JLabel passwordLbl2;
+    private JPasswordField passwordTxtFld2;
     private JPanel mainPanelRegistration;
-    private JLabel inserisciLaTuaMailLabel;
-    private JLabel effettuaLaTuaRegistrazioneLabel;
+    private JLabel mailLbl;
+    private JLabel registrationPanelTitleLbl;
     private Window window;
 
     public Registration() {
-        loginButton.addActionListener(new ActionListener() {
+        toLoginPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 window = Window.checkWindow(window, mainPanelRegistration);
                 window.switchPanel(window.getLoginPanel());
             }
         });
-        ritornaHomeButton.addActionListener(new ActionListener() {
+        toHomePanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 window = Window.checkWindow(window, mainPanelRegistration);

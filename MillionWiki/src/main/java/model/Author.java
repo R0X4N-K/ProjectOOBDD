@@ -71,13 +71,13 @@ public class Author extends User {
     public ArticleVersion writeArticle(Article article, String testo) {
         ArticleVersion newVersione = new ArticleVersion();
         newVersione.setAuthorProposal(this);
-        article.addModifica(newVersione);
+        //article.addModifica(newVersione);
         return newVersione;
     }
 
     public ArticleVersion writeArticle(Article article, String text, String title) {
         ArticleVersion newVersion = writeArticle(article, text);
-        newVersion.setVersioneTitolo(title);
+        //newVersion.setVersioneTitolo(title);
         return newVersion;
     }
 
