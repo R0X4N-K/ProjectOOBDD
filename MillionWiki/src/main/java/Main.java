@@ -1,6 +1,8 @@
 import controller.Controller;
 import gui.*;
 import implementationDAO.ArticleDAOImplementation;
+import model.Article;
+import model.Author;
 
 import java.sql.SQLException;
 
@@ -10,8 +12,8 @@ public class Main {
     public static void main(String[] args) {
 
         //ystem.outprintl("Hello MOtherfucker");
-        Controller controller = new Controller();
-        controller.getArticleByTitle("prova");
+        /*Controller controller = new Controller();
+        controller.getArticleByTitle("prova");*/
         new Window();
 
     }

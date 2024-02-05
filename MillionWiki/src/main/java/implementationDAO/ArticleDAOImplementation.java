@@ -42,7 +42,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             e.printStackTrace();
         }
 
-        if(resultSet.next() == false){
+        if(!resultSet.next()){
             System.out.println("Nessun articolo con questo titolo");
         }
 

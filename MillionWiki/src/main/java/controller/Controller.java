@@ -3,7 +3,7 @@ package controller;
 import implementationDAO.ArticleDAOImplementation;
 import model.Article;
 
-public class Controller extends ArticleDAOImplementation {
+public class Controller {
     public Controller() {
 
     }

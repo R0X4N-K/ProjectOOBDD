@@ -20,7 +20,6 @@ public class Article {
         this.author = author;
         this.creationDate = new Date();
         this.proposedChanges = new ArrayList<>();
-
         // TODO: dataCreazione deve riferirsi a orario Server
     }
 

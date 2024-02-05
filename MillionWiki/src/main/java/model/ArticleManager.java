@@ -2,7 +2,7 @@ package model;
 
 import java.util.ArrayList;
 
-public final class ArticleManager {
+public final class  ArticleManager {
     private static ArrayList<Article> articles = new ArrayList<>(); //Aggiunto per memorizzare gli articoli
     private ArticleManager(){
 
