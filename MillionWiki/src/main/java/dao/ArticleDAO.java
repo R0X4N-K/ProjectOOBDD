@@ -2,10 +2,12 @@ package dao;
 
 import model.Article;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public interface ArticleDAO {
-    Article getArticle(String articleTitle);
+    ResultSet getResultSetArticleByTitle(String articleTitle) throws SQLException;
     ArrayList<Article> getAllArticles();
     ArrayList<Article> getAllArticlesByAuthor(String nicknameAuthor);
 
