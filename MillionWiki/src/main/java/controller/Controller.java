@@ -1,6 +1,6 @@
 package controller;
 
-import implementationDAO.ArticleDAOImplementation;
+import implementationDAO.*;
 import model.Article;
 
 public class Controller {
@@ -15,5 +15,13 @@ public class Controller {
             throw new RuntimeException(e);
         }
         return null; //return article
+        //da implementare
+
     }
+
+    public boolean isAuthorRegistered(String email){
+        return false; //da implementare
+    }
+
+
 }

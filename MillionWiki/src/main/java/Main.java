@@ -3,6 +3,7 @@ import gui.*;
 import implementationDAO.ArticleDAOImplementation;
 import model.Article;
 import model.Author;
+import model.Session;
 
 import java.sql.SQLException;
 
@@ -14,6 +15,7 @@ public class Main {
         //ystem.outprintl("Hello MOtherfucker");
         /*Controller controller = new Controller();
         controller.getArticleByTitle("prova");*/
+        Session.getInstance();
         new Window();
 
     }
