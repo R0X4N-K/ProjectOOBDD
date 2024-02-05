@@ -17,6 +17,8 @@ public class Login {
     private JButton toRegistrationPanelBtn;
     private JPanel mainPanelLogin;
     private JButton toHomePanelBtn;
+    private JLabel emailNicknameErrLbl;
+    private JLabel passwordErrLbl;
     private Window window;
     private Controller controller;
 
@@ -66,12 +68,16 @@ public class Login {
 
     public void checkEmailNicknameFld(String text) {
         if(checkEmailSintax(text) && !checkEmailNicknameIsRegistered(text) || checkNickname(text)){
-            emailNicknameTxtFld.setBorder(new LineBorder(Color.GREEN));
             passwordTxtFld.setEnabled(true);
+            emailNicknameTxtFld.setBorder(new LineBorder(Color.GREEN));
+
+            setErrLbl(emailNicknameErrLbl, true, "Valido !", Color.GREEN);
         }
         else{
             passwordTxtFld.setEnabled(false);
             emailNicknameTxtFld.setBorder(new LineBorder(Color.RED));
+
+            setErrLbl(emailNicknameErrLbl, true, "Non valido ! !", Color.RED);
         }
 
         /*  sintax
@@ -82,23 +88,31 @@ public class Login {
 
     public void checkPasswordFld(String text) {
         if(checkPasswordSintax(text)){
-            passwordTxtFld.setBorder(new LineBorder(Color.GREEN));
             submitBtn.setEnabled(true);
+            passwordTxtFld.setBorder(new LineBorder(Color.GREEN));
+
+            setErrLbl(passwordErrLbl, true, "Password valida !", Color.GREEN);
         }
         else{
             submitBtn.setEnabled(false);
             passwordTxtFld.setBorder(new LineBorder(Color.RED));
+
+            setErrLbl(passwordErrLbl, true, "Password non valida !", Color.RED);
+
         }
     }
 
 
     public boolean checkEmailSintax(String text){
         String regex = "^[\\w!#$%&'*+/=?^`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^`{|}~-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        return text.matches(regex);
+        if(text.matches(regex)){
+            return true;
+        }
+        return false;
     }
 
     public boolean checkNickname(String text){
-        if (text.length() < 4 || text.length() > 15) {
+        if (text.length() < 4 || text.length() > 8) {
             return false;
         }
         return true;
@@ -166,6 +180,12 @@ public class Login {
 
         // La password è valida
         return true;
+    }
+
+    public void setErrLbl(JLabel lblTarget, Boolean visibleState, String msg, Color msgFgColor){
+        lblTarget.setVisible(visibleState);
+        lblTarget.setText(msg);
+        lblTarget.setForeground(msgFgColor);
     }
 
     public JPanel getPanel() {
