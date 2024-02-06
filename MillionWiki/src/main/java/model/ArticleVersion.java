@@ -20,14 +20,7 @@ public class ArticleVersion {
     private Date revisionDate = null;
     private Author authorProposal; // Aggiunto
 
-    public ArticleVersion() {
-        this.parentArticle = parentArticle;
-        this.text = text;
-        this.versionDate = new Date();
-        this.authorProposal = authorProposal;
-    }
-
-    public ArticleVersion(ResultSet resultSet) throws SQLException, RuntimeException, IllegalArgumentException {
+    public ArticleVersion(ResultSet resultSet) throws SQLException, RuntimeException{
         String statusString = resultSet.getString("status");
         this.status = Status.valueOf(statusString);
         this.id = resultSet.getInt("id");
@@ -36,8 +29,13 @@ public class ArticleVersion {
         this.revisionDate = resultSet.getDate("revision_date");
         this.authorProposal = new Author(resultSet);
     }
-    public int getId() {
-        return id;
+
+    public Article getParentArticle() {
+        return parentArticle;
+    }
+
+    public void setParentArticle(Article parentArticle) {
+        this.parentArticle = parentArticle;
     }
 
     public Status getStatus(){
@@ -46,6 +44,13 @@ public class ArticleVersion {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public int setId(int id) {
+        return this.id = id;
     }
 
 

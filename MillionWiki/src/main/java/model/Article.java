@@ -4,7 +4,6 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.lang.Exception;
-import java.lang.Throwable;
 
 
 public class Article {
@@ -34,7 +33,7 @@ public class Article {
         // TODO: dataCreazione deve riferirsi a orario Server
     }
 
-    public Article(ResultSet resultSet) throws SQLException, RuntimeException, IllegalArgumentException {
+    public Article(ResultSet resultSet) throws SQLException, RuntimeException {
         this.title = resultSet.getString("title");
         this.creationDate = resultSet.getDate("creation_date");
         this.revision = resultSet.getBoolean("revision");

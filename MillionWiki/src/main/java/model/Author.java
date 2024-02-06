@@ -14,7 +14,7 @@ public class Author extends User {
         this.password = password;
         this.createdPages = new ArrayList<>();
     }
-    public Author(ResultSet resultSet) throws SQLException, RuntimeException, IllegalArgumentException {
+    public Author(ResultSet resultSet) throws SQLException, RuntimeException{
         this.nickname = resultSet.getString("nickname");
         this.password = resultSet.getString("password");
         this.rating = resultSet.getFloat("rating");
