@@ -5,7 +5,6 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class ArticleVersion {
-
     public enum Status {
         WAITING,
         ACCEPTED,
@@ -18,7 +17,11 @@ public class ArticleVersion {
     private String text;
     private Date versionDate;
     private Date revisionDate = null;
-    private Author authorProposal; // Aggiunto
+    private Author authorProposal;
+
+    public ArticleVersion() {
+
+    }
 
     public ArticleVersion(ResultSet resultSet) throws SQLException, RuntimeException{
         String statusString = resultSet.getString("status");
