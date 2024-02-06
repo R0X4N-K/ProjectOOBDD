@@ -11,12 +11,10 @@ import java.sql.SQLException;
 // then press Enter. You can now see whitespace characters in your code.
 public class Main {
     public static void main(String[] args) {
-
         //ystem.outprintl("Hello MOtherfucker");
         /*Controller controller = new Controller();
         controller.getArticleByTitle("prova");*/
         Session.getInstance();
         new Window();
-
     }
 }
