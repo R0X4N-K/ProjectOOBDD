@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public class ArticleVersionDAOImplementation implements dao.ArticleVersionDAO{
     public DatabaseConnection dbConnection;
-    public ArticleVersionDAOImplementation(){
+    public ArticleVersionDAOImplementation() throws RuntimeException {
         try {
             dbConnection = DatabaseConnection.getInstance();
         } catch (SQLException e) {

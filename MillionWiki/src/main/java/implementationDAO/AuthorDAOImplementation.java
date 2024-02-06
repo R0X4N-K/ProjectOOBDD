@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class AuthorDAOImplementation implements dao.AuthorDAO{
     public DatabaseConnection dbConnection;
-    public AuthorDAOImplementation(){
+    public AuthorDAOImplementation() throws RuntimeException {
         try {
             dbConnection = DatabaseConnection.getInstance();
         } catch (SQLException e) {

@@ -31,12 +31,4 @@ public final class Session {
         }
         return instance;
     }
-
-
-    /*nella classe Session, abbiamo i metodi creaArticolo e proponeModifica
-    che utilizzano i metodi scriviArticolo della classe Author.
-    Questo è fatto per gestire le operazioni di creazione di articoli e
-    proposta di modifiche attraverso la sessione dell'utente, garantendo
-     che solo gli utenti autenticati possano eseguire queste operazioni.*/
-
 }

@@ -18,7 +18,7 @@ import java.util.ArrayList;
 public class ArticleDAOImplementation implements dao.ArticleDAO {
     public DatabaseConnection dbConnection;
 
-    public ArticleDAOImplementation() {
+    public ArticleDAOImplementation() throws RuntimeException {
         //connection to db
         try {
             dbConnection = DatabaseConnection.getInstance();
