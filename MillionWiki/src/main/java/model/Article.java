@@ -1,7 +1,10 @@
 package model;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.lang.Exception;
+import java.lang.Throwable;
 
 
 public class Article {
@@ -29,6 +32,19 @@ public class Article {
         this.currentVersionArticle = currentVersionArticle;
         this.proposedChanges = new ArrayList<>();
         // TODO: dataCreazione deve riferirsi a orario Server
+    }
+
+    public Article(ResultSet resultSet) throws SQLException, RuntimeException, IllegalArgumentException {
+        this.title = resultSet.getString("title");
+        this.creationDate = resultSet.getDate("creation_date");
+        this.revision = resultSet.getBoolean("revision");
+        this.author = new Author(resultSet);
+        try {
+            this.currentVersionArticle = new ArticleVersion(resultSet);
+        } catch (SQLException e) {
+              e.printStackTrace();
+        }
+        this.proposedChanges = new ArrayList<>(); // Questo campo potrebbe non essere inizializzato dal ResultSet
     }
 
 

@@ -1,5 +1,7 @@
 package model;
-
+import implementationDAO.ArticleDAOImplementation;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Author extends User {
@@ -7,12 +9,17 @@ public class Author extends User {
     private String password;
     private float rating;
     private ArrayList<Article> createdPages;
-    public Author(String nickname, String password) throws Exception {
-
-        setNickname(nickname);
-
-        setPassword(password);
+    public Author(String nickname, String password) {
+        this.nickname = nickname;
+        this.password = password;
         this.createdPages = new ArrayList<>();
+    }
+    public Author(ResultSet resultSet) throws SQLException, RuntimeException, IllegalArgumentException {
+        this.nickname = resultSet.getString("nickname");
+        this.password = resultSet.getString("password");
+        this.rating = resultSet.getFloat("rating");
+
+        this.createdPages = new ArticleDAOImplementation().getAllArticlesByAuthor(nickname);
     }
 
     public String getNickname(){
@@ -68,11 +75,11 @@ public class Author extends User {
     }
 
 
-    public ArticleVersion writeArticle(Article article, String testo) {
-        ArticleVersion newVersione = new ArticleVersion();
-        newVersione.setAuthorProposal(this);
+    public ArticleVersion writeArticle(Article article, String text) {
+        ArticleVersion newVersion = new ArticleVersion();
+        newVersion.setAuthorProposal(this);
         //article.addModifica(newVersione);
-        return newVersione;
+        return newVersion;
     }
 
     public ArticleVersion writeArticle(Article article, String text, String title) {

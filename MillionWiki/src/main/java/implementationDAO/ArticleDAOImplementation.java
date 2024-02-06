@@ -1,9 +1,10 @@
 package implementationDAO;
-
+import java.lang.IllegalArgumentException;
 
 import database.DatabaseConnection;
 import model.Article;
-
+import org.assertj.core.util.Throwables;
+import java.lang.Throwable;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,14 +53,13 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
-    public ArrayList<Article> getAllArticles() {
+    public ArrayList<Article> getAllArticles() throws RuntimeException, IllegalArgumentException {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles";
         try {
             PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                // Assuming Article has a constructor that takes ResultSet
                 articles.add(new Article(rs));
             }
         } catch (SQLException e) {
@@ -69,7 +69,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
-    public ArrayList<Article> getAllArticlesByAuthor(String nicknameAuthor) {
+    public ArrayList<Article> getAllArticlesByAuthor(String nicknameAuthor) throws RuntimeException, IllegalArgumentException {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles WHERE author = ?";
         try {
@@ -77,7 +77,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.setString(1, nicknameAuthor);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                articles.add(new Article(rs));
+                    articles.add(new Article(rs));
             }
         } catch (SQLException e) {
             e.printStackTrace();

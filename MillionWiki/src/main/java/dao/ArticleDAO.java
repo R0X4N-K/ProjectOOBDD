@@ -8,8 +8,8 @@ import java.util.ArrayList;
 
 public interface ArticleDAO {
     ResultSet getResultSetArticleByTitle(String articleTitle) throws SQLException;
-    ArrayList<Article> getAllArticles();
-    ArrayList<Article> getAllArticlesByAuthor(String nicknameAuthor);
+    ArrayList<Article> getAllArticles() throws RuntimeException, IllegalArgumentException;
+    ArrayList<Article> getAllArticlesByAuthor(String nicknameAuthor) throws RuntimeException, IllegalArgumentException;
 
     void saveArticle(Article article);
     void updateArticle(Article article, Article newArticle);
