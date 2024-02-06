@@ -13,12 +13,20 @@ public class Article {
     private ArticleVersion currentVersionArticle;
     private ArrayList<ArticleVersion> proposedChanges;
 
-
-
     public Article(String title, Author author) throws Exception {
         setTitle(title);
         this.author = author;
         this.creationDate = new Date();
+        this.currentVersionArticle = new ArticleVersion();
+        this.proposedChanges = new ArrayList<>();
+        // TODO: dataCreazione deve riferirsi a orario Server
+    }
+
+    public Article(String title, Author author, ArticleVersion currentVersionArticle) throws Exception {
+        setTitle(title);
+        this.author = author;
+        this.creationDate = new Date();
+        this.currentVersionArticle = currentVersionArticle;
         this.proposedChanges = new ArrayList<>();
         // TODO: dataCreazione deve riferirsi a orario Server
     }
@@ -67,5 +75,12 @@ public class Article {
 
     public void setAuthor(Author author) {
         this.author = author;
+    }
+
+    public ArticleVersion getCurrentVersionArticle() {
+        return currentVersionArticle;
+    }
+    public void setCurrentVersionArticle(ArticleVersion currentVersionArticle) {
+        this.currentVersionArticle = currentVersionArticle;
     }
 }
