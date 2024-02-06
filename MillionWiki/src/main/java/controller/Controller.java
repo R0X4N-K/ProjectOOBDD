@@ -16,7 +16,6 @@ public class Controller {
         }
         return null; //return article
         //da implementare
-
     }
 
     public boolean isAuthorRegistered(String email){
