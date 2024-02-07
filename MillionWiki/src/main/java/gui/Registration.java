@@ -90,7 +90,7 @@ public class Registration {
 
 
     public void checkNicknameFld(String text) {
-        if (checkNickname(text) && !checkEmailNicknameIsRegistered(text)) {
+        if (checkNickname(text) && !checkNicknameIsRegistered(text)) {
             nicknameTxtFld.setBorder(new LineBorder(Color.GREEN));
             setErrLbl(nicknameErrLbl, true, "Nickname valido !", Color.GREEN);
         }
@@ -100,7 +100,7 @@ public class Registration {
         }
     }
     public void checkEmailFld(String text) {
-        if (checkEmailSyntax(text) && !checkEmailNicknameIsRegistered(text)) {
+        if (checkEmailSyntax(text) && !checkEmailIsRegistered(text)) {
             mailTxtFld.setBorder(new LineBorder(Color.GREEN));
             setErrLbl(mailErrLbl, true, "Mail valida !", Color.GREEN);
         }
@@ -142,15 +142,20 @@ public class Registration {
     }
 
     public boolean checkNickname(String text){
-        if (text.length() < 4 || text.length() > 8) {
+        if (text.length() < 4 || text.length() > 18) {
             return false;
         }
         return true;
     }
 
-    public boolean checkEmailNicknameIsRegistered(String text){
-        return new Controller().isAuthorRegistered(text);
+    public boolean checkEmailIsRegistered(String email){
+        return new Controller().isAuthorRegisteredWithEmail(email);
     }
+
+    public boolean checkNicknameIsRegistered(String nickname){
+        return new Controller().isAuthorRegisteredWithNickname(nickname);
+    }
+
 
 
 

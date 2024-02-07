@@ -24,8 +24,11 @@ public class Controller {
         return new AuthorDAOImplementation().getAuthorByNickname(nickname);
     }
 
-    public boolean isAuthorRegistered(String email){
+    public boolean isAuthorRegisteredWithEmail(String email){
         return new AuthorDAOImplementation().isEmailUsed(email);
+    }
+    public boolean isAuthorRegisteredWithNickname(String nickname){
+        return new AuthorDAOImplementation().isNicknameUsed(nickname);
     }
 
 
