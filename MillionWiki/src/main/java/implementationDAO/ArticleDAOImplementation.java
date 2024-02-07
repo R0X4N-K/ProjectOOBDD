@@ -41,7 +41,11 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
-                articles.add(new Article(rs));
+                try {
+                    articles.add(new Article(rs));
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -50,14 +54,18 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
-    public ArrayList<Article> getAllArticlesByAuthor(String nicknameAuthor) {
+    public ArrayList<Article> getAllArticlesByAuthor(int id) {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles WHERE author = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, nicknameAuthor);
+            stmt.setInt(1, id);
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
+                try {
                     articles.add(new Article(rs));
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();

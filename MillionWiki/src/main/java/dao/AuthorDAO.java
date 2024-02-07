@@ -17,8 +17,8 @@ public interface AuthorDAO {
     void updatePasswordAuthor(Author author, String newPassword);
     void updateAuthorRating(Author author, float newRating);
     void updateAuthorArticles(Author author, ArrayList<Article> newArticles, String password);
-    void deleteAuthor(String nickname);
-    public void registerAuthor(String email, String password, float rating);
+    void deleteAuthor(int id);
+    public void registerAuthor(String nickname, String password, float rating, String email);
     public boolean isEmailUsed(String email);
     public boolean isNicknameUsed(String nickname);
 }

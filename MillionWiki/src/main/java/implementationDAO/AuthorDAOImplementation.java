@@ -26,7 +26,11 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.setString(1, nickname);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Author(rs);
+                    try {
+                        return new Author(rs);
+                    } catch (RuntimeException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         } catch (SQLException e) {
@@ -42,7 +46,11 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
-                authors.add(new Author(rs));
+                try {
+                    authors.add(new Author(rs));
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,11 +60,12 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
 
     @Override
     public void saveAuthor(Author author, String password) {
-        String query = "INSERT INTO authors (nickname, password, rating) VALUES (?, ?, ?)";
+        String query = "INSERT INTO authors (nickname, password, rating, id, email) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, author.getNickname());
             stmt.setString(2, password);
             stmt.setFloat(3, author.getRating());
+            stmt.setInt(4, author.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -66,11 +75,13 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
 
     @Override
     public void updateAuthor(Author author, Author newAuthor, String password) {
-        String query = "UPDATE authors (nickname, password, rating) VALUES (?, ?, ?)";
+        String query = "UPDATE authors (nickname, password, rating, id, email) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, author.getNickname());
             stmt.setString(2, password);
             stmt.setFloat(3, author.getRating());
+            stmt.setInt(4, author.getId());
+            stmt.setString(5, author.getEmail());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -80,24 +91,34 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
 
     @Override
     public void updateNicknameAuthor(Author author, String newNickname) {
-        String query = "UPDATE authors SET nickname = ? WHERE nickname = ?";
+        String query = "UPDATE authors SET nickname = ? WHERE id = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, newNickname);
-            stmt.setString(2, author.getNickname());
+            stmt.setInt(2, author.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
 
     }
+    public void updateEmailAuthor(Author author, String newEmail) {
+        String query = "UPDATE authors SET email = ? WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, newEmail);
+            stmt.setInt(2, author.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Override
     public void updatePasswordAuthor(Author author, String newPassword) {
 
-        String query = "UPDATE authors SET password = ? WHERE nickname = ?";
+        String query = "UPDATE authors SET password = ? WHERE id = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, newPassword);
-            stmt.setString(2, author.getNickname());
+            stmt.setInt(2, author.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -106,10 +127,10 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
 
     @Override
     public void updateAuthorRating(Author author, float newRating) {
-        String query = "UPDATE authors SET rating = ? WHERE nickname = ?";
+        String query = "UPDATE authors SET rating = ? WHERE id = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setFloat(1, newRating);
-            stmt.setString(2, author.getNickname());
+            stmt.setInt(2, author.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -118,10 +139,10 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
 
     @Override
     public void updateAuthorArticles(Author author, ArrayList<Article> newArticles, String password) {
-        String query = "UPDATE authors SET articles = ? WHERE nickname = ?";
+        String query = "UPDATE authors SET articles = ? WHERE id = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setArray(1, dbConnection.connection.createArrayOf("articles", newArticles.toArray()));
-            stmt.setString(2, author.getNickname());
+            stmt.setInt(2, author.getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -129,38 +150,63 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
     }
 
         @Override
-        public void deleteAuthor (String nickname){
-            String query = "DELETE FROM authors WHERE nickname = ?";
+        public void deleteAuthor (int id){
+            String query = "DELETE FROM authors WHERE id = ?";
             try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-                stmt.setString(1, nickname);
+                stmt.setInt(1, id);
                 stmt.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
             }
         }
-    public void registerAuthor(String nickname, String password, float rating) {
-        String query = "INSERT INTO authors (nickname, password, rating) VALUES (?, ?, ?)";
+    public void registerAuthor(String nickname, String password, float rating, String email) {
+        String query = "INSERT INTO authors (nickname, password, rating, email) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, nickname);
             stmt.setString(2, password);
             stmt.setFloat(3, rating);
+            stmt.setString(4, email);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
-    public Author loginAuthor(String nickname, String password) {
-        String query = "SELECT * FROM authors WHERE nickname = ? AND password = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, nickname);
-            stmt.setString(2, password);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return new Author(rs);
+    public Author loginAuthor(String email, String nickname, String password) {
+        if (email != null) {
+            String query = "SELECT * FROM authors WHERE email = ? AND password = ?";
+            try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+                stmt.setString(1, email);
+                stmt.setString(2, password);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        try {
+                            return new Author(rs);
+                        } catch (RuntimeException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }
+        else if(nickname != null){
+            String query = "SELECT * FROM authors WHERE nickname = ? AND password = ?";
+            try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+                stmt.setString(1, nickname);
+                stmt.setString(2, password);
+                try (ResultSet rs = stmt.executeQuery()) {
+                    if (rs.next()) {
+                        try {
+                            return new Author(rs);
+                        } catch (RuntimeException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
         //Questo metodo restituisce Author se l'autore è presente nel database e la password è corretta
         // Altrimenti restituisce null

@@ -5,21 +5,28 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class Author extends User {
+    private int id;
+    private String email;
     private String nickname;
     private String password;
     private float rating;
     private ArrayList<Article> createdPages;
-    public Author(String nickname, String password) {
+    public Author(int id, String email, String nickname, String password) {
+        this.id = id;
+        this.email = email;
         this.nickname = nickname;
         this.password = password;
+        this.rating = 0;
         this.createdPages = new ArrayList<>();
     }
     public Author(ResultSet resultSet) throws SQLException, RuntimeException{
+        this.id = resultSet.getInt("id");
+        this.email= resultSet.getString("email");
         this.nickname = resultSet.getString("nickname");
         this.password = resultSet.getString("password");
         this.rating = resultSet.getFloat("rating");
 
-        this.createdPages = new ArticleDAOImplementation().getAllArticlesByAuthor(nickname);
+        this.createdPages = new ArticleDAOImplementation().getAllArticlesByAuthor(id);
     }
 
     public String getNickname(){
@@ -99,6 +106,16 @@ public class Author extends User {
     }
 
 
-
-
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
+    public String getEmail() {
+        return email;
+    }
+    public void setEmail(String email) {
+        this.email = email;
+    }
 }
