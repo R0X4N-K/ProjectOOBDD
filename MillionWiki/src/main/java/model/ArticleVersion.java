@@ -22,6 +22,12 @@ public class ArticleVersion {
     public ArticleVersion() {
 
     }
+    public ArticleVersion(int id, Article parentArticle, String text) {
+
+    }
+    public ArticleVersion(int id, Article parentArticle, String text, Author authorProposal) {
+
+    }
 
     public ArticleVersion(ResultSet resultSet) throws SQLException, RuntimeException{
         String statusString = resultSet.getString("status");

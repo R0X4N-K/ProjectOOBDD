@@ -2,6 +2,7 @@ package controller;
 
 import implementationDAO.*;
 import model.Article;
+import model.Author;
 
 public class Controller {
     public Controller() {
@@ -18,8 +19,13 @@ public class Controller {
         //da implementare
     }
 
+
+    public Author getAuthorByNickname(String nickname){
+        return new AuthorDAOImplementation().getAuthorByNickname(nickname);
+    }
+
     public boolean isAuthorRegistered(String email){
-        return false; //da implementare
+        return new AuthorDAOImplementation().isEmailUsed(email);
     }
 
 

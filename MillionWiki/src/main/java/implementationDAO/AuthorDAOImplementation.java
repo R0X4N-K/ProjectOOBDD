@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class AuthorDAOImplementation implements dao.AuthorDAO{
+
     public DatabaseConnection dbConnection;
     public AuthorDAOImplementation() throws RuntimeException {
         try {
@@ -241,4 +242,4 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         }
         return false;
     }
-    }
+}
