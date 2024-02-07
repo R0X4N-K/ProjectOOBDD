@@ -35,10 +35,8 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                 ArticleVersion articleVersion = new ArticleVersion(rs);
                 articleVersions.add(articleVersion);
             }
-        } catch (SQLException e) {
+        } catch (SQLException | RuntimeException e) {
             System.err.println("Errore SQL: " + e.getMessage());
-        } catch (RuntimeException e) {
-            System.err.println("Errore di runtime: " + e.getMessage());
         } finally {
             try {
                 if (rs != null) {
