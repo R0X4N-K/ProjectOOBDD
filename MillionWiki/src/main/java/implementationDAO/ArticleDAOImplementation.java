@@ -35,7 +35,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
-    public ArrayList<Article> getAllArticles() throws RuntimeException {
+    public ArrayList<Article> getAllArticles() {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
@@ -50,7 +50,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
-    public ArrayList<Article> getAllArticlesByAuthor(String nicknameAuthor) throws RuntimeException {
+    public ArrayList<Article> getAllArticlesByAuthor(String nicknameAuthor) {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles WHERE author = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
