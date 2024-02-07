@@ -138,12 +138,12 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 e.printStackTrace();
             }
         }
-    public void registerAuthor(Author author, String password) {
+    public void registerAuthor(String nickname, String password, float rating) {
         String query = "INSERT INTO authors (nickname, password, rating) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, author.getNickname());
+            stmt.setString(1, nickname);
             stmt.setString(2, password);
-            stmt.setFloat(3, author.getRating());
+            stmt.setFloat(3, rating);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
