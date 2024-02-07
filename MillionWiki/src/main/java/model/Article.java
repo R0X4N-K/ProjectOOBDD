@@ -40,7 +40,7 @@ public class Article {
         this.author = new Author(resultSet);
         try {
             this.currentVersionArticle = new ArticleVersion(resultSet);
-        } catch (SQLException e) {
+        } catch (SQLException | RuntimeException e) {
               e.printStackTrace();
         }
         this.proposedChanges = new ArrayList<>(); // Questo campo potrebbe non essere inizializzato dal ResultSet
