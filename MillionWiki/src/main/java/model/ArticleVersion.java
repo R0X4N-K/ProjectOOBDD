@@ -25,7 +25,11 @@ public class ArticleVersion {
 
     public ArticleVersion(ResultSet resultSet) throws SQLException, RuntimeException{
         String statusString = resultSet.getString("status");
-        this.status = Status.valueOf(statusString);
+        try {
+            this.status = Status.valueOf(statusString);
+        } catch (IllegalArgumentException e) {
+            System.out.println("La stringa fornita non corrisponde a nessuno dei valori dell'enum Status.");
+        }
         this.id = resultSet.getInt("id");
         this.text = resultSet.getString("text");
         this.versionDate = resultSet.getDate("version_date");

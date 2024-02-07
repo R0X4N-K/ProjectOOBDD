@@ -29,7 +29,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                     return new Author(rs);
                 }
             }
-        } catch (SQLException | RuntimeException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return null;
@@ -44,7 +44,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             while (rs.next()) {
                 authors.add(new Author(rs));
             }
-        } catch (SQLException | RuntimeException e) {
+        } catch (SQLException e) {
             e.printStackTrace();
         }
         return authors;
@@ -138,4 +138,61 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 e.printStackTrace();
             }
         }
+    public void registerAuthor(Author author, String password) {
+        String query = "INSERT INTO authors (nickname, password, rating) VALUES (?, ?, ?)";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, author.getNickname());
+            stmt.setString(2, password);
+            stmt.setFloat(3, author.getRating());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+    public Author loginAuthor(String nickname, String password) {
+        String query = "SELECT * FROM authors WHERE nickname = ? AND password = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, nickname);
+            stmt.setString(2, password);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Author(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        //Questo metodo restituisce Author se l'autore è presente nel database e la password è corretta
+        // Altrimenti restituisce null
+        return null;
+    }
+    public boolean isEmailUsed(String email) {
+        String query = "SELECT * FROM authors WHERE email = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, email);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    public boolean isNicknameUsed(String nickname) {
+        String query = "SELECT * FROM authors WHERE nickname = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, nickname);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return true;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
     }
