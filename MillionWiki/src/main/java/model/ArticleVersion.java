@@ -23,10 +23,20 @@ public class ArticleVersion {
 
     }
     public ArticleVersion(int id, Article parentArticle, String text) {
-
+        this.id = id;
+        this.parentArticle = parentArticle;
+        this.text = text;
+        this.status= Status.WAITING;
+        this.versionDate = new Date();
+        this.authorProposal = parentArticle.getAuthor();
     }
     public ArticleVersion(int id, Article parentArticle, String text, Author authorProposal) {
-
+        this.id = id;
+        this.parentArticle = parentArticle;
+        this.text = text;
+        this.status= Status.WAITING;
+        this.versionDate = new Date();
+        this.authorProposal = authorProposal;
     }
 
     public ArticleVersion(ResultSet resultSet) throws SQLException, RuntimeException{
