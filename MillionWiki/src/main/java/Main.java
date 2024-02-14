@@ -1,8 +1,8 @@
 import controller.Controller;
 import gui.*;
 import implementationDAO.ArticleDAOImplementation;
-import model.Article;
-import model.Author;
+import implementationDAO.ArticleVersionDAOImplementation;
+import implementationDAO.AuthorDAOImplementation;
 import model.Session;
 
 import java.sql.SQLException;
@@ -15,6 +15,9 @@ public class Main {
         /*Controller controller = new Controller();
         controller.getArticleByTitle("prova");*/
         Session.getInstance();
+        Controller.setArticleDAO(new ArticleDAOImplementation());
+        Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
+        Controller.setAuthorDAO(new AuthorDAOImplementation());
         new Window();
     }
 }

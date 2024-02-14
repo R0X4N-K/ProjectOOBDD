@@ -9,7 +9,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.util.Objects;
 
 public class Registration {
     private JTextField mailTxtFld;
@@ -149,10 +148,10 @@ public class Registration {
     }
 
     public boolean checkEmailIsRegistered(String email){
-       return Controller.getInstance().isAuthorRegisteredWithEmail(email);}
+       return Controller.isAuthorRegisteredWithEmail(email);}
 
     public boolean checkNicknameIsRegistered(String nickname){
-       return Controller.getInstance().isAuthorRegisteredWithNickname(nickname);
+       return Controller.isAuthorRegisteredWithNickname(nickname);
     }
 
 
