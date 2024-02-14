@@ -11,20 +11,20 @@ public class Author extends User {
     private String password;
     private float rating;
     private ArrayList<Article> createdPages;
-    public Author(int id, String email, String nickname, String password) {
-        this.id = id;
-        this.email = email;
-        this.nickname = nickname;
-        this.password = password;
+    public Author(int id, String email, String nickname, String password) throws Exception {
+        setId(id);
+        setEmail(email);
+        setNickname(nickname);
+        setPassword(password);
         this.rating = 0;
         this.createdPages = new ArrayList<>();
     }
-    public Author(ResultSet resultSet) throws SQLException, RuntimeException{
-        this.id = resultSet.getInt("id");
-        this.email= resultSet.getString("email");
-        this.nickname = resultSet.getString("nickname");
-        this.password = resultSet.getString("password");
-        this.rating = resultSet.getFloat("rating");
+    public Author(ResultSet resultSet) throws SQLException, RuntimeException, Exception{
+        setId(resultSet.getInt("id"));
+        setEmail(resultSet.getString("email"));
+        setNickname(resultSet.getString("nickname"));
+        setPassword(resultSet.getString("password"));
+        setRating(resultSet.getFloat("rating"));
 
         this.createdPages = new ArticleDAOImplementation().getAllArticlesByAuthor(id);
     }
