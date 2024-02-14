@@ -29,6 +29,7 @@ public class Registration {
     private JLabel nicknameErrLbl;
     private JLabel mailErrLbl;
     private Window window;
+    private Boolean submitBtnState;
 
     public Registration() {
         toLoginPanelBtn.addActionListener(new ActionListener() {
@@ -59,6 +60,7 @@ public class Registration {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 checkNicknameFld(nicknameTxtFld.getText());
+                checkAllFld();
             }
         });
 
@@ -67,6 +69,7 @@ public class Registration {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 checkEmailFld(mailTxtFld.getText());
+                checkAllFld();
             }
         });
 
@@ -75,6 +78,7 @@ public class Registration {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 checkPasswordFld(passwordTxtFld.getText());
+                checkAllFld();
             }
         });
         passwordTxtFld2.addKeyListener(new KeyAdapter() {
@@ -82,9 +86,19 @@ public class Registration {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 checkPasswordFld2(passwordTxtFld2.getText());
+                checkAllFld();
             }
         });
 
+    }
+
+    public void checkAllFld(){
+        if(nicknameErrLbl.getForeground().equals(Color.GREEN) && mailErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl2.getForeground().equals(Color.GREEN)) {
+            submitBtn.setEnabled(true);
+        }
+        else{
+            submitBtn.setEnabled(false);
+        }
     }
 
 
@@ -219,6 +233,7 @@ public class Registration {
         lblTarget.setVisible(visibleState);
         lblTarget.setText(msg);
         lblTarget.setForeground(msgFgColor);
+
     }
 
     public JPanel getPanel() {
