@@ -149,11 +149,10 @@ public class Registration {
     }
 
     public boolean checkEmailIsRegistered(String email){
-        return new Controller().isAuthorRegisteredWithEmail(email);
-    }
+       return Controller.getInstance().isAuthorRegisteredWithEmail(email);}
 
     public boolean checkNicknameIsRegistered(String nickname){
-        return new Controller().isAuthorRegisteredWithNickname(nickname);
+       return Controller.getInstance().isAuthorRegisteredWithNickname(nickname);
     }
 
 
