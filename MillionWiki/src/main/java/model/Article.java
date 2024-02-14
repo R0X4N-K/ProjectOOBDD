@@ -37,7 +37,11 @@ public class Article {
         this.title = resultSet.getString("title");
         this.creationDate = resultSet.getDate("creation_date");
         this.revision = resultSet.getBoolean("revision");
-        this.author = new Author(resultSet);
+        try {
+            this.author = new Author(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         try {
             this.currentVersionArticle = new ArticleVersion(resultSet);
         } catch (SQLException | RuntimeException e) {

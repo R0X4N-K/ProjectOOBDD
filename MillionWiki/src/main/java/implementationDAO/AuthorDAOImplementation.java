@@ -31,6 +31,8 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                         return new Author(rs);
                     } catch (RuntimeException e) {
                         e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }
@@ -50,6 +52,8 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 try {
                     authors.add(new Author(rs));
                 } catch (RuntimeException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
@@ -184,6 +188,8 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                             return new Author(rs);
                         } catch (RuntimeException e) {
                             e.printStackTrace();
+                        } catch (Exception e) {
+                            e.printStackTrace();
                         }
                     }
                 }
@@ -201,6 +207,8 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                         try {
                             return new Author(rs);
                         } catch (RuntimeException e) {
+                            e.printStackTrace();
+                        } catch (Exception e) {
                             e.printStackTrace();
                         }
                     }

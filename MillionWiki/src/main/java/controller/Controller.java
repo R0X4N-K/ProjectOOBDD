@@ -31,5 +31,4 @@ public class Controller {
         return new AuthorDAOImplementation().isNicknameUsed(nickname);
     }
 
-
 }

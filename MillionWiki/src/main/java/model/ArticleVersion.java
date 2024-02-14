@@ -50,7 +50,11 @@ public class ArticleVersion {
         this.text = resultSet.getString("text");
         this.versionDate = resultSet.getDate("version_date");
         this.revisionDate = resultSet.getDate("revision_date");
-        this.authorProposal = new Author(resultSet);
+        try {
+            this.authorProposal = new Author(resultSet);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     public Article getParentArticle() {
