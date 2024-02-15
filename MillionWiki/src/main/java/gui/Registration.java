@@ -182,7 +182,6 @@ public class Registration {
 
 
     //aggiunte funzioni per hashing della password
-    //TODO: Creare funzione di validazione in login
     public String passwordEncryption(String password){
         //hashing algorithm
         try {

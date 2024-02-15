@@ -2,10 +2,14 @@ package gui;
 
 import controller.Controller;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
 import java.awt.event.*;
+import java.security.NoSuchAlgorithmException;
+import java.security.spec.InvalidKeySpecException;
 
 public class Login {
     private JLabel loginPageTitleLbl;
@@ -39,6 +43,75 @@ public class Login {
             }
         });
 
+        submitBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                try{
+                    String passwordStored = Controller.doLogin(emailNicknameTxtFld.getText(), passwordTxtFld.getText()).getPassword();
+                    if(validatePassword(passwordTxtFld.getText(), passwordStored)){
+                        System.out.println("Loggato");
+                    }
+                    else{
+                        System.out.println("Stuprato");
+                    }
+                }catch (NullPointerException pointerException){
+                    System.out.println("Stuprato");
+                    throw new NullPointerException();
+                }
+
+            }
+        });
+
+    }
+
+    private boolean validatePassword(String originalPassword, String storedPassword)
+    {
+        String[] parts = storedPassword.split(":");
+        int iterations = Integer.parseInt(parts[0]);
+
+        byte[] salt = new byte[0];
+        try {
+            salt = fromHex(parts[1]);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] hash = new byte[0];
+        try {
+            hash = fromHex(parts[2]);
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+
+        PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(),
+                salt, iterations, hash.length * 8);
+        SecretKeyFactory skf = null;
+        try {
+            skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+        } catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+        byte[] testHash = new byte[0];
+        try {
+            testHash = skf.generateSecret(spec).getEncoded();
+        } catch (InvalidKeySpecException e) {
+            throw new RuntimeException(e);
+        }
+
+        int diff = hash.length ^ testHash.length;
+        for(int i = 0; i < hash.length && i < testHash.length; i++)
+        {
+            diff |= hash[i] ^ testHash[i];
+        }
+        return diff == 0;
+    }
+    private byte[] fromHex(String hex) throws NoSuchAlgorithmException
+    {
+        byte[] bytes = new byte[hex.length() / 2];
+        for(int i = 0; i < bytes.length ;i++)
+        {
+            bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        }
+        return bytes;
     }
 
     public JPanel getPanel() {

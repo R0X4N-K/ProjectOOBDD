@@ -8,6 +8,7 @@ public class Author extends User {
     private int id;
     private String email;
     private String nickname;
+
     private String password;
     private float rating;
     private ArrayList<Article> createdPages;
@@ -34,11 +35,7 @@ public class Author extends User {
     }
 
     public void setNickname(String nome) throws Exception{
-        if (!nickname.isEmpty() && !password.isBlank()) {
-            this.nickname = nome;
-        } else {
-            throw new Exception("NOME UTENTE VUOTO!"); // TODO: creare eccezione ad hoc
-        }
+        nickname = nome;
     }
 
 
@@ -50,6 +47,11 @@ public class Author extends User {
             throw new Exception("PASSWORD VUOTA!"); // TODO: creare eccezione ad hoc
         }
     }
+
+    public String getPassword() {
+        return password;
+    }
+
 
 
 

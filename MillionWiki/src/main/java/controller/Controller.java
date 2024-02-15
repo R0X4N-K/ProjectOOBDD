@@ -43,6 +43,16 @@ public final class Controller {
         return new AuthorDAOImplementation().isNicknameUsed(nickname);
     }
 
+    public static Author doLogin(String nicknameOrEmail, String password){
+        if (isAuthorRegisteredWithEmail(nicknameOrEmail)){
+            return new AuthorDAOImplementation().loginAuthor(nicknameOrEmail, null, password);
+        }
+        else if(isAuthorRegisteredWithNickname(nicknameOrEmail)){
+           return new AuthorDAOImplementation().loginAuthor(null, nicknameOrEmail, password);
+        }
+        return null;
+    }
+
     public static boolean doRegistration(String email, String nickname, String password){
         if (isAuthorRegisteredWithEmail(email) || isAuthorRegisteredWithNickname(nickname)){
             return false;

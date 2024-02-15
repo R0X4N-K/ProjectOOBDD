@@ -176,46 +176,32 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             e.printStackTrace();
         }
     }
+
+
     public Author loginAuthor(String email, String nickname, String password) {
+        String query = "";
+        String emailOrNickname = "";
         if (email != null) {
-            String query = "SELECT * FROM authors WHERE email = ? AND password = ?";
-            try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-                stmt.setString(1, email);
-                stmt.setString(2, password);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        try {
-                            return new Author(rs);
-                        } catch (RuntimeException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
+            query = "SELECT * FROM authors WHERE email = ?";
+            emailOrNickname = email;
         }
-        else if(nickname != null){
-            String query = "SELECT * FROM authors WHERE nickname = ? AND password = ?";
-            try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-                stmt.setString(1, nickname);
-                stmt.setString(2, password);
-                try (ResultSet rs = stmt.executeQuery()) {
-                    if (rs.next()) {
-                        try {
-                            return new Author(rs);
-                        } catch (RuntimeException e) {
-                            e.printStackTrace();
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
+        else if (nickname != null){
+            query = "SELECT * FROM authors WHERE nickname = ?";
+            emailOrNickname = nickname;
+        }
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, emailOrNickname);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    try {
+                        return new Author(rs);
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
-            } catch (SQLException e) {
-                e.printStackTrace();
             }
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         //Questo metodo restituisce Author se l'autore è presente nel database e la password è corretta
         // Altrimenti restituisce null
