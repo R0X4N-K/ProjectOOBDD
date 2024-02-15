@@ -2,6 +2,8 @@ package gui;
 
 import controller.Controller;
 
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import java.awt.*;
@@ -9,6 +11,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.math.BigInteger;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
+import java.security.spec.InvalidKeySpecException;
 
 public class Registration {
     private JTextField mailTxtFld;
@@ -52,6 +58,12 @@ public class Registration {
                 System.out.println(nicknameTxtFld.getText());
                 System.out.println(mailTxtFld.getText());
                 System.out.println(passwordTxtFld.getText());
+
+                if(Controller.doRegistration(mailTxtFld.getText(), nicknameTxtFld.getText(), passwordEncryption(passwordTxtFld.getText()))){
+                    System.out.println("Registrazione avvenuta con successo");
+                }else{
+                    System.out.println("Registrazione fallita");
+                }
             }
         });
 
@@ -162,13 +174,57 @@ public class Registration {
     }
 
     public boolean checkEmailIsRegistered(String email){
-       return Controller.isAuthorRegisteredWithEmail(email);}
+        return Controller.isAuthorRegisteredWithEmail(email);}
 
     public boolean checkNicknameIsRegistered(String nickname){
-       return Controller.isAuthorRegisteredWithNickname(nickname);
+        return Controller.isAuthorRegisteredWithNickname(nickname);
     }
 
 
+    //aggiunte funzioni per hashing della password
+    //TODO: Creare funzione di validazione in login
+    public String passwordEncryption(String password){
+        //hashing algorithm
+        try {
+            return generateStrongPasswordHash(password);
+        } catch (InvalidKeySpecException | NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    private String generateStrongPasswordHash(String password)
+            throws InvalidKeySpecException, NoSuchAlgorithmException {
+        int iterations = 1000;
+        char[] chars = password.toCharArray();
+        byte[] salt = getSalt();
+
+        PBEKeySpec spec = new PBEKeySpec(chars, salt, iterations, 64 * 8);
+        SecretKeyFactory skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
+
+        byte[] hash = skf.generateSecret(spec).getEncoded();
+        return iterations + ":" + toHex(salt) + ":" + toHex(hash);
+    }
+
+    private byte[] getSalt() throws NoSuchAlgorithmException
+    {
+        SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
+        byte[] salt = new byte[16];
+        sr.nextBytes(salt);
+        return salt;
+    }
+
+    private String toHex(byte[] array) throws NoSuchAlgorithmException
+    {
+        BigInteger bi = new BigInteger(1, array);
+        String hex = bi.toString(16);
+
+        int paddingLength = (array.length * 2) - hex.length();
+        if(paddingLength > 0)
+        {
+            return String.format("%0"  +paddingLength + "d", 0) + hex;
+        }else{
+            return hex;
+        }
+    }
 
 
     public boolean checkPasswordSintax(String text) {
@@ -235,6 +291,7 @@ public class Registration {
         lblTarget.setForeground(msgFgColor);
 
     }
+
 
     public JPanel getPanel() {
         return mainPanelRegistration;

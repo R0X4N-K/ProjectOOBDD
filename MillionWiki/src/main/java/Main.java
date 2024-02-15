@@ -14,10 +14,16 @@ public class Main {
         //ystem.outprintl("Hello MOtherfucker");
         /*Controller controller = new Controller();
         controller.getArticleByTitle("prova");*/
-        Session.getInstance();
+        //Session.getInstance();
         Controller.setArticleDAO(new ArticleDAOImplementation());
         Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
         Controller.setAuthorDAO(new AuthorDAOImplementation());
         new Window();
+
+     //Controller controller = Controller.ge;
+     //ArticleDAOImplementation articleDAOImplementation = new ArticleDAOImplementation();
+     //articleDAOImplementation.getAllArticles();
+
+
     }
 }

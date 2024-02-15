@@ -7,17 +7,17 @@ import implementationDAO.*;
 import model.Article;
 import model.Author;
 
-public class Controller {
+public final class Controller {
 
     private static Controller instance;
     private static ArticleDAO articleDAO = null;
     private static ArticleVersionDAO articleVersionDAO = null;
     private static AuthorDAO authorDAO = null;
 
-
     private Controller() {
 
     }
+
 
 
     public static Article getArticleByTitle(String articleTitle){
@@ -38,9 +38,11 @@ public class Controller {
     public static boolean isAuthorRegisteredWithEmail(String email){
         return new AuthorDAOImplementation().isEmailUsed(email);
     }
+
     public static boolean isAuthorRegisteredWithNickname(String nickname){
         return new AuthorDAOImplementation().isNicknameUsed(nickname);
     }
+
     public static boolean doRegistration(String email, String nickname, String password){
         if (isAuthorRegisteredWithEmail(email) || isAuthorRegisteredWithNickname(nickname)){
             return false;
@@ -72,6 +74,5 @@ public class Controller {
             authorDAO = dao;
         }
     }
-
 
 }
