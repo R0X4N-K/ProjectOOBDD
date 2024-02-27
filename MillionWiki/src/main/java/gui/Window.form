@@ -39,6 +39,11 @@
               <card name="Registration"/>
             </constraints>
           </nested-form>
+          <nested-form id="eaedc" form-file="gui/Editor.form" binding="editorPanel">
+            <constraints>
+              <card name="Card1"/>
+            </constraints>
+          </nested-form>
         </children>
       </grid>
     </children>

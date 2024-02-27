@@ -10,6 +10,7 @@ public class Window extends JFrame{
     private Login loginPanel;
     private Home homePanel;
     private Registration registrationPanel;
+    private Editor editorPanel;
 
     public Window(){
         super("Million Wiki");
@@ -36,6 +37,9 @@ public class Window extends JFrame{
     }
     public JPanel getRegistrationPanel(){
         return registrationPanel.getPanel();
+    }
+    public JPanel getEditorPanel(){
+        return editorPanel.getPanel();
     }
 
     public static Window checkWindow(Window window, Component leaf) throws NullPointerException {
