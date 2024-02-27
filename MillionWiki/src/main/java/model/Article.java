@@ -13,7 +13,7 @@ public class Article {
     boolean revision = false;
     private Author author;
     private ArticleVersion currentVersionArticle;
-    private ArrayList<ArticleVersion> proposedChanges;
+    private final ArrayList<ArticleVersion> proposedChanges;
 
     public Article (String title, Author author) throws Exception {
         setTitle (title);

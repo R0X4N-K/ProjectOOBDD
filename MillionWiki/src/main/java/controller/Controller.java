@@ -87,11 +87,22 @@ public final class Controller {
             authorDAO = dao;
         }
     }
+    public static int createArticle(String title,Author author,Date creationDate,Boolean revision){
+        ArticleVersion.Status status= ArticleVersion.Status.valueOf("Accepted");
+        String text= "";
+        return articleDAO.saveArticle(title, creationDate, revision, author, createProposal(title, status, text, creationDate, creationDate, author));
+    }
 
-    public static void createProposal(Article parentArticle, ArticleVersion.Status status,
+    public static int createProposal(Article parentArticle, ArticleVersion.Status status,
                                       String text, Date versionDate, Date revisionDate,
                                       Author authorProposal) {
-        articleVersionDAO.insertArticleVersion(parentArticle, status, text, versionDate, revisionDate, authorProposal);
+        return articleVersionDAO.insertArticleVersion(parentArticle.getTitle(), status, text, versionDate, revisionDate, authorProposal);
     }
+    public static int createProposal(String title, ArticleVersion.Status status,
+                                     String text, Date versionDate, Date revisionDate,
+                                     Author authorProposal) {
+        return articleVersionDAO.insertArticleVersion(title, status, text, versionDate, revisionDate, authorProposal);
+    }
+
 
 }

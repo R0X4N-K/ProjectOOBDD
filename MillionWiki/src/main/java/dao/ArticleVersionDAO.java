@@ -1,6 +1,5 @@
 package dao;
 
-import model.Article;
 import model.ArticleVersion;
 import model.Author;
 
@@ -9,7 +8,7 @@ import java.util.Date;
 
 public interface ArticleVersionDAO {
     ArrayList<ArticleVersion> getAllArticleVersions();
-    public void insertArticleVersion(ArticleVersion articleVersion);
-    public void insertArticleVersion(Article parentArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal);
+    public int insertArticleVersion(ArticleVersion articleVersion);
+    public int insertArticleVersion(String title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal);
 
 }
