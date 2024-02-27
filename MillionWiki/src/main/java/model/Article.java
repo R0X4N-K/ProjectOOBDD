@@ -15,28 +15,34 @@ public class Article {
     private ArticleVersion currentVersionArticle;
     private ArrayList<ArticleVersion> proposedChanges;
 
-    public Article(String title, Author author) throws Exception {
-        setTitle(title);
-        this.author = author;
+    public Article (String title, Author author) throws Exception {
+        setTitle (title);
+        setAuthor (author);
         this.creationDate = new Date();
         this.currentVersionArticle = new ArticleVersion();
         this.proposedChanges = new ArrayList<>();
         // TODO: dataCreazione deve riferirsi a orario Server
     }
 
-    public Article(String title, Author author, ArticleVersion currentVersionArticle) throws Exception {
-        setTitle(title);
-        this.author = author;
+    public Article (String title, Author author, ArticleVersion currentVersionArticle) throws Exception {
+        setTitle (title);
+        setAuthor (author);
         this.creationDate = new Date();
-        this.currentVersionArticle = currentVersionArticle;
+        setCurrentVersionArticle (currentVersionArticle);
         this.proposedChanges = new ArrayList<>();
         // TODO: dataCreazione deve riferirsi a orario Server
     }
 
-    public Article(ResultSet resultSet) throws SQLException, RuntimeException {
-        this.title = resultSet.getString("title");
-        this.creationDate = resultSet.getDate("creation_date");
-        this.revision = resultSet.getBoolean("revision");
+    public Article (ResultSet resultSet) throws SQLException, RuntimeException {
+
+        try {
+            setTitle (resultSet.getString("title"));
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+        setCreationDate (resultSet.getDate("creation_date"));
+        setRevision (resultSet.getBoolean("revision"));
         try {
             this.author = new Author(resultSet);
         } catch (Exception e) {

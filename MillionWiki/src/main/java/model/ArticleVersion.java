@@ -23,35 +23,35 @@ public class ArticleVersion {
 
     }
     public ArticleVersion(int id, Article parentArticle, String text) {
-        this.id = id;
-        this.parentArticle = parentArticle;
-        this.text = text;
-        this.status= Status.WAITING;
+        setId(id);
+        setParentArticle(parentArticle);
+        setText(text);
+        setStatus(Status.WAITING);
         this.versionDate = new Date();
-        this.authorProposal = parentArticle.getAuthor();
+        setAuthorProposal(parentArticle.getAuthor());
     }
     public ArticleVersion(int id, Article parentArticle, String text, Author authorProposal) {
-        this.id = id;
-        this.parentArticle = parentArticle;
-        this.text = text;
-        this.status= Status.WAITING;
+        setId(id);
+        setParentArticle(parentArticle);
+        setText(text);
+        setStatus(Status.WAITING);
         this.versionDate = new Date();
-        this.authorProposal = authorProposal;
+        setAuthorProposal(authorProposal);
     }
 
     public ArticleVersion(ResultSet resultSet) throws SQLException, RuntimeException{
         String statusString = resultSet.getString("status");
         try {
-            this.status = Status.valueOf(statusString);
+            setStatus(Status.valueOf(statusString));
         } catch (IllegalArgumentException e) {
             System.out.println("La stringa fornita non corrisponde a nessuno dei valori dell'enum Status.");
         }
-        this.id = resultSet.getInt("id");
-        this.text = resultSet.getString("text");
-        this.versionDate = resultSet.getDate("version_date");
-        this.revisionDate = resultSet.getDate("revision_date");
+        setId(resultSet.getInt("id"));
+        setText(resultSet.getString("text"));
+        setVersionDate(resultSet.getDate("version_date"));
+        setRevisionDate(resultSet.getDate("revision_date"));
         try {
-            this.authorProposal = new Author(resultSet);
+            setAuthorProposal(new Author(resultSet));
         } catch (Exception e) {
             e.printStackTrace();
         }
