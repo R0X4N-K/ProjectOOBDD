@@ -8,6 +8,7 @@ import model.Article;
 import model.ArticleVersion;
 import model.Author;
 
+import java.sql.SQLException;
 import java.util.Date;
 
 public final class Controller {
@@ -25,12 +26,11 @@ public final class Controller {
 
     public static Article getArticleByTitle(String articleTitle){
         try {
-            //Article article =  new Article(getResultSetArticleByTitle().getString(titolo),....)
-        } catch (Exception e) {
-            throw new RuntimeException(e);
+            return new ArticleDAOImplementation().getArticleByTitle(articleTitle);
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
-        return null; //return article
-        //da implementare
+        return null;
     }
 
 

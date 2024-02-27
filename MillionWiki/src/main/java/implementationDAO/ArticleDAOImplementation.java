@@ -21,20 +21,19 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
-    public ResultSet getResultSetArticleByTitle(String articleTitle) throws SQLException {
+    public Article getArticleByTitle(String articleTitle) throws SQLException {
         String getArticleQuery = "SELECT * FROM articoles WHERE title = ?";
-        ResultSet resultSet = null;
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
             stmt.setString(1, articleTitle);
             try (ResultSet rs = stmt.executeQuery()) {
-                resultSet = stmt.executeQuery();
+                if (rs.next()) {
+                    return new Article(rs);
+                }
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return resultSet; //Da ritornare un nuovo oggetto di tipo Article oppure il resultSet e
-                     // poi nel controller creare l'oggetto Article
-
+        return null;
     }
 
     @Override
