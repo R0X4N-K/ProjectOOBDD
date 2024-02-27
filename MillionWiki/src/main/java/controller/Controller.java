@@ -5,7 +5,10 @@ import dao.ArticleVersionDAO;
 import dao.AuthorDAO;
 import implementationDAO.*;
 import model.Article;
+import model.ArticleVersion;
 import model.Author;
+
+import java.util.Date;
 
 public final class Controller {
 
@@ -83,6 +86,12 @@ public final class Controller {
         } else {
             authorDAO = dao;
         }
+    }
+
+    public static void createProposal(Article parentArticle, ArticleVersion.Status status,
+                                      String text, Date versionDate, Date revisionDate,
+                                      Author authorProposal) {
+        articleVersionDAO.insertArticleVersion(parentArticle, status, text, versionDate, revisionDate, authorProposal);
     }
 
 }
