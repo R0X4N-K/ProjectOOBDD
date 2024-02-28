@@ -1,21 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.Editor">
-  <grid id="27dc6" binding="mainPanelEditor" layout-manager="GridLayoutManager" row-count="2" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-    <margin top="0" left="0" bottom="0" right="0"/>
+  <grid id="27dc6" binding="mainPanelEditor" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="716" height="440"/>
     </constraints>
-    <properties/>
+    <properties>
+      <maximumSize width="2147483647" height="2147483647"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="55223" class="javax.swing.JMenuBar" binding="menuBar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-        <constraints>
-          <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="30" height="10"/>
-          </grid>
-        </constraints>
+        <constraints border-constraint="North"/>
         <properties/>
-        <border type="none"/>
+        <border type="bevel-raised"/>
         <children>
           <grid id="6fac9" class="javax.swing.JMenu" binding="newMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints/>
@@ -86,15 +83,16 @@
         </children>
       </grid>
       <component id="a7f03" class="javax.swing.JEditorPane" binding="editorField">
-        <constraints>
-          <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="6" hsize-policy="6" anchor="0" fill="3" indent="0" use-parent-layout="false">
-            <preferred-size width="150" height="50"/>
-          </grid>
-        </constraints>
+        <constraints border-constraint="Center"/>
         <properties>
           <contentType value="text/html"/>
+          <maximumSize width="2147483647" height="2147483647"/>
           <text value="&lt;html lang=&quot;&quot;&gt;&#10;  &lt;head&gt;&#10;    &lt;meta charset=&quot;utf-8&quot;&gt;&#10;    &lt;title&gt;&lt;/title&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;a href=&quot;https://stackoverflow.com/questions/25276020/listen-to-the-paste-events-jtextarea&quot;&gt;Esame &#10;    Nello&lt;/a&gt; &lt;a href=&quot;Esame/home/home.php&quot;&gt;Esame Mio&lt;/a&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
         </properties>
+        <clientProperties>
+          <JEditorPane.honorDisplayProperties class="java.lang.Boolean" value="false"/>
+          <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="false"/>
+        </clientProperties>
       </component>
     </children>
   </grid>

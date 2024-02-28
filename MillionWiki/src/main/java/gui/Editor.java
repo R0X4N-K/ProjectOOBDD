@@ -1,7 +1,6 @@
 package gui;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import java.awt.*;
 
 public class Editor {
@@ -19,6 +18,9 @@ public class Editor {
 
 
     public Editor(){
+
+        //TODO: Risolvere il problema a capo automatico del testo quando si scrive
+
         menuBar.setBackground(Color.decode("#e8e4f0"));
 
         //La funzione permette di visualizzare la lista completa di tutti i Font supportati
@@ -54,12 +56,13 @@ public class Editor {
     private void createUIComponents() {
         toolMenu = new JMenu("Strumenti");
         toolMenu.add(new JMenuItem("Cerca"));
-        toolMenu.add(new JMenuItem("Aggiungi Link"));
+        toolMenu.add(new JMenuItem("Sostituisci"));
         toolMenu.add(new JMenuItem("Zoom in"));
         toolMenu.add(new JMenuItem("Zoom out"));
 
         //Nuovo menu per la creazione di vari oggetti
         newMenu = new JMenu("Nuovo");
+        newMenu.add(new JMenuItem("Link"));
         newMenu.add(new JMenuItem("Paragrafo"));
         newMenu.add(new JMenuItem("Lista"));
 
