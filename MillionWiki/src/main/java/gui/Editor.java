@@ -15,11 +15,14 @@ public class Editor {
     private JMenu newMenu;
     private JMenuBar menuBar;
     private JMenu Strumenti;
+    private JScrollPane scrollPane;
 
 
     public Editor(){
 
-        //TODO: Risolvere il problema a capo automatico del testo quando si scrive
+        scrollPane = new JScrollPane(editorField);
+        mainPanelEditor.add(scrollPane);
+
 
         menuBar.setBackground(Color.decode("#e8e4f0"));
 
