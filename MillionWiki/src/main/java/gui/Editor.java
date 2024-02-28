@@ -1,6 +1,8 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import java.awt.*;
 
 public class Editor {
     private JPanel mainPanelEditor;
@@ -9,7 +11,33 @@ public class Editor {
     private JButton boldButton;
     private JButton colorPickerButton;
     private JMenu toolMenu;
+    private JComboBox<String> fontFamilyCbox;
+    private JSpinner fontSizeSpinner;
+    private JMenu newMenu;
+    private JMenuBar menuBar;
     private JMenu Strumenti;
+
+
+    public Editor(){
+        menuBar.setBackground(Color.decode("#e8e4f0"));
+
+        //La funzione permette di visualizzare la lista completa di tutti i Font supportati
+        //Scorro l'array di stringhe e inserisco all'interno di fontFamilyCbox
+        for (String fontFamily: GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()){
+            fontFamilyCbox.addItem(fontFamily);
+        }
+
+        //Modifiche estetiche
+        fontFamilyCbox.setBackground(Color.WHITE);
+        boldButton.setBackground(Color.WHITE);
+        italicButton.setBackground(Color.WHITE);
+        colorPickerButton.setBackground(Color.WHITE);
+
+
+
+
+    }
+
 
     public JPanel getPanel() {
         /*editorField.addCaretListener(
@@ -27,6 +55,13 @@ public class Editor {
         toolMenu = new JMenu("Strumenti");
         toolMenu.add(new JMenuItem("Cerca"));
         toolMenu.add(new JMenuItem("Aggiungi Link"));
+        toolMenu.add(new JMenuItem("Zoom in"));
+        toolMenu.add(new JMenuItem("Zoom out"));
+
+        //Nuovo menu per la creazione di vari oggetti
+        newMenu = new JMenu("Nuovo");
+        newMenu.add(new JMenuItem("Paragrafo"));
+        newMenu.add(new JMenuItem("Lista"));
 
     }
 

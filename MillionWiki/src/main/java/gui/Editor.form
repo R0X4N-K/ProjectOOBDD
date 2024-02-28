@@ -8,7 +8,7 @@
     <properties/>
     <border type="none"/>
     <children>
-      <grid id="55223" class="javax.swing.JMenuBar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+      <grid id="55223" class="javax.swing.JMenuBar" binding="menuBar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
         <constraints>
           <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="7" anchor="0" fill="3" indent="0" use-parent-layout="false">
             <preferred-size width="30" height="10"/>
@@ -17,20 +17,48 @@
         <properties/>
         <border type="none"/>
         <children>
+          <grid id="6fac9" class="javax.swing.JMenu" binding="newMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints/>
+            <properties>
+              <actionCommand value=""/>
+              <armed value="false"/>
+              <hideActionText value="false"/>
+              <horizontalAlignment value="0"/>
+              <horizontalTextPosition value="0"/>
+              <label value="Nuovo"/>
+              <maximumSize width="40" height="32767"/>
+              <minimumSize width="40" height="29"/>
+              <preferredSize width="70" height="29"/>
+              <text value="Nuovo"/>
+            </properties>
+            <border type="none"/>
+            <children/>
+          </grid>
           <component id="76a7" class="javax.swing.JButton" binding="boldButton">
             <constraints/>
             <properties>
+              <font style="1"/>
               <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
               <label value="G"/>
               <text value="G"/>
+              <toolTipText value="Grassetto"/>
             </properties>
           </component>
           <component id="9cccd" class="javax.swing.JButton" binding="italicButton">
             <constraints/>
             <properties>
+              <font style="2"/>
               <text value="I"/>
             </properties>
+          </component>
+          <component id="67de4" class="javax.swing.JComboBox" binding="fontFamilyCbox">
+            <constraints/>
+            <properties/>
+          </component>
+          <component id="c9f51" class="javax.swing.JSpinner" binding="fontSizeSpinner">
+            <constraints/>
+            <properties/>
           </component>
           <component id="64125" class="javax.swing.JButton" binding="colorPickerButton">
             <constraints/>
@@ -40,13 +68,16 @@
               <text value="Scegli Colore"/>
             </properties>
           </component>
-          <grid id="80e06" class="javax.swing.JMenu" binding="toolMenu" custom-create="true" layout-manager="GridLayoutManager" row-count="1" column-count="1" same-size-horizontally="false" same-size-vertically="false" hgap="-1" vgap="-1">
-            <margin top="0" left="0" bottom="0" right="0"/>
+          <grid id="80e06" class="javax.swing.JMenu" binding="toolMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints/>
             <properties>
+              <armed value="false"/>
+              <hideActionText value="false"/>
+              <horizontalAlignment value="0"/>
+              <horizontalTextPosition value="0"/>
               <maximumSize width="40" height="32767"/>
               <minimumSize width="40" height="29"/>
-              <preferredSize width="40" height="29"/>
+              <preferredSize width="70" height="29"/>
               <text value="Strumenti"/>
             </properties>
             <border type="none"/>
