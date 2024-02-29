@@ -16,7 +16,7 @@ public class Editor {
     private JButton boldButton;
     private JButton colorPickerButton;
     private JMenu toolMenu;
-    private JMenu newMenu;
+    private JMenu createMenu;
     private JMenuBar menuBar;
     private JMenu Strumenti;
     private JScrollPane scrollPane;
@@ -70,18 +70,33 @@ public class Editor {
     }
 
     private void createUIComponents() {
+        //Menu strumenti
         toolMenu = new JMenu("Strumenti");
-        toolMenu.add(new JMenuItem("Cerca"));
-        toolMenu.add(new JMenuItem("Sostituisci"));
-        toolMenu.add(new JMenuItem("Zoom in"));
-        toolMenu.add(new JMenuItem("Zoom out"));
 
-        //Nuovo menu per la creazione di vari oggetti
+        //Dichiarazione dei sotto menu di toolMenu
+        JMenuItem searchBtnToolMenu = new JMenuItem("Cerca");
+        JMenuItem replaceBtnToolMenu =new JMenuItem("Sostituisci");
+        JMenuItem zoomInBtnToolMenu = new JMenuItem("Zoom in");
+        JMenuItem zoomOutBtnToolMenu = new JMenuItem("Zoom out");
 
-        newMenu = new JMenu("Nuovo");
-        newMenu.add(new JMenuItem("Link"));
-        newMenu.add(new JMenuItem("Paragrafo"));
-        newMenu.add(new JMenuItem("Lista"));
+        //Aggiunta dei sotto menu al toolMenu
+        toolMenu.add(searchBtnToolMenu);
+        toolMenu.add(replaceBtnToolMenu);
+        toolMenu.add(zoomInBtnToolMenu);
+        toolMenu.add(zoomOutBtnToolMenu);
+
+        //Menu creazione
+        createMenu = new JMenu("Crea");
+
+        //Dichiarazione dei sotto menu di newMenu
+        JMenuItem linkBtnNewMenu = new JMenuItem("Link");
+        JMenuItem sectionBtnNewMenu = new JMenuItem("Paragrafo");
+        JMenuItem listBtnNewMenu = new JMenuItem("Lista");
+
+        //Aggiunta dei sotto menu al newMenu
+        createMenu.add(linkBtnNewMenu);
+        createMenu.add(sectionBtnNewMenu);
+        createMenu.add(listBtnNewMenu);
 
     }
 }

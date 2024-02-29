@@ -14,7 +14,7 @@
         <properties/>
         <border type="bevel-raised"/>
         <children>
-          <grid id="6fac9" class="javax.swing.JMenu" binding="newMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+          <grid id="6fac9" class="javax.swing.JMenu" binding="createMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints/>
             <properties>
               <actionCommand value=""/>
@@ -22,11 +22,11 @@
               <hideActionText value="false"/>
               <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
-              <label value="Nuovo"/>
+              <label value="Crea"/>
               <maximumSize width="40" height="32767"/>
               <minimumSize width="40" height="29"/>
               <preferredSize width="70" height="29"/>
-              <text value="Nuovo"/>
+              <text value="Crea"/>
             </properties>
             <border type="none"/>
             <children/>
