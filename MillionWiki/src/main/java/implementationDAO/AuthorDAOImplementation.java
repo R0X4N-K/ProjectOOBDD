@@ -207,6 +207,21 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         // Altrimenti restituisce null
         return null;
     }
+    @Override
+    public String loginAuthor(int id) {
+        String query = "SELECT password FROM authors WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("password");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     public boolean isEmailUsed(String email) {
         String query = "SELECT * FROM authors WHERE email = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
