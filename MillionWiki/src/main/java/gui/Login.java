@@ -10,6 +10,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 
 public class Login {
     private JLabel loginPageTitleLbl;
@@ -31,14 +32,14 @@ public class Login {
         toHomePanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, mainPanelLogin);
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getHomePanel());
             }
         });
         toRegistrationPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, mainPanelLogin);
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getRegistrationPanel());
             }
         });
@@ -57,6 +58,8 @@ public class Login {
                 }catch (NullPointerException pointerException){
                     System.out.println("Stuprato");
                     throw new NullPointerException();
+                } catch (SQLException ex) {
+                    throw new RuntimeException(ex);
                 }
 
             }

@@ -3,6 +3,7 @@ package implementationDAO;
 import database.DatabaseConnection;
 import model.Article;
 import model.Author;
+import model.Cookie;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -178,7 +179,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
     }
 
 
-    public Author loginAuthor(String email, String nickname, String password) {
+    public Cookie loginAuthor(String email, String nickname, String password) {
         String query = "";
         String emailOrNickname = "";
         if (email != null) {
@@ -194,7 +195,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     try {
-                        return new Author(rs);
+                        return new Cookie(rs);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -208,14 +209,17 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         return null;
     }
     @Override
-    public String loginAuthor(int id) {
-        String query = "SELECT password FROM authors WHERE id = ?";
+    public Cookie loginAuthor(int id, String password) {
+        String query = "SELECT password FROM authors WHERE id = ? AND password = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setInt(1, id);
+            stmt.setString(2, password);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return rs.getString("password");
+                    return new Cookie(id, password);
                 }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         } catch (SQLException e) {
             e.printStackTrace();

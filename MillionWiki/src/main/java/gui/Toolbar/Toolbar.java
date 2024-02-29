@@ -16,7 +16,7 @@ public class Toolbar {
         homeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, mainPanelToolbar);
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getHomePanel());
             }
         });

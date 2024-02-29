@@ -8,15 +8,12 @@ public class Author extends User {
     private int id;
     private String email;
     private String nickname;
-
-    private String password;
     private float rating;
     private ArrayList<Article> createdPages;
     public Author(int id, String email, String nickname, String password) throws Exception {
         setId(id);
         setEmail(email);
         setNickname(nickname);
-        setPassword(password);
         this.rating = 0;
         this.createdPages = new ArrayList<>();
     }
@@ -24,7 +21,6 @@ public class Author extends User {
         setId(resultSet.getInt("id"));
         setEmail(resultSet.getString("email"));
         setNickname(resultSet.getString("nickname"));
-        setPassword(resultSet.getString("password"));
         setRating(resultSet.getFloat("rating"));
 
         this.createdPages = new ArticleDAOImplementation().getAllArticlesByAuthor(id);
@@ -37,23 +33,6 @@ public class Author extends User {
     public void setNickname(String nome) throws Exception{
         nickname = nome;
     }
-
-
-
-    public void setPassword(String password) throws Exception{
-        if (!password.isEmpty() && !password.isBlank()) {
-            this.password = password;
-        } else {
-            throw new Exception("PASSWORD VUOTA!"); // TODO: creare eccezione ad hoc
-        }
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-
-
 
     public float getRating(){
 

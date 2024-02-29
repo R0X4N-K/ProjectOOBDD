@@ -41,14 +41,14 @@ public class Registration {
         toLoginPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, mainPanelRegistration);
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getLoginPanel());
             }
         });
         toHomePanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, mainPanelRegistration);
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getHomePanel());
             }
         });

@@ -7,7 +7,9 @@ import implementationDAO.*;
 import model.Article;
 import model.ArticleVersion;
 import model.Author;
+import model.Cookie;
 
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
 
@@ -46,14 +48,16 @@ public final class Controller {
         return new AuthorDAOImplementation().isNicknameUsed(nickname);
     }
 
-    public static Author doLogin(String nicknameOrEmail, String password){
+    public static Cookie doLogin(String nicknameOrEmail, String password) throws SQLException {
+        Cookie cookie = null;
         if (isAuthorRegisteredWithEmail(nicknameOrEmail)){
-            return new AuthorDAOImplementation().loginAuthor(nicknameOrEmail, null, password);
+            cookie = new AuthorDAOImplementation().loginAuthor(nicknameOrEmail, null, password);
+
         }
         else if(isAuthorRegisteredWithNickname(nicknameOrEmail)){
-           return new AuthorDAOImplementation().loginAuthor(null, nicknameOrEmail, password);
+            cookie = new AuthorDAOImplementation().loginAuthor(null, nicknameOrEmail, password);
         }
-        return null;
+        return cookie;
     }
 
     public static boolean doRegistration(String email, String nickname, String password){

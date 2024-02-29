@@ -23,7 +23,7 @@ public class UnloggedToolbar {
         registrationBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, unloggedUserPanel);
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getRegistrationPanel());
             }
         });

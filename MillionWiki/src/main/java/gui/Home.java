@@ -13,7 +13,7 @@ public class Home {
         editorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, mainPanelHome);
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getEditorPanel());
             }
         });
