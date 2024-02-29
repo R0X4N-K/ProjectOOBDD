@@ -14,7 +14,7 @@
         </properties>
         <border type="none"/>
         <children>
-          <nested-form id="a9fab" form-file="gui/Toolbar/Toolbar.form">
+          <nested-form id="a9fab" form-file="gui/toolbar/Toolbar.form">
             <constraints/>
           </nested-form>
         </children>
