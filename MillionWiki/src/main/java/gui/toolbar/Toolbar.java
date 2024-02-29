@@ -12,8 +12,10 @@ public class Toolbar {
     private JPanel accessUserPanel;
     private JPanel mainPanelToolbar;
     private JPanel uncommonToolbar;
+    private UnloggedToolbar UnloggedToolbar;
     private LoggedToolbar LoggedToolbar;
     private JButton switchUnloggedLoggedButton;
+    private JButton switchToUnloggedButton;
     private Window window;
     public Toolbar() {
         homeBtn.addActionListener(new ActionListener() {
@@ -28,6 +30,12 @@ public class Toolbar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switchPanel(LoggedToolbar.getPanel());
+            }
+        });
+        switchToUnloggedButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchPanel(UnloggedToolbar.getPanel());
             }
         });
     }
