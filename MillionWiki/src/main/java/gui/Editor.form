@@ -27,6 +27,7 @@
               <minimumSize width="40" height="29"/>
               <preferredSize width="70" height="29"/>
               <text value="Crea"/>
+              <toolTipText value="Menu creazione"/>
             </properties>
             <border type="none"/>
             <children/>
@@ -68,6 +69,7 @@
               <minimumSize width="40" height="29"/>
               <preferredSize width="70" height="29"/>
               <text value="Strumenti"/>
+              <toolTipText value="Menu strumenti"/>
             </properties>
             <border type="none"/>
             <children/>
