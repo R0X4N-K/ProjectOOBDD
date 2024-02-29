@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.Toolbar.Toolbar">
+<form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.toolbar.Toolbar">
   <grid id="27dc6" binding="mainPanelToolbar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
     <constraints>
-      <xy x="20" y="20" width="593" height="400"/>
+      <xy x="20" y="20" width="705" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -28,9 +28,32 @@
           </component>
         </children>
       </grid>
-      <nested-form id="24a40" form-file="gui/Toolbar/UnloggedToolbar.form">
+      <vspacer id="35643">
         <constraints/>
-      </nested-form>
+      </vspacer>
+      <grid id="19c14" binding="uncommonToolbar" layout-manager="CardLayout" hgap="0" vgap="0">
+        <constraints/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <nested-form id="24a40" form-file="gui/toolbar/UnloggedToolbar.form">
+            <constraints>
+              <card name="Card1"/>
+            </constraints>
+          </nested-form>
+          <nested-form id="a8128" form-file="gui/toolbar/LoggedToolbar.form" binding="LoggedToolbar">
+            <constraints>
+              <card name="Card2"/>
+            </constraints>
+          </nested-form>
+        </children>
+      </grid>
+      <component id="2542c" class="javax.swing.JButton" binding="switchUnloggedLoggedButton" default-binding="true">
+        <constraints/>
+        <properties>
+          <text value="Switch to Logged"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
