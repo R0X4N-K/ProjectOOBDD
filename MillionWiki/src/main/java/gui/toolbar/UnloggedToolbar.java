@@ -1,4 +1,4 @@
-package gui.Toolbar;
+package gui.toolbar;
 
 import gui.Window;
 
