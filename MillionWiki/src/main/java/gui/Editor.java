@@ -16,8 +16,6 @@ public class Editor {
     private JButton boldButton;
     private JButton colorPickerButton;
     private JMenu toolMenu;
-    private JComboBox<String> fontFamilyCbox;
-    private JSpinner fontSizeSpinner;
     private JMenu newMenu;
     private JMenuBar menuBar;
     private JMenu Strumenti;
@@ -55,21 +53,6 @@ public class Editor {
 
 
         menuBar.setBackground(Color.decode("#e8e4f0"));
-
-        //La funzione permette di visualizzare la lista completa di tutti i Font supportati
-        //Scorro l'array di stringhe e inserisco all'interno di fontFamilyCbox
-        for (String fontFamily: GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()){
-            fontFamilyCbox.addItem(fontFamily);
-        }
-
-        //Modifiche estetiche
-        fontFamilyCbox.setBackground(Color.WHITE);
-        boldButton.setBackground(Color.WHITE);
-        italicButton.setBackground(Color.WHITE);
-        colorPickerButton.setBackground(Color.WHITE);
-
-
-
 
     }
 

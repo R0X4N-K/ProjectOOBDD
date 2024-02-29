@@ -49,14 +49,6 @@
               <text value="I"/>
             </properties>
           </component>
-          <component id="67de4" class="javax.swing.JComboBox" binding="fontFamilyCbox">
-            <constraints/>
-            <properties/>
-          </component>
-          <component id="c9f51" class="javax.swing.JSpinner" binding="fontSizeSpinner">
-            <constraints/>
-            <properties/>
-          </component>
           <component id="64125" class="javax.swing.JButton" binding="colorPickerButton">
             <constraints/>
             <properties>
@@ -87,7 +79,7 @@
         <properties>
           <contentType value="text/html"/>
           <maximumSize width="2147483647" height="2147483647"/>
-          <text value="&lt;html lang=&quot;&quot;&gt;&#10;  &lt;head&gt;&#10;&#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
+          <text value="&lt;html lang=&quot;&quot;&gt;&#10;  &lt;head&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
         </properties>
         <clientProperties>
           <JEditorPane.honorDisplayProperties class="java.lang.Boolean" value="false"/>
