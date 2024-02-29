@@ -1,7 +1,13 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.event.*;
+import javax.swing.text.*;
 import java.awt.*;
+import java.awt.event.*;
+import java.io.IOException;
+import java.net.URISyntaxException;
+import java.util.Objects;
 
 public class Editor {
     private JPanel mainPanelEditor;
@@ -19,6 +25,30 @@ public class Editor {
 
 
     public Editor(){
+
+        editorField.setText("<p><a href=prova>Prova</a><h5> </h5></p>");
+        editorField.setEditable(false);
+
+
+        editorField.addHyperlinkListener(new HyperlinkListener() {
+            public void hyperlinkUpdate(HyperlinkEvent e) {
+                if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                    if(Objects.equals(e.getDescription(), "prova"))
+                        System.out.println("Funziona");
+
+                }
+            }
+        });
+
+        editorField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                System.out.println(editorField.getText());
+            }
+        });
+
+
 
         scrollPane = new JScrollPane(editorField);
         mainPanelEditor.add(scrollPane);
@@ -64,12 +94,11 @@ public class Editor {
         toolMenu.add(new JMenuItem("Zoom out"));
 
         //Nuovo menu per la creazione di vari oggetti
+
         newMenu = new JMenu("Nuovo");
         newMenu.add(new JMenuItem("Link"));
         newMenu.add(new JMenuItem("Paragrafo"));
         newMenu.add(new JMenuItem("Lista"));
 
     }
-
-    //TODO: aggiungere custom create per il menu a tendina
 }

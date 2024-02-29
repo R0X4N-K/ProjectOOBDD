@@ -87,7 +87,7 @@
         <properties>
           <contentType value="text/html"/>
           <maximumSize width="2147483647" height="2147483647"/>
-          <text value="&lt;html lang=&quot;&quot;&gt;&#10;  &lt;head&gt;&#10;    &lt;meta charset=&quot;utf-8&quot;&gt;&#10;    &lt;title&gt;&lt;/title&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &lt;a href=&quot;https://stackoverflow.com/questions/25276020/listen-to-the-paste-events-jtextarea&quot;&gt;Esame &#10;    Nello&lt;/a&gt; &lt;a href=&quot;Esame/home/home.php&quot;&gt;Esame Mio&lt;/a&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
+          <text value="&lt;html lang=&quot;&quot;&gt;&#10;  &lt;head&gt;&#10;&#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;    &#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
         </properties>
         <clientProperties>
           <JEditorPane.honorDisplayProperties class="java.lang.Boolean" value="false"/>
