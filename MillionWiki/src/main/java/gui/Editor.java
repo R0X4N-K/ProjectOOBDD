@@ -1,13 +1,8 @@
 package gui;
 
 import javax.swing.*;
-import javax.swing.event.*;
-import javax.swing.text.*;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.util.Objects;
 
 public class Editor {
     private JPanel mainPanelEditor;
@@ -18,6 +13,7 @@ public class Editor {
     private JMenu toolMenu;
     private JMenu createMenu;
     private JMenuBar menuBar;
+    private JButton textButton;
     private JMenu Strumenti;
     private JScrollPane scrollPane;
 
@@ -29,6 +25,47 @@ public class Editor {
         editorField.setEditable(true);
 
 
+        boldButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Verifica se l'utente ha selezionato del testo
+                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    insertHTML("BOLD");
+                }
+            }
+        });
+
+        italicButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Verifica se l'utente ha selezionato del testo
+                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    insertHTML("ITALIC");
+                }
+            }
+        });
+
+        textButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //Verifica se l'utente ha selezionato del testo
+                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+                else{
+                    insertHTML("TEXT");
+                }
+            }
+        });
 
 
 //        editorField.addHyperlinkListener(new HyperlinkListener() {
@@ -41,13 +78,13 @@ public class Editor {
 //            }
 //        });
 
-//        editorField.addKeyListener(new KeyAdapter() {
-//            @Override
-//            public void keyTyped(KeyEvent e) {
-//                super.keyTyped(e);
-//                System.out.println(editorField.getText());
-//            }
-//        });
+        editorField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                System.out.println(editorField.getText());
+            }
+        });
 
 
 
@@ -112,28 +149,52 @@ public class Editor {
                 //Verifica se l'utente ha selezionato del testo
                 if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
                     JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
-                            "Errore creazione link", JOptionPane.ERROR_MESSAGE);
+                            "Errore", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    //Ottengo l'indice di selezione iniziale, finale e il testo selezionato
-                    int startIndex = editorField.getSelectionStart();
-                    int endIndex = editorField.getSelectionEnd();
-                    String linkText = editorField.getSelectedText();
-
-                    //richiamo funzione insertLink
-                    insertLink(startIndex, endIndex, linkText);
+                    //insertHTML("LINK");
                 }
-
-
 
             }
         });
 
     }
 
-    public void insertLink(int startIndex, int endIndex, String linkText) {
+    public void insertHTML(String tag) {
         //TODO: trovare una soluzione per l'implementazione
-        // https://stackoverflow.com/questions/16444170/clickable-html-link-in-jeditorpane-using-replaceselection-method
-        // https://stackoverflow.com/questions/12932089/handling-hyperlink-right-clicks-on-a-jtextpane
+
+        int selectionStart = editorField.getSelectionStart();
+        int selectionEnd = editorField.getSelectionEnd();
+
+        String selectedText = editorField.getSelectedText();
+
+
+        // Imposta lo stile del tag
+        switch (tag) {
+            case "LINK":
+                break;
+            case "BOLD":
+                tag = "b";
+                break;
+            case "ITALIC":
+                tag = "i";
+                break;
+            case "TEXT":
+                tag = "";
+                break;
+        }
+
+
+        // Inserisci il testo formattato nel documento HTML
+        String html = "<html>";
+        html += "<head>";
+        html += "</head>";
+        html += "<body>";
+        html += "<" + tag + ">" + selectedText + "</" + tag + ">";
+        html += "</body>";
+        html += "</html>";
+        editorField.setText(html);
+
+
     }
 }

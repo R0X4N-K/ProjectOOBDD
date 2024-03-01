@@ -32,6 +32,12 @@
             <border type="none"/>
             <children/>
           </grid>
+          <component id="a8f0f" class="javax.swing.JButton" binding="textButton">
+            <constraints/>
+            <properties>
+              <text value="T"/>
+            </properties>
+          </component>
           <component id="76a7" class="javax.swing.JButton" binding="boldButton">
             <constraints/>
             <properties>
