@@ -1,8 +1,17 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.EditorKit;
+import javax.swing.text.Element;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
+import javax.swing.text.html.StyleSheet;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.IOException;
 
 public class Editor {
     private JPanel mainPanelEditor;
@@ -19,8 +28,6 @@ public class Editor {
 
 
     public Editor(){
-
-
 
         editorField.setEditable(true);
 
@@ -80,9 +87,9 @@ public class Editor {
 
         editorField.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyTyped(KeyEvent e) {
-                super.keyTyped(e);
-                System.out.println(editorField.getText());
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                //System.out.println(editorField.getText());
             }
         });
 
@@ -167,33 +174,37 @@ public class Editor {
         int selectionEnd = editorField.getSelectionEnd();
 
         String selectedText = editorField.getSelectedText();
+        HTML.Tag HTML_TAG = null;
 
-
-        // Imposta lo stile del tag
+        // Imposta tag
         switch (tag) {
             case "LINK":
                 break;
             case "BOLD":
-                tag = "b";
+                selectedText = "<b>" + selectedText + "</b>";
+                HTML_TAG = HTML.Tag.B;
                 break;
             case "ITALIC":
-                tag = "i";
+                selectedText = "<i>" + selectedText + "</i>";
+                HTML_TAG = HTML.Tag.I;
                 break;
             case "TEXT":
-                tag = "";
                 break;
         }
 
+        HTMLEditorKit htmlEditorKit = (HTMLEditorKit) editorField.getEditorKit();
+        HTMLDocument doc = (HTMLDocument) editorField.getDocument();
 
-        // Inserisci il testo formattato nel documento HTML
-        String html = "<html>";
-        html += "<head>";
-        html += "</head>";
-        html += "<body>";
-        html += "<" + tag + ">" + selectedText + "</" + tag + ">";
-        html += "</body>";
-        html += "</html>";
-        editorField.setText(html);
+
+        try {
+            // doc.insertAfterStart(startElem, "<b>WTF</b>");
+            doc.remove(selectionStart, selectionEnd-selectionStart);
+            htmlEditorKit.insertHTML((HTMLDocument) doc, selectionStart, selectedText, 0, 0, HTML_TAG);
+        } catch (BadLocationException | IOException e1) {
+            e1.printStackTrace();
+        }
+
+        System.out.println(editorField.getText());
 
 
     }
