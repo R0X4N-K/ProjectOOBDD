@@ -1,10 +1,7 @@
 package gui;
 
 import javax.swing.*;
-import javax.swing.text.BadLocationException;
-import javax.swing.text.EditorKit;
-import javax.swing.text.Element;
-import javax.swing.text.StyleConstants;
+import javax.swing.text.*;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
@@ -168,8 +165,6 @@ public class Editor {
     }
 
     public void insertHTML(String tag) {
-        //TODO: trovare una soluzione per l'implementazione
-
         int selectionStart = editorField.getSelectionStart();
         int selectionEnd = editorField.getSelectionEnd();
 
@@ -197,15 +192,24 @@ public class Editor {
 
 
         try {
-            // doc.insertAfterStart(startElem, "<b>WTF</b>");
-            doc.remove(selectionStart, selectionEnd-selectionStart);
-            htmlEditorKit.insertHTML((HTMLDocument) doc, selectionStart, selectedText, 0, 0, HTML_TAG);
-        } catch (BadLocationException | IOException e1) {
-            e1.printStackTrace();
+            boolean flag = false;
+            if(selectionStart == 1) {
+                selectionStart++;
+                flag = true;
+            }
+            doc.remove(selectionStart, selectionEnd - selectionStart);
+            htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
+
+            if(flag)
+                doc.remove(1, 1);
+
+        } catch (BadLocationException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
         }
 
+        System.out.println(selectionStart + " " + selectionEnd);
         System.out.println(editorField.getText());
-
-
     }
 }
