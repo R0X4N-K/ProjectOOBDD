@@ -1,6 +1,8 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.HyperlinkListener;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
@@ -154,20 +156,18 @@ public class Editor {
 
             }
         });
-
     }
 
     public void insertHTML(String tag) {
         int selectionStart = editorField.getSelectionStart();
         int selectionEnd = editorField.getSelectionEnd();
-
         String selectedText = editorField.getSelectedText();
         HTML.Tag HTML_TAG = null;
 
         // Imposta tag
         switch (tag) {
             case "LINK":
-                selectedText = "<a href=>" + selectedText + "</a>";
+                selectedText = "<a href=" + selectedText + ">" + selectedText + "</a>";
                 HTML_TAG = HTML.Tag.A;
                 break;
             case "BOLD":
@@ -193,6 +193,8 @@ public class Editor {
                 flag = true;
             }
             doc.remove(selectionStart, selectionEnd - selectionStart);
+
+            //Text plain
             if(HTML_TAG !=null)
                 htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
             else
@@ -201,11 +203,25 @@ public class Editor {
             if(flag)
                 doc.remove(1, 1);
 
-        } catch (BadLocationException e) {
+        } catch (BadLocationException | IOException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
         }
+
+
+        //crea hyperlinkListener
+        if(tag.equals("LINK")){
+            editorField.setEditable(false);
+            editorField.addHyperlinkListener(new HyperlinkListener() {
+                public void hyperlinkUpdate(HyperlinkEvent e) {
+                    if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                        editorField.setEditable(true);
+                        System.out.println(e.getDescription());
+                    }
+                }
+            });
+        }
+
+
 
         System.out.println(selectionStart + " " + selectionEnd);
         System.out.println(editorField.getText());
