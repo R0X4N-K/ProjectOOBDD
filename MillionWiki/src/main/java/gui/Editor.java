@@ -26,8 +26,8 @@ public class Editor {
     public Editor(){
         //TODO: Dividere l'Editor in modalità lettura e scrittura
 
+        editorField.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
         editorField.setEditorKit(new HTMLEditorKit());
-
         editorField.setEditable(true);
 
 
@@ -201,9 +201,22 @@ public class Editor {
             }
 
         });
+
+        zoomInBtnToolMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editorField.setFont(new Font(editorField.getFont().getFontName(), editorField.getFont().getStyle(), editorField.getFont().getSize() + 1));
+            }
+        });
+        zoomOutBtnToolMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                editorField.setFont(new Font(editorField.getFont().getFontName(), editorField.getFont().getStyle(), editorField.getFont().getSize() - 1));
+            }
+        });
     }
 
-    public void insertHTML(String tag, Color textColor) {
+    private void insertHTML(String tag, Color textColor) {
         int selectionStart = editorField.getSelectionStart();
         int selectionEnd = editorField.getSelectionEnd();
         String selectedText = editorField.getSelectedText();
