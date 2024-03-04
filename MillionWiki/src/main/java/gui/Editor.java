@@ -103,12 +103,12 @@ public class Editor {
 
 
 
-
-        editorField.addKeyListener(new KeyAdapter() {
+        //CTRL + MOUSE WHEEL SHORTCUT
+        editorField.addMouseWheelListener(new MouseWheelListener() {
             @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                //System.out.println(editorField.getText());
+            public void mouseWheelMoved(MouseWheelEvent e) {
+                if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                    editorField.setFont(new Font(editorField.getFont().getFontName(), editorField.getFont().getStyle(), (int) (editorField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
             }
         });
 
