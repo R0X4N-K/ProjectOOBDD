@@ -36,6 +36,7 @@
             <constraints/>
             <properties>
               <text value="T"/>
+              <toolTipText value="Testo"/>
             </properties>
           </component>
           <component id="76a7" class="javax.swing.JButton" binding="boldButton">
@@ -54,6 +55,7 @@
             <properties>
               <font style="2"/>
               <text value="I"/>
+              <toolTipText value="Corsivo"/>
             </properties>
           </component>
           <component id="64125" class="javax.swing.JButton" binding="colorPickerButton">
@@ -62,6 +64,7 @@
               <horizontalTextPosition value="0"/>
               <label value="Scegli Colore"/>
               <text value="Scegli Colore"/>
+              <toolTipText value="Colore testo"/>
             </properties>
           </component>
           <grid id="80e06" class="javax.swing.JMenu" binding="toolMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
