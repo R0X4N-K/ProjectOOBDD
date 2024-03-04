@@ -177,7 +177,9 @@ public class Editor {
         JMenuItem searchBtnToolMenu = new JMenuItem("Cerca");
         JMenuItem replaceBtnToolMenu =new JMenuItem("Sostituisci");
         JMenuItem zoomInBtnToolMenu = new JMenuItem("Zoom in");
+        zoomInBtnToolMenu.setToolTipText("Ctrl + Mouse wheel rotation");
         JMenuItem zoomOutBtnToolMenu = new JMenuItem("Zoom out");
+        zoomOutBtnToolMenu.setToolTipText("Ctrl + Mouse wheel rotation");
 
         //Aggiunta dei sotto menu al toolMenu
         toolMenu.add(searchBtnToolMenu);
