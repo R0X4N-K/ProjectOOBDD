@@ -25,6 +25,8 @@ public class Editor {
 
 
     public Editor(){
+        //TODO: Aggiungere i link
+        // Dividere l'Editor in modalità lettura e scrittura
 
         editorField.setEditable(true);
 
@@ -72,15 +74,6 @@ public class Editor {
         });
 
 
-//        editorField.addHyperlinkListener(new HyperlinkListener() {
-//            public void hyperlinkUpdate(HyperlinkEvent e) {
-//                if(e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-//                    if(Objects.equals(e.getDescription(), "prova"))
-//                        System.out.println("Funziona");
-//
-//                }
-//            }
-//        });
 
         editorField.addKeyListener(new KeyAdapter() {
             @Override
@@ -156,7 +149,7 @@ public class Editor {
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    //insertHTML("LINK");
+                    insertHTML("LINK");
                 }
 
             }
@@ -174,6 +167,8 @@ public class Editor {
         // Imposta tag
         switch (tag) {
             case "LINK":
+                selectedText = "<a href=>" + selectedText + "</a>";
+                HTML_TAG = HTML.Tag.A;
                 break;
             case "BOLD":
                 selectedText = "<b>" + selectedText + "</b>";
@@ -198,7 +193,10 @@ public class Editor {
                 flag = true;
             }
             doc.remove(selectionStart, selectionEnd - selectionStart);
-            htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
+            if(HTML_TAG !=null)
+                htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
+            else
+                doc.insertString(selectionStart, selectedText, null);
 
             if(flag)
                 doc.remove(1, 1);
