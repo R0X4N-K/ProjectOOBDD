@@ -4,7 +4,6 @@ package gui;
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.HyperlinkListener;
 import javax.swing.text.*;
 import javax.swing.text.html.*;
 import java.awt.*;
@@ -22,134 +21,83 @@ public class Editor {
     private JMenu createMenu;
     private JMenuBar menuBar;
     private JButton textButton;
-    private JMenu Strumenti;
-    private JScrollPane scrollPane;
-
 
 
     public Editor(){
         //TODO: Dividere l'Editor in modalità lettura e scrittura
 
-        //I keep the initial editorKit, so I can get the color selection to work correctly when the text is unformatted
-        //look at L246
         editorField.setEditorKit(new HTMLEditorKit());
 
         editorField.setEditable(true);
 
 
-        boldButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Verifica se l'utente ha selezionato del testo
-                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
-                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
-                            "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    insertHTML("BOLD", null);
-                }
+        boldButton.addActionListener(e -> {
+            //Verifica se l'utente ha selezionato del testo
+            if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                        "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                insertHTML("BOLD", null);
             }
         });
 
-        italicButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Verifica se l'utente ha selezionato del testo
-                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
-                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
-                            "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    insertHTML("ITALIC", null);
-                }
+        italicButton.addActionListener(e -> {
+            //Verifica se l'utente ha selezionato del testo
+            if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                        "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                insertHTML("ITALIC", null);
             }
         });
 
-        textButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //Verifica se l'utente ha selezionato del testo
-                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
-                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
-                            "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    insertHTML("TEXT", null);
-                }
+        textButton.addActionListener(e -> {
+            //Verifica se l'utente ha selezionato del testo
+            if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                        "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+            else{
+                insertHTML("TEXT", null);
             }
         });
 
 
-        colorPickerButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                int selectionStart = editorField.getSelectionStart();
-                int selectionEnd = editorField.getSelectionEnd();
+        colorPickerButton.addActionListener(e -> {
+            int selectionStart = editorField.getSelectionStart();
+            int selectionEnd = editorField.getSelectionEnd();
 
-                if(selectionStart == selectionEnd){
-                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
-                            "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-                else {
-                    //JDialog Color Chooser
-                    JDialog colorChooserDialog = new JDialog();
-                    colorChooserDialog.setModal(true);
-                    colorChooserDialog.setLayout(new BorderLayout());
+            if(selectionStart == selectionEnd){
+                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                        "Errore", JOptionPane.ERROR_MESSAGE);
+            }
+            else {
+                //JDialog Color Chooser
+                JDialog colorChooserDialog = new JDialog();
+                colorChooserDialog.setModal(true);
+                colorChooserDialog.setLayout(new BorderLayout());
 
-                    //Color Chooser Component
-                    JColorChooser colorChooser = new JColorChooser();
-                    AbstractColorChooserPanel defaultPanels[] = colorChooser.getChooserPanels();
-                    colorChooser.removeChooserPanel( defaultPanels[4] ); // CMYK
-                    colorChooser.removeChooserPanel( defaultPanels[2] );  // HSL
-                    colorChooser.removeChooserPanel( defaultPanels[1] );  // HSV
+                //Color Chooser Component
+                JColorChooser colorChooser = new JColorChooser();
+                AbstractColorChooserPanel[] defaultPanels = colorChooser.getChooserPanels();
+                colorChooser.removeChooserPanel( defaultPanels[4] ); // CMYK
+                colorChooser.removeChooserPanel( defaultPanels[2] );  // HSL
+                colorChooser.removeChooserPanel( defaultPanels[1] );  // HSV
 
 
-                    //Buttons
-                    JPanel buttonsPanel = new JPanel();
-                    buttonsPanel.setLayout(new FlowLayout());
-                    JButton applyColor = new JButton("Applica");
-                    JButton retryColor = new JButton("Indietro");
+                //Buttons
+                JPanel buttonsPanel = getButtonsPanel(colorChooserDialog, colorChooser);
 
-                    //Listeners
-                    retryColor.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            colorChooserDialog.dispose();
-                        }
-                    });
-
-                    applyColor.addActionListener(new ActionListener() {
-                        @Override
-                        public void actionPerformed(ActionEvent e) {
-                            //CHECK SELECTED TEXT TAG
-                            if(isBold())
-                                insertHTML("BOLD", colorChooser.getColor());
-                            else if(isItalic())
-                                insertHTML("ITALIC", colorChooser.getColor());
-                            else if(isLink())
-                                JOptionPane.showMessageDialog(mainPanelEditor, "Non puoi cambiare colore ad un link!",
-                                        "Errore", JOptionPane.ERROR_MESSAGE);
-                            else
-                                insertHTML("TEXT", colorChooser.getColor());
-
-                            colorChooserDialog.dispose();
-                        }
-                    });
-
-                    //Add Buttons to buttonsPanel
-                    buttonsPanel.add(applyColor);
-                    buttonsPanel.add(retryColor);
+                //Add Components to JDialog
+                colorChooserDialog.add(colorChooser, BorderLayout.CENTER);
+                colorChooserDialog.add(buttonsPanel, BorderLayout.SOUTH);
 
 
-                    //Add Components to JDialog
-                    colorChooserDialog.add(colorChooser, BorderLayout.CENTER);
-                    colorChooserDialog.add(buttonsPanel, BorderLayout.SOUTH);
-
-
-                    colorChooserDialog.setSize(450, 300);
-                    colorChooserDialog.setLocationRelativeTo(null);
-                    colorChooserDialog.setVisible(true);
-                }
+                colorChooserDialog.setSize(450, 300);
+                colorChooserDialog.setLocationRelativeTo(null);
+                colorChooserDialog.setVisible(true);
             }
         });
 
@@ -165,13 +113,42 @@ public class Editor {
         });
 
 
-
-        scrollPane = new JScrollPane(editorField);
+        JScrollPane scrollPane = new JScrollPane(editorField);
         mainPanelEditor.add(scrollPane);
 
 
         menuBar.setBackground(Color.decode("#e8e4f0"));
 
+    }
+
+    private JPanel getButtonsPanel(JDialog colorChooserDialog, JColorChooser colorChooser) {
+        JPanel buttonsPanel = new JPanel();
+        buttonsPanel.setLayout(new FlowLayout());
+        JButton applyColor = new JButton("Applica");
+        JButton retryColor = new JButton("Indietro");
+
+        //Listeners
+        retryColor.addActionListener(e1 -> colorChooserDialog.dispose());
+
+        applyColor.addActionListener(e12 -> {
+            //CHECK SELECTED TEXT TAG
+            if(isBold())
+                insertHTML("BOLD", colorChooser.getColor());
+            else if(isItalic())
+                insertHTML("ITALIC", colorChooser.getColor());
+            else if(isLink())
+                JOptionPane.showMessageDialog(mainPanelEditor, "Non puoi cambiare colore ad un link!",
+                        "Errore", JOptionPane.ERROR_MESSAGE);
+            else
+                insertHTML("TEXT", colorChooser.getColor());
+
+            colorChooserDialog.dispose();
+        });
+
+        //Add Buttons to buttonsPanel
+        buttonsPanel.add(applyColor);
+        buttonsPanel.add(retryColor);
+        return buttonsPanel;
     }
 
 
@@ -212,20 +189,17 @@ public class Editor {
 
 
         //Implementazione degli ActionListeners dei sotto menu di createMenu
-        linkBtnNewMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        linkBtnNewMenu.addActionListener(e -> {
 
-                //Verifica se l'utente ha selezionato del testo
-                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
-                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
-                            "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-                else{
-                    insertHTML("LINK", null);
-                }
-
+            //Verifica se l'utente ha selezionato del testo
+            if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                        "Errore", JOptionPane.ERROR_MESSAGE);
             }
+            else{
+                insertHTML("LINK", null);
+            }
+
         });
     }
 
@@ -292,12 +266,10 @@ public class Editor {
         // HyperlinkListener creation
         if(tag.equals("LINK")){
             editorField.setEditable(false);
-            editorField.addHyperlinkListener(new HyperlinkListener() {
-                public void hyperlinkUpdate(HyperlinkEvent e) {
-                    if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                        editorField.setEditable(true);
-                        System.out.println(e.getDescription());
-                    }
+            editorField.addHyperlinkListener(e -> {
+                if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                    editorField.setEditable(true);
+                    System.out.println(e.getDescription());
                 }
             });
         }
