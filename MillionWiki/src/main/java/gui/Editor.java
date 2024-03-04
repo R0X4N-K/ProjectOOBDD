@@ -97,14 +97,6 @@ public class Editor {
 
 
     public JPanel getPanel() {
-        /*editorField.addCaretListener(
-                new CaretListener() {
-                    @Override
-                    public void caretUpdate(CaretEvent e) {
-                        System.out.println(editorField.getText());
-                    }
-                }
-        );*/
         return mainPanelEditor;
     }
 
@@ -194,9 +186,10 @@ public class Editor {
             }
             doc.remove(selectionStart, selectionEnd - selectionStart);
 
-            //Text plain
+            //Formatted text
             if(HTML_TAG !=null)
                 htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
+            //Text plain
             else
                 doc.insertString(selectionStart, selectedText, null);
 
@@ -208,7 +201,7 @@ public class Editor {
         }
 
 
-        //crea hyperlinkListener
+        //HyperlinkListener creation
         if(tag.equals("LINK")){
             editorField.setEditable(false);
             editorField.addHyperlinkListener(new HyperlinkListener() {
