@@ -1,6 +1,7 @@
 package gui;
 
 import javax.swing.*;
+import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.*;
@@ -27,8 +28,9 @@ public class Editor {
 
 
     public Editor(){
-        //TODO: Aggiungere i link
-        // Dividere l'Editor in modalità lettura e scrittura
+        //TODO: Dividere l'Editor in modalità lettura e scrittura
+
+
 
         editorField.setEditable(true);
 
@@ -74,6 +76,59 @@ public class Editor {
                 }
             }
         });
+
+
+        colorPickerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                    JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
+                }
+                else {
+                    //JDialog Color Chooser
+                    JDialog colorChooserDialog = new JDialog();
+                    colorChooserDialog.setLayout(new BorderLayout());
+
+                    //Color Chooser Component
+                    JColorChooser colorChooser = new JColorChooser();
+                    AbstractColorChooserPanel defaultPanels[] = colorChooser.getChooserPanels();
+                    colorChooser.removeChooserPanel( defaultPanels[4] ); // CMYK
+                    colorChooser.removeChooserPanel( defaultPanels[2] );  // HSL
+                    colorChooser.removeChooserPanel( defaultPanels[1] );  // HSL
+
+
+                    //Buttons
+                    JPanel buttonsPanel = new JPanel();
+                    buttonsPanel.setLayout(new FlowLayout());
+                    JButton applyColor = new JButton("Applica");
+                    JButton retryColor = new JButton("Indietro");
+
+                    //Listeners
+                    retryColor.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            colorChooserDialog.dispose();
+                        }
+                    });
+
+                    //Add Buttons to buttonsPanel
+                    buttonsPanel.add(applyColor);
+                    buttonsPanel.add(retryColor);
+
+
+                    //Add Components to JDialog
+                    colorChooserDialog.add(colorChooser, BorderLayout.CENTER);
+                    colorChooserDialog.add(buttonsPanel, BorderLayout.SOUTH);
+
+
+                    colorChooserDialog.setSize(450, 300);
+                    colorChooserDialog.setLocationRelativeTo(null);
+                    colorChooserDialog.setVisible(true);
+                }
+            }
+        });
+
 
 
 
