@@ -1,17 +1,20 @@
 package gui;
 
+import org.w3c.dom.DocumentFragment;
+import org.w3c.dom.html.HTMLSelectElement;
+
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.HyperlinkListener;
 import javax.swing.text.*;
-import javax.swing.text.html.HTML;
-import javax.swing.text.html.HTMLDocument;
-import javax.swing.text.html.HTMLEditorKit;
-import javax.swing.text.html.StyleSheet;
+import javax.swing.text.html.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.io.StringWriter;
+import java.io.Writer;
+import java.util.Arrays;
 
 public class Editor {
     private JPanel mainPanelEditor;
@@ -26,11 +29,15 @@ public class Editor {
     private JMenu Strumenti;
     private JScrollPane scrollPane;
 
+    private StyledEditorKit defaultStyledEditorKit;
+
 
     public Editor(){
         //TODO: Dividere l'Editor in modalità lettura e scrittura
 
-
+        //I keep the initial editorKit, so I can get the color selection to work correctly when the text is unformatted
+        //look at L246
+        defaultStyledEditorKit = (StyledEditorKit) editorField.getEditorKit();
 
         editorField.setEditable(true);
 
@@ -44,7 +51,7 @@ public class Editor {
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    insertHTML("BOLD");
+                    insertHTML("BOLD", null);
                 }
             }
         });
@@ -58,7 +65,7 @@ public class Editor {
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    insertHTML("ITALIC");
+                    insertHTML("ITALIC", null);
                 }
             }
         });
@@ -72,7 +79,7 @@ public class Editor {
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    insertHTML("TEXT");
+                    insertHTML("TEXT", null);
                 }
             }
         });
@@ -81,13 +88,17 @@ public class Editor {
         colorPickerButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
+                int selectionStart = editorField.getSelectionStart();
+                int selectionEnd = editorField.getSelectionEnd();
+
+                if(selectionStart == selectionEnd){
                     JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
                 else {
                     //JDialog Color Chooser
                     JDialog colorChooserDialog = new JDialog();
+                    colorChooserDialog.setModal(true);
                     colorChooserDialog.setLayout(new BorderLayout());
 
                     //Color Chooser Component
@@ -95,7 +106,7 @@ public class Editor {
                     AbstractColorChooserPanel defaultPanels[] = colorChooser.getChooserPanels();
                     colorChooser.removeChooserPanel( defaultPanels[4] ); // CMYK
                     colorChooser.removeChooserPanel( defaultPanels[2] );  // HSL
-                    colorChooser.removeChooserPanel( defaultPanels[1] );  // HSL
+                    colorChooser.removeChooserPanel( defaultPanels[1] );  // HSV
 
 
                     //Buttons
@@ -108,6 +119,24 @@ public class Editor {
                     retryColor.addActionListener(new ActionListener() {
                         @Override
                         public void actionPerformed(ActionEvent e) {
+                            colorChooserDialog.dispose();
+                        }
+                    });
+
+                    applyColor.addActionListener(new ActionListener() {
+                        @Override
+                        public void actionPerformed(ActionEvent e) {
+                            //CHECK SELECTED TEXT TAG
+                            if(isBold())
+                                insertHTML("BOLD", colorChooser.getColor());
+                            else if(isItalic())
+                                insertHTML("ITALIC", colorChooser.getColor());
+                            else if(isLink())
+                                JOptionPane.showMessageDialog(mainPanelEditor, "Non puoi cambiare colore ad un link!",
+                                        "Errore", JOptionPane.ERROR_MESSAGE);
+                            else
+                                insertHTML("TEXT", colorChooser.getColor());
+
                             colorChooserDialog.dispose();
                         }
                     });
@@ -198,39 +227,53 @@ public class Editor {
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
                 else{
-                    insertHTML("LINK");
+                    insertHTML("LINK", null);
                 }
 
             }
         });
     }
 
-    public void insertHTML(String tag) {
+    public void insertHTML(String tag, Color textColor) {
         int selectionStart = editorField.getSelectionStart();
         int selectionEnd = editorField.getSelectionEnd();
         String selectedText = editorField.getSelectedText();
         HTML.Tag HTML_TAG = null;
 
-        // Imposta tag
+        HTMLEditorKit htmlEditorKit = (HTMLEditorKit) editorField.getEditorKit();
+        HTMLDocument doc = (HTMLDocument) editorField.getDocument();
+
+        MutableAttributeSet attr = getDefaultStyledEditorKit().getInputAttributes();
+
+
+
+        // if color is null, default color is Black
+        if(textColor == null){
+            textColor = Color.BLACK;
+        }
+
+        //java.awt.Color to String
+        String colorString = String.format("#%02x%02x%02x", textColor.getRed(), textColor.getGreen(), textColor.getBlue());
+
+        StyleConstants.setForeground(attr, Color.decode(colorString));
+
+        // Setting tag
         switch (tag) {
             case "LINK":
                 selectedText = "<a href=" + selectedText + ">" + selectedText + "</a>";
                 HTML_TAG = HTML.Tag.A;
                 break;
             case "BOLD":
-                selectedText = "<b>" + selectedText + "</b>";
+                selectedText = "<b style=\"color:" + colorString + ";\">" + selectedText + "</b>";
                 HTML_TAG = HTML.Tag.B;
                 break;
             case "ITALIC":
-                selectedText = "<i>" + selectedText + "</i>";
+                selectedText = "<i style=\"color:" + colorString + ";\">" + selectedText + "</i>";
                 HTML_TAG = HTML.Tag.I;
                 break;
             case "TEXT":
                 break;
         }
-
-        HTMLEditorKit htmlEditorKit = (HTMLEditorKit) editorField.getEditorKit();
-        HTMLDocument doc = (HTMLDocument) editorField.getDocument();
 
 
         try {
@@ -239,14 +282,15 @@ public class Editor {
                 selectionStart++;
                 flag = true;
             }
+
             doc.remove(selectionStart, selectionEnd - selectionStart);
 
-            //Formatted text
+            // Formatted text
             if(HTML_TAG !=null)
                 htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
-            //Text plain
+            // Text plain
             else
-                doc.insertString(selectionStart, selectedText, null);
+                doc.insertString(selectionStart, selectedText, attr);
 
             if(flag)
                 doc.remove(1, 1);
@@ -256,7 +300,7 @@ public class Editor {
         }
 
 
-        //HyperlinkListener creation
+        // HyperlinkListener creation
         if(tag.equals("LINK")){
             editorField.setEditable(false);
             editorField.addHyperlinkListener(new HyperlinkListener() {
@@ -268,10 +312,35 @@ public class Editor {
                 }
             });
         }
+    }
+
+    // Method to check if selected text is bold
+    private boolean isBold() {
+        StyledEditorKit styledEditorKit = (StyledEditorKit) editorField.getEditorKit();
+
+        AttributeSet attr = styledEditorKit.getInputAttributes();
+        return StyleConstants.isBold(attr);
+    }
+
+    // Method to check if selected text is italic
+    private boolean isItalic() {
+        StyledEditorKit styledEditorKit = (StyledEditorKit) editorField.getEditorKit();
+
+        AttributeSet attr = styledEditorKit.getInputAttributes();
+        return StyleConstants.isItalic(attr);
+    }
 
 
+    // Method to check if selected text is a link
+    private boolean isLink(){
+        StyledEditorKit styledEditorKit = (StyledEditorKit) editorField.getEditorKit();
 
-        System.out.println(selectionStart + " " + selectionEnd);
-        System.out.println(editorField.getText());
+        AttributeSet attr = styledEditorKit.getInputAttributes();
+        return attr.isDefined(HTML.Tag.A);
+
+    }
+
+    public StyledEditorKit getDefaultStyledEditorKit() {
+        return defaultStyledEditorKit;
     }
 }
