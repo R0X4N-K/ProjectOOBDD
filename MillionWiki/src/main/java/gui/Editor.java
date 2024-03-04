@@ -1,7 +1,5 @@
 package gui;
 
-import org.w3c.dom.DocumentFragment;
-import org.w3c.dom.html.HTMLSelectElement;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -12,9 +10,7 @@ import javax.swing.text.html.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
-import java.io.StringWriter;
-import java.io.Writer;
-import java.util.Arrays;
+
 
 public class Editor {
     private JPanel mainPanelEditor;
@@ -29,7 +25,6 @@ public class Editor {
     private JMenu Strumenti;
     private JScrollPane scrollPane;
 
-    private StyledEditorKit defaultStyledEditorKit;
 
 
     public Editor(){
@@ -37,7 +32,7 @@ public class Editor {
 
         //I keep the initial editorKit, so I can get the color selection to work correctly when the text is unformatted
         //look at L246
-        defaultStyledEditorKit = (StyledEditorKit) editorField.getEditorKit();
+        editorField.setEditorKit(new HTMLEditorKit());
 
         editorField.setEditable(true);
 
@@ -243,9 +238,6 @@ public class Editor {
         HTMLEditorKit htmlEditorKit = (HTMLEditorKit) editorField.getEditorKit();
         HTMLDocument doc = (HTMLDocument) editorField.getDocument();
 
-        MutableAttributeSet attr = getDefaultStyledEditorKit().getInputAttributes();
-
-
 
         // if color is null, default color is Black
         if(textColor == null){
@@ -255,7 +247,6 @@ public class Editor {
         //java.awt.Color to String
         String colorString = String.format("#%02x%02x%02x", textColor.getRed(), textColor.getGreen(), textColor.getBlue());
 
-        StyleConstants.setForeground(attr, Color.decode(colorString));
 
         // Setting tag
         switch (tag) {
@@ -272,6 +263,8 @@ public class Editor {
                 HTML_TAG = HTML.Tag.I;
                 break;
             case "TEXT":
+                selectedText = "<span style=\"color:" + colorString + ";\">" + selectedText + "</span>";
+                HTML_TAG = HTML.Tag.SPAN;
                 break;
         }
 
@@ -285,12 +278,8 @@ public class Editor {
 
             doc.remove(selectionStart, selectionEnd - selectionStart);
 
-            // Formatted text
-            if(HTML_TAG !=null)
-                htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
-            // Text plain
-            else
-                doc.insertString(selectionStart, selectedText, attr);
+            htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
+
 
             if(flag)
                 doc.remove(1, 1);
@@ -340,7 +329,4 @@ public class Editor {
 
     }
 
-    public StyledEditorKit getDefaultStyledEditorKit() {
-        return defaultStyledEditorKit;
-    }
 }
