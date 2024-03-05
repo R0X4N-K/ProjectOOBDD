@@ -1,12 +1,11 @@
 package gui;
 
 import controller.Controller;
+import model.Cookie;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
-import javax.swing.border.LineBorder;
-import java.awt.*;
 import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -24,6 +23,7 @@ public class Login {
     private JButton toHomePanelBtn;
     private JLabel emailNicknameErrLbl;
     private JLabel passwordErrLbl;
+    private JCheckBox rembemberMeCheckbox;
     private Window window;
     private Controller controller;
 
@@ -48,9 +48,14 @@ public class Login {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try{
-                    String passwordStored = Controller.doLogin(emailNicknameTxtFld.getText(), passwordTxtFld.getText()).getPassword();
+                    Cookie c = Controller.doLogin(emailNicknameTxtFld.getText(), passwordTxtFld.getText());
+                    String passwordStored = c.getPassword();
                     if(validatePassword(passwordTxtFld.getText(), passwordStored)){
                         System.out.println("Loggato");
+                        if(rembemberMeCheckbox.isSelected()) {
+                            c.writeCookie();
+                        }
+                        Controller.setCookie(c);
                     }
                     else{
                         System.out.println("Stuprato");

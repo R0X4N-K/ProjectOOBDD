@@ -15,6 +15,7 @@ public class Main {
         Controller.setArticleDAO(new ArticleDAOImplementation());
         Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
         Controller.setAuthorDAO(new AuthorDAOImplementation());
+        Controller.checkIfRememberedLogin();
         new Window();
 
      //Controller controller = Controller.ge;

@@ -15,7 +15,7 @@ import java.util.Date;
 
 public final class Controller {
 
-    private static Controller instance;
+    private static Cookie cookie;
     private static ArticleDAO articleDAO = null;
     private static ArticleVersionDAO articleVersionDAO = null;
     private static AuthorDAO authorDAO = null;
@@ -24,7 +24,19 @@ public final class Controller {
 
     }
 
+    public static void checkIfRememberedLogin() {
+        try {
+            setCookie(Cookie.retriveLogin());
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        System.out.println(cookie.getId());
+        System.out.println(cookie.getPassword());
+    }
 
+    public static void setCookie(Cookie cookie) {
+        Controller.cookie = cookie;
+    }
 
     public static Article getArticleByTitle(String articleTitle){
         try {
