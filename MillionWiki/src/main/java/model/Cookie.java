@@ -1,13 +1,20 @@
 package model;
 
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.sql.ResultSet;
+import java.util.IllegalFormatException;
+import java.util.Objects;
+import java.util.Scanner;
 
 public class Cookie {
     int id;
     String password;
 
-    static String cookieSavePath = "MillionWiki/cookie.toml";
+    static String cookieSavePath = System.getProperty("user.home") + FileSystems.getDefault().getSeparator() + "MillionWiki" + FileSystems.getDefault().getSeparator() + "cookie.toml";
 
     public Cookie(int id, String password) throws Exception {
         setPassword(password);
@@ -19,18 +26,50 @@ public class Cookie {
         setId(rs.getInt("id"));
     }
 
-    public static Cookie retriveLogin () throws Exception { // TODO: Inserire effettiva lettura del file
+    public static Cookie retriveLogin () throws Exception {
         Cookie c = null;
-        File f = new File(System.getProperty("user.dir").concat(cookieSavePath));
-        if(f.exists() && !f.isDirectory()) {
-            if (true){//(LetturaFile){
-                int id = 0;//file.readInt();
-                String password = "";//file.readString();
+        File f = new File(cookieSavePath);
+        if (validateFile(f)){
+            Scanner s = null;
+            try {
+                s = new Scanner(f);
+                s.nextLine();
+                int id = s.nextInt();
+                s.nextLine();
+                s.nextLine();
+                String password = s.next();
                 c = new Cookie(id, password);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
             }
         }
         return c;
     }
+
+    public void writeCookie () throws NullPointerException, IllegalFormatException {
+        if (id < 0)
+            throw new NullPointerException("invalid id"); // TODO: Cambiare Exception
+        if (password == null)
+            throw new NullPointerException("null password");
+        // TODO: else if (controllo Hash) throw new IllegalFormatException
+
+        else {
+            File f = new File(cookieSavePath);
+            try {
+                f.createNewFile();
+
+                try (FileWriter writer = new FileWriter(cookieSavePath)) {
+                    writer.write("[id]\n".concat(Integer.toString(id)).concat("\n[password_hash]\n").concat(password));
+                    writer.close();
+                }
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+
     public void setPassword(String password) throws Exception{
         if (!password.isEmpty() && !password.isBlank()) {
             this.password = password;
@@ -48,5 +87,35 @@ public class Cookie {
     }
     public void setId(int id) {
         this.id = id;
+    }
+
+
+
+    private static boolean validateFile(File f) { //FUNZIONA
+        boolean isValid = false;
+        if (f.exists() && f.isFile()) {
+            Scanner s = null;
+            try {
+                s = new Scanner(f);
+                if (s.hasNextLine()) {
+                    if (Objects.equals(s.nextLine(), "[id]")) {
+                        if (s.hasNextInt()) {
+                            s.nextLine();
+                            if (s.hasNextLine()) {
+                                if(Objects.equals(s.nextLine(), "[password_hash]")) {
+                                    if(s.hasNextLine()) {
+                                        //TODO: if (controllo hash)
+                                        isValid = true;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+        return isValid;
     }
 }

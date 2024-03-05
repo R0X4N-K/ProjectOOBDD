@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import model.Cookie;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -29,11 +30,11 @@ public class Registration {
     private JPasswordField passwordTxtFld2;
     private JPanel mainPanelRegistration;
     private JLabel mailLbl;
-    private JLabel registrationPanelTitleLbl;
     private JLabel passwordErrLbl;
     private JLabel passwordErrLbl2;
     private JLabel nicknameErrLbl;
     private JLabel mailErrLbl;
+    private JCheckBox rembemberMeCheckbox;
     private Window window;
     private Boolean submitBtnState;
 
@@ -58,9 +59,20 @@ public class Registration {
                 System.out.println(nicknameTxtFld.getText());
                 System.out.println(mailTxtFld.getText());
                 System.out.println(passwordTxtFld.getText());
+                String passwordEncrypted = passwordEncryption(passwordTxtFld.getText());
 
-                if(Controller.doRegistration(mailTxtFld.getText(), nicknameTxtFld.getText(), passwordEncryption(passwordTxtFld.getText()))){
+                if(Controller.doRegistration(mailTxtFld.getText(), nicknameTxtFld.getText(), passwordEncrypted)){
                     System.out.println("Registrazione avvenuta con successo");
+
+                    try {
+                        Cookie c = new Cookie(Controller.getAuthorByNickname(nicknameTxtFld.getText()).getId(), passwordEncrypted);
+                        Controller.setCookie(c);
+                        if(rembemberMeCheckbox.isSelected()) {
+                            c.writeCookie();
+                        }
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
                 }else{
                     System.out.println("Registrazione fallita");
                 }
