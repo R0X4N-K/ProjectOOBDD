@@ -303,6 +303,7 @@ public class Editor {
 
         // HyperlinkListener creation
         if(tag.equals("LINK")){
+
             editorField.addHyperlinkListener(e -> {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     editorField.setEditable(true);
