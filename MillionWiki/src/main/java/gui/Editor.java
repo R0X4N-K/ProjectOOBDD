@@ -9,6 +9,7 @@ import javax.swing.text.html.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.Enumeration;
 
 
 public class Editor {
@@ -132,15 +133,11 @@ public class Editor {
 
         applyColor.addActionListener(e12 -> {
             //CHECK SELECTED TEXT TAG
-            if(isBold())
-                insertHTML("BOLD", colorChooser.getColor());
-            else if(isItalic())
-                insertHTML("ITALIC", colorChooser.getColor());
-            else if(isLink())
+            if(isLink())
                 JOptionPane.showMessageDialog(mainPanelEditor, "Non puoi cambiare colore ad un link!",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             else
-                insertHTML("TEXT", colorChooser.getColor());
+                insertHTML("COLOR", colorChooser.getColor());
 
             colorChooserDialog.dispose();
         });
@@ -222,19 +219,20 @@ public class Editor {
         int selectionStart = editorField.getSelectionStart();
         int selectionEnd = editorField.getSelectionEnd();
         String selectedText = editorField.getSelectedText();
-        HTML.Tag HTML_TAG = null;
+
+
+        HTML.Tag HTML_TAG = HTML.Tag.SPAN;
 
         HTMLEditorKit htmlEditorKit = (HTMLEditorKit) editorField.getEditorKit();
         HTMLDocument doc = (HTMLDocument) editorField.getDocument();
 
+        //Get style of selected text
+        MutableAttributeSet attr = htmlEditorKit.getInputAttributes();
 
         // if color is null, default color is Black
         if(textColor == null){
             textColor = Color.BLACK;
         }
-
-        //java.awt.Color to String
-        String colorString = String.format("#%02x%02x%02x", textColor.getRed(), textColor.getGreen(), textColor.getBlue());
 
 
         // Setting tag
@@ -244,16 +242,38 @@ public class Editor {
                 HTML_TAG = HTML.Tag.A;
                 break;
             case "BOLD":
-                selectedText = "<b style=\"color:" + colorString + ";\">" + selectedText + "</b>";
-                HTML_TAG = HTML.Tag.B;
+                if (!attr.containsAttribute(StyleConstants.FontConstants.Bold, Boolean.TRUE)) {
+                    attr.addAttribute(StyleConstants.Bold, Boolean.TRUE);
+                }
+                else{
+                    attr.removeAttribute(StyleConstants.Bold);
+                }
+                selectedText = "<span style=\"" + getStringFromAttributeSet(attr) + "\">" + selectedText + "</span>";
+
                 break;
             case "ITALIC":
-                selectedText = "<i style=\"color:" + colorString + ";\">" + selectedText + "</i>";
-                HTML_TAG = HTML.Tag.I;
+                if (!attr.containsAttribute(StyleConstants.Italic, Boolean.TRUE)) {
+                    attr.addAttribute(StyleConstants.Italic, Boolean.TRUE);
+                }
+                else{
+                    attr.removeAttribute(StyleConstants.Italic);
+                }
+                selectedText = "<span style=\"" + getStringFromAttributeSet(attr) + "\">" + selectedText + "</span>";
+
                 break;
             case "TEXT":
-                selectedText = "<span style=\"color:" + colorString + ";\">" + selectedText + "</span>";
-                HTML_TAG = HTML.Tag.SPAN;
+                if (attr.containsAttribute(StyleConstants.FontConstants.Bold, Boolean.TRUE)) {
+                    attr.removeAttribute(StyleConstants.Bold);
+                }
+                if (attr.containsAttribute(StyleConstants.Italic, Boolean.TRUE)) {
+                    attr.removeAttribute(StyleConstants.Italic);
+                }
+                selectedText = "<span style=\"" + getStringFromAttributeSet(attr) + "\">" + selectedText + "</span>";
+
+                break;
+            case "COLOR":
+                attr.addAttribute(StyleConstants.Foreground, textColor);
+                selectedText = "<span style=\"" + getStringFromAttributeSet(attr) + "\">" + selectedText + "</span>";
                 break;
         }
 
@@ -269,9 +289,12 @@ public class Editor {
 
             htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
 
-
             if(flag)
                 doc.remove(1, 1);
+
+
+
+
 
         } catch (BadLocationException | IOException e) {
             e.printStackTrace();
@@ -280,7 +303,7 @@ public class Editor {
 
         // HyperlinkListener creation
         if(tag.equals("LINK")){
-            editorField.setEditable(false);
+
             editorField.addHyperlinkListener(e -> {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
                     editorField.setEditable(true);
@@ -314,6 +337,21 @@ public class Editor {
         AttributeSet attr = styledEditorKit.getInputAttributes();
         return attr.isDefined(HTML.Tag.A);
 
+    }
+
+    private String getStringFromAttributeSet(AttributeSet attr){
+        String attributeString = "";
+        if (attr != null) {
+            StringBuilder stringBuilder = new StringBuilder();
+            Enumeration<?> attributeNames = attr.getAttributeNames();
+            while (attributeNames.hasMoreElements()) {
+                Object key = attributeNames.nextElement();
+                Object value = attr.getAttribute(key);
+                stringBuilder.append(key).append(": ").append(value).append("; ");
+            }
+            attributeString = stringBuilder.toString();
+        }
+        return attributeString;
     }
 
 }
