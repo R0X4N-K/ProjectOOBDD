@@ -30,8 +30,10 @@ public final class Controller {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        System.out.println(cookie.getId());
-        System.out.println(cookie.getPassword());
+        if (cookie != null && cookie.getId() >= 0 && cookie.getPassword() != null) {
+            System.out.println(cookie.getId());
+            System.out.println(cookie.getPassword());
+        }
     }
 
     public static void setCookie(Cookie cookie) {

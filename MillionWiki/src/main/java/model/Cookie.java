@@ -5,6 +5,8 @@ import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.util.IllegalFormatException;
 import java.util.Objects;
@@ -14,7 +16,8 @@ public class Cookie {
     int id;
     String password;
 
-    static String cookieSavePath = System.getProperty("user.home") + FileSystems.getDefault().getSeparator() + "MillionWiki" + FileSystems.getDefault().getSeparator() + "cookie.toml";
+    static String cookieSaveFolder = System.getProperty("user.home").concat(FileSystems.getDefault().getSeparator()).concat(".MillionWiki").concat(FileSystems.getDefault().getSeparator());
+    static String cookieSavePath = cookieSaveFolder.concat("cookie.toml");
 
     public Cookie(int id, String password) throws Exception {
         setPassword(password);
@@ -56,6 +59,7 @@ public class Cookie {
         else {
             File f = new File(cookieSavePath);
             try {
+                Files.createDirectories(Paths.get(cookieSaveFolder));
                 f.createNewFile();
 
                 try (FileWriter writer = new FileWriter(cookieSavePath)) {
