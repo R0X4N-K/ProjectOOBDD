@@ -7,7 +7,7 @@ import java.lang.Exception;
 
 
 public class Article {
-
+    int id;
     String title;
     Date creationDate;
     boolean revision = false;
@@ -36,6 +36,7 @@ public class Article {
     public Article (ResultSet resultSet) throws SQLException, RuntimeException {
 
         try {
+            setId(resultSet.getInt("id"));
             setTitle (resultSet.getString("title"));
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -55,8 +56,13 @@ public class Article {
         }
         this.proposedChanges = new ArrayList<>(); // Questo campo potrebbe non essere inizializzato dal ResultSet
     }
+    public int getId() {
+        return id;
+    }
 
-
+    public void setId(int id) {
+        this.id = id;
+    }
     public boolean isRevision() {
         return revision;
     }
