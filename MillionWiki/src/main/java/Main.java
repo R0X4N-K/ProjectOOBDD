@@ -12,12 +12,15 @@ public class Main {
         /*Controller controller = new Controller();
         controller.getArticleByTitle("prova");*/
         //Session.getInstance();
-        Controller.setArticleDAO(new ArticleDAOImplementation());
-        Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
-        Controller.setAuthorDAO(new AuthorDAOImplementation());
-        Controller.checkIfRememberedLogin();
-        new Window();
-
+        if (Controller.verifyAppIstances()) {
+            Controller.notifyOtherAppIstances();
+        } else {
+            Controller.setArticleDAO(new ArticleDAOImplementation());
+            Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
+            Controller.setAuthorDAO(new AuthorDAOImplementation());
+            Controller.checkIfRememberedLogin();
+            new Window();
+        }
      //Controller controller = Controller.ge;
      //ArticleDAOImplementation articleDAOImplementation = new ArticleDAOImplementation();
      //articleDAOImplementation.getAllArticles();
