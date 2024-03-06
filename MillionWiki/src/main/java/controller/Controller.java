@@ -127,7 +127,9 @@ public final class Controller {
                                      Author authorProposal) {
         return articleVersionDAO.insertArticleVersion(title, status, text, versionDate, revisionDate, authorProposal);
     }
-
+    public static boolean checkLoggedUser(){
+        return cookie != null;
+    }
 
     public static boolean verifyAppIstances() {
         boolean thereAreIstances = true;

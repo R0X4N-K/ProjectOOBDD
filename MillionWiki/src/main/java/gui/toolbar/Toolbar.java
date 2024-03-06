@@ -1,6 +1,5 @@
 package gui.toolbar;
 import gui.Window;
-
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +17,11 @@ public class Toolbar {
     private JButton switchToUnloggedButton;
     private Window window;
     public Toolbar() {
+        if (controller.Controller.checkLoggedUser()) {
+            switchPanel(LoggedToolbar.getPanel());
+        } else {
+            switchPanel(UnloggedToolbar.getPanel());
+        }
         homeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,6 +48,12 @@ public class Toolbar {
         uncommonToolbar.add(refPanel);
         uncommonToolbar.repaint();
         uncommonToolbar.revalidate();
+    }
+    public void switchToLoggedToolbar(){
+        switchPanel(LoggedToolbar.getPanel());
+    }
+    public void switchToUnloggedToolbar(){
+        switchPanel(UnloggedToolbar.getPanel());
     }
     public JPanel getPanel() {
         return mainPanelToolbar;
