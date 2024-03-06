@@ -9,6 +9,10 @@ import model.ArticleVersion;
 import model.Author;
 import model.Cookie;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -19,6 +23,7 @@ public final class Controller {
     private static ArticleDAO articleDAO = null;
     private static ArticleVersionDAO articleVersionDAO = null;
     private static AuthorDAO authorDAO = null;
+    static private String lockFilePath = Cookie.getConfigFolder().concat("lockFile");
 
     private Controller() {
 
@@ -31,14 +36,15 @@ public final class Controller {
             throw new RuntimeException(e);
         }
         if (cookie != null && cookie.getId() >= 0 && cookie.getPassword() != null) {
-            System.out.println(cookie.getId());
-            System.out.println(cookie.getPassword());
+            //System.out.println(cookie.getId());
+            //System.out.println(cookie.getPassword());
         }
     }
 
     public static void setCookie(Cookie cookie) {
         Controller.cookie = cookie;
     }
+    public static Cookie getCookie() { return cookie; }
 
     public static Article getArticleByTitle(String articleTitle){
         try {
@@ -123,4 +129,38 @@ public final class Controller {
     }
 
 
+    public static boolean verifyAppIstances() {
+        boolean thereAreIstances = true;
+
+        File f = new File(lockFilePath);
+
+        if (!f.exists()) {
+            try {
+                Files.createDirectories(Paths.get(Cookie.getConfigFolder()));
+                f.createNewFile();
+
+                thereAreIstances = false;
+
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        }
+
+        return  thereAreIstances;
+    }
+
+
+    public static void notifyOtherAppIstances() {
+
+        System.out.println("Un'altra istanza di questa applicazione è attualmente in esecuzione, " +
+                "ti preghiamo di chiudere quell'istanza prima di aprirne una nuova. Se non sono aperte altre istanze, elimina il file: "
+                + lockFilePath);
+    }
+
+    public static void deleteLockFile() {
+        File f = new File(lockFilePath);
+        if(f.exists()) {
+            f.delete();
+        }
+    }
 }

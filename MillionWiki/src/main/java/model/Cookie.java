@@ -13,11 +13,11 @@ import java.util.Objects;
 import java.util.Scanner;
 
 public class Cookie {
-    int id;
-    String password;
+    private int id;
+    private String password;
 
-    static String cookieSaveFolder = System.getProperty("user.home").concat(FileSystems.getDefault().getSeparator()).concat(".MillionWiki").concat(FileSystems.getDefault().getSeparator());
-    static String cookieSavePath = cookieSaveFolder.concat("cookie.toml");
+    static private String configFolder = System.getProperty("user.home").concat(FileSystems.getDefault().getSeparator()).concat(".MillionWiki").concat(FileSystems.getDefault().getSeparator()); // TODO: Spostare in altra classe
+    static private String cookieSavePath = configFolder.concat("cookie.toml");
 
     public Cookie(int id, String password) throws Exception {
         setPassword(password);
@@ -59,7 +59,7 @@ public class Cookie {
         else {
             File f = new File(cookieSavePath);
             try {
-                Files.createDirectories(Paths.get(cookieSaveFolder));
+                Files.createDirectories(Paths.get(configFolder));
                 f.createNewFile();
 
                 try (FileWriter writer = new FileWriter(cookieSavePath)) {
@@ -121,5 +121,9 @@ public class Cookie {
             }
         }
         return isValid;
+    }
+
+    public static String getConfigFolder() {
+        return configFolder;
     }
 }

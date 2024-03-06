@@ -1,7 +1,12 @@
 package gui;
 
+import controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
 
 public class Window extends JFrame{
     private JPanel mainPanelWindow;
@@ -14,6 +19,13 @@ public class Window extends JFrame{
 
     public Window(){
         super("Million Wiki");
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                super.windowClosing(e);
+                Controller.deleteLockFile();
+            }
+        });
         setContentPane(mainPanelWindow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -52,5 +64,6 @@ public class Window extends JFrame{
             throw new NullPointerException("Non è possibile trovare \"window\", poiché \"leaf\" è null");
         }
     }
+
 
 }
