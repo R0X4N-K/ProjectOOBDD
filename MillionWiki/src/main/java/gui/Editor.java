@@ -22,6 +22,10 @@ public class Editor {
     private JMenu createMenu;
     private JMenuBar menuBar;
     private JButton textButton;
+    private JPanel menuBarPanel;
+    private JTextField searchTxtFld;
+    private JPanel searchPanel;
+    private JButton closeSearchBtn;
 
 
     public Editor(){
@@ -105,13 +109,44 @@ public class Editor {
 
 
         //CTRL + MOUSE WHEEL SHORTCUT
-        editorField.addMouseWheelListener(new MouseWheelListener() {
+        editorField.addMouseWheelListener(e -> {
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+                editorField.setFont(new Font(editorField.getFont().getFontName(), editorField.getFont().getStyle(), (int) (editorField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
+        });
+
+
+
+        //CTRL + F SEARCH
+        editorField.addKeyListener(new KeyAdapter() {
             @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                    editorField.setFont(new Font(editorField.getFont().getFontName(), editorField.getFont().getStyle(), (int) (editorField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F) {
+                    if(!searchPanel.isVisible())
+                        searchPanel.setVisible(true);
+                    searchTxtFld.requestFocus();
+                }
+
             }
         });
+
+        searchTxtFld.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                //TODO: funzione per cercare
+            }
+        });
+
+        closeSearchBtn.addActionListener(e -> {
+            if(searchPanel.isVisible()){
+                searchPanel.setVisible(false);
+                editorField.requestFocus();
+            }
+        });
+
+
+
 
 
         JScrollPane scrollPane = new JScrollPane(editorField);
@@ -199,6 +234,24 @@ public class Editor {
                 insertHTML("LINK", null);
             }
 
+        });
+
+        searchBtnToolMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String textToSearch = "";
+                // Get the selected text as search
+
+                if(!searchPanel.isVisible()) {
+                    searchPanel.setVisible(true);
+                }
+                else {
+                    searchPanel.setVisible(false);
+                    editorField.requestFocus();
+                }
+                mainPanelEditor.revalidate();
+
+            }
         });
 
         zoomInBtnToolMenu.addActionListener(new ActionListener() {

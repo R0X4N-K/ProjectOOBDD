@@ -9,82 +9,6 @@
     </properties>
     <border type="none"/>
     <children>
-      <grid id="55223" class="javax.swing.JMenuBar" binding="menuBar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-        <constraints border-constraint="North"/>
-        <properties/>
-        <border type="bevel-raised"/>
-        <children>
-          <grid id="6fac9" class="javax.swing.JMenu" binding="createMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-            <constraints/>
-            <properties>
-              <actionCommand value=""/>
-              <armed value="false"/>
-              <hideActionText value="false"/>
-              <horizontalAlignment value="0"/>
-              <horizontalTextPosition value="0"/>
-              <label value="Crea"/>
-              <maximumSize width="40" height="32767"/>
-              <minimumSize width="40" height="29"/>
-              <preferredSize width="70" height="29"/>
-              <text value="Crea"/>
-              <toolTipText value="Menu creazione"/>
-            </properties>
-            <border type="none"/>
-            <children/>
-          </grid>
-          <component id="a8f0f" class="javax.swing.JButton" binding="textButton">
-            <constraints/>
-            <properties>
-              <text value="T"/>
-              <toolTipText value="Testo"/>
-            </properties>
-          </component>
-          <component id="76a7" class="javax.swing.JButton" binding="boldButton">
-            <constraints/>
-            <properties>
-              <font style="1"/>
-              <horizontalAlignment value="0"/>
-              <horizontalTextPosition value="0"/>
-              <label value="G"/>
-              <text value="G"/>
-              <toolTipText value="Grassetto"/>
-            </properties>
-          </component>
-          <component id="9cccd" class="javax.swing.JButton" binding="italicButton">
-            <constraints/>
-            <properties>
-              <font style="2"/>
-              <text value="I"/>
-              <toolTipText value="Corsivo"/>
-            </properties>
-          </component>
-          <component id="64125" class="javax.swing.JButton" binding="colorPickerButton">
-            <constraints/>
-            <properties>
-              <horizontalTextPosition value="0"/>
-              <label value="Scegli Colore"/>
-              <text value="Scegli Colore"/>
-              <toolTipText value="Colore testo"/>
-            </properties>
-          </component>
-          <grid id="80e06" class="javax.swing.JMenu" binding="toolMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
-            <constraints/>
-            <properties>
-              <armed value="false"/>
-              <hideActionText value="false"/>
-              <horizontalAlignment value="0"/>
-              <horizontalTextPosition value="0"/>
-              <maximumSize width="40" height="32767"/>
-              <minimumSize width="40" height="29"/>
-              <preferredSize width="70" height="29"/>
-              <text value="Strumenti"/>
-              <toolTipText value="Menu strumenti"/>
-            </properties>
-            <border type="none"/>
-            <children/>
-          </grid>
-        </children>
-      </grid>
       <component id="a7f03" class="javax.swing.JEditorPane" binding="editorField">
         <constraints border-constraint="Center"/>
         <properties>
@@ -97,6 +21,114 @@
           <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="false"/>
         </clientProperties>
       </component>
+      <grid id="ad54d" binding="menuBarPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="North"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="55223" class="javax.swing.JMenuBar" binding="menuBar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints border-constraint="North"/>
+            <properties/>
+            <border type="bevel-raised"/>
+            <children>
+              <grid id="6fac9" class="javax.swing.JMenu" binding="createMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints/>
+                <properties>
+                  <actionCommand value=""/>
+                  <armed value="false"/>
+                  <hideActionText value="false"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <label value="Crea"/>
+                  <maximumSize width="40" height="32767"/>
+                  <minimumSize width="40" height="29"/>
+                  <preferredSize width="70" height="29"/>
+                  <text value="Crea"/>
+                  <toolTipText value="Menu creazione"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+              <component id="a8f0f" class="javax.swing.JButton" binding="textButton">
+                <constraints/>
+                <properties>
+                  <text value="T"/>
+                  <toolTipText value="Testo"/>
+                </properties>
+              </component>
+              <component id="76a7" class="javax.swing.JButton" binding="boldButton">
+                <constraints/>
+                <properties>
+                  <font style="1"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <label value="G"/>
+                  <text value="G"/>
+                  <toolTipText value="Grassetto"/>
+                </properties>
+              </component>
+              <component id="9cccd" class="javax.swing.JButton" binding="italicButton">
+                <constraints/>
+                <properties>
+                  <font style="2"/>
+                  <text value="I"/>
+                  <toolTipText value="Corsivo"/>
+                </properties>
+              </component>
+              <component id="64125" class="javax.swing.JButton" binding="colorPickerButton">
+                <constraints/>
+                <properties>
+                  <horizontalTextPosition value="0"/>
+                  <label value="Scegli Colore"/>
+                  <text value="Scegli Colore"/>
+                  <toolTipText value="Colore testo"/>
+                </properties>
+              </component>
+              <grid id="80e06" class="javax.swing.JMenu" binding="toolMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints/>
+                <properties>
+                  <armed value="false"/>
+                  <hideActionText value="false"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="0"/>
+                  <maximumSize width="40" height="32767"/>
+                  <minimumSize width="40" height="29"/>
+                  <preferredSize width="70" height="29"/>
+                  <text value="Strumenti"/>
+                  <toolTipText value="Menu strumenti"/>
+                </properties>
+                <border type="none"/>
+                <children/>
+              </grid>
+            </children>
+          </grid>
+          <grid id="52f8a" binding="searchPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <visible value="false"/>
+            </properties>
+            <border type="none"/>
+            <children>
+              <component id="67118" class="javax.swing.JTextField" binding="searchTxtFld">
+                <constraints/>
+                <properties>
+                  <columns value="20"/>
+                  <horizontalAlignment value="10"/>
+                  <inheritsPopupMenu value="false"/>
+                  <visible value="true"/>
+                </properties>
+              </component>
+              <component id="9efc2" class="javax.swing.JButton" binding="closeSearchBtn">
+                <constraints/>
+                <properties>
+                  <actionCommand value=""/>
+                  <text value="Chiudi"/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>
