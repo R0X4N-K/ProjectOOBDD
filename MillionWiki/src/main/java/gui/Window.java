@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import gui.toolbar.Toolbar;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +17,7 @@ public class Window extends JFrame{
     private Home homePanel;
     private Registration registrationPanel;
     private Editor editorPanel;
+    private Toolbar toolbarMainPanel;
 
     public Window(){
         super("Million Wiki");
@@ -40,7 +42,7 @@ public class Window extends JFrame{
         windowPane.repaint();
         windowPane.revalidate();
     }
-
+    public JPanel getToolbarMainPanel() { return toolbarMainPanel.getPanel(); }
     public JPanel getHomePanel() {
         return homePanel.getPanel();
     }
@@ -64,6 +66,11 @@ public class Window extends JFrame{
             throw new NullPointerException("Non è possibile trovare \"window\", poiché \"leaf\" è null");
         }
     }
-
+    public static void switchToLoggedWindow(Window window){
+        window.toolbarMainPanel.switchToLoggedToolbar();
+    }
+    public static void switchToUnloggedWindow(Window window){
+        window.toolbarMainPanel.switchToUnloggedToolbar();
+    }
 
 }

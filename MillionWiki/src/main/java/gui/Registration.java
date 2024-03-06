@@ -63,6 +63,7 @@ public class Registration {
 
                 if(Controller.doRegistration(mailTxtFld.getText(), nicknameTxtFld.getText(), passwordEncrypted)){
                     System.out.println("Registrazione avvenuta con successo");
+                    Window.switchToLoggedWindow(window);
 
                     try {
                         Cookie c = new Cookie(Controller.getAuthorByNickname(nicknameTxtFld.getText()).getId(), passwordEncrypted);
