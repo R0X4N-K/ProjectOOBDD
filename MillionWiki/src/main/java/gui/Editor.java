@@ -162,8 +162,6 @@ public class Editor {
             @Override
             public void actionPerformed(ActionEvent e) {
                 incrementIndexOfSearch();
-                System.out.println(getCurrentSearchOccurrenceIndex());
-
                 editorField.requestFocus();
                 editorField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
             }
@@ -172,8 +170,6 @@ public class Editor {
             @Override
             public void actionPerformed(ActionEvent e) {
                 decrementIndexOfSearch();
-                System.out.println(getCurrentSearchOccurrenceIndex());
-
                 editorField.requestFocus();
                 editorField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
             }
@@ -235,6 +231,7 @@ public class Editor {
                 searchErrorLbl.setVisible(false);
                 getSearchOccurrencePositions().clear();
                 resetIndexOfSearch();
+                editorField.select(-1, -1);
 
                 int index = 0;
                 while ((index = text.indexOf(textToSearch, index)) != -1) {
@@ -247,6 +244,7 @@ public class Editor {
             }
             else{
                 searchErrorLbl.setVisible(true);
+                editorField.select(-1, -1);
             }
         }
     }
