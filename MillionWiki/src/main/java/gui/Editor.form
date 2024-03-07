@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.Editor">
   <grid id="27dc6" binding="mainPanelEditor" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="716" height="440"/>
+      <xy x="20" y="20" width="845" height="452"/>
     </constraints>
     <properties>
       <maximumSize width="2147483647" height="2147483647"/>
@@ -29,7 +29,7 @@
           <grid id="55223" class="javax.swing.JMenuBar" binding="menuBar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
             <constraints border-constraint="North"/>
             <properties/>
-            <border type="bevel-raised"/>
+            <border type="none"/>
             <children>
               <grid id="6fac9" class="javax.swing.JMenu" binding="createMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
                 <constraints/>
@@ -102,27 +102,65 @@
               </grid>
             </children>
           </grid>
-          <grid id="52f8a" binding="searchPanel" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+          <grid id="52f8a" binding="searchPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
             <constraints border-constraint="Center"/>
             <properties>
               <visible value="false"/>
             </properties>
             <border type="none"/>
             <children>
-              <component id="67118" class="javax.swing.JTextField" binding="searchTxtFld">
-                <constraints/>
+              <grid id="62360" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+                <constraints border-constraint="Center"/>
+                <properties/>
+                <border type="none"/>
+                <children>
+                  <component id="84e0b" class="javax.swing.JButton" binding="previousOccurrenceBtn">
+                    <constraints/>
+                    <properties>
+                      <text value="Pre"/>
+                    </properties>
+                  </component>
+                  <component id="145c5" class="javax.swing.JButton" binding="nextOccurrenceBtn">
+                    <constraints/>
+                    <properties>
+                      <text value="Succ"/>
+                    </properties>
+                  </component>
+                  <component id="803a0" class="javax.swing.JToggleButton" binding="caseSensitiveToggleButton">
+                    <constraints/>
+                    <properties>
+                      <text value="Cc"/>
+                    </properties>
+                  </component>
+                  <component id="67118" class="javax.swing.JTextField" binding="searchTxtFld">
+                    <constraints/>
+                    <properties>
+                      <columns value="20"/>
+                      <horizontalAlignment value="10"/>
+                      <inheritsPopupMenu value="false"/>
+                      <visible value="true"/>
+                    </properties>
+                  </component>
+                  <component id="9b89" class="javax.swing.JButton" binding="searchBtn">
+                    <constraints/>
+                    <properties>
+                      <text value="Cerca"/>
+                    </properties>
+                  </component>
+                  <component id="96a2f" class="javax.swing.JButton" binding="closeSearchBtn">
+                    <constraints/>
+                    <properties>
+                      <text value="Chiudi"/>
+                    </properties>
+                  </component>
+                </children>
+              </grid>
+              <component id="98b2e" class="javax.swing.JLabel" binding="searchErrorLbl">
+                <constraints border-constraint="South"/>
                 <properties>
-                  <columns value="20"/>
-                  <horizontalAlignment value="10"/>
-                  <inheritsPopupMenu value="false"/>
-                  <visible value="true"/>
-                </properties>
-              </component>
-              <component id="9efc2" class="javax.swing.JButton" binding="closeSearchBtn">
-                <constraints/>
-                <properties>
-                  <actionCommand value=""/>
-                  <text value="Chiudi"/>
+                  <horizontalAlignment value="0"/>
+                  <text value="Nessun risultato trovato !"/>
+                  <visible value="false"/>
                 </properties>
               </component>
             </children>

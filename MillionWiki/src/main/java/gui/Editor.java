@@ -9,6 +9,7 @@ import javax.swing.text.html.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Enumeration;
 
 
@@ -26,16 +27,27 @@ public class Editor {
     private JTextField searchTxtFld;
     private JPanel searchPanel;
     private JButton closeSearchBtn;
+    private JButton searchBtn;
+    private JToggleButton caseSensitiveToggleButton;
+    private JButton previousOccurrenceBtn;
+    private JButton nextOccurrenceBtn;
+    private JLabel searchErrorLbl;
+    private int searchOccurrenceIndex;
+    private ArrayList<Point> searchOccurrencePositions;
 
 
     public Editor(){
         //TODO: Dividere l'Editor in modalità lettura e scrittura
+        setSearchOccurrenceIndex(0);
+        setSearchOccurrencePositions(new ArrayList<>());
+
 
         editorField.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
         editorField.setEditorKit(new HTMLEditorKit());
         editorField.setEditable(true);
 
 
+        //TEST
         boldButton.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
             if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
@@ -132,15 +144,47 @@ public class Editor {
 
         searchTxtFld.addKeyListener(new KeyAdapter() {
             @Override
-            public void keyReleased(KeyEvent e) {
-                super.keyReleased(e);
-                //TODO: funzione per cercare
+            public void keyTyped(KeyEvent e) {
+                super.keyTyped(e);
+                searchErrorLbl.setVisible(false);
             }
         });
+
+
+        searchBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                search();
+            }
+        });
+
+        nextOccurrenceBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                incrementIndexOfSearch();
+                System.out.println(getCurrentSearchOccurrenceIndex());
+
+                editorField.requestFocus();
+                editorField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
+            }
+        });
+        previousOccurrenceBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                decrementIndexOfSearch();
+                System.out.println(getCurrentSearchOccurrenceIndex());
+
+                editorField.requestFocus();
+                editorField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
+            }
+        });
+
+
 
         closeSearchBtn.addActionListener(e -> {
             if(searchPanel.isVisible()){
                 searchPanel.setVisible(false);
+                searchErrorLbl.setVisible(false);
                 editorField.requestFocus();
             }
         });
@@ -155,6 +199,56 @@ public class Editor {
 
         menuBar.setBackground(Color.decode("#e8e4f0"));
 
+    }
+
+    private void search(){
+        String textToSearch = null;
+        String text = null;
+        resetIndexOfSearch();
+
+
+        //Get text to search
+        try {
+            textToSearch = searchTxtFld.getDocument().getText(0, searchTxtFld.getDocument().getLength());
+        } catch (BadLocationException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        //Get text
+        try {
+            text = editorField.getDocument().getText(0, editorField.getDocument().getLength());
+        } catch (BadLocationException ex) {
+            throw new RuntimeException(ex);
+        }
+
+        //Check case-sensitive
+        if(!caseSensitiveToggleButton.isSelected())
+        {
+            textToSearch = textToSearch.toLowerCase();
+            text = text.toLowerCase();
+        }
+
+        //search
+        if(!textToSearch.isBlank() && !text.isBlank()){
+            editorField.requestFocus();
+            if (text.contains(textToSearch)) {
+                searchErrorLbl.setVisible(false);
+                getSearchOccurrencePositions().clear();
+                resetIndexOfSearch();
+
+                int index = 0;
+                while ((index = text.indexOf(textToSearch, index)) != -1) {
+                    getSearchOccurrencePositions().add(new Point(index, textToSearch.length() + index));
+                    index += textToSearch.length();
+                }
+
+                editorField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
+
+            }
+            else{
+                searchErrorLbl.setVisible(true);
+            }
+        }
     }
 
     private JPanel getButtonsPanel(JDialog colorChooserDialog, JColorChooser colorChooser) {
@@ -244,6 +338,7 @@ public class Editor {
 
                 if(!searchPanel.isVisible()) {
                     searchPanel.setVisible(true);
+                    searchTxtFld.requestFocus();
                 }
                 else {
                     searchPanel.setVisible(false);
@@ -405,6 +500,51 @@ public class Editor {
             attributeString = stringBuilder.toString();
         }
         return attributeString;
+    }
+
+
+    private Point getCurrentSearchOccurrenceIndex(){
+        if(!getSearchOccurrencePositions().isEmpty())
+            return getSearchOccurrencePositions().get(getSearchOccurrenceIndex());
+        else
+            return new Point(-1, -1);
+    }
+
+
+    public ArrayList<Point> getSearchOccurrencePositions() {
+        return searchOccurrencePositions;
+    }
+
+    public void setSearchOccurrencePositions(ArrayList<Point> searchOccurrencePositions) {
+        this.searchOccurrencePositions = searchOccurrencePositions;
+    }
+
+    private int getSearchOccurrenceIndex() {
+        return searchOccurrenceIndex;
+    }
+    private void setSearchOccurrenceIndex(int newIndex) {
+        searchOccurrenceIndex = newIndex;
+    }
+
+
+    private void incrementIndexOfSearch() {
+        if(!getSearchOccurrencePositions().isEmpty()) {
+            if (getSearchOccurrenceIndex() < getSearchOccurrencePositions().size() - 1)
+                setSearchOccurrenceIndex(getSearchOccurrenceIndex() + 1);
+            else
+                resetIndexOfSearch();
+        }
+    }
+    private void decrementIndexOfSearch() {
+        if(!getSearchOccurrencePositions().isEmpty()) {
+            if (getSearchOccurrenceIndex() != 0)
+                setSearchOccurrenceIndex(getSearchOccurrenceIndex() - 1);
+            else
+                setSearchOccurrenceIndex(getSearchOccurrencePositions().size() - 1);
+        }
+    }
+    private void resetIndexOfSearch(){
+        setSearchOccurrenceIndex(0);
     }
 
 }
