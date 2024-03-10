@@ -8,6 +8,7 @@ import java.util.ArrayList;
 
 public interface AuthorDAO {
     Author getAuthorByNickname(String nickname);
+    public Author getAuthorById(int id);
     ArrayList<Author> getAllAuthors();
 
     void saveAuthor(Author author, String password);

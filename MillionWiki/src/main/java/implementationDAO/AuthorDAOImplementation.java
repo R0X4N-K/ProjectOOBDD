@@ -13,11 +13,11 @@ import java.util.ArrayList;
 public class AuthorDAOImplementation implements dao.AuthorDAO{
 
     public DatabaseConnection dbConnection;
-    public AuthorDAOImplementation() throws RuntimeException {
+    public AuthorDAOImplementation() {
         try {
             dbConnection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
     }
 
@@ -30,12 +30,26 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 if (rs.next()) {
                     try {
                         return new Author(rs);
-                    } catch (RuntimeException e) {
-                        e.printStackTrace();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
                 }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    public Author getAuthorById(int id) {
+        String query = "SELECT * FROM authors WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Author(rs);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -52,8 +66,6 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             while (rs.next()) {
                 try {
                     authors.add(new Author(rs));
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -204,8 +216,6 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        //Questo metodo restituisce Author se l'autore è presente nel database e la password è corretta
-        // Altrimenti restituisce null
         return null;
     }
     @Override
