@@ -4,10 +4,7 @@ import dao.ArticleDAO;
 import dao.ArticleVersionDAO;
 import dao.AuthorDAO;
 import implementationDAO.*;
-import model.Article;
-import model.ArticleVersion;
-import model.Author;
-import model.Cookie;
+import model.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -164,5 +161,8 @@ public final class Controller {
         if(f.exists()) {
             f.delete();
         }
+    }
+    public static Author getAuthorById(int Id){
+        return new AuthorDAOImplementation().getAuthorById(Id);
     }
 }

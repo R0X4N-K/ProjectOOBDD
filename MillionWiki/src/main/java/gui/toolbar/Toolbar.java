@@ -55,6 +55,12 @@ public class Toolbar {
     public void switchToUnloggedToolbar(){
         switchPanel(UnloggedToolbar.getPanel());
     }
+    public JPanel getLoggedToolbar() {
+        return LoggedToolbar.getPanel();
+    }
+    public void setNicknameProfileNicknameJLabel(String nickname) {
+        LoggedToolbar.setNicknameProfileNicknameJLabel(nickname);
+    }
     public JPanel getPanel() {
         return mainPanelToolbar;
     }

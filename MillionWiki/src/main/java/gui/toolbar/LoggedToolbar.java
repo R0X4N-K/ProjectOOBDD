@@ -21,6 +21,12 @@ public class LoggedToolbar {
             popupMenuNotifications.show(showNotificationsButton, showNotificationsButton.getWidth() / 6, showNotificationsButton.getHeight() / 2);
         });
     }
+    public JPanel getProfilePanel() {
+        return profile.getPanel();
+    }
+    public void setNicknameProfileNicknameJLabel(String nickname) {
+        profile.setNicknameJLabel(nickname);
+    }
     public JPanel getPanel() {
         return loggedUserPanel;
     }

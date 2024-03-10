@@ -52,7 +52,8 @@ public class Login {
                     String passwordStored = c.getPassword();
                     if(validatePassword(passwordTxtFld.getText(), passwordStored)){
                         System.out.println("Loggato");
-                        Window.switchToLoggedWindow(window);
+                        window = Window.checkWindow(window, getPanel());
+                        window.switchToLoggedWindow(window, c);
                         if(rembemberMeCheckbox.isSelected()) {
                             c.writeCookie();
                         }

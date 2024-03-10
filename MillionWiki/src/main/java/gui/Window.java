@@ -2,12 +2,12 @@ package gui;
 
 import controller.Controller;
 import gui.toolbar.Toolbar;
+import model.Cookie;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 
 public class Window extends JFrame{
     private JPanel mainPanelWindow;
@@ -34,6 +34,13 @@ public class Window extends JFrame{
         setSize(800, 700);
         setLocationRelativeTo(null);
         setVisible(true);
+        Cookie cookie = Controller.getCookie();
+        if(cookie != null){
+            switchToLoggedWindow(this, cookie);
+        }
+        else{
+            switchToUnloggedWindow(this);
+        }
     }
 
     public void switchPanel(JPanel refPanel){
@@ -67,10 +74,14 @@ public class Window extends JFrame{
         }
     }
     public static void switchToLoggedWindow(Window window){
+        window.toolbarMainPanel.setNicknameProfileNicknameJLabel(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
+        window.toolbarMainPanel.switchToLoggedToolbar();
+    }
+    public static void switchToLoggedWindow(Window window, Cookie cookie){
+        window.toolbarMainPanel.setNicknameProfileNicknameJLabel(Controller.getAuthorById(cookie.getId()).getNickname());
         window.toolbarMainPanel.switchToLoggedToolbar();
     }
     public static void switchToUnloggedWindow(Window window){
         window.toolbarMainPanel.switchToUnloggedToolbar();
     }
-
 }
