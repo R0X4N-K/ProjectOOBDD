@@ -1,4 +1,5 @@
 package gui.toolbar;
+import controller.Controller;
 import gui.Window;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,8 +17,9 @@ public class Toolbar {
     private JButton switchUnloggedLoggedButton;
     private JButton switchToUnloggedButton;
     private Window window;
+
     public Toolbar() {
-        if (controller.Controller.checkLoggedUser()) {
+        if (Controller.checkLoggedUser()) {
             switchPanel(LoggedToolbar.getPanel());
         } else {
             switchPanel(UnloggedToolbar.getPanel());
@@ -43,25 +45,32 @@ public class Toolbar {
             }
         });
     }
-    public void switchPanel(JPanel refPanel){
+
+    public void switchPanel(JPanel refPanel) {
         uncommonToolbar.removeAll();
         uncommonToolbar.add(refPanel);
         uncommonToolbar.repaint();
         uncommonToolbar.revalidate();
     }
-    public void switchToLoggedToolbar(){
+
+    public void switchToLoggedToolbar() {
         switchPanel(LoggedToolbar.getPanel());
     }
-    public void switchToUnloggedToolbar(){
+
+    public void switchToUnloggedToolbar() {
         switchPanel(UnloggedToolbar.getPanel());
     }
+
     public JPanel getLoggedToolbar() {
         return LoggedToolbar.getPanel();
     }
+
     public void setNicknameProfileNicknameJLabel(String nickname) {
         LoggedToolbar.setNicknameProfileNicknameJLabel(nickname);
     }
+
     public JPanel getPanel() {
         return mainPanelToolbar;
     }
+
 }

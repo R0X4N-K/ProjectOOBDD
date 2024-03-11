@@ -9,7 +9,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
-public class Window extends JFrame{
+public class Window extends JFrame {
     private JPanel mainPanelWindow;
     private JPanel toolbarPanel;
     private JPanel windowPane;
@@ -19,15 +19,14 @@ public class Window extends JFrame{
     private Editor editorPanel;
     private Toolbar toolbarMainPanel;
 
-    public Window(){
+    public Window() {
         super("Million Wiki");
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent e) {
-                super.windowClosing(e);
+        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+            public void run() {
                 Controller.deleteLockFile();
             }
-        });
+        }, "Shutdown-thread"));
+
         setContentPane(mainPanelWindow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
@@ -35,31 +34,37 @@ public class Window extends JFrame{
         setLocationRelativeTo(null);
         setVisible(true);
         Cookie cookie = Controller.getCookie();
-        if(cookie != null){
+        if (cookie != null) {
             switchToLoggedWindow(this, cookie);
-        }
-        else{
+        } else {
             switchToUnloggedWindow(this);
         }
     }
 
-    public void switchPanel(JPanel refPanel){
+    public void switchPanel(JPanel refPanel) {
         windowPane.removeAll();
         windowPane.add(refPanel);
         windowPane.repaint();
         windowPane.revalidate();
     }
-    public JPanel getToolbarMainPanel() { return toolbarMainPanel.getPanel(); }
+
+    public JPanel getToolbarMainPanel() {
+        return toolbarMainPanel.getPanel();
+    }
+
     public JPanel getHomePanel() {
         return homePanel.getPanel();
     }
-    public JPanel getLoginPanel(){
+
+    public JPanel getLoginPanel() {
         return loginPanel.getPanel();
     }
-    public JPanel getRegistrationPanel(){
+
+    public JPanel getRegistrationPanel() {
         return registrationPanel.getPanel();
     }
-    public JPanel getEditorPanel(){
+
+    public JPanel getEditorPanel() {
         return editorPanel.getPanel();
     }
 
@@ -68,20 +73,23 @@ public class Window extends JFrame{
             if (window == null)
                 window = (Window) SwingUtilities.getAncestorOfClass(Window.class, leaf);
             return window;
-        }
-        else {
+        } else {
             throw new NullPointerException("Non è possibile trovare \"window\", poiché \"leaf\" è null");
         }
     }
-    public static void switchToLoggedWindow(Window window){
+
+    public static void switchToLoggedWindow(Window window) {
         window.toolbarMainPanel.setNicknameProfileNicknameJLabel(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
         window.toolbarMainPanel.switchToLoggedToolbar();
     }
-    public static void switchToLoggedWindow(Window window, Cookie cookie){
+
+    public static void switchToLoggedWindow(Window window, Cookie cookie) {
         window.toolbarMainPanel.setNicknameProfileNicknameJLabel(Controller.getAuthorById(cookie.getId()).getNickname());
         window.toolbarMainPanel.switchToLoggedToolbar();
     }
-    public static void switchToUnloggedWindow(Window window){
+
+    public static void switchToUnloggedWindow(Window window) {
         window.toolbarMainPanel.switchToUnloggedToolbar();
     }
+
 }
