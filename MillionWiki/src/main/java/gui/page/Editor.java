@@ -1,4 +1,4 @@
-package gui;
+package gui.page;
 
 
 import javax.swing.*;
@@ -37,7 +37,9 @@ public class Editor {
 
 
     public Editor(){
-        //TODO: Dividere l'Editor in modalità lettura e scrittura
+
+        //Funzionalità di Editor
+
         setSearchOccurrenceIndex(0);
         setSearchOccurrencePositions(new ArrayList<>());
 
