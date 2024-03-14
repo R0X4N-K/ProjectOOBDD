@@ -84,6 +84,13 @@
                   <toolTipText value="Colore testo"/>
                 </properties>
               </component>
+              <component id="60ac0" class="javax.swing.JButton" binding="editBtn">
+                <constraints/>
+                <properties>
+                  <text value="Modifica"/>
+                  <toolTipText value="Modifica articolo"/>
+                </properties>
+              </component>
               <grid id="80e06" class="javax.swing.JMenu" binding="toolMenu" custom-create="true" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
                 <constraints/>
                 <properties>

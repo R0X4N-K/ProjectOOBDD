@@ -34,8 +34,10 @@ public class Editor {
     private JButton previousOccurrenceBtn;
     private JButton nextOccurrenceBtn;
     private JLabel searchErrorLbl;
+    private JButton editBtn;
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
+    private Window window;
 
 
     public Editor(){
@@ -187,6 +189,23 @@ public class Editor {
                 searchPanel.setVisible(false);
                 searchErrorLbl.setVisible(false);
                 editorField.requestFocus();
+            }
+        });
+
+
+        editBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                if(Controller.checkLoggedUser()){
+                    setEditorMode();
+                }
+                else{
+                    if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
+                        window = Window.checkWindow(window, getPanel());
+                        window.switchPanel(window.getLoginPanel());
+                    }
+                }
             }
         });
 
@@ -556,5 +575,16 @@ public class Editor {
         colorPickerButton.setVisible(false);
         italicButton.setVisible(false);
         editorField.setEditable(false);
+        toolMenu.setVisible(true);
+        editBtn.setVisible(true);
+    }
+    private void setEditorMode(){
+        createMenu.setVisible(true);
+        textButton.setVisible(true);
+        boldButton.setVisible(true);
+        colorPickerButton.setVisible(true);
+        italicButton.setVisible(true);
+        editorField.setEditable(true);
+        editBtn.setVisible(false);
     }
 }
