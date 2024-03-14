@@ -1,6 +1,8 @@
 package gui;
 
 
+import controller.Controller;
+
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.HyperlinkEvent;
@@ -38,7 +40,8 @@ public class Editor {
 
     public Editor(){
 
-        //Funzionalità di Editor
+        //Set della modalità viewer di Default
+        setViewerMode();
 
         setSearchOccurrenceIndex(0);
         setSearchOccurrencePositions(new ArrayList<>());
@@ -46,7 +49,7 @@ public class Editor {
 
         editorField.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
         editorField.setEditorKit(new HTMLEditorKit());
-        editorField.setEditable(true);
+
 
 
         //TEST
@@ -301,7 +304,6 @@ public class Editor {
 
         //Dichiarazione dei sotto menu di toolMenu
         JMenuItem searchBtnToolMenu = new JMenuItem("Cerca");
-        JMenuItem replaceBtnToolMenu =new JMenuItem("Sostituisci");
         JMenuItem zoomInBtnToolMenu = new JMenuItem("Zoom in");
         zoomInBtnToolMenu.setToolTipText("Ctrl + Mouse wheel rotation");
         JMenuItem zoomOutBtnToolMenu = new JMenuItem("Zoom out");
@@ -309,7 +311,6 @@ public class Editor {
 
         //Aggiunta dei sotto menu al toolMenu
         toolMenu.add(searchBtnToolMenu);
-        toolMenu.add(replaceBtnToolMenu);
         toolMenu.add(zoomInBtnToolMenu);
         toolMenu.add(zoomOutBtnToolMenu);
 
@@ -547,4 +548,13 @@ public class Editor {
         setSearchOccurrenceIndex(0);
     }
 
+
+    private void setViewerMode(){
+        createMenu.setVisible(false);
+        textButton.setVisible(false);
+        boldButton.setVisible(false);
+        colorPickerButton.setVisible(false);
+        italicButton.setVisible(false);
+        editorField.setEditable(false);
+    }
 }
