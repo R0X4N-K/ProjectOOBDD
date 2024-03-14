@@ -6,8 +6,6 @@ import model.Cookie;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 public class Window extends JFrame {
     private JPanel mainPanelWindow;
