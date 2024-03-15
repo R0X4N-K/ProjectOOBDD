@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.Enumeration;
 
 
-public class Editor {
+public class Page {
     private JPanel mainPanelEditor;
     private JEditorPane editorField;
     private JButton italicButton;
@@ -40,7 +40,7 @@ public class Editor {
     private Window window;
 
 
-    public Editor(){
+    public Page(){
 
         //Set della modalità viewer di Default
         setViewerMode();

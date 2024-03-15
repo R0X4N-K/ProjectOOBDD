@@ -14,7 +14,7 @@ public class Window extends JFrame {
     private Login loginPanel;
     private Home homePanel;
     private Registration registrationPanel;
-    private Editor editorPanel;
+    private Page pagePanel;
     private Toolbar toolbarMainPanel;
 
     public Window() {
@@ -63,7 +63,7 @@ public class Window extends JFrame {
     }
 
     public JPanel getEditorPanel() {
-        return editorPanel.getPanel();
+        return pagePanel.getPanel();
     }
 
     public static Window checkWindow(Window window, Component leaf) throws NullPointerException {
