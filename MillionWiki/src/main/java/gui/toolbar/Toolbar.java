@@ -65,8 +65,8 @@ public class Toolbar {
         return LoggedToolbar.getPanel();
     }
 
-    public void setNicknameProfileNicknameJLabel(String nickname) {
-        LoggedToolbar.setNicknameProfileNicknameJLabel(nickname);
+    public void setProfile(String nickname) {
+        LoggedToolbar.setNicknameProfile(nickname);
     }
 
     public JPanel getPanel() {

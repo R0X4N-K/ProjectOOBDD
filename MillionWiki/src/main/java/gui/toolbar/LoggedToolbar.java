@@ -28,8 +28,8 @@ public class LoggedToolbar {
         showProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                ProfileWindow profileWindow = new ProfileWindow(window);
-                profileWindow.setVisible(true);
+                window = Window.checkWindow(window, getPanel());
+                window.getprofileWindow().setVisible(true);
             }
         });
     }
@@ -38,8 +38,9 @@ public class LoggedToolbar {
         return profile.getPanel();
     }
 
-    public void setNicknameProfileNicknameJLabel(String nickname) {
+    public void setNicknameProfile(String nickname) {
         profile.setNicknameJLabel(nickname);
+
     }
 
     public JPanel getPanel() {

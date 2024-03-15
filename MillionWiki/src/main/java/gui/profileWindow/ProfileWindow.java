@@ -22,6 +22,14 @@ public class ProfileWindow extends JDialog {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); // The dialog will be hidden and disposed
     }
-
+    JDialog getDialog() {
+        return this;
+    }
+    public void setProfileCard(String nickname) {
+        profileCard1.setWelcomeMessage(nickname);
+    }
+    public void setProfileWindow(String nickname){
+        setProfileCard(nickname);
+    }
 
 }

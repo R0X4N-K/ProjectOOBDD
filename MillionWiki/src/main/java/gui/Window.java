@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import gui.profileWindow.ProfileWindow;
 import gui.toolbar.Toolbar;
 import model.Cookie;
 
@@ -16,6 +17,7 @@ public class Window extends JFrame {
     private Registration registrationPanel;
     private Page pagePanel;
     private Toolbar toolbarMainPanel;
+    private ProfileWindow profileWindow;
 
     public Window() {
         super("Million Wiki");
@@ -31,6 +33,8 @@ public class Window extends JFrame {
         setSize(800, 700);
         setLocationRelativeTo(null);
         setVisible(true);
+        profileWindow = new ProfileWindow(this);
+        profileWindow.setVisible(false);
         Cookie cookie = Controller.getCookie();
         if (cookie != null) {
             switchToLoggedWindow(this, cookie);
@@ -46,6 +50,9 @@ public class Window extends JFrame {
         windowPane.revalidate();
     }
 
+    public ProfileWindow getprofileWindow() {
+        return profileWindow;
+    }
     public JPanel getToolbarMainPanel() {
         return toolbarMainPanel.getPanel();
     }
@@ -77,12 +84,14 @@ public class Window extends JFrame {
     }
 
     public static void switchToLoggedWindow(Window window) {
-        window.toolbarMainPanel.setNicknameProfileNicknameJLabel(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
+        window.toolbarMainPanel.setProfile(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
         window.toolbarMainPanel.switchToLoggedToolbar();
     }
 
     public static void switchToLoggedWindow(Window window, Cookie cookie) {
-        window.toolbarMainPanel.setNicknameProfileNicknameJLabel(Controller.getAuthorById(cookie.getId()).getNickname());
+        String nickname = Controller.getAuthorById(cookie.getId()).getNickname();
+        window.toolbarMainPanel.setProfile(nickname);
+        window.profileWindow.setProfileWindow(nickname);
         window.toolbarMainPanel.switchToLoggedToolbar();
     }
 
