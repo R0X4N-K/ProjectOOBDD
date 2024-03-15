@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.toolbar.Toolbar">
   <grid id="27dc6" binding="mainPanelToolbar" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
     <constraints>
-      <xy x="20" y="20" width="865" height="400"/>
+      <xy x="20" y="20" width="863" height="400"/>
     </constraints>
     <properties/>
     <border type="none"/>
@@ -28,14 +28,14 @@
           </component>
         </children>
       </grid>
-      <vspacer id="35643">
+      <hspacer id="8b1e8">
         <constraints/>
-      </vspacer>
+      </hspacer>
       <grid id="19c14" binding="uncommonToolbar" layout-manager="CardLayout" hgap="0" vgap="0">
         <constraints/>
         <properties>
           <minimumSize width="334" height="60"/>
-          <preferredSize width="334" height="60"/>
+          <preferredSize width="334" height="40"/>
         </properties>
         <border type="none"/>
         <children>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.Page">
-  <grid id="27dc6" binding="mainPanelEditor" layout-manager="BorderLayout" hgap="0" vgap="0">
+  <grid id="27dc6" binding="mainPanelPage" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="845" height="452"/>
     </constraints>
@@ -9,7 +9,7 @@
     </properties>
     <border type="none"/>
     <children>
-      <component id="a7f03" class="javax.swing.JEditorPane" binding="editorField">
+      <component id="a7f03" class="javax.swing.JEditorPane" binding="pageField">
         <constraints border-constraint="Center"/>
         <properties>
           <contentType value="text/html"/>

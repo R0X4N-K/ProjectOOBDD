@@ -16,8 +16,8 @@ import java.util.Enumeration;
 
 
 public class Page {
-    private JPanel mainPanelEditor;
-    private JEditorPane editorField;
+    private JPanel mainPanelPage;
+    private JEditorPane pageField;
     private JButton italicButton;
     private JButton boldButton;
     private JButton colorPickerButton;
@@ -49,16 +49,16 @@ public class Page {
         setSearchOccurrencePositions(new ArrayList<>());
 
 
-        editorField.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
-        editorField.setEditorKit(new HTMLEditorKit());
+        pageField.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
+        pageField.setEditorKit(new HTMLEditorKit());
 
 
 
         //TEST
         boldButton.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
-            if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
-                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+            if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
+                JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else{
@@ -68,8 +68,8 @@ public class Page {
 
         italicButton.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
-            if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
-                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+            if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
+                JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else{
@@ -79,8 +79,8 @@ public class Page {
 
         textButton.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
-            if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
-                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+            if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
+                JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else{
@@ -90,11 +90,11 @@ public class Page {
 
 
         colorPickerButton.addActionListener(e -> {
-            int selectionStart = editorField.getSelectionStart();
-            int selectionEnd = editorField.getSelectionEnd();
+            int selectionStart = pageField.getSelectionStart();
+            int selectionEnd = pageField.getSelectionEnd();
 
             if(selectionStart == selectionEnd){
-                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+                JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else {
@@ -128,15 +128,15 @@ public class Page {
 
 
         //CTRL + MOUSE WHEEL SHORTCUT
-        editorField.addMouseWheelListener(e -> {
+        pageField.addMouseWheelListener(e -> {
             if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
-                editorField.setFont(new Font(editorField.getFont().getFontName(), editorField.getFont().getStyle(), (int) (editorField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
+                pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), (int) (pageField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
         });
 
 
 
         //CTRL + F SEARCH
-        editorField.addKeyListener(new KeyAdapter() {
+        pageField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
@@ -158,28 +158,17 @@ public class Page {
         });
 
 
-        searchBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                search();
-            }
-        });
+        searchBtn.addActionListener(e -> search());
 
-        nextOccurrenceBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                incrementIndexOfSearch();
-                editorField.requestFocus();
-                editorField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
-            }
+        nextOccurrenceBtn.addActionListener(e -> {
+            incrementIndexOfSearch();
+            pageField.requestFocus();
+            pageField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
         });
-        previousOccurrenceBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                decrementIndexOfSearch();
-                editorField.requestFocus();
-                editorField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
-            }
+        previousOccurrenceBtn.addActionListener(e -> {
+            decrementIndexOfSearch();
+            pageField.requestFocus();
+            pageField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
         });
 
 
@@ -188,23 +177,20 @@ public class Page {
             if(searchPanel.isVisible()){
                 searchPanel.setVisible(false);
                 searchErrorLbl.setVisible(false);
-                editorField.requestFocus();
+                pageField.requestFocus();
             }
         });
 
 
-        editBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                if(Controller.checkLoggedUser()){
-                    setEditorMode();
-                }
-                else{
-                    if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
-                            JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
-                        window = Window.checkWindow(window, getPanel());
-                        window.switchPanel(window.getLoginPanel());
-                    }
+        editBtn.addActionListener(actionEvent -> {
+            if(Controller.checkLoggedUser()){
+                setEditorMode();
+            }
+            else{
+                if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
+                    window = Window.checkWindow(window, getPanel());
+                    window.switchPanel(window.getLoginPanel());
                 }
             }
         });
@@ -213,8 +199,8 @@ public class Page {
 
 
 
-        JScrollPane scrollPane = new JScrollPane(editorField);
-        mainPanelEditor.add(scrollPane);
+        JScrollPane scrollPane = new JScrollPane(pageField);
+        mainPanelPage.add(scrollPane);
 
 
         menuBar.setBackground(Color.decode("#e8e4f0"));
@@ -236,7 +222,7 @@ public class Page {
 
         //Get text
         try {
-            text = editorField.getDocument().getText(0, editorField.getDocument().getLength());
+            text = pageField.getDocument().getText(0, pageField.getDocument().getLength());
         } catch (BadLocationException ex) {
             throw new RuntimeException(ex);
         }
@@ -250,12 +236,12 @@ public class Page {
 
         //search
         if(!textToSearch.isBlank() && !text.isBlank()){
-            editorField.requestFocus();
+            pageField.requestFocus();
             if (text.contains(textToSearch)) {
                 searchErrorLbl.setVisible(false);
                 getSearchOccurrencePositions().clear();
                 resetIndexOfSearch();
-                editorField.select(-1, -1);
+                pageField.select(-1, -1);
 
                 int index = 0;
                 while ((index = text.indexOf(textToSearch, index)) != -1) {
@@ -263,12 +249,12 @@ public class Page {
                     index += textToSearch.length();
                 }
 
-                editorField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
+                pageField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
 
             }
             else{
                 searchErrorLbl.setVisible(true);
-                editorField.select(-1, -1);
+                pageField.select(-1, -1);
             }
         }
     }
@@ -285,7 +271,7 @@ public class Page {
         applyColor.addActionListener(e12 -> {
             //CHECK SELECTED TEXT TAG
             if(isLink())
-                JOptionPane.showMessageDialog(mainPanelEditor, "Non puoi cambiare colore ad un link!",
+                JOptionPane.showMessageDialog(mainPanelPage, "Non puoi cambiare colore ad un link!",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             else
                 insertHTML("COLOR", colorChooser.getColor());
@@ -301,7 +287,7 @@ public class Page {
 
 
     public JPanel getPanel() {
-        return mainPanelEditor;
+        return mainPanelPage;
     }
 
     private void createUIComponents() {
@@ -340,8 +326,8 @@ public class Page {
         linkBtnNewMenu.addActionListener(e -> {
 
             //Verifica se l'utente ha selezionato del testo
-            if(editorField.getSelectionStart() == editorField.getSelectionEnd()){
-                JOptionPane.showMessageDialog(mainPanelEditor, "Seleziona prima il testo !",
+            if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
+                JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else{
@@ -350,49 +336,36 @@ public class Page {
 
         });
 
-        searchBtnToolMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                String textToSearch = "";
-                // Get the selected text as search
+        searchBtnToolMenu.addActionListener(e -> {
+            String textToSearch = "";
+            // Get the selected text as search
 
-                if(!searchPanel.isVisible()) {
-                    searchPanel.setVisible(true);
-                    searchTxtFld.requestFocus();
-                }
-                else {
-                    searchPanel.setVisible(false);
-                    editorField.requestFocus();
-                }
-                mainPanelEditor.revalidate();
-
+            if(!searchPanel.isVisible()) {
+                searchPanel.setVisible(true);
+                searchTxtFld.requestFocus();
             }
+            else {
+                searchPanel.setVisible(false);
+                pageField.requestFocus();
+            }
+            mainPanelPage.revalidate();
+
         });
 
-        zoomInBtnToolMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editorField.setFont(new Font(editorField.getFont().getFontName(), editorField.getFont().getStyle(), editorField.getFont().getSize() + 1));
-            }
-        });
-        zoomOutBtnToolMenu.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                editorField.setFont(new Font(editorField.getFont().getFontName(), editorField.getFont().getStyle(), editorField.getFont().getSize() - 1));
-            }
-        });
+        zoomInBtnToolMenu.addActionListener(e -> pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), pageField.getFont().getSize() + 1)));
+        zoomOutBtnToolMenu.addActionListener(e -> pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), pageField.getFont().getSize() - 1)));
     }
 
     private void insertHTML(String tag, Color textColor) {
-        int selectionStart = editorField.getSelectionStart();
-        int selectionEnd = editorField.getSelectionEnd();
-        String selectedText = editorField.getSelectedText();
+        int selectionStart = pageField.getSelectionStart();
+        int selectionEnd = pageField.getSelectionEnd();
+        String selectedText = pageField.getSelectedText();
 
 
         HTML.Tag HTML_TAG = HTML.Tag.SPAN;
 
-        HTMLEditorKit htmlEditorKit = (HTMLEditorKit) editorField.getEditorKit();
-        HTMLDocument doc = (HTMLDocument) editorField.getDocument();
+        HTMLEditorKit htmlEditorKit = (HTMLEditorKit) pageField.getEditorKit();
+        HTMLDocument doc = (HTMLDocument) pageField.getDocument();
 
         //Get style of selected text
         MutableAttributeSet attr = htmlEditorKit.getInputAttributes();
@@ -472,9 +445,9 @@ public class Page {
         // HyperlinkListener creation
         if(tag.equals("LINK")){
 
-            editorField.addHyperlinkListener(e -> {
+            pageField.addHyperlinkListener(e -> {
                 if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                    editorField.setEditable(true);
+                    pageField.setEditable(true);
                     System.out.println(e.getDescription());
                 }
             });
@@ -482,25 +455,25 @@ public class Page {
     }
 
     // Method to check if selected text is bold
-    private boolean isBold() {
-        StyledEditorKit styledEditorKit = (StyledEditorKit) editorField.getEditorKit();
-
-        AttributeSet attr = styledEditorKit.getInputAttributes();
-        return StyleConstants.isBold(attr);
-    }
-
-    // Method to check if selected text is italic
-    private boolean isItalic() {
-        StyledEditorKit styledEditorKit = (StyledEditorKit) editorField.getEditorKit();
-
-        AttributeSet attr = styledEditorKit.getInputAttributes();
-        return StyleConstants.isItalic(attr);
-    }
+//    private boolean isBold() {
+//        StyledEditorKit styledEditorKit = (StyledEditorKit) pageField.getEditorKit();
+//
+//        AttributeSet attr = styledEditorKit.getInputAttributes();
+//        return StyleConstants.isBold(attr);
+//    }
+//
+//    // Method to check if selected text is italic
+//    private boolean isItalic() {
+//        StyledEditorKit styledEditorKit = (StyledEditorKit) pageField.getEditorKit();
+//
+//        AttributeSet attr = styledEditorKit.getInputAttributes();
+//        return StyleConstants.isItalic(attr);
+//    }
 
 
     // Method to check if selected text is a link
     private boolean isLink(){
-        StyledEditorKit styledEditorKit = (StyledEditorKit) editorField.getEditorKit();
+        StyledEditorKit styledEditorKit = (StyledEditorKit) pageField.getEditorKit();
 
         AttributeSet attr = styledEditorKit.getInputAttributes();
         return attr.isDefined(HTML.Tag.A);
@@ -574,7 +547,7 @@ public class Page {
         boldButton.setVisible(false);
         colorPickerButton.setVisible(false);
         italicButton.setVisible(false);
-        editorField.setEditable(false);
+        pageField.setEditable(false);
         toolMenu.setVisible(true);
         editBtn.setVisible(true);
     }
@@ -584,7 +557,7 @@ public class Page {
         boldButton.setVisible(true);
         colorPickerButton.setVisible(true);
         italicButton.setVisible(true);
-        editorField.setEditable(true);
+        pageField.setEditable(true);
         editBtn.setVisible(false);
     }
 }
