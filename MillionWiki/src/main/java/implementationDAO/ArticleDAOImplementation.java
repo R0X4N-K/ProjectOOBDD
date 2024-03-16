@@ -22,7 +22,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
 
     @Override
     public Article getArticleByTitle(String articleTitle) throws SQLException {
-        String getArticleQuery = "SELECT * FROM articoles WHERE title = ?";
+        String getArticleQuery = "SELECT * FROM articles WHERE title = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
             stmt.setString(1, articleTitle);
             try (ResultSet rs = stmt.executeQuery()) {

@@ -2,6 +2,7 @@ package gui;
 
 
 import controller.Controller;
+import model.Article;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -62,7 +63,7 @@ public class Page {
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else{
-                insertHTML("BOLD", null);
+                insertHTML("BOLD", null, null);
             }
         });
 
@@ -73,7 +74,7 @@ public class Page {
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else{
-                insertHTML("ITALIC", null);
+                insertHTML("ITALIC", null, null);
             }
         });
 
@@ -84,7 +85,7 @@ public class Page {
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else{
-                insertHTML("TEXT", null);
+                insertHTML("TEXT", null, null);
             }
         });
 
@@ -274,7 +275,7 @@ public class Page {
                 JOptionPane.showMessageDialog(mainPanelPage, "Non puoi cambiare colore ad un link!",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             else
-                insertHTML("COLOR", colorChooser.getColor());
+                insertHTML("COLOR", colorChooser.getColor(), null);
 
             colorChooserDialog.dispose();
         });
@@ -327,11 +328,51 @@ public class Page {
 
             //Verifica se l'utente ha selezionato del testo
             if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
-                JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
-                        "Errore", JOptionPane.ERROR_MESSAGE);
+                //TODO: JDialog per prendere in inupt il nome del link da inserire
+
+                JDialog inputLinkTxtDlg =  new JDialog();
+                inputLinkTxtDlg.setTitle("Seleziona una pagina");
+                inputLinkTxtDlg.setModal(true);
+                inputLinkTxtDlg.setLayout(new BorderLayout());
+
+                JPanel inputLinkPnl = new JPanel();
+                inputLinkPnl.setLayout(new FlowLayout());
+
+                JTextField searchPageToLinkTxtFld = new JTextField(20);
+                JButton searchPageToLinkBtn = new JButton("Cerca");
+
+
+                searchPageToLinkBtn.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        //TODO: serve una funzione in Controller che prenda tutti gli articoli che hanno
+                        // una corrispondenza, quindi che restituisca un ArrayList di Article
+                        Article searchedArticle = Controller.getArticleByTitle(searchPageToLinkTxtFld.getText());
+
+
+                        //TODO: completare visualizzazione articoli e possibilità di selezione e creazione link
+                        if(searchedArticle == null){
+                            System.out.println("Nessun articolo trovato con questo titolo: " + searchPageToLinkTxtFld.getText());
+                        }
+                        else{
+                            System.out.println("Pagina trovata: " + searchPageToLinkTxtFld.getText());
+                        }
+                    }
+                });
+
+                inputLinkPnl.add(searchPageToLinkTxtFld);
+                inputLinkPnl.add(searchPageToLinkBtn);
+                inputLinkPnl.setVisible(true);
+
+                inputLinkTxtDlg.add(inputLinkPnl, BorderLayout.CENTER);
+
+                inputLinkTxtDlg.setSize(450, 300);
+                inputLinkTxtDlg.setResizable(false);
+                inputLinkTxtDlg.setLocationRelativeTo(null);
+                inputLinkTxtDlg.setVisible(true);
             }
             else{
-                insertHTML("LINK", null);
+                insertHTML("LINK", null, null);
             }
 
         });
@@ -356,11 +397,13 @@ public class Page {
         zoomOutBtnToolMenu.addActionListener(e -> pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), pageField.getFont().getSize() - 1)));
     }
 
-    private void insertHTML(String tag, Color textColor) {
+    private void insertHTML(String tag, Color textColor, String inputText) {
         int selectionStart = pageField.getSelectionStart();
         int selectionEnd = pageField.getSelectionEnd();
         String selectedText = pageField.getSelectedText();
 
+        if(selectionStart == selectionEnd && inputText != null)
+            selectedText = inputText;
 
         HTML.Tag HTML_TAG = HTML.Tag.SPAN;
 
@@ -379,6 +422,9 @@ public class Page {
         // Setting tag
         switch (tag) {
             case "LINK":
+                //TODO: deve avere il riferimento alla pagina tramite id e non tramite al titolo
+                // perchè il titolo può cambiare
+
                 selectedText = "<a href=" + selectedText + ">" + selectedText + "</a>";
                 HTML_TAG = HTML.Tag.A;
                 break;
