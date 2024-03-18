@@ -12,8 +12,8 @@ public class ProfileWindow extends JDialog {
     private JPanel profileWindowJScrollPaneJPanel;
     private JPanel profilePanelCards;
     private ProfileCard profileCard1;
-    private StatisticsCard statisticsCard1;
     private CreatedPagesCard createdPagesCard1;
+    private StatisticsCard statisticsCard1;
 
     public ProfileWindow(JFrame parent) {
         super(parent, true); // Set the dialog to be modal
