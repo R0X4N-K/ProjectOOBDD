@@ -12,23 +12,12 @@ public class Article {
     Date creationDate;
     boolean revision = false;
     private Author author;
-    private ArticleVersion currentVersionArticle;
     private final ArrayList<ArticleVersion> proposedChanges;
 
     public Article (String title, Author author) throws Exception {
         setTitle (title);
         setAuthor (author);
         this.creationDate = new Date();
-        this.currentVersionArticle = new ArticleVersion();
-        this.proposedChanges = new ArrayList<>();
-        // TODO: dataCreazione deve riferirsi a orario Server
-    }
-
-    public Article (String title, Author author, ArticleVersion currentVersionArticle) throws Exception {
-        setTitle (title);
-        setAuthor (author);
-        this.creationDate = new Date();
-        setCurrentVersionArticle (currentVersionArticle);
         this.proposedChanges = new ArrayList<>();
         // TODO: dataCreazione deve riferirsi a orario Server
     }
@@ -48,11 +37,6 @@ public class Article {
             this.author = new Author(resultSet);
         } catch (Exception e) {
             e.printStackTrace();
-        }
-        try {
-            this.currentVersionArticle = new ArticleVersion(resultSet);
-        } catch (SQLException | RuntimeException e) {
-              e.printStackTrace();
         }
         this.proposedChanges = new ArrayList<>(); // Questo campo potrebbe non essere inizializzato dal ResultSet
     }
@@ -108,10 +92,4 @@ public class Article {
         this.author = author;
     }
 
-    public ArticleVersion getCurrentVersionArticle() {
-        return currentVersionArticle;
-    }
-    public void setCurrentVersionArticle(ArticleVersion currentVersionArticle) {
-        this.currentVersionArticle = currentVersionArticle;
-    }
 }
