@@ -1,6 +1,7 @@
 package gui.profileWindow;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class ProfileWindow extends JDialog {
     private JPanel profileWindowMainPanel;
@@ -24,6 +25,15 @@ public class ProfileWindow extends JDialog {
     }
     JDialog getDialog() {
         return this;
+    }
+    public static ProfileWindow checkProfileWindow(ProfileWindow profileWindow, Component leaf) throws NullPointerException {
+        if (leaf != null) {
+            if (profileWindow == null)
+                profileWindow = (ProfileWindow) SwingUtilities.getAncestorOfClass(ProfileWindow.class, leaf);
+            return profileWindow;
+        } else {
+            throw new NullPointerException("Non è possibile trovare \"profileWindow\", poiché \"leaf\" è null");
+        }
     }
     public void setProfileCard(String nickname) {
         profileCard1.setWelcomeMessage(nickname);

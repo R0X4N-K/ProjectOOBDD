@@ -6,6 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.file.FileSystems;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.ResultSet;
 import java.util.IllegalFormatException;
@@ -125,5 +126,19 @@ public class Cookie {
 
     public static String getConfigFolder() {
         return configFolder;
+    }
+
+    public static void deleteCookie() {
+        Path cookiePath = Paths.get(cookieSavePath);
+        if (Files.exists(cookiePath)) {
+            try {
+                Files.delete(cookiePath);
+            } catch (IOException e) {
+                System.err.println("Errore durante l'eliminazione del file " + cookieSavePath);
+                e.printStackTrace();
+            }
+        } else {
+            System.err.println("Il file " + cookieSavePath + " non esiste");
+        }
     }
 }

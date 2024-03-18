@@ -42,6 +42,9 @@ public final class Controller {
         Controller.cookie = cookie;
     }
     public static Cookie getCookie() { return cookie; }
+    public static void deleteCookie() {
+        Cookie.deleteCookie();
+    }
 
     public static Article getArticleByTitle(String articleTitle){
         try {
@@ -165,4 +168,6 @@ public final class Controller {
     public static Author getAuthorById(int Id){
         return new AuthorDAOImplementation().getAuthorById(Id);
     }
+
+
 }
