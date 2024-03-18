@@ -29,12 +29,12 @@
               <card name="Home"/>
             </constraints>
           </nested-form>
-          <nested-form id="e1939" form-file="gui/Login.form" binding="loginPanel">
+          <nested-form id="e1939" form-file="gui/session/Login.form" binding="loginPanel">
             <constraints>
               <card name="Login"/>
             </constraints>
           </nested-form>
-          <nested-form id="830d9" form-file="gui/Registration.form" binding="registrationPanel">
+          <nested-form id="830d9" form-file="gui/session/Registration.form" binding="registrationPanel">
             <constraints>
               <card name="Registration"/>
             </constraints>

@@ -2,6 +2,8 @@ package gui;
 
 import controller.Controller;
 import gui.profileWindow.ProfileWindow;
+import gui.session.Login;
+import gui.session.Registration;
 import gui.toolbar.Toolbar;
 import model.Cookie;
 

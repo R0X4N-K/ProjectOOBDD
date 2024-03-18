@@ -137,8 +137,6 @@ public class Cookie {
                 System.err.println("Errore durante l'eliminazione del file " + cookieSavePath);
                 e.printStackTrace();
             }
-        } else {
-            System.err.println("Il file " + cookieSavePath + " non esiste");
         }
     }
 }

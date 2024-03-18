@@ -1,6 +1,7 @@
-package gui;
+package gui.session;
 
 import controller.Controller;
+import gui.Window;
 import model.Cookie;
 
 import javax.crypto.SecretKeyFactory;
@@ -35,21 +36,21 @@ public class Registration {
     private JLabel nicknameErrLbl;
     private JLabel mailErrLbl;
     private JCheckBox rembemberMeCheckbox;
-    private Window window;
+    private gui.Window window;
     private Boolean submitBtnState;
 
     public Registration() {
         toLoginPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
+                window = gui.Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getLoginPanel());
             }
         });
         toHomePanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
+                window = gui.Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getHomePanel());
             }
         });

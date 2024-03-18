@@ -1,6 +1,7 @@
-package gui;
+package gui.session;
 
 import controller.Controller;
+import gui.Window;
 import model.Cookie;
 
 import javax.crypto.SecretKeyFactory;
