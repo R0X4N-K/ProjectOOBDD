@@ -10,7 +10,7 @@ public class Author extends User {
     private String nickname;
     private float rating;
     private ArrayList<Article> createdPages;
-    public Author(int id, String email, String nickname, String password) throws Exception {
+    public Author(int id, String email, String nickname) throws Exception {
         setId(id);
         setEmail(email);
         setNickname(nickname);

@@ -83,7 +83,6 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.setString(2, String.valueOf(article.getAuthor().getId()));
             stmt.setDate(3, new java.sql.Date(article.getCreationDate().getTime()));
             stmt.setBoolean(4, article.isRevision());
-            stmt.setInt(5, article.getCurrentVersionArticle().getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -119,7 +118,6 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.setString(2, String.valueOf(article.getAuthor().getId()));
             stmt.setDate(3, new java.sql.Date(article.getCreationDate().getTime()));
             stmt.setBoolean(4, article.isRevision());
-            stmt.setInt(5, article.getCurrentVersionArticle().getId());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
