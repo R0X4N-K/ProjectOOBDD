@@ -2,6 +2,8 @@ package gui.profileWindow;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class ProfileWindow extends JDialog {
     private JPanel profileWindowMainPanel;
@@ -22,6 +24,24 @@ public class ProfileWindow extends JDialog {
         setSize(500, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); // The dialog will be hidden and disposed
+        buttonToProfile.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchPanel(profileCard1.getPanel());
+            }
+        });
+        buttonToCreatedPages.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchPanel(createdPagesCard1.getPanel());
+            }
+        });
+        buttonToStatistics.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                switchPanel(statisticsCard1.getPanel());
+            }
+        });
     }
     JDialog getDialog() {
         return this;
@@ -40,6 +60,12 @@ public class ProfileWindow extends JDialog {
     }
     public void setProfileWindow(String nickname){
         setProfileCard(nickname);
+    }
+    public void switchPanel(JPanel refPanel) {
+        profilePanelCards.removeAll();
+        profilePanelCards.add(refPanel);
+        profilePanelCards.repaint();
+        profilePanelCards.revalidate();
     }
 
 }
