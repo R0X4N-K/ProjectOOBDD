@@ -1,5 +1,6 @@
 package gui.toolbar;
 import controller.Controller;
+import gui.Page;
 import gui.Window;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -16,6 +17,7 @@ public class Toolbar {
     private LoggedToolbar LoggedToolbar;
     private JButton switchUnloggedLoggedButton;
     private JButton switchToUnloggedButton;
+    private JButton createPageButton;
     private Window window;
 
     public Toolbar() {
@@ -42,6 +44,15 @@ public class Toolbar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 switchPanel(UnloggedToolbar.getPanel());
+            }
+        });
+        createPageButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+            window = Window.checkWindow(window, getPanel());
+            window.getPage().setEditorMode();
+            window.switchPanel(window.getPagePanel());
             }
         });
     }

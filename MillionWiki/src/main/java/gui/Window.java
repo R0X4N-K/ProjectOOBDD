@@ -71,8 +71,11 @@ public class Window extends JFrame {
         return registrationPanel.getPanel();
     }
 
-    public JPanel getEditorPanel() {
+    public JPanel getPagePanel() {
         return pagePanel.getPanel();
+    }
+    public Page getPage(){
+        return pagePanel;
     }
 
     public static Window checkWindow(Window window, Component leaf) throws NullPointerException {

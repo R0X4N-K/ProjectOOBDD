@@ -14,7 +14,7 @@ public class Home {
             @Override
             public void actionPerformed(ActionEvent e) {
                 window = Window.checkWindow(window, getPanel());
-                window.switchPanel(window.getEditorPanel());
+                window.switchPanel(window.getPagePanel());
             }
         });
     }

@@ -587,7 +587,7 @@ public class Page {
     }
 
 
-    private void setViewerMode(){
+    public void setViewerMode(){
         createMenu.setVisible(false);
         textButton.setVisible(false);
         boldButton.setVisible(false);
@@ -597,7 +597,7 @@ public class Page {
         toolMenu.setVisible(true);
         editBtn.setVisible(true);
     }
-    private void setEditorMode(){
+    public void setEditorMode(){
         createMenu.setVisible(true);
         textButton.setVisible(true);
         boldButton.setVisible(true);

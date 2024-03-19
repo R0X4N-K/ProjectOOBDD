@@ -2,7 +2,7 @@ package gui.profileWindow;
 
 import javax.swing.*;
 
-public class CreatedPagesCard {
+    public class CreatedPagesCard {
     private JPanel createdPagesCardPanel;
 
     public JPanel getPanel() {
