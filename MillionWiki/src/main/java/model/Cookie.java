@@ -1,5 +1,7 @@
 package model;
 
+import controller.Controller;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
@@ -129,6 +131,7 @@ public class Cookie {
     }
 
     public static void deleteCookie() {
+        Controller.setCookie(null);
         Path cookiePath = Paths.get(cookieSavePath);
         if (Files.exists(cookiePath)) {
             try {

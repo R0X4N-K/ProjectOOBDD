@@ -41,6 +41,7 @@ public class Page {
     private ArrayList<Point> searchOccurrencePositions;
     private Window window;
     private boolean titlePageFieldFlag = false;
+    private int pageMode = 0; //0 ViewerMode, 1 EditorMode
 
 
     public Page(){
@@ -130,6 +131,7 @@ public class Page {
 
 
 
+
         //CTRL + MOUSE WHEEL SHORTCUT
         pageField.addMouseWheelListener(e -> {
             if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
@@ -169,7 +171,7 @@ public class Page {
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
-                if(!titlePageFieldFlag){
+                if(!titlePageFieldFlag && pageMode != 0){
                     titlePageFieldFlag = true;
                     titlePageField.setText("");
                 }
@@ -180,7 +182,7 @@ public class Page {
             @Override
             public void keyPressed(KeyEvent e) {
                 super.keyPressed(e);
-                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB) {
                     e.consume();
                     pageField.requestFocus();
                 }
@@ -641,11 +643,13 @@ public class Page {
         colorPickerButton.setVisible(false);
         italicButton.setVisible(false);
         pageField.setEditable(false);
-        pageField.setFocusable(false);
+        pageField.setCaretColor(pageField.getBackground());
         titlePageField.setEditable(false);
-        titlePageField.setFocusable(false);
+        titlePageField.setCaretColor(titlePageField.getBackground());
         toolMenu.setVisible(true);
         editBtn.setVisible(true);
+
+        pageMode = 0;
     }
     public void setEditorMode(){
         createMenu.setVisible(true);
@@ -654,9 +658,12 @@ public class Page {
         colorPickerButton.setVisible(true);
         italicButton.setVisible(true);
         pageField.setEditable(true);
-        pageField.setFocusable(true);
+        pageField.setCaretColor(Color.BLACK);
         titlePageField.setEditable(true);
-        titlePageField.setFocusable(true);
+        titlePageField.setCaretColor(Color.BLACK);
         editBtn.setVisible(false);
+
+        pageMode = 1;
     }
+
 }

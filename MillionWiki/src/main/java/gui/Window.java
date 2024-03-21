@@ -105,7 +105,6 @@ public class Window extends JFrame {
     public static void switchToUnloggedWindow(Window window) {
         Controller.deleteCookie();
         window.toolbarMainPanel.switchToUnloggedToolbar();
-
     }
 
 }
