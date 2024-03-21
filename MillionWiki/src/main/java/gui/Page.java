@@ -40,6 +40,7 @@ public class Page {
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
     private Window window;
+    private boolean titlePageFieldFlag = false;
 
 
     public Page(){
@@ -161,9 +162,34 @@ public class Page {
                         searchPanel.setVisible(true);
                     searchTxtFld.requestFocus();
                 }
-
             }
         });
+
+        titlePageField.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                if(!titlePageFieldFlag){
+                    titlePageFieldFlag = true;
+                    titlePageField.setText("");
+                }
+            }
+        });
+
+        titlePageField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    e.consume();
+                    pageField.requestFocus();
+                }
+            }
+        });
+
+
+
+
 
         searchTxtFld.addKeyListener(new KeyAdapter() {
             @Override
@@ -615,7 +641,9 @@ public class Page {
         colorPickerButton.setVisible(false);
         italicButton.setVisible(false);
         pageField.setEditable(false);
+        pageField.setFocusable(false);
         titlePageField.setEditable(false);
+        titlePageField.setFocusable(false);
         toolMenu.setVisible(true);
         editBtn.setVisible(true);
     }
@@ -626,7 +654,9 @@ public class Page {
         colorPickerButton.setVisible(true);
         italicButton.setVisible(true);
         pageField.setEditable(true);
+        pageField.setFocusable(true);
         titlePageField.setEditable(true);
+        titlePageField.setFocusable(true);
         editBtn.setVisible(false);
     }
 }
