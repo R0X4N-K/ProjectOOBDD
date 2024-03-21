@@ -9,18 +9,6 @@
     </properties>
     <border type="none"/>
     <children>
-      <component id="a7f03" class="javax.swing.JEditorPane" binding="pageField">
-        <constraints border-constraint="Center"/>
-        <properties>
-          <contentType value="text/html"/>
-          <maximumSize width="2147483647" height="2147483647"/>
-          <text value="&lt;html lang=&quot;&quot;&gt;&#10;  &lt;head&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
-        </properties>
-        <clientProperties>
-          <JEditorPane.honorDisplayProperties class="java.lang.Boolean" value="false"/>
-          <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="false"/>
-        </clientProperties>
-      </component>
       <grid id="ad54d" binding="menuBarPanel" layout-manager="BorderLayout" hgap="0" vgap="0">
         <constraints border-constraint="North"/>
         <properties/>
@@ -172,6 +160,25 @@
               </component>
             </children>
           </grid>
+        </children>
+      </grid>
+      <grid id="ec5e9" binding="pagePanel" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="Center"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="a7f03" class="javax.swing.JEditorPane" binding="pageField">
+            <constraints border-constraint="Center"/>
+            <properties>
+              <contentType value="text/html"/>
+              <maximumSize width="2147483647" height="2147483647"/>
+              <text value="&lt;html lang=&quot;&quot;&gt;&#10;  &lt;head&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
+            </properties>
+            <clientProperties>
+              <JEditorPane.honorDisplayProperties class="java.lang.Boolean" value="false"/>
+              <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="false"/>
+            </clientProperties>
+          </component>
         </children>
       </grid>
     </children>

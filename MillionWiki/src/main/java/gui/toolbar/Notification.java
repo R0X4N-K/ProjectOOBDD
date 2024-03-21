@@ -4,6 +4,8 @@ import model.ArticleVersion;
 
 import javax.swing.*;
 
+import java.awt.*;
+
 import static controller.Controller.getAuthorById;
 
 public class Notification {
@@ -18,7 +20,7 @@ public class Notification {
         return notificationPanel;
     }
 
-    public Notification (){
+    public Notification() {
         acceptRadioButton.addActionListener(e -> rejectRadioButton.setSelected(false));
 
         rejectRadioButton.addActionListener(e -> acceptRadioButton.setSelected(false));
@@ -26,11 +28,12 @@ public class Notification {
         confirmButton.addActionListener(e -> checkReception());
     }
 
-    public Notification (ArticleVersion a) {
+    public Notification(ArticleVersion a) {
         this();
         profileButton.setText(getAuthorById(a.getId()).getNickname());
         //TODO: Add Link in proposalButton
     }
+
     private void checkReception() {
         if (acceptRadioButton.isSelected() && !rejectRadioButton.isSelected()) {
             //TODO: Accept Proposal
@@ -40,4 +43,5 @@ public class Notification {
             System.out.println("Decidi se accettare o meno, se vuoi visualizzare la proposta premi il tasto proposta"); // TODO: change to dialog
         }
     }
+
 }

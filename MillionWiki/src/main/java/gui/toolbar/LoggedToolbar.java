@@ -4,6 +4,7 @@ import gui.Window;
 import gui.profileWindow.ProfileWindow;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 

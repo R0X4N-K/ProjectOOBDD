@@ -7,6 +7,7 @@ import model.Cookie;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
@@ -48,22 +49,21 @@ public class Login {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                try{
+                try {
                     Cookie c = Controller.doLogin(emailNicknameTxtFld.getText(), passwordTxtFld.getText());
                     String passwordStored = c.getPassword();
-                    if(validatePassword(passwordTxtFld.getText(), passwordStored)){
+                    if (validatePassword(passwordTxtFld.getText(), passwordStored)) {
                         System.out.println("Loggato");
                         window = Window.checkWindow(window, getPanel());
                         window.switchToLoggedWindow(window, c);
-                        if(rembemberMeCheckbox.isSelected()) {
+                        if (rembemberMeCheckbox.isSelected()) {
                             c.writeCookie();
                         }
                         Controller.setCookie(c);
-                    }
-                    else{
+                    } else {
                         System.out.println("Stuprato");
                     }
-                }catch (NullPointerException pointerException){
+                } catch (NullPointerException pointerException) {
                     System.out.println("Stuprato");
                     throw new NullPointerException();
                 } catch (SQLException ex) {
@@ -71,14 +71,12 @@ public class Login {
                 }
 
 
-
             }
         });
 
     }
 
-    private boolean validatePassword(String originalPassword, String storedPassword)
-    {
+    private boolean validatePassword(String originalPassword, String storedPassword) {
         String[] parts = storedPassword.split(":");
         int iterations = Integer.parseInt(parts[0]);
 
@@ -111,18 +109,16 @@ public class Login {
         }
 
         int diff = hash.length ^ testHash.length;
-        for(int i = 0; i < hash.length && i < testHash.length; i++)
-        {
+        for (int i = 0; i < hash.length && i < testHash.length; i++) {
             diff |= hash[i] ^ testHash[i];
         }
         return diff == 0;
     }
-    private byte[] fromHex(String hex) throws NoSuchAlgorithmException
-    {
+
+    private byte[] fromHex(String hex) throws NoSuchAlgorithmException {
         byte[] bytes = new byte[hex.length() / 2];
-        for(int i = 0; i < bytes.length ;i++)
-        {
-            bytes[i] = (byte)Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
+        for (int i = 0; i < bytes.length; i++) {
+            bytes[i] = (byte) Integer.parseInt(hex.substring(2 * i, 2 * i + 2), 16);
         }
         return bytes;
     }
@@ -130,4 +126,5 @@ public class Login {
     public JPanel getPanel() {
         return mainPanelLogin;
     }
+
 }

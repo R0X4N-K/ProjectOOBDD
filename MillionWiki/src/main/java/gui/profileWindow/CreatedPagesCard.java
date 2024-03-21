@@ -1,6 +1,7 @@
 package gui.profileWindow;
 
 import javax.swing.*;
+import java.awt.*;
 
     public class CreatedPagesCard {
     private JPanel createdPagesCardPanel;
@@ -8,4 +9,5 @@ import javax.swing.*;
     public JPanel getPanel() {
         return createdPagesCardPanel;
     }
+
 }

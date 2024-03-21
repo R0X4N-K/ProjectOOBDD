@@ -43,9 +43,11 @@ public class ProfileWindow extends JDialog {
             }
         });
     }
+
     JDialog getDialog() {
         return this;
     }
+
     public static ProfileWindow checkProfileWindow(ProfileWindow profileWindow, Component leaf) throws NullPointerException {
         if (leaf != null) {
             if (profileWindow == null)
@@ -55,12 +57,15 @@ public class ProfileWindow extends JDialog {
             throw new NullPointerException("Non è possibile trovare \"profileWindow\", poiché \"leaf\" è null");
         }
     }
+
     public void setProfileCard(String nickname) {
         profileCard1.setWelcomeMessage(nickname);
     }
-    public void setProfileWindow(String nickname){
+
+    public void setProfileWindow(String nickname) {
         setProfileCard(nickname);
     }
+
     public void switchPanel(JPanel refPanel) {
         profilePanelCards.removeAll();
         profilePanelCards.add(refPanel);

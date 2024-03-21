@@ -55,6 +55,7 @@ public class Window extends JFrame {
     public ProfileWindow getprofileWindow() {
         return profileWindow;
     }
+
     public JPanel getToolbarMainPanel() {
         return toolbarMainPanel.getPanel();
     }
@@ -98,6 +99,7 @@ public class Window extends JFrame {
         window.toolbarMainPanel.setProfile(nickname);
         window.profileWindow.setProfileWindow(nickname);
         window.toolbarMainPanel.switchToLoggedToolbar();
+        window.switchPanel(window.getHomePanel());
     }
 
     public static void switchToUnloggedWindow(Window window) {

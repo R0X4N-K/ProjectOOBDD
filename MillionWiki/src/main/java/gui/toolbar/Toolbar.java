@@ -3,6 +3,7 @@ import controller.Controller;
 import gui.Page;
 import gui.Window;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -49,10 +50,18 @@ public class Toolbar {
         createPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-
-            window = Window.checkWindow(window, getPanel());
-            window.getPage().setEditorMode();
-            window.switchPanel(window.getPagePanel());
+                if (Controller.checkLoggedUser()) {
+                    window = Window.checkWindow(window, getPanel());
+                    window.getPage().setEditorMode();
+                    window.switchPanel(window.getPagePanel());
+                }
+                else{
+                    if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
+                        window = Window.checkWindow(window, getPanel());
+                        window.switchPanel(window.getLoginPanel());
+                    }
+                }
             }
         });
     }

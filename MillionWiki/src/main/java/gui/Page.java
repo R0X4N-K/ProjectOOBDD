@@ -36,6 +36,7 @@ public class Page {
     private JButton nextOccurrenceBtn;
     private JLabel searchErrorLbl;
     private JButton editBtn;
+    private JPanel pagePanel;
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
     private Window window;

@@ -36,21 +36,21 @@ public class Registration {
     private JLabel nicknameErrLbl;
     private JLabel mailErrLbl;
     private JCheckBox rembemberMeCheckbox;
-    private gui.Window window;
+    private Window window;
     private Boolean submitBtnState;
 
     public Registration() {
         toLoginPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = gui.Window.checkWindow(window, getPanel());
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getLoginPanel());
             }
         });
         toHomePanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = gui.Window.checkWindow(window, getPanel());
+                window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getHomePanel());
             }
         });
@@ -62,7 +62,7 @@ public class Registration {
                 System.out.println(passwordTxtFld.getText());
                 String passwordEncrypted = passwordEncryption(passwordTxtFld.getText());
 
-                if(Controller.doRegistration(mailTxtFld.getText(), nicknameTxtFld.getText(), passwordEncrypted)){
+                if (Controller.doRegistration(mailTxtFld.getText(), nicknameTxtFld.getText(), passwordEncrypted)) {
                     System.out.println("Registrazione avvenuta con successo");
 
 
@@ -71,13 +71,13 @@ public class Registration {
                         Controller.setCookie(c);
                         window = Window.checkWindow(window, getPanel());
                         window.switchToLoggedWindow(window, c);
-                        if(rembemberMeCheckbox.isSelected()) {
+                        if (rembemberMeCheckbox.isSelected()) {
                             c.writeCookie();
                         }
                     } catch (Exception ex) {
                         throw new RuntimeException(ex);
                     }
-                }else{
+                } else {
                     System.out.println("Registrazione fallita");
                 }
             }
@@ -120,11 +120,10 @@ public class Registration {
 
     }
 
-    public void checkAllFld(){
-        if(nicknameErrLbl.getForeground().equals(Color.GREEN) && mailErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl2.getForeground().equals(Color.GREEN)) {
+    public void checkAllFld() {
+        if (nicknameErrLbl.getForeground().equals(Color.GREEN) && mailErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl2.getForeground().equals(Color.GREEN)) {
             submitBtn.setEnabled(true);
-        }
-        else{
+        } else {
             submitBtn.setEnabled(false);
         }
     }
@@ -134,71 +133,69 @@ public class Registration {
         if (checkNickname(text) && !checkNicknameIsRegistered(text)) {
             nicknameTxtFld.setBorder(new LineBorder(Color.GREEN));
             setErrLbl(nicknameErrLbl, true, "Nickname valido !", Color.GREEN);
-        }
-        else{
+        } else {
             nicknameTxtFld.setBorder(new LineBorder(Color.RED));
             setErrLbl(nicknameErrLbl, true, "Nickname non valido !", Color.RED);
         }
     }
+
     public void checkEmailFld(String text) {
         if (checkEmailSyntax(text) && !checkEmailIsRegistered(text)) {
             mailTxtFld.setBorder(new LineBorder(Color.GREEN));
             setErrLbl(mailErrLbl, true, "Mail valida !", Color.GREEN);
-        }
-        else{
+        } else {
             mailTxtFld.setBorder(new LineBorder(Color.RED));
             setErrLbl(mailErrLbl, true, "Mail non valida !", Color.RED);
         }
     }
 
     public void checkPasswordFld(String text) {
-        if(checkPasswordSintax(text)){
+        if (checkPasswordSintax(text)) {
             passwordTxtFld.setBorder(new LineBorder(Color.GREEN));
             setErrLbl(passwordErrLbl, true, "Password valida !", Color.GREEN);
-        }
-        else{
+        } else {
             passwordTxtFld.setBorder(new LineBorder(Color.RED));
             setErrLbl(passwordErrLbl, true, "Password non valida !", Color.RED);
         }
     }
 
     public void checkPasswordFld2(String text) {
-        if(passwordTxtFld.getText().equals(passwordTxtFld2.getText()) && !passwordTxtFld.getText().isBlank()&& !passwordTxtFld2.getText().isBlank()){
+        if (passwordTxtFld.getText().equals(passwordTxtFld2.getText()) && !passwordTxtFld.getText().isBlank() && !passwordTxtFld2.getText().isBlank()) {
             passwordTxtFld2.setBorder(new LineBorder(Color.GREEN));
             setErrLbl(passwordErrLbl2, true, "Le password corrispondono !", Color.GREEN);
-        }
-        else{
+        } else {
             passwordTxtFld2.setBorder(new LineBorder(Color.RED));
             setErrLbl(passwordErrLbl2, true, "Le password non corrispondono !", Color.RED);
         }
     }
 
 
-    public boolean checkEmailSyntax(String text){
+    public boolean checkEmailSyntax(String text) {
         String regex = "^[\\w!#$%&'*+/=?^`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^`{|}~-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        if(text.matches(regex)){
+        if (text.matches(regex)) {
             return true;
         }
         return false;
     }
 
-    public boolean checkNickname(String text){
+    public boolean checkNickname(String text) {
         if (text.length() < 4 || text.length() > 18) {
             return false;
         }
         return true;
     }
 
-    public boolean checkEmailIsRegistered(String email){
-        return Controller.isAuthorRegisteredWithEmail(email);}
+    public boolean checkEmailIsRegistered(String email) {
+        return Controller.isAuthorRegisteredWithEmail(email);
+    }
 
-    public boolean checkNicknameIsRegistered(String nickname){
+    public boolean checkNicknameIsRegistered(String nickname) {
         return Controller.isAuthorRegisteredWithNickname(nickname);
     }
 
 
     //aggiunte funzioni per hashing della password
-    public String passwordEncryption(String password){
+    public String passwordEncryption(String password) {
         //hashing algorithm
         try {
             return generateStrongPasswordHash(password);
@@ -206,6 +203,7 @@ public class Registration {
             throw new RuntimeException(e);
         }
     }
+
     private String generateStrongPasswordHash(String password)
             throws InvalidKeySpecException, NoSuchAlgorithmException {
         int iterations = 1000;
@@ -219,24 +217,21 @@ public class Registration {
         return iterations + ":" + toHex(salt) + ":" + toHex(hash);
     }
 
-    private byte[] getSalt() throws NoSuchAlgorithmException
-    {
+    private byte[] getSalt() throws NoSuchAlgorithmException {
         SecureRandom sr = SecureRandom.getInstance("SHA1PRNG");
         byte[] salt = new byte[16];
         sr.nextBytes(salt);
         return salt;
     }
 
-    private String toHex(byte[] array) throws NoSuchAlgorithmException
-    {
+    private String toHex(byte[] array) throws NoSuchAlgorithmException {
         BigInteger bi = new BigInteger(1, array);
         String hex = bi.toString(16);
 
         int paddingLength = (array.length * 2) - hex.length();
-        if(paddingLength > 0)
-        {
-            return String.format("%0"  +paddingLength + "d", 0) + hex;
-        }else{
+        if (paddingLength > 0) {
+            return String.format("%0" + paddingLength + "d", 0) + hex;
+        } else {
             return hex;
         }
     }
@@ -300,7 +295,7 @@ public class Registration {
         return true;
     }
 
-    public void setErrLbl(JLabel lblTarget, Boolean visibleState, String msg, Color msgFgColor){
+    public void setErrLbl(JLabel lblTarget, Boolean visibleState, String msg, Color msgFgColor) {
         lblTarget.setVisible(visibleState);
         lblTarget.setText(msg);
         lblTarget.setForeground(msgFgColor);
@@ -311,4 +306,5 @@ public class Registration {
     public JPanel getPanel() {
         return mainPanelRegistration;
     }
+
 }

@@ -3,6 +3,7 @@ package gui.toolbar;
 import gui.Window;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -12,7 +13,8 @@ public class UnloggedToolbar {
     private JButton registrationBtn;
     private JPanel unloggedUserPanel;
     private Window window;
-    public UnloggedToolbar(){
+
+    public UnloggedToolbar() {
         loginBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -33,4 +35,5 @@ public class UnloggedToolbar {
     public JPanel getPanel() {
         return unloggedUserPanel;
     }
+
 }
