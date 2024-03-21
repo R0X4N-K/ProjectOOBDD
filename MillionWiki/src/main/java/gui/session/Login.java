@@ -12,6 +12,7 @@ import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 public class Login {
     private JLabel loginPageTitleLbl;
@@ -52,7 +53,10 @@ public class Login {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 //Funzione mostra password
-
+                if(viewPasswordBtn.isSelected())
+                    passwordTxtFld.setEchoChar((char) 0);
+                else
+                    passwordTxtFld.setEchoChar('•');
             }
         });
 
