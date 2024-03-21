@@ -41,7 +41,6 @@ public class Page {
     private JButton sendButton;
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
-    private Window window;
     private boolean titlePageFieldFlag = false;
     private int pageMode = 0; //0 ViewerMode, 1 EditorMode
 
@@ -237,8 +236,8 @@ public class Page {
             else{
                 if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
                         JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
-                    window = Window.checkWindow(window, getPanel());
-                    window.switchPanel(window.getLoginPanel());
+
+                    Controller.getWindow().switchPanel(Controller.getWindow().getLoginPanel());
                 }
             }
         });

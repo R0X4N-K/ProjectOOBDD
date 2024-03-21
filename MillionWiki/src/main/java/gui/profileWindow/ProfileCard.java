@@ -1,5 +1,6 @@
 package gui.profileWindow;
 
+import controller.Controller;
 import gui.Window;
 
 import javax.swing.*;
@@ -12,14 +13,12 @@ public class ProfileCard {
     private JLabel welcomeJLabel;
     private JButton logoutButton;
     private ProfileWindow profileWindow;
-    private Window window;
 
     public ProfileCard() {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
-                window.switchToUnloggedWindow(window);
+                Controller.getWindow().switchToUnloggedWindow(Controller.getWindow());
                 profileWindow = ProfileWindow.checkProfileWindow(profileWindow, getPanel());
                 profileWindow.getDialog().dispose();
             }

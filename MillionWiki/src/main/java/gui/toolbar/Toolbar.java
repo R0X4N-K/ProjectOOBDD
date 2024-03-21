@@ -19,7 +19,6 @@ public class Toolbar {
     private JButton switchUnloggedLoggedButton;
     private JButton switchToUnloggedButton;
     private JButton createPageButton;
-    private Window window;
 
     public Toolbar() {
         if (Controller.checkLoggedUser()) {
@@ -30,8 +29,7 @@ public class Toolbar {
         homeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
-                window.switchPanel(window.getHomePanel());
+                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
             }
         });
 

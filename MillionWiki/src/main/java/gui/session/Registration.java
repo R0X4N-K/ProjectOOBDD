@@ -36,22 +36,19 @@ public class Registration {
     private JLabel nicknameErrLbl;
     private JLabel mailErrLbl;
     private JCheckBox rembemberMeCheckbox;
-    private Window window;
     private Boolean submitBtnState;
 
     public Registration() {
         toLoginPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
-                window.switchPanel(window.getLoginPanel());
+                Controller.getWindow().switchPanel(Controller.getWindow().getLoginPanel());
             }
         });
         toHomePanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
-                window.switchPanel(window.getHomePanel());
+                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
             }
         });
 
@@ -71,8 +68,7 @@ public class Registration {
                     try {
                         Cookie c = new Cookie(Controller.getAuthorByNickname(nicknameTxtFld.getText()).getId(), passwordEncrypted);
                         Controller.setCookie(c);
-                        window = Window.checkWindow(window, getPanel());
-                        window.switchToLoggedWindow(window, c);
+                        Controller.getWindow().switchToLoggedWindow(Controller.getWindow(), c);
                         if (rembemberMeCheckbox.isSelected()) {
                             c.writeCookie();
                         }

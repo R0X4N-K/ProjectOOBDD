@@ -3,6 +3,7 @@ package controller;
 import dao.ArticleDAO;
 import dao.ArticleVersionDAO;
 import dao.AuthorDAO;
+import gui.Window;
 import implementationDAO.*;
 import model.*;
 
@@ -20,7 +21,17 @@ public final class Controller {
     private static ArticleDAO articleDAO = null;
     private static ArticleVersionDAO articleVersionDAO = null;
     private static AuthorDAO authorDAO = null;
-    static private String lockFilePath = Cookie.getConfigFolder().concat("lockFile");
+    private static String lockFilePath = Cookie.getConfigFolder().concat("lockFile");
+
+    public static Window getWindow() {
+        return window;
+    }
+
+    public static void setWindow(Window window) {
+        Controller.window = window;
+    }
+
+    private static Window window;
 
     private Controller() {
 

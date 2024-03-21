@@ -29,23 +29,20 @@ public class Login {
     private JCheckBox rembemberMeCheckbox;
     private JPanel passwordPanel;
     private JToggleButton viewPasswordBtn;
-    private Window window;
-    private Controller controller;
 
     public Login() {
 
         toHomePanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
-                window.switchPanel(window.getHomePanel());
+                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
             }
         });
         toRegistrationPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
-                window.switchPanel(window.getRegistrationPanel());
+
+                Controller.getWindow().switchPanel(Controller.getWindow().getRegistrationPanel());
             }
         });
 
@@ -68,8 +65,7 @@ public class Login {
                     String passwordStored = c.getPassword();
                     if (validatePassword(passwordTxtFld.getText(), passwordStored)) {
                         System.out.println("Loggato");
-                        window = Window.checkWindow(window, getPanel());
-                        window.switchToLoggedWindow(window, c);
+                        Controller.getWindow().switchToLoggedWindow(Controller.getWindow(), c);
                         if (rembemberMeCheckbox.isSelected()) {
                             c.writeCookie();
                         }

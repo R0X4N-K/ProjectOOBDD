@@ -19,7 +19,7 @@ public class Main {
             Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
             Controller.setAuthorDAO(new AuthorDAOImplementation());
             Controller.checkIfRememberedLogin();
-            new Window();
+            Controller.setWindow(new Window());
         }
      //Controller controller = Controller.ge;
      //ArticleDAOImplementation articleDAOImplementation = new ArticleDAOImplementation();

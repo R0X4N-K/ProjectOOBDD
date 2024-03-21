@@ -79,16 +79,6 @@ public class Window extends JFrame {
         return pagePanel;
     }
 
-    public static Window checkWindow(Window window, Component leaf) throws NullPointerException {
-        if (leaf != null) {
-            if (window == null)
-                window = (Window) SwingUtilities.getAncestorOfClass(Window.class, leaf);
-            return window;
-        } else {
-            throw new NullPointerException("Non è possibile trovare \"window\", poiché \"leaf\" è null");
-        }
-    }
-
     public static void switchToLoggedWindow(Window window) {
         window.toolbarMainPanel.setProfile(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
         window.toolbarMainPanel.switchToLoggedToolbar();

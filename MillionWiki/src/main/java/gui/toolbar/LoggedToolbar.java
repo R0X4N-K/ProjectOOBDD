@@ -1,5 +1,6 @@
 package gui.toolbar;
 
+import controller.Controller;
 import gui.Window;
 import gui.profileWindow.ProfileWindow;
 
@@ -14,7 +15,6 @@ public class LoggedToolbar {
     private JButton showProfileButton;
     private NotificationContainer notificationContainer = new NotificationContainer();
     private Profile profile = new Profile();
-    private Window window;
 
     public LoggedToolbar() {
         JPopupMenu popupMenuNotifications = new JPopupMenu();
@@ -29,8 +29,7 @@ public class LoggedToolbar {
         showProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                window = Window.checkWindow(window, getPanel());
-                window.getprofileWindow().setVisible(true);
+                Controller.getWindow().getprofileWindow().setVisible(true);
             }
         });
     }
