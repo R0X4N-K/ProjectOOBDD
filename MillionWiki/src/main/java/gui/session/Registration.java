@@ -54,6 +54,8 @@ public class Registration {
                 window.switchPanel(window.getHomePanel());
             }
         });
+
+
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

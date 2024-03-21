@@ -26,6 +26,8 @@ public class Login {
     private JLabel emailNicknameErrLbl;
     private JLabel passwordErrLbl;
     private JCheckBox rembemberMeCheckbox;
+    private JPanel passwordPanel;
+    private JToggleButton viewPasswordBtn;
     private Window window;
     private Controller controller;
 
@@ -43,6 +45,14 @@ public class Login {
             public void actionPerformed(ActionEvent e) {
                 window = Window.checkWindow(window, getPanel());
                 window.switchPanel(window.getRegistrationPanel());
+            }
+        });
+
+        viewPasswordBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //Funzione mostra password
+
             }
         });
 

@@ -163,7 +163,9 @@
           <component id="be0e9" class="javax.swing.JEditorPane" binding="titlePageField">
             <constraints border-constraint="South"/>
             <properties>
-              <text value="Inserisci titolo"/>
+              <contentType value="text/plain"/>
+              <font size="22" style="1"/>
+              <text value="Titolo"/>
             </properties>
           </component>
         </children>
