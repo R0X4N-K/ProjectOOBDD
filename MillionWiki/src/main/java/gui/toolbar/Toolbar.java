@@ -51,16 +51,14 @@ public class Toolbar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.checkLoggedUser()) {
-                    window = Window.checkWindow(window, getPanel());
-                    window.getPage().setEditorMode();
-                    window.switchPanel(window.getPagePanel());
-                    window.getPage().setIdArticle(-1);
+                    Controller.getWindow().getPage().setEditorMode();
+                    Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
+                    Controller.getWindow().getPage().setIdArticle(-1);
                 }
                 else{
                     if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
                             JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
-                        window = Window.checkWindow(window, getPanel());
-                        window.switchPanel(window.getLoginPanel());
+                        Controller.getWindow().switchPanel(Controller.getWindow().getLoginPanel());
                     }
                 }
             }
