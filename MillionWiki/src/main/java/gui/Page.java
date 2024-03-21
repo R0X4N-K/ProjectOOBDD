@@ -131,14 +131,28 @@ public class Page {
 
         //CTRL + MOUSE WHEEL SHORTCUT
         pageField.addMouseWheelListener(e -> {
-            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0)
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
                 pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), (int) (pageField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
+                titlePageField.setFont(new Font(titlePageField.getFont().getFontName(), titlePageField.getFont().getStyle(), (int) (titlePageField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
+            }
         });
 
 
 
         //CTRL + F SEARCH
         pageField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F) {
+                    if(!searchPanel.isVisible())
+                        searchPanel.setVisible(true);
+                    searchTxtFld.requestFocus();
+                }
+
+            }
+        });
+        titlePageField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
@@ -394,8 +408,14 @@ public class Page {
 
         });
 
-        zoomInBtnToolMenu.addActionListener(e -> pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), pageField.getFont().getSize() + 1)));
-        zoomOutBtnToolMenu.addActionListener(e -> pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), pageField.getFont().getSize() - 1)));
+        zoomInBtnToolMenu.addActionListener(e -> {
+            pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), pageField.getFont().getSize() + 1));
+            titlePageField.setFont(new Font(titlePageField.getFont().getFontName(), titlePageField.getFont().getStyle(), titlePageField.getFont().getSize() + 1));
+        });
+        zoomOutBtnToolMenu.addActionListener(e -> {
+            pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), pageField.getFont().getSize() - 1));
+            titlePageField.setFont(new Font(titlePageField.getFont().getFontName(), titlePageField.getFont().getStyle(), titlePageField.getFont().getSize() - 1));
+        });
     }
 
     private void insertHTML(String tag, Color textColor, String inputText) {
@@ -595,6 +615,7 @@ public class Page {
         colorPickerButton.setVisible(false);
         italicButton.setVisible(false);
         pageField.setEditable(false);
+        titlePageField.setEditable(false);
         toolMenu.setVisible(true);
         editBtn.setVisible(true);
     }
@@ -605,6 +626,7 @@ public class Page {
         colorPickerButton.setVisible(true);
         italicButton.setVisible(true);
         pageField.setEditable(true);
+        titlePageField.setEditable(true);
         editBtn.setVisible(false);
     }
 }
