@@ -95,6 +95,15 @@
                 <border type="none"/>
                 <children/>
               </grid>
+              <hspacer id="8cf4c">
+                <constraints/>
+              </hspacer>
+              <component id="e236b" class="javax.swing.JButton" binding="sendButton">
+                <constraints/>
+                <properties>
+                  <text value="Invia"/>
+                </properties>
+              </component>
             </children>
           </grid>
           <grid id="52f8a" binding="searchPanel" layout-manager="BorderLayout" hgap="0" vgap="0">

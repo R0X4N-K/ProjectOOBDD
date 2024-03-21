@@ -54,15 +54,16 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
 
         return articleVersions;
     }
+
     public int insertArticleVersion(ArticleVersion articleVersion) {
-        int id=-1;
+        int id = -1;
         String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, articleVersion.getParentArticle().getTitle());
             stmt.setString(2, articleVersion.getStatus().toString());
             stmt.setString(3, articleVersion.getText());
             stmt.setDate(4, new java.sql.Date(articleVersion.getVersionDate().getTime()));
-            if(articleVersion.getRevisionDate() != null) {
+            if (articleVersion.getRevisionDate() != null) {
                 stmt.setDate(5, new java.sql.Date(articleVersion.getRevisionDate().getTime()));
             } else {
                 stmt.setNull(5, java.sql.Types.DATE);
@@ -78,6 +79,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         }
         return id;
     }
+
     public int insertArticleVersion(String title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal) {
         int id = -1;
         String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
@@ -86,7 +88,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             stmt.setString(2, status.toString());
             stmt.setString(3, text);
             stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            if(revisionDate != null) {
+            if (revisionDate != null) {
                 stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
             } else {
                 stmt.setNull(5, java.sql.Types.DATE);
@@ -105,4 +107,42 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         return id;
     }
 
+    @Override
+    public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int authorProposal) {
+        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) ";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, idArticle);
+            stmt.setString(2, status.toString());
+            stmt.setString(3, text);
+            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
+            if (revisionDate != null) {
+                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
+            } else {
+                stmt.setNull(5, java.sql.Types.DATE);
+            }
+            stmt.setInt(6, authorProposal);
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal) {
+        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) ";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, idArticle);
+            stmt.setString(2, status.toString());
+            stmt.setString(3, text);
+            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
+            if (revisionDate != null) {
+                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
+            } else {
+                stmt.setNull(5, java.sql.Types.DATE);
+            }
+            stmt.setString(6, String.valueOf(authorProposal.getId()));
+            stmt.executeQuery();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
 }

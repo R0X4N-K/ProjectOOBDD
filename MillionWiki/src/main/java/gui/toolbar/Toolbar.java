@@ -54,6 +54,7 @@ public class Toolbar {
                     window = Window.checkWindow(window, getPanel());
                     window.getPage().setEditorMode();
                     window.switchPanel(window.getPagePanel());
+                    window.getPage().setIdArticle(-1);
                 }
                 else{
                     if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",

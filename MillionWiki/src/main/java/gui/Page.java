@@ -13,6 +13,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Enumeration;
 
 
@@ -37,11 +38,14 @@ public class Page {
     private JLabel searchErrorLbl;
     private JButton editBtn;
     private JEditorPane titlePageField;
+    private JButton sendButton;
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
     private Window window;
     private boolean titlePageFieldFlag = false;
     private int pageMode = 0; //0 ViewerMode, 1 EditorMode
+
+    private int idArticle = -1;
 
 
     public Page(){
@@ -249,6 +253,20 @@ public class Page {
 
         menuBar.setBackground(Color.decode("#e8e4f0"));
 
+        sendButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            if (idArticle == -1){
+                //Crea pagina
+                int idArticle = Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText());
+
+
+            }
+            else{
+                //Modifica pagina
+            }
+           }
+        });
     }
 
     private void search(){
@@ -666,4 +684,7 @@ public class Page {
         pageMode = 1;
     }
 
+    public void setIdArticle(int id) {
+        idArticle = id;
+    }
 }

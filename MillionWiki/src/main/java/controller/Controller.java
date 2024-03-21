@@ -114,7 +114,13 @@ public final class Controller {
     public static int createArticle(String title,Author author,Date creationDate,Boolean revision){
         ArticleVersion.Status status= ArticleVersion.Status.valueOf("Accepted");
         String text= "";
-        return articleDAO.saveArticle(title, creationDate, revision, author, createProposal(title, status, text, creationDate, creationDate, author));
+        return articleDAO.saveArticle(title, creationDate, revision, author);
+    }
+    public static int createArticle(String title,int idAuthor, Date creationDate,Boolean revision, String text){
+        int idArticle= articleDAO.saveArticle(title, creationDate, revision, idAuthor);
+        ArticleVersion.Status status = ArticleVersion.Status.valueOf("ACCEPTED");
+        articleVersionDAO.saveArticleVersion(idArticle, status, text, creationDate, creationDate, idAuthor);
+        return idArticle;
     }
 
     public static int createProposal(Article parentArticle, ArticleVersion.Status status,
@@ -127,6 +133,7 @@ public final class Controller {
                                      Author authorProposal) {
         return articleVersionDAO.insertArticleVersion(title, status, text, versionDate, revisionDate, authorProposal);
     }
+
     public static boolean checkLoggedUser(){
         return cookie != null;
     }

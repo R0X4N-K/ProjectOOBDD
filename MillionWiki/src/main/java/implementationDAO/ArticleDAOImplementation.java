@@ -56,7 +56,11 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
-    public ArrayList<Article> getAllArticlesByAuthor(int id) {
+    public ArrayList<Article> getAllArticlesByAuthor(int id) throws RuntimeException {
+        return null;
+    }
+
+    /*public ArrayList<Article> getAllArticlesByAuthor(int id) {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles WHERE author = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
@@ -74,32 +78,48 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         }
         return articles;
     }
-
+*/
     @Override
     public void saveArticle(Article article) {
-        String query = "INSERT INTO articles (title, author, creation_date, revision, current_version_article) VALUES (?, ?, ?, ?, ?)";
+        String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?, ?)";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, article.getTitle());
             stmt.setString(2, String.valueOf(article.getAuthor().getId()));
             stmt.setDate(3, new java.sql.Date(article.getCreationDate().getTime()));
             stmt.setBoolean(4, article.isRevision());
-            stmt.executeUpdate();
+            stmt.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
         }
     }
 
     @Override
-    public int saveArticle(String title, Date creationDate, boolean revision, Author author, int idCurrentVersionArticle) {
+    public int saveArticle(String title, Date creationDate, boolean revision, Author author) {
         int id=-1;
-        String query = "INSERT INTO articles (title, author, creation_date, revision, current_version_article) VALUES (?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, title);
             stmt.setString(2, String.valueOf(author.getId()));
             stmt.setDate(3, new java.sql.Date(creationDate.getTime()));
             stmt.setBoolean(4, revision);
-            stmt.setInt(5, idCurrentVersionArticle);
-            stmt.executeUpdate();
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
+    public int saveArticle(String title, Date creationDate, boolean revision, int idAuthor) {
+        int id=-1;
+        String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?, ?) RETURNING id";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, title);
+            stmt.setInt(2, idAuthor);
+            stmt.setDate(3, new java.sql.Date(creationDate.getTime()));
+            stmt.setBoolean(4, revision);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("id");
