@@ -257,12 +257,13 @@ public class Page {
             public void actionPerformed(ActionEvent e) {
             if (idArticle == -1){
                 //Crea pagina
-                int idArticle = Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText());
+                idArticle = Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText());
 
 
             }
             else{
                 //Modifica pagina
+
             }
            }
         });

@@ -61,13 +61,15 @@
       <component id="2542c" class="javax.swing.JButton" binding="switchUnloggedLoggedButton" default-binding="true">
         <constraints/>
         <properties>
-          <text value="Switch to Logged"/>
+          <maximumSize width="30" height="30"/>
+          <text value="Log"/>
         </properties>
       </component>
       <component id="8a03e" class="javax.swing.JButton" binding="switchToUnloggedButton" default-binding="true">
         <constraints/>
         <properties>
-          <text value="Switch to Unlogged"/>
+          <maximumSize width="30" height="30"/>
+          <text value="Unlog"/>
         </properties>
       </component>
     </children>

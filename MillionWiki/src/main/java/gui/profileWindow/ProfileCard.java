@@ -19,8 +19,10 @@ public class ProfileCard {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Controller.getWindow().switchToUnloggedWindow(Controller.getWindow());
-                profileWindow = ProfileWindow.checkProfileWindow(profileWindow, getPanel());
-                profileWindow.getDialog().dispose();
+                welcomeJLabel.setText("Benvenuto!");
+                Controller.getWindow().getprofileWindow().getDialog().dispose();
+
+
             }
         });
     }
