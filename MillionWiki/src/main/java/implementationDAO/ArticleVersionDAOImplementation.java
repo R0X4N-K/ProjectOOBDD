@@ -55,6 +55,32 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         return articleVersions;
     }
 
+    public int insertArticleVersion(int idArticle, ArticleVersion.Status status,
+                                    String text, Date versionDate, Date revisionDate,
+                                    int idAuthor){
+        int id = -1;
+        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, idArticle);
+            stmt.setString(2, status.toString());
+            stmt.setString(3, text);
+            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
+            if (revisionDate != null) {
+                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
+            } else {
+                stmt.setNull(5, java.sql.Types.DATE);
+            }
+            stmt.setInt(6, idAuthor);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                id = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return id;
+    }
+
     public int insertArticleVersion(ArticleVersion articleVersion) {
         int id = -1;
         String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";

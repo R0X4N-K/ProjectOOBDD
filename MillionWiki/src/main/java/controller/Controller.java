@@ -134,6 +134,13 @@ public final class Controller {
         return idArticle;
     }
 
+    public static int createProposal(int idArticle, String titleArticle, ArticleVersion.Status status,
+                                     String text, Date versionDate, Date revisionDate,
+                                     int idAuthor){
+        articleDAO.updateArticle(idArticle, titleArticle);
+        return articleVersionDAO.insertArticleVersion(idArticle, status, text, versionDate, revisionDate, idAuthor);
+    }
+
     public static int createProposal(Article parentArticle, ArticleVersion.Status status,
                                       String text, Date versionDate, Date revisionDate,
                                       Author authorProposal) {

@@ -130,6 +130,16 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         return id;
     }
 
+    public void updateArticle(int idArticle, String title){
+        String query = "UPDATE articles SET title = ? WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, title);
+            stmt.setInt(2, idArticle);
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
     @Override
     public void updateArticle(Article article, Article newArticle) {
         String query = "UPDATE articles (title, author, creation_date, revision, current_version_article) VALUES (?, ?, ?, ?, ?)";

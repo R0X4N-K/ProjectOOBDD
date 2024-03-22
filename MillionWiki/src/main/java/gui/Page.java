@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Enumeration;
 
+import static model.ArticleVersion.Status.WAITING;
+
 
 public class Page {
     private JPanel mainPanelPage;
@@ -258,12 +260,22 @@ public class Page {
             if (idArticle == -1){
                 //Crea pagina
                 idArticle = Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText());
-
+                if (idArticle != -1){
+                    // Finesta -> Operazione avvenuta con successo
+                }
+                else {
+                    // Finestra -> Operazione Fallita
+                }
 
             }
             else{
                 //Modifica pagina
-
+                if (Controller.createProposal(idArticle, titlePageField.getText(), WAITING, pageField.getText(), new Date(), null, Controller.getCookie().getId()) != -1){
+                    // Finesta -> Operazione avvenuta con successo
+                }
+                else {
+                    // Finestra -> Operazione Fallita
+                }
             }
            }
         });
