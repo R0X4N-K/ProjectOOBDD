@@ -1,4 +1,6 @@
 package model;
+import controller.Controller;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -12,13 +14,13 @@ public class Article {
     Date creationDate;
     boolean revision = false;
     private Author author;
-    private final ArrayList<ArticleVersion> proposedChanges;
+
 
     public Article (String title, Author author) throws Exception {
         setTitle (title);
         setAuthor (author);
         this.creationDate = new Date();
-        this.proposedChanges = new ArrayList<>();
+
         // TODO: dataCreazione deve riferirsi a orario Server
     }
 
@@ -34,11 +36,11 @@ public class Article {
         setCreationDate (resultSet.getDate("creation_date"));
         setRevision (resultSet.getBoolean("revision"));
         try {
-            this.author = new Author(resultSet);
+            this.author = (Controller.getAuthorById(resultSet.getInt("author")));
         } catch (Exception e) {
             e.printStackTrace();
         }
-        this.proposedChanges = new ArrayList<>(); // Questo campo potrebbe non essere inizializzato dal ResultSet
+
     }
     public int getId() {
         return id;
@@ -78,11 +80,6 @@ public class Article {
             throw new Exception("Titolo Vuoto"); // TODO: Creare eccezione ad hoc
         }
     }
-
-    public ArrayList<ArticleVersion> getProposedChanges() {
-        return proposedChanges;
-    }
-
 
     public Author getAuthor() {
         return author;

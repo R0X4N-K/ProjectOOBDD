@@ -1,5 +1,7 @@
 package model;
 
+import controller.Controller;
+
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Date;
@@ -51,7 +53,7 @@ public class ArticleVersion {
         setVersionDate(resultSet.getDate("version_date"));
         setRevisionDate(resultSet.getDate("revision_date"));
         try {
-            setAuthorProposal(new Author(resultSet));
+            setAuthorProposal(Controller.getAuthorById(resultSet.getInt("author_proposal")));
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -113,8 +115,8 @@ public class ArticleVersion {
         return authorProposal;
     }
 
-    public void setAuthorProposal(Author authorProposta) {
-        this.authorProposal = authorProposta;
+    public void setAuthorProposal(Author authorProposal){
+        this.authorProposal = authorProposal;
     }
 
 }

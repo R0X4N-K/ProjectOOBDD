@@ -1,4 +1,5 @@
 package model;
+import controller.Controller;
 import implementationDAO.ArticleDAOImplementation;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,6 +26,7 @@ public class Author extends User {
 
         this.createdPages = new ArticleDAOImplementation().getAllArticlesByAuthor(id);
     }
+
 
     public String getNickname(){
         return nickname;
