@@ -266,7 +266,6 @@ public class Page {
                 else {
                     // Finestra -> Operazione Fallita
                 }
-
             }
             else{
                 //Modifica pagina

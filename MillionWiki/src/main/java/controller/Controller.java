@@ -190,8 +190,8 @@ public final class Controller {
             f.delete();
         }
     }
-    public static Author getAuthorById(int Id){
-        return new AuthorDAOImplementation().getAuthorById(Id);
+    public static Author getAuthorById(int id){
+        return new AuthorDAOImplementation().getAuthorById(id);
     }
 
 
