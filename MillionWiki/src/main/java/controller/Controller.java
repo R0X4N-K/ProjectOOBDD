@@ -11,8 +11,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.Date;
 
 public final class Controller {
@@ -64,6 +64,10 @@ public final class Controller {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public static ArrayList<Article> getMatchesArticlesByTitle(String articleTitle){
+        return new ArticleDAOImplementation().getMatchesArticlesByTitle(articleTitle);
     }
 
 

@@ -9,6 +9,8 @@ import model.Cookie;
 
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 
 public class Window extends JFrame {
     private JPanel mainPanelWindow;
@@ -33,6 +35,7 @@ public class Window extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setSize(800, 700);
+        setMinimumSize(new Dimension(480, 480));
         setLocationRelativeTo(null);
         setVisible(true);
         profileWindow = new ProfileWindow(this);

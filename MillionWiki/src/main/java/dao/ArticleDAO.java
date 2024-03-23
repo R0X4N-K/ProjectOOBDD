@@ -13,7 +13,7 @@ public interface ArticleDAO {
 
     ArrayList<Article> getAllArticles() throws RuntimeException;
     ArrayList<Article> getAllArticlesByAuthor(int id) throws RuntimeException;
-
+    public ArrayList<Article> getMatchesArticlesByTitle(String title);
     public int saveArticle (String title, Date creationDate, boolean revision, Author author);
     public int saveArticle(String title, Date creationDate, boolean revision, int idAuthor);
     public void saveArticle(Article article);

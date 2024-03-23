@@ -35,6 +35,37 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         }
         return null;
     }
+    @Override
+    public ArrayList<Article> getMatchesArticlesByTitle(String title) {
+        ArrayList<Article> articles = new ArrayList<>();
+        String query = "";
+
+        if(title.length() >= 4)
+            query = "SELECT * FROM articles WHERE title ILIKE ? OR title ILIKE ? LIMIT 10";
+        else
+            query = "SELECT * FROM articles WHERE title ILIKE ? LIMIT 10";
+
+
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            if(title.length() >= 4) {
+                stmt.setString(1, "%" + title + "%");
+                stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
+            }
+            else
+                stmt.setString(1,title + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                try {
+                    articles.add(new Article(rs));
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
 
     @Override
     public ArrayList<Article> getAllArticles() {

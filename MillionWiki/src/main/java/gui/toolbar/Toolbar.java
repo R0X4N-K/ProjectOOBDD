@@ -1,11 +1,13 @@
 package gui.toolbar;
 import controller.Controller;
-import gui.Page;
-import gui.Window;
+import model.Article;
+
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.event.MouseInputListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.util.ArrayList;
 
 public class Toolbar {
     private JPanel commonToolbar;
@@ -19,19 +21,48 @@ public class Toolbar {
     private JButton switchUnloggedLoggedButton;
     private JButton switchToUnloggedButton;
     private JButton createPageButton;
+    private JButton searchBtn;
 
     public Toolbar() {
+
+
+
         if (Controller.checkLoggedUser()) {
             switchPanel(LoggedToolbar.getPanel());
         } else {
             switchPanel(UnloggedToolbar.getPanel());
         }
+
+
         homeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
             }
         });
+
+
+        searchTxtFld.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyReleased(KeyEvent e) {
+                super.keyReleased(e);
+                if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
+
+                    ArrayList<Article> matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
+
+                    for (Article mathesArticle : matchesArticles) {
+                        System.out.println(mathesArticle.getTitle());
+                    }
+                    System.out.println("----");
+                }
+                else{
+
+                }
+            }
+        });
+
+
+
 
         switchUnloggedLoggedButton.addActionListener(new ActionListener() {
             @Override
@@ -62,6 +93,7 @@ public class Toolbar {
             }
         });
     }
+
 
     public void switchPanel(JPanel refPanel) {
         uncommonToolbar.removeAll();

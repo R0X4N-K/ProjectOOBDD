@@ -698,4 +698,8 @@ public class Page {
     public void setIdArticle(int id) {
         idArticle = id;
     }
+
+    public void setTitlePageField(String title) {
+        this.titlePageField.setText(title);
+    }
 }
