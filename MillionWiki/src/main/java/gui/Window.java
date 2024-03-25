@@ -11,6 +11,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.awt.event.WindowAdapter;
 
 public class Window extends JFrame {
     private JPanel mainPanelWindow;
@@ -46,6 +47,30 @@ public class Window extends JFrame {
         } else {
             switchToUnloggedWindow(this);
         }
+
+
+        addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                toolbarMainPanel.updateSearchDialogPos();
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                toolbarMainPanel.updateSearchDialogPos();
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+
+            }
+        });
+
     }
 
     public void switchPanel(JPanel refPanel) {

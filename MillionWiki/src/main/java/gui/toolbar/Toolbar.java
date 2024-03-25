@@ -3,8 +3,10 @@ import controller.Controller;
 import model.Article;
 
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 import javax.swing.event.MouseInputListener;
+import javax.swing.plaf.basic.BasicTextFieldUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -23,8 +25,51 @@ public class Toolbar {
     private JButton createPageButton;
     private JButton searchBtn;
 
+    private JDialog searchDialog;
+    private JPanel searchDialogPanel;
+
     public Toolbar() {
 
+        searchTxtFld.setColumns(30);
+
+        searchDialog = new JDialog();
+        searchDialog.setLayout(new BorderLayout());
+        searchDialog.setSize(200, 200);
+        searchDialog.setResizable(false);
+        searchDialog.setVisible(false);
+        searchDialog.setType(Window.Type.UTILITY);
+        searchDialog.setAlwaysOnTop(true);
+        searchDialog.setFocusableWindowState(false);
+        searchDialog.setUndecorated(true);
+
+        // Aggiungi il pannello al JDialog invece che al JDialog stesso
+        searchDialogPanel = new JPanel();
+        searchDialogPanel.setLayout(new BoxLayout(searchDialogPanel, BoxLayout.Y_AXIS));
+
+        searchDialog.add(searchDialogPanel, BorderLayout.CENTER);
+        searchDialog.add(new JScrollPane(searchDialogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
+
+        searchDialog.addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                updateSearchDialogPos();
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+
+            }
+        });
 
 
         if (Controller.checkLoggedUser()) {
@@ -48,19 +93,82 @@ public class Toolbar {
                 super.keyReleased(e);
                 if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
 
-                    ArrayList<Article> matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
+                    searchDialog.setVisible(true);
+                    updateSearchDialogPos();
 
+                    ArrayList<Article> matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
+                    searchDialogPanel.removeAll();
                     for (Article mathesArticle : matchesArticles) {
                         System.out.println(mathesArticle.getTitle());
+
+
+                        JLabel articleItem = new JLabel(mathesArticle.getTitle());
+                        articleItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
+                        articleItem.setBorder(new EmptyBorder(4, 4, 0, 0));
+
+                        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                        panel.setMaximumSize(new Dimension(searchTxtFld.getWidth(), 30));
+                        panel.add(articleItem);
+
+                        panel.addMouseListener(new MouseAdapter() {
+                            @Override
+                            public void mouseEntered(MouseEvent e) {
+                                panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                                panel.setBackground(Color.decode("#007bff"));
+                                articleItem.setForeground(Color.WHITE);
+                            }
+
+                            @Override
+                            public void mouseExited(MouseEvent e) {
+                                panel.setCursor(Cursor.getDefaultCursor());
+                                panel.setBackground(null);
+                                articleItem.setForeground(Color.BLACK);
+                            }
+
+                            @Override
+                            public void mouseClicked(MouseEvent e) {
+                                System.out.println("Hai cliccato su " + mathesArticle.getTitle());
+
+                            }
+                        });
+
+                        searchDialogPanel.add(panel);
+                    }
+
+                    if(matchesArticles.size() < 9)
+                        searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
+                    else
+                        searchDialog.setSize(searchDialog.getWidth(), 200);
+
+                    if(matchesArticles.isEmpty()){
+                        searchDialog.setSize(searchDialog.getWidth(), 25);
+                        searchDialogPanel.add(new JLabel("Nessun risultato"));
                     }
                     System.out.println("----");
                 }
                 else{
-
+                    searchDialogPanel.removeAll();
+                    searchDialog.setVisible(false);
                 }
+                searchDialogPanel.revalidate();
+                searchDialogPanel.repaint();
             }
         });
 
+
+        searchTxtFld.addFocusListener(new FocusAdapter() {
+            @Override
+            public void focusLost(FocusEvent e) {
+                super.focusLost(e);
+                searchDialog.setVisible(false);
+                searchTxtFld.setBorder(new LineBorder(Color.GRAY, 1, false));
+            }
+            @Override
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                searchTxtFld.setBorder(new LineBorder(Color.decode("#007bff"), 2, false));
+            }
+        });
 
 
 
@@ -92,6 +200,11 @@ public class Toolbar {
                 }
             }
         });
+    }
+
+    public void updateSearchDialogPos(){
+        searchDialog.setLocation((int) searchTxtFld.getLocationOnScreen().getX(), (int) (searchTxtFld.getLocationOnScreen().getY() + searchTxtFld.getHeight()));
+        searchDialog.setSize(searchTxtFld.getWidth(), searchDialog.getHeight());
     }
 
 

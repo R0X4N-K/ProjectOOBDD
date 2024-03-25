@@ -41,15 +41,16 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         String query = "";
 
         if(title.length() >= 4)
-            query = "SELECT * FROM articles WHERE title ILIKE ? OR title ILIKE ? LIMIT 10";
+            query = "SELECT * FROM articles WHERE title ILIKE ? OR title ILIKE ? LIMIT 20";
         else
-            query = "SELECT * FROM articles WHERE title ILIKE ? LIMIT 10";
+            query = "SELECT * FROM articles WHERE title ILIKE ? LIMIT 20";
 
 
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             if(title.length() >= 4) {
-                stmt.setString(1, "%" + title + "%");
-                stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
+                stmt.setString(1,title + "%");
+                stmt.setString(2, "%" + title + "%");
+                // deep search -> stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
             }
             else
                 stmt.setString(1,title + "%");
