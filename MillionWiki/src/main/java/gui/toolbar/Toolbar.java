@@ -1,6 +1,7 @@
 package gui.toolbar;
 import controller.Controller;
 import model.Article;
+import model.ArticleVersion;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -128,6 +129,16 @@ public class Toolbar {
                             @Override
                             public void mouseClicked(MouseEvent e) {
                                 System.out.println("Hai cliccato su " + mathesArticle.getTitle());
+
+                                ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
+                               if(articleVersion != null){
+                                   Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
+                                   Controller.getWindow().getPage().setViewerMode();
+                                   Controller.getWindow().getPage().setTitlePageField(mathesArticle.getTitle());
+                                   Controller.getWindow().getPage().setTextPageField(articleVersion.getText());
+                                   Controller.getWindow().getPage().setIdArticle(mathesArticle.getId());
+                                   searchDialog.setVisible(false);
+                               }
 
                             }
                         });

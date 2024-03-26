@@ -66,6 +66,14 @@ public final class Controller {
         return null;
     }
 
+
+    public static ArticleVersion getLastArticleVersionByArticleId(int idArticle){
+        return new ArticleVersionDAOImplementation().getLastArticleVersionByArticleId(idArticle);
+    }
+    public static Article getArticlesById(int idArticle){
+        return new ArticleDAOImplementation().getArticleById(idArticle);
+    }
+
     public static ArrayList<Article> getMatchesArticlesByTitle(String articleTitle){
         return new ArticleDAOImplementation().getMatchesArticlesByTitle(articleTitle);
     }

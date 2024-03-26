@@ -257,25 +257,26 @@ public class Page {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-            if (idArticle == -1){
-                //Crea pagina
-                idArticle = Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText());
-                if (idArticle != -1){
-                    // Finesta -> Operazione avvenuta con successo
+                //TODO: controllo per verificare se si tratta di una modifica, proposta di modifica
+                if (idArticle == -1){
+                    //Crea pagina
+                    idArticle = Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText());
+                    if (idArticle != -1){
+                        // Finesta -> Operazione avvenuta con successo
+                    }
+                    else {
+                        // Finestra -> Operazione Fallita
+                    }
                 }
-                else {
-                    // Finestra -> Operazione Fallita
+                else{
+                    //Modifica pagina
+                    if (Controller.createProposal(idArticle, titlePageField.getText(), WAITING, pageField.getText(), new Date(), null, Controller.getCookie().getId()) != -1){
+                        // Finesta -> Operazione avvenuta con successo
+                    }
+                    else {
+                        // Finestra -> Operazione Fallita
+                    }
                 }
-            }
-            else{
-                //Modifica pagina
-                if (Controller.createProposal(idArticle, titlePageField.getText(), WAITING, pageField.getText(), new Date(), null, Controller.getCookie().getId()) != -1){
-                    // Finesta -> Operazione avvenuta con successo
-                }
-                else {
-                    // Finestra -> Operazione Fallita
-                }
-            }
            }
         });
     }
@@ -677,6 +678,7 @@ public class Page {
         titlePageField.setCaretColor(titlePageField.getBackground());
         toolMenu.setVisible(true);
         editBtn.setVisible(true);
+        sendButton.setVisible(false);
 
         pageMode = 0;
     }
@@ -691,6 +693,7 @@ public class Page {
         titlePageField.setEditable(true);
         titlePageField.setCaretColor(Color.BLACK);
         editBtn.setVisible(false);
+        sendButton.setVisible(true);
 
         pageMode = 1;
     }
@@ -701,5 +704,9 @@ public class Page {
 
     public void setTitlePageField(String title) {
         this.titlePageField.setText(title);
+    }
+
+    public void setTextPageField(String title) {
+        this.pageField.setText(title);
     }
 }

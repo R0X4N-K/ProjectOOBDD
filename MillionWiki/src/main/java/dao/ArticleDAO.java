@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public interface ArticleDAO {
+    public Article getArticleById(int idArticle);
     Article getArticleByTitle(String articleTitle) throws SQLException;
 
     ArrayList<Article> getAllArticles() throws RuntimeException;

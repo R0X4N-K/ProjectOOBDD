@@ -21,6 +21,22 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
+    public Article getArticleById(int idArticle){
+        String getArticleQuery = "SELECT * FROM articles WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
+            stmt.setInt(1, idArticle);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new Article(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    @Override
     public Article getArticleByTitle(String articleTitle) throws SQLException {
         String getArticleQuery = "SELECT * FROM articles WHERE title = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){

@@ -1,6 +1,7 @@
 package implementationDAO;
 import dao.ArticleVersionDAO;
 import database.DatabaseConnection;
+import model.Article;
 import model.ArticleVersion;
 import model.Author;
 
@@ -20,6 +21,23 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    @Override
+    public ArticleVersion getLastArticleVersionByArticleId(int idArticle){
+        String getArticleQuery = "SELECT * FROM article_versions WHERE parent_article = ? and status = ? ORDER BY version_date DESC LIMIT 1";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
+            stmt.setInt(1, idArticle);
+            stmt.setString(2, "ACCEPTED");
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return new ArticleVersion(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override
