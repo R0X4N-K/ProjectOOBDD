@@ -166,6 +166,15 @@ public class Toolbar {
             }
         });
 
+        searchTxtFld.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                super.mouseClicked(e);
+                if(searchDialogPanel.getComponentCount() > 0)
+                    searchDialog.setVisible(true);
+            }
+        });
+
 
         searchTxtFld.addFocusListener(new FocusAdapter() {
             @Override
@@ -199,8 +208,8 @@ public class Toolbar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.checkLoggedUser()) {
-                    Controller.getWindow().getPage().setEditorMode();
                     Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
+                    Controller.getWindow().getPage().setEditorMode();
                     Controller.getWindow().getPage().setIdArticle(-1);
                 }
                 else{

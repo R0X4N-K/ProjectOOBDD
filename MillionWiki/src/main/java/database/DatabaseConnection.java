@@ -19,7 +19,6 @@ public class DatabaseConnection {
         try {
             Class.forName(driver);
             connection = DriverManager.getConnection(url, nome, password);
-
         } catch (ClassNotFoundException ex) {
             System.out.println("Database Connection Creation Failed : " + ex.getMessage()); //TODO: trasformare in log
             ex.printStackTrace();

@@ -71,7 +71,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <nested-form id="9d3d2" form-file="gui/profileWindow/ProfileCard.form" binding="profileCard1" default-binding="true">
+          <nested-form id="9d3d2" form-file="gui/profileWindow/ProfileCard.form" binding="profileCard1">
             <constraints>
               <card name="Card1"/>
             </constraints>
