@@ -155,6 +155,7 @@ public class Toolbar {
             updateSearchDialogPos();
 
             ArrayList<Article> matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
+
             searchDialogPanel.removeAll();
             for (Article mathesArticle : matchesArticles) {
                 System.out.println(mathesArticle.getTitle());

@@ -2,6 +2,7 @@ package gui;
 
 
 import controller.Controller;
+import gui.toolbar.Toolbar;
 import model.Article;
 
 import javax.swing.*;
@@ -49,6 +50,7 @@ public class Page {
     private int pageMode = 0; //0 ViewerMode, 1 EditorMode
 
     private int idArticle = -1;
+    private Thread searchThread;
 
 
     public Page(){
@@ -109,30 +111,7 @@ public class Page {
                         "Errore", JOptionPane.ERROR_MESSAGE);
             }
             else {
-                //JDialog Color Chooser
-                JDialog colorChooserDialog = new JDialog();
-                colorChooserDialog.setModal(true);
-                colorChooserDialog.setLayout(new BorderLayout());
-
-                //Color Chooser Component
-                JColorChooser colorChooser = new JColorChooser();
-                AbstractColorChooserPanel[] defaultPanels = colorChooser.getChooserPanels();
-                colorChooser.removeChooserPanel( defaultPanels[4] ); // CMYK
-                colorChooser.removeChooserPanel( defaultPanels[2] );  // HSL
-                colorChooser.removeChooserPanel( defaultPanels[1] );  // HSV
-
-
-                //Buttons
-                JPanel buttonsPanel = getButtonsPanel(colorChooserDialog, colorChooser);
-
-                //Add Components to JDialog
-                colorChooserDialog.add(colorChooser, BorderLayout.CENTER);
-                colorChooserDialog.add(buttonsPanel, BorderLayout.SOUTH);
-
-
-                colorChooserDialog.setSize(450, 300);
-                colorChooserDialog.setLocationRelativeTo(null);
-                colorChooserDialog.setVisible(true);
+                createColorChooserComponent();
             }
         });
 
@@ -286,6 +265,33 @@ public class Page {
                 }
             }
         });
+    }
+
+    private void createColorChooserComponent(){
+        //JDialog Color Chooser
+        JDialog colorChooserDialog = new JDialog();
+        colorChooserDialog.setModal(true);
+        colorChooserDialog.setLayout(new BorderLayout());
+
+        //Color Chooser Component
+        JColorChooser colorChooser = new JColorChooser();
+        AbstractColorChooserPanel[] defaultPanels = colorChooser.getChooserPanels();
+        colorChooser.removeChooserPanel( defaultPanels[4] ); // CMYK
+        colorChooser.removeChooserPanel( defaultPanels[2] );  // HSL
+        colorChooser.removeChooserPanel( defaultPanels[1] );  // HSV
+
+
+        //Buttons
+        JPanel buttonsPanel = getButtonsPanel(colorChooserDialog, colorChooser);
+
+        //Add Components to JDialog
+        colorChooserDialog.add(colorChooser, BorderLayout.CENTER);
+        colorChooserDialog.add(buttonsPanel, BorderLayout.SOUTH);
+
+
+        colorChooserDialog.setSize(450, 300);
+        colorChooserDialog.setLocationRelativeTo(null);
+        colorChooserDialog.setVisible(true);
     }
 
     private void search(){
@@ -464,54 +470,57 @@ public class Page {
                 searchPageToLinkBtn.addActionListener(new ActionListener() {
                     @Override
                     public void actionPerformed(ActionEvent e) {
-                        //TODO: serve una funzione in Controller che prenda tutti gli articoli che hanno
-                        // una corrispondenza, quindi che restituisca un ArrayList di Article
-                        ArrayList<Article> articlesFound = Controller.getMatchesArticlesByTitle(searchPageToLinkTxtFld.getText());
 
+                        if (searchThread == null || !searchThread.isAlive()) {
+                            searchThread = new Thread(() -> {
+                                ArrayList<Article> articlesFound = Controller.getMatchesArticlesByTitle(searchPageToLinkTxtFld.getText());
 
-                        //TODO: completare visualizzazione articoli e possibilità di selezione e creazione link
-                        if(articlesFound.isEmpty()){
-                            System.out.println("Nessun articolo trovato con questo titolo: " + searchPageToLinkTxtFld.getText());
-                        }
-                        else{
-                            articlesFoundPanel.removeAll();
-                            for(Article article : articlesFound){
-                                JPanel articleFoundItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                                articleFoundItemPnl.setMaximumSize(new Dimension(320, 25));
-                                JLabel articleFoundItemLbl = new JLabel(article.getTitle());
-                                articleFoundItemPnl.add(articleFoundItemLbl);
+                                if(articlesFound.isEmpty()){
+                                    System.out.println("Nessun articolo trovato con questo titolo: " + searchPageToLinkTxtFld.getText());
+                                }
+                                else{
+                                    articlesFoundPanel.removeAll();
+                                    for(Article article : articlesFound){
+                                        JPanel articleFoundItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                                        articleFoundItemPnl.setMaximumSize(new Dimension(320, 25));
+                                        JLabel articleFoundItemLbl = new JLabel(article.getTitle());
+                                        articleFoundItemPnl.add(articleFoundItemLbl);
 
-                                articleFoundItemPnl.addMouseListener(new MouseAdapter() {
-                                    @Override
-                                    public void mouseClicked(MouseEvent e) {
-                                        super.mouseClicked(e);
-                                        System.out.println("Hai cliccato su " + article.getTitle());
+                                        articleFoundItemPnl.addMouseListener(new MouseAdapter() {
+                                            @Override
+                                            public void mouseClicked(MouseEvent e) {
+                                                super.mouseClicked(e);
+                                                System.out.println("Hai cliccato su " + article.getTitle());
 
-                                        articlePreviewFld.setText(Controller.getLastArticleVersionByArticleId(article.getId()).getText());
+                                                articlePreviewFld.setText(Controller.getLastArticleVersionByArticleId(article.getId()).getText());
 
-                                        for (int i = 0 ; i < articlesFoundPanel.getComponentCount(); i++) {
-                                            articlesFoundPanel.getComponent(i).setBackground(null);
-                                            JPanel panel = (JPanel)  articlesFoundPanel.getComponent(i);
-                                            for (Component innerComponent : panel.getComponents()) {
-                                                if (innerComponent instanceof JLabel) {
-                                                    JLabel label = (JLabel) innerComponent;
-                                                    label.setForeground(null);
+                                                for (int i = 0 ; i < articlesFoundPanel.getComponentCount(); i++) {
+                                                    articlesFoundPanel.getComponent(i).setBackground(null);
+                                                    JPanel panel = (JPanel)  articlesFoundPanel.getComponent(i);
+                                                    for (Component innerComponent : panel.getComponents()) {
+                                                        if (innerComponent instanceof JLabel) {
+                                                            JLabel label = (JLabel) innerComponent;
+                                                            label.setForeground(null);
+                                                        }
+                                                    }
                                                 }
+
+                                                articleFoundItemPnl.setBackground(Color.decode("#007bff"));
+                                                articleFoundItemLbl.setForeground(Color.WHITE);
+
+                                                articleToLink[0] = article;
                                             }
-                                        }
 
-                                        articleFoundItemPnl.setBackground(Color.decode("#007bff"));
-                                        articleFoundItemLbl.setForeground(Color.WHITE);
+                                        });
 
-                                        articleToLink[0] = article;
+                                        articlesFoundPanel.add(articleFoundItemPnl);
                                     }
-
-                                });
-
-                                articlesFoundPanel.add(articleFoundItemPnl);
-                            }
-                            articlesFoundPanel.revalidate();
-                            articlesFoundPanel.repaint();
+                                    articlesFoundPanel.revalidate();
+                                    articlesFoundPanel.repaint();
+                                }
+                            }); // Crea un nuovo thread se il precedente è terminato
+                            searchThread.setDaemon(true);
+                            searchThread.start();
                         }
                     }
                 });
