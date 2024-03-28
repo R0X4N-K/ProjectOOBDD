@@ -14,6 +14,7 @@ public interface ArticleDAO {
 
     ArrayList<Article> getAllArticles() throws RuntimeException;
     ArrayList<Article> getAllArticlesByAuthor(int id) throws RuntimeException;
+    ArrayList<Article> getAllArticlesByIdAuthor(int id);
     ArrayList<Article> getMatchesArticlesByTitle(String title);
     int saveArticle(String title, Date creationDate, boolean revision, Author author);
     int saveArticle(String title, Date creationDate, boolean revision, int idAuthor);

@@ -78,7 +78,9 @@ public final class Controller {
         return new ArticleDAOImplementation().getMatchesArticlesByTitle(articleTitle);
     }
 
-
+    public static ArrayList<Article> getArticlesByIdAuthor(int idAuthor){
+        return new ArticleDAOImplementation().getAllArticlesByIdAuthor(idAuthor);
+    }
     public static Author getAuthorByNickname(String nickname){
         return new AuthorDAOImplementation().getAuthorByNickname(nickname);
     }

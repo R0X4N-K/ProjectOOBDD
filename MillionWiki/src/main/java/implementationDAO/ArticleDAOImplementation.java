@@ -108,7 +108,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         return null;
     }
 
-    /*public ArrayList<Article> getAllArticlesByAuthor(int id) {
+    public ArrayList<Article> getAllArticlesByIdAuthor(int id) {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles WHERE author = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
@@ -126,7 +126,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         }
         return articles;
     }
-*/
+
     @Override
     public void saveArticle(Article article) {
         String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?, ?)";
