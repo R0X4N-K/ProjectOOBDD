@@ -29,7 +29,13 @@ public class Toolbar {
     private JDialog searchDialog;
     private JPanel searchDialogPanel;
 
+    private Thread searchThread;
+
     public Toolbar() {
+
+        searchThread = new Thread(this::search);
+        searchThread.setDaemon(true);
+
 
         //CHECK LOGGED USER
         if (Controller.checkLoggedUser()) {
@@ -79,10 +85,11 @@ public class Toolbar {
             @Override
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
-                Thread thread = new Thread(() -> {
-                    search();
-                });
-                thread.start();
+                if (searchThread == null || !searchThread.isAlive()) {
+                    searchThread = new Thread(Toolbar.this::search); // Crea un nuovo thread se il precedente è terminato
+                    searchThread.setDaemon(true);
+                    searchThread.start();
+                }
             }
         });
 
@@ -144,10 +151,8 @@ public class Toolbar {
 
     private void search(){
         if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
-            SwingUtilities.invokeLater(() -> {
-                searchDialog.setVisible(true);
-                updateSearchDialogPos();
-            });
+            searchDialog.setVisible(true);
+            updateSearchDialogPos();
 
             ArrayList<Article> matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
             searchDialogPanel.removeAll();
@@ -197,28 +202,23 @@ public class Toolbar {
                 searchDialogPanel.add(articleItemPnl);
             }
 
-            SwingUtilities.invokeLater(() -> {
-                if(matchesArticles.size() < 9)
-                    searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
-                else
-                    searchDialog.setSize(searchDialog.getWidth(), 200);
+            if(matchesArticles.size() < 9)
+                searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
+            else
+                searchDialog.setSize(searchDialog.getWidth(), 200);
 
-                if(matchesArticles.isEmpty()){
-                    searchDialog.setSize(searchDialog.getWidth(), 25);
-                    searchDialogPanel.add(new JLabel("Nessun risultato"));
-                }
-                searchDialogPanel.revalidate();
-                searchDialogPanel.repaint();
-            });
+            if(matchesArticles.isEmpty()){
+                searchDialog.setSize(searchDialog.getWidth(), 25);
+                searchDialogPanel.add(new JLabel("Nessun risultato"));
+            }
+            System.out.println("----");
         }
         else{
-            SwingUtilities.invokeLater(() -> {
-                searchDialogPanel.removeAll();
-                searchDialog.setVisible(false);
-                searchDialogPanel.revalidate();
-                searchDialogPanel.repaint();
-            });
+            searchDialogPanel.removeAll();
+            searchDialog.setVisible(false);
         }
+        searchDialogPanel.revalidate();
+        searchDialogPanel.repaint();
     }
 
 
