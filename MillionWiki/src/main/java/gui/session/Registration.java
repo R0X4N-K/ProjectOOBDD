@@ -68,7 +68,7 @@ public class Registration {
                     try {
                         Cookie c = new Cookie(Controller.getAuthorByNickname(nicknameTxtFld.getText()).getId(), passwordEncrypted);
                         Controller.setCookie(c);
-                        Controller.getWindow().switchToLoggedWindow(Controller.getWindow(), c);
+                        Window.switchToLoggedWindow(Controller.getWindow(), c);
                         if (rembemberMeCheckbox.isSelected()) {
                             c.writeCookie();
                         }
@@ -119,11 +119,7 @@ public class Registration {
     }
 
     public void checkAllFld() {
-        if (nicknameErrLbl.getForeground().equals(Color.GREEN) && mailErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl2.getForeground().equals(Color.GREEN)) {
-            submitBtn.setEnabled(true);
-        } else {
-            submitBtn.setEnabled(false);
-        }
+        submitBtn.setEnabled(nicknameErrLbl.getForeground().equals(Color.GREEN) && mailErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl.getForeground().equals(Color.GREEN) && passwordErrLbl2.getForeground().equals(Color.GREEN));
     }
 
 
@@ -170,17 +166,11 @@ public class Registration {
 
     public boolean checkEmailSyntax(String text) {
         String regex = "^[\\w!#$%&'*+/=?^`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^`{|}~-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
-        if (text.matches(regex)) {
-            return true;
-        }
-        return false;
+        return text.matches(regex);
     }
 
     public boolean checkNickname(String text) {
-        if (text.length() < 4 || text.length() > 18) {
-            return false;
-        }
-        return true;
+        return text.length() >= 4 && text.length() <= 18;
     }
 
     public boolean checkEmailIsRegistered(String email) {
@@ -285,12 +275,9 @@ public class Registration {
                 break;
             }
         }
-        if (!hasSpecialSymbol) {
-            return false;
-        }
+        return hasSpecialSymbol;
 
         // La password è valida
-        return true;
     }
 
     public void setErrLbl(JLabel lblTarget, Boolean visibleState, String msg, Color msgFgColor) {

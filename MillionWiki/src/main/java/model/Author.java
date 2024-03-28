@@ -10,7 +10,7 @@ public class Author extends User {
     private String email;
     private String nickname;
     private float rating;
-    private ArrayList<Article> createdPages;
+    private final ArrayList<Article> createdPages;
     public Author(int id, String email, String nickname) throws Exception {
         setId(id);
         setEmail(email);
@@ -18,7 +18,7 @@ public class Author extends User {
         this.rating = 0;
         this.createdPages = new ArrayList<>();
     }
-    public Author(ResultSet resultSet) throws SQLException, RuntimeException, Exception{
+    public Author(ResultSet resultSet) throws Exception{
         setId(resultSet.getInt("id"));
         setEmail(resultSet.getString("email"));
         setNickname(resultSet.getString("nickname"));

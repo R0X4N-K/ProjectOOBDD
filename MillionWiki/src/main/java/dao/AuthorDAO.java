@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 public interface AuthorDAO {
     Author getAuthorByNickname(String nickname);
-    public Author getAuthorById(int id);
+    Author getAuthorById(int id);
     ArrayList<Author> getAllAuthors();
 
     void saveAuthor(Author author, String password);
@@ -20,9 +20,9 @@ public interface AuthorDAO {
     void updateAuthorRating(Author author, float newRating);
     void updateAuthorArticles(Author author, ArrayList<Article> newArticles, String password);
     void deleteAuthor(int id);
-    public Cookie loginAuthor(String email, String nickname, String password);
-    public Cookie loginAuthor(int id, String password);
-    public void registerAuthor(String nickname, String password, float rating, String email);
-    public boolean isEmailUsed(String email);
-    public boolean isNicknameUsed(String nickname);
+    Cookie loginAuthor(String email, String nickname, String password);
+    Cookie loginAuthor(int id, String password);
+    void registerAuthor(String nickname, String password, float rating, String email);
+    boolean isEmailUsed(String email);
+    boolean isNicknameUsed(String nickname);
 }

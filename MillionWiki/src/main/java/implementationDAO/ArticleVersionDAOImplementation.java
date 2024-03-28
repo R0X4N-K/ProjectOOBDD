@@ -13,7 +13,7 @@ import java.util.Date;
 
 
 public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
-    private DatabaseConnection dbConnection;
+    private final DatabaseConnection dbConnection;
 
     public ArticleVersionDAOImplementation() throws RuntimeException {
         try {

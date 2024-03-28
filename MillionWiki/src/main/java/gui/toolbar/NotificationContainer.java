@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class NotificationContainer {
     private JPanel notificationContainerPanel;
     private JLabel newsNumber;
-    private ArrayList<Notification> notificationList;
+    private final ArrayList<Notification> notificationList;
 
     private void setNotificationList(ArrayList<ArticleVersion> notificationsPool) {
         int n_notification = 0;
@@ -24,7 +24,7 @@ public class NotificationContainer {
         } else {
             System.out.println("WARNING! La pool di notifiche è uguale a NULL");
         }
-        newsNumber.setText("Hai" + Integer.toString(n_notification) + "nuove notifiche");
+        newsNumber.setText("Hai" + n_notification + "nuove notifiche");
     }
 
     public void demoList() { // TODO: Rimuovere Funzione

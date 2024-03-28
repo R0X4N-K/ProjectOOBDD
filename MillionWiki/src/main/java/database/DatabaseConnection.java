@@ -9,10 +9,10 @@ public class DatabaseConnection {
     // ATTRIBUTI
     private static DatabaseConnection instance;
     public Connection connection = null;
-    private String nome = "postgres";
-    private String password = "j9b!3fsq9k#"; // TODO:  CAMBIARE PASSWORD!!!!!!
-    private String url = "jdbc:postgresql://wikidb.cix9wyrt2gqf.eu-south-1.rds.amazonaws.com:5432/wikidb";
-    private String driver = "org.postgresql.Driver";
+    private final String nome = "postgres";
+    private final String password = "j9b!3fsq9k#"; // TODO:  CAMBIARE PASSWORD!!!!!!
+    private final String url = "jdbc:postgresql://wikidb.cix9wyrt2gqf.eu-south-1.rds.amazonaws.com:5432/wikidb";
+    private final String driver = "org.postgresql.Driver";
 
     // COSTRUTTORE
     private DatabaseConnection() throws SQLException {

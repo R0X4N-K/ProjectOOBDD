@@ -13,8 +13,8 @@ public class LoggedToolbar {
     private JPanel loggedUserPanel;
     private JButton showNotificationsButton;
     private JButton showProfileButton;
-    private NotificationContainer notificationContainer = new NotificationContainer();
-    private Profile profile = new Profile();
+    private final NotificationContainer notificationContainer = new NotificationContainer();
+    private final Profile profile = new Profile();
 
     public LoggedToolbar() {
         JPopupMenu popupMenuNotifications = new JPopupMenu();

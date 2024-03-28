@@ -18,7 +18,7 @@ public class ProfileCard {
         logoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.getWindow().switchToUnloggedWindow(Controller.getWindow());
+                Window.switchToUnloggedWindow(Controller.getWindow());
                 welcomeJLabel.setText("Benvenuto!");
                 Controller.getWindow().getprofileWindow().getDialog().dispose();
 

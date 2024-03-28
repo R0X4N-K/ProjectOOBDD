@@ -9,18 +9,18 @@ import java.util.ArrayList;
 import java.util.Date;
 
 public interface ArticleDAO {
-    public Article getArticleById(int idArticle);
+    Article getArticleById(int idArticle);
     Article getArticleByTitle(String articleTitle) throws SQLException;
 
     ArrayList<Article> getAllArticles() throws RuntimeException;
     ArrayList<Article> getAllArticlesByAuthor(int id) throws RuntimeException;
-    public ArrayList<Article> getMatchesArticlesByTitle(String title);
-    public int saveArticle (String title, Date creationDate, boolean revision, Author author);
-    public int saveArticle(String title, Date creationDate, boolean revision, int idAuthor);
-    public void saveArticle(Article article);
-    public void updateArticle(int idArticle, String title);
-    public void updateArticle(Article article, Article newArticle);
-    public void updateRevisionArticle (Article article, boolean newArticleRevisionStatus);
-    public void deleteArticle(Article articleToDelete);
+    ArrayList<Article> getMatchesArticlesByTitle(String title);
+    int saveArticle(String title, Date creationDate, boolean revision, Author author);
+    int saveArticle(String title, Date creationDate, boolean revision, int idAuthor);
+    void saveArticle(Article article);
+    void updateArticle(int idArticle, String title);
+    void updateArticle(Article article, Article newArticle);
+    void updateRevisionArticle(Article article, boolean newArticleRevisionStatus);
+    void deleteArticle(Article articleToDelete);
 
 }

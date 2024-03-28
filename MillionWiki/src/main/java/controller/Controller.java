@@ -21,7 +21,7 @@ public final class Controller {
     private static ArticleDAO articleDAO = null;
     private static ArticleVersionDAO articleVersionDAO = null;
     private static AuthorDAO authorDAO = null;
-    private static String lockFilePath = Cookie.getConfigFolder().concat("lockFile");
+    private static final String lockFilePath = Cookie.getConfigFolder().concat("lockFile");
 
     public static Window getWindow() {
         return window;

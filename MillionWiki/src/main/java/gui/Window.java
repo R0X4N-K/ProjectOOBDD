@@ -22,7 +22,7 @@ public class Window extends JFrame {
     private Registration registrationPanel;
     private Page pagePanel;
     private Toolbar toolbarMainPanel;
-    private ProfileWindow profileWindow;
+    private final ProfileWindow profileWindow;
 
     public Window() {
         super("Million Wiki");

@@ -31,25 +31,19 @@ public class Toolbar {
 
     public Toolbar() {
 
+        //CHECK LOGGED USER
+        if (Controller.checkLoggedUser()) {
+            switchPanel(LoggedToolbar.getPanel());
+        } else {
+            switchPanel(UnloggedToolbar.getPanel());
+        }
+
         searchTxtFld.setColumns(30);
 
-        searchDialog = new JDialog();
-        searchDialog.setLayout(new BorderLayout());
-        searchDialog.setSize(200, 200);
-        searchDialog.setResizable(false);
-        searchDialog.setVisible(false);
-        searchDialog.setType(Window.Type.UTILITY);
-        searchDialog.setAlwaysOnTop(true);
-        searchDialog.setFocusableWindowState(false);
-        searchDialog.setUndecorated(true);
+        //SEARCH COMPONENTS CREATION
+        createSearchDialogComponent();
 
-        // Aggiungi il pannello al JDialog invece che al JDialog stesso
-        searchDialogPanel = new JPanel();
-        searchDialogPanel.setLayout(new BoxLayout(searchDialogPanel, BoxLayout.Y_AXIS));
-
-        searchDialog.add(searchDialogPanel, BorderLayout.CENTER);
-        searchDialog.add(new JScrollPane(searchDialogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-
+        //LISTENERS
         searchDialog.addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
@@ -73,13 +67,6 @@ public class Toolbar {
         });
 
 
-        if (Controller.checkLoggedUser()) {
-            switchPanel(LoggedToolbar.getPanel());
-        } else {
-            switchPanel(UnloggedToolbar.getPanel());
-        }
-
-
         homeBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -92,77 +79,10 @@ public class Toolbar {
             @Override
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
-                if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
-
-                    searchDialog.setVisible(true);
-                    updateSearchDialogPos();
-
-                    ArrayList<Article> matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
-                    searchDialogPanel.removeAll();
-                    for (Article mathesArticle : matchesArticles) {
-                        System.out.println(mathesArticle.getTitle());
-
-
-                        JLabel articleItem = new JLabel(mathesArticle.getTitle());
-                        articleItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
-                        articleItem.setBorder(new EmptyBorder(4, 4, 0, 0));
-
-                        JPanel panel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                        panel.setMaximumSize(new Dimension(searchTxtFld.getWidth(), 30));
-                        panel.add(articleItem);
-
-                        panel.addMouseListener(new MouseAdapter() {
-                            @Override
-                            public void mouseEntered(MouseEvent e) {
-                                panel.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                                panel.setBackground(Color.decode("#007bff"));
-                                articleItem.setForeground(Color.WHITE);
-                            }
-
-                            @Override
-                            public void mouseExited(MouseEvent e) {
-                                panel.setCursor(Cursor.getDefaultCursor());
-                                panel.setBackground(null);
-                                articleItem.setForeground(Color.BLACK);
-                            }
-
-                            @Override
-                            public void mouseClicked(MouseEvent e) {
-                                System.out.println("Hai cliccato su " + mathesArticle.getTitle());
-
-                                ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
-                               if(articleVersion != null){
-                                   Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-                                   Controller.getWindow().getPage().setViewerMode();
-                                   Controller.getWindow().getPage().setTitlePageField(mathesArticle.getTitle());
-                                   Controller.getWindow().getPage().setTextPageField(articleVersion.getText());
-                                   Controller.getWindow().getPage().setIdArticle(mathesArticle.getId());
-                                   searchDialog.setVisible(false);
-                               }
-
-                            }
-                        });
-
-                        searchDialogPanel.add(panel);
-                    }
-
-                    if(matchesArticles.size() < 9)
-                        searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
-                    else
-                        searchDialog.setSize(searchDialog.getWidth(), 200);
-
-                    if(matchesArticles.isEmpty()){
-                        searchDialog.setSize(searchDialog.getWidth(), 25);
-                        searchDialogPanel.add(new JLabel("Nessun risultato"));
-                    }
-                    System.out.println("----");
-                }
-                else{
-                    searchDialogPanel.removeAll();
-                    searchDialog.setVisible(false);
-                }
-                searchDialogPanel.revalidate();
-                searchDialogPanel.repaint();
+                Thread thread = new Thread(() -> {
+                    search();
+                });
+                thread.start();
             }
         });
 
@@ -220,6 +140,104 @@ public class Toolbar {
                 }
             }
         });
+    }
+
+    private void search(){
+        if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
+            SwingUtilities.invokeLater(() -> {
+                searchDialog.setVisible(true);
+                updateSearchDialogPos();
+            });
+
+            ArrayList<Article> matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
+            searchDialogPanel.removeAll();
+            for (Article mathesArticle : matchesArticles) {
+                System.out.println(mathesArticle.getTitle());
+
+                JLabel articleItem = new JLabel(mathesArticle.getTitle());
+                articleItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
+                articleItem.setBorder(new EmptyBorder(4, 2, 0, 0));
+
+                JPanel articleItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                articleItemPnl.setMaximumSize(new Dimension(searchTxtFld.getWidth(), 30));
+                articleItemPnl.add(articleItem);
+
+                articleItemPnl.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e) {
+                        articleItemPnl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                        articleItemPnl.setBackground(Color.decode("#007bff"));
+                        articleItem.setForeground(Color.WHITE);
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e) {
+                        articleItemPnl.setCursor(Cursor.getDefaultCursor());
+                        articleItemPnl.setBackground(null);
+                        articleItem.setForeground(Color.BLACK);
+                    }
+
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                        System.out.println("Hai cliccato su " + mathesArticle.getTitle());
+
+                        ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
+                        if(articleVersion != null){
+                            Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
+                            Controller.getWindow().getPage().setViewerMode();
+                            Controller.getWindow().getPage().setTitlePageField(mathesArticle.getTitle());
+                            Controller.getWindow().getPage().setTextPageField(articleVersion.getText());
+                            Controller.getWindow().getPage().setIdArticle(mathesArticle.getId());
+                            searchDialog.setVisible(false);
+                        }
+
+                    }
+                });
+
+                searchDialogPanel.add(articleItemPnl);
+            }
+
+            SwingUtilities.invokeLater(() -> {
+                if(matchesArticles.size() < 9)
+                    searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
+                else
+                    searchDialog.setSize(searchDialog.getWidth(), 200);
+
+                if(matchesArticles.isEmpty()){
+                    searchDialog.setSize(searchDialog.getWidth(), 25);
+                    searchDialogPanel.add(new JLabel("Nessun risultato"));
+                }
+                searchDialogPanel.revalidate();
+                searchDialogPanel.repaint();
+            });
+        }
+        else{
+            SwingUtilities.invokeLater(() -> {
+                searchDialogPanel.removeAll();
+                searchDialog.setVisible(false);
+                searchDialogPanel.revalidate();
+                searchDialogPanel.repaint();
+            });
+        }
+    }
+
+
+    private void createSearchDialogComponent(){
+        searchDialog = new JDialog();
+        searchDialog.setLayout(new BorderLayout());
+        searchDialog.setSize(200, 200);
+        searchDialog.setResizable(false);
+        searchDialog.setVisible(false);
+        searchDialog.setType(Window.Type.UTILITY);
+        searchDialog.setAlwaysOnTop(true);
+        searchDialog.setFocusableWindowState(false);
+        searchDialog.setUndecorated(true);
+
+        searchDialogPanel = new JPanel();
+        searchDialogPanel.setLayout(new BoxLayout(searchDialogPanel, BoxLayout.Y_AXIS));
+
+        searchDialog.add(searchDialogPanel, BorderLayout.CENTER);
+        searchDialog.add(new JScrollPane(searchDialogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
     }
 
     public void updateSearchDialogPos(){

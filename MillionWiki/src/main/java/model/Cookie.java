@@ -19,8 +19,8 @@ public class Cookie {
     private int id;
     private String password;
 
-    static private String configFolder = System.getProperty("user.home").concat(FileSystems.getDefault().getSeparator()).concat(".MillionWiki").concat(FileSystems.getDefault().getSeparator()); // TODO: Spostare in altra classe
-    static private String cookieSavePath = configFolder.concat("cookie.toml");
+    static private final String configFolder = System.getProperty("user.home").concat(FileSystems.getDefault().getSeparator()).concat(".MillionWiki").concat(FileSystems.getDefault().getSeparator()); // TODO: Spostare in altra classe
+    static private final String cookieSavePath = configFolder.concat("cookie.toml");
 
     public Cookie(int id, String password) throws Exception {
         setPassword(password);

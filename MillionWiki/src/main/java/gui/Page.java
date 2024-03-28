@@ -3,13 +3,14 @@ package gui;
 
 import controller.Controller;
 import model.Article;
-import model.ArticleVersion;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.text.*;
-import javax.swing.text.html.*;
+import javax.swing.text.html.HTML;
+import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
@@ -139,7 +140,6 @@ public class Page {
 
         pageField.addHyperlinkListener(e -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                pageField.setEditable(true);
                 System.out.println(e.getDescription() + " " + Controller.getArticlesById(Integer.decode(e.getDescription())).getTitle());
             }
         });
@@ -284,7 +284,7 @@ public class Page {
                         // Finestra -> Operazione Fallita
                     }
                 }
-           }
+            }
         });
     }
 
@@ -408,7 +408,6 @@ public class Page {
         linkBtnNewMenu.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
             if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
-                //TODO: JDialog per prendere in inupt il nome del link da inserire
                 final Article[] articleToLink = {null};
                 JDialog inputLinkTxtDlg =  new JDialog();
                 inputLinkTxtDlg.setTitle("Seleziona una pagina");
