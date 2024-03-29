@@ -50,16 +50,6 @@ public class ProfileWindow extends JDialog {
         return this;
     }
 
-    public static ProfileWindow checkProfileWindow(ProfileWindow profileWindow, Component leaf) throws NullPointerException {
-        if (leaf != null) {
-            if (profileWindow == null)
-                profileWindow = (ProfileWindow) SwingUtilities.getAncestorOfClass(ProfileWindow.class, leaf);
-            return profileWindow;
-        } else {
-            throw new NullPointerException("Non è possibile trovare \"profileWindow\", poiché \"leaf\" è null");
-        }
-    }
-
     public void setProfileCard() {
         profileCard.setProfile();
     }
