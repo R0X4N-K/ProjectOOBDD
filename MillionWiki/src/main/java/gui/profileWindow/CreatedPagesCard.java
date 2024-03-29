@@ -114,10 +114,10 @@ public class CreatedPagesCard {
     }
     public void setCreatedPages() {
         setCreatedPagesJTable();
-        createdPagesCardPanelJScrollPane.setViewportView(createdPagesJTable);
+        /*createdPagesCardPanelJScrollPane.setViewportView(createdPagesJTable);
         createdPagesCardPanelJScrollPane.revalidate();
         createdPagesCardPanelJScrollPane.repaint();
-    }
+    */}
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
         for (ArticleVersion articleVersion : articleVersions) {
