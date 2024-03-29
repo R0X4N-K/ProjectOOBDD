@@ -9,6 +9,7 @@ import java.util.Date;
 public interface ArticleVersionDAO {
     ArticleVersion getLastArticleVersionByArticleId(int idArticle);
     ArrayList<ArticleVersion> getAllArticleVersions();
+    public ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle);
     int insertArticleVersion(ArticleVersion articleVersion);
     int insertArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int idAuthor, String titleProposal);
     int insertArticleVersion(String title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal, String titleProposal);

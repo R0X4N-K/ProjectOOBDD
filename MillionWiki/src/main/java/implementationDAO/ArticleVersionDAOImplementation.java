@@ -40,6 +40,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         return null;
     }
 
+
     @Override
     public ArrayList<ArticleVersion> getAllArticleVersions() {
         ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
@@ -70,6 +71,23 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         }
 
+        return articleVersions;
+    }
+    @Override
+    public ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle){
+        ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
+        String getArticleQuery = "SELECT * FROM article_versions WHERE parent_article = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
+            stmt.setInt(1, idArticle);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ArticleVersion articleVersion = new ArticleVersion(rs);
+                    articleVersions.add(articleVersion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return articleVersions;
     }
 
