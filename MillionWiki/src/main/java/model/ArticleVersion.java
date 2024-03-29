@@ -63,6 +63,7 @@ public class ArticleVersion {
         setText(resultSet.getString("text"));
         setVersionDate(resultSet.getDate("version_date"));
         setRevisionDate(resultSet.getDate("revision_date"));
+        setParentArticle(Controller.getArticlesById(resultSet.getInt("parent_article")));
         try {
             setAuthorProposal(Controller.getAuthorById(resultSet.getInt("author_proposal")));
         } catch (Exception e) {

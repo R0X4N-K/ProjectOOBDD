@@ -41,6 +41,7 @@ public class ProfileWindow extends JDialog {
         buttonToStatistics.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                setProposalCard();
                 switchPanel(proposalCard.getPanel());
             }
         });
@@ -57,10 +58,11 @@ public class ProfileWindow extends JDialog {
         createdPagesCard.setCreatedPages();
     }
     public void setProposalCard(){
-
+        proposalCard.setProposalCard();
     }
     public void setProfileWindow() {
         setProfileCard();
+        switchPanel(profileCard.getPanel());
     }
 
     public void switchPanel(JPanel refPanel) {

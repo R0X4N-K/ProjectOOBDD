@@ -73,6 +73,9 @@ public final class Controller {
     public static ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle){
         return new ArticleVersionDAOImplementation().getAllArticleVersionByArticleId(idArticle);
     }
+    public static ArrayList<ArticleVersion> getAllArticleVersionByAuthorId(int authorId){
+        return new ArticleVersionDAOImplementation().getAllArticleVersionByAuthorId(authorId);
+    }
     public static Article getArticlesById(int idArticle){
         return new ArticleDAOImplementation().getArticleById(idArticle);
     }
