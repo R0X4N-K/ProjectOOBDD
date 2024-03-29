@@ -25,7 +25,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
 
     @Override
     public ArticleVersion getLastArticleVersionByArticleId(int idArticle){
-        String getArticleQuery = "SELECT * FROM article_versions WHERE parent_article = ? and status = ? ORDER BY version_date DESC LIMIT 1";
+        String getArticleQuery = "SELECT * FROM article_versions WHERE parent_article = ? and status = ? ORDER BY revision_date DESC LIMIT 1";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
             stmt.setInt(1, idArticle);
             stmt.setString(2, "ACCEPTED");
@@ -75,9 +75,9 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
 
     public int insertArticleVersion(int idArticle, ArticleVersion.Status status,
                                     String text, Date versionDate, Date revisionDate,
-                                    int idAuthor){
+                                    int idAuthor, String titleProposal){
         int id = -1;
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal, title) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setInt(1, idArticle);
             stmt.setString(2, status.toString());
@@ -89,6 +89,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                 stmt.setNull(5, java.sql.Types.DATE);
             }
             stmt.setInt(6, idAuthor);
+            stmt.setString(7, titleProposal);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("id");
@@ -98,6 +99,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         }
         return id;
     }
+
 
     public int insertArticleVersion(ArticleVersion articleVersion) {
         int id = -1;
@@ -124,7 +126,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         return id;
     }
 
-    public int insertArticleVersion(String title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal) {
+    public int insertArticleVersion(String title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal, String titleProposal) {
         int id = -1;
         String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
@@ -138,6 +140,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                 stmt.setNull(5, java.sql.Types.DATE);
             }
             stmt.setString(6, String.valueOf(authorProposal.getId()));
+            stmt.setString(7, titleProposal);
             ResultSet rs = stmt.executeQuery();
 
 
@@ -152,19 +155,22 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
     }
 
     @Override
-    public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int authorProposal) {
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) ";
+    public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int authorProposal, String titleProposal) {
+        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal, title) VALUES (?, ?, ?, ?, ?, ?, ?) ";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setInt(1, idArticle);
             stmt.setString(2, status.toString());
             stmt.setString(3, text);
             stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
+            stmt.setInt(6, authorProposal);
+
             if (revisionDate != null) {
                 stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
             } else {
                 stmt.setNull(5, java.sql.Types.DATE);
             }
             stmt.setInt(6, authorProposal);
+            stmt.setString(7, titleProposal);
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -19,7 +19,7 @@ public interface ArticleDAO {
     int saveArticle(String title, Date creationDate, boolean revision, Author author);
     int saveArticle(String title, Date creationDate, boolean revision, int idAuthor);
     void saveArticle(Article article);
-    void updateArticle(int idArticle, String title);
+    void updateArticle(int idArticle, String title); // TODO: RIMUOVERE FUNZIONE PERCHÉ NON PIÙ UTILE (SOSTITUITA DA IMPLEMENTAZIONE PIÙ SICURA SUL DATABASE)
     void updateArticle(Article article, Article newArticle);
     void updateRevisionArticle(Article article, boolean newArticleRevisionStatus);
     void deleteArticle(Article articleToDelete);

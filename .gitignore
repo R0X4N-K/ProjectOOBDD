@@ -35,3 +35,4 @@ bin/
 /ProjectOOBDD.iml
 MillionWiki/MillionWiki.iml
 test/MillionWiki/classpath.index
+*.java~

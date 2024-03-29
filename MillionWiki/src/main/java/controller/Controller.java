@@ -144,26 +144,28 @@ public final class Controller {
     public static int createArticle(String title,int idAuthor, Date creationDate,Boolean revision, String text){
         int idArticle= articleDAO.saveArticle(title, creationDate, revision, idAuthor);
         ArticleVersion.Status status = ArticleVersion.Status.valueOf("ACCEPTED");
-        articleVersionDAO.saveArticleVersion(idArticle, status, text, creationDate, creationDate, idAuthor);
+        articleVersionDAO.saveArticleVersion(idArticle, status, text, creationDate, creationDate, idAuthor, title);
         return idArticle;
     }
 
     public static int createProposal(int idArticle, String titleArticle, ArticleVersion.Status status,
                                      String text, Date versionDate, Date revisionDate,
                                      int idAuthor){
-        articleDAO.updateArticle(idArticle, titleArticle);
-        return articleVersionDAO.insertArticleVersion(idArticle, status, text, versionDate, revisionDate, idAuthor);
+        /*if (idAuthor == cookie.getId()) {
+            articleDAO.updateArticle(idArticle, titleArticle);
+        }*/ // TODO: RIMUOVERE FUNZIONE
+        return articleVersionDAO.insertArticleVersion(idArticle, status, text, versionDate, revisionDate, idAuthor, titleArticle);
     }
 
     public static int createProposal(Article parentArticle, ArticleVersion.Status status,
-                                      String text, Date versionDate, Date revisionDate,
-                                      Author authorProposal) {
-        return articleVersionDAO.insertArticleVersion(parentArticle.getTitle(), status, text, versionDate, revisionDate, authorProposal);
+                                     String text, Date versionDate, Date revisionDate,
+                                     Author authorProposal, String titleProposal) {
+        return articleVersionDAO.insertArticleVersion(parentArticle.getTitle(), status, text, versionDate, revisionDate, authorProposal, titleProposal);
     }
     public static int createProposal(String title, ArticleVersion.Status status,
                                      String text, Date versionDate, Date revisionDate,
-                                     Author authorProposal) {
-        return articleVersionDAO.insertArticleVersion(title, status, text, versionDate, revisionDate, authorProposal);
+                                     Author authorProposal, String titleProposal) {
+        return articleVersionDAO.insertArticleVersion(title, status, text, versionDate, revisionDate, authorProposal, titleProposal);
     }
 
     public static boolean checkLoggedUser(){

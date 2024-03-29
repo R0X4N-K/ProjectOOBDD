@@ -21,13 +21,24 @@ public class ArticleVersion {
     private Date revisionDate = null;
     private Author authorProposal;
 
+    public String getTitleProposal() {
+        return titleProposal;
+    }
+
+    public void setTitleProposal(String titleProposal) {
+        this.titleProposal = titleProposal;
+    }
+
+    private String titleProposal;
+
     public ArticleVersion() {
 
     }
-    public ArticleVersion(int id, Article parentArticle, String text) {
+    public ArticleVersion(int id, Article parentArticle, String text, String titleProposal) {
         setId(id);
         setParentArticle(parentArticle);
         setText(text);
+        setTitleProposal(titleProposal);
         setStatus(Status.WAITING);
         this.versionDate = new Date();
         setAuthorProposal(parentArticle.getAuthor());
