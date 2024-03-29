@@ -21,7 +21,7 @@ public class ProfileWindow extends JDialog {
         super(parent, true); // Set the dialog to be modal
         setContentPane(profileWindowMainPanel);
         pack();
-        setSize(500, 600);
+        setSize(700, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE); // The dialog will be hidden and disposed
         buttonToProfile.addActionListener(new ActionListener() {

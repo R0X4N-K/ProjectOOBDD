@@ -41,6 +41,9 @@
                   <component id="54e24" class="javax.swing.JTable" binding="createdPagesJTable" custom-create="true">
                     <constraints/>
                     <properties/>
+                    <clientProperties>
+                      <terminateEditOnFocusLost class="java.lang.Boolean" value="false"/>
+                    </clientProperties>
                   </component>
                 </children>
               </scrollpane>
