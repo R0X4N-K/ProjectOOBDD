@@ -26,7 +26,7 @@ public class LoggedToolbar {
         showProfileButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.getWindow().getprofileWindow().setProfileWindow();;
+                Controller.getWindow().getprofileWindow().setProfileWindow();
                 Controller.getWindow().getprofileWindow().setVisible(true);
             }
         });
