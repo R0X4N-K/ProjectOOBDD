@@ -14,12 +14,9 @@ public class LoggedToolbar {
     private JButton showNotificationsButton;
     private JButton showProfileButton;
     private final NotificationContainer notificationContainer = new NotificationContainer();
-    private final Profile profile = new Profile();
 
     public LoggedToolbar() {
         JPopupMenu popupMenuNotifications = new JPopupMenu();
-        JPopupMenu popupMenuProfile = new JPopupMenu();
-        popupMenuProfile.add(profile.getPanel());
         popupMenuNotifications.add(notificationContainer.getPanel());
 
         showNotificationsButton.addActionListener(e -> {
@@ -33,16 +30,6 @@ public class LoggedToolbar {
             }
         });
     }
-
-    public JPanel getProfilePanel() {
-        return profile.getPanel();
-    }
-
-    public void setNicknameProfile(String nickname) {
-        profile.setNicknameJLabel(nickname);
-
-    }
-
     public JPanel getPanel() {
         return loggedUserPanel;
     }

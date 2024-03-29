@@ -114,7 +114,6 @@ public class Window extends JFrame {
 
     public static void switchToLoggedWindow(Window window) {
         String nickname = Controller.getAuthorById(Controller.getCookie().getId()).getNickname();
-        window.toolbarMainPanel.setProfile(nickname);
         window.profileWindow.setProfileWindow(nickname);
         window.toolbarMainPanel.switchToLoggedToolbar();
         window.switchPanel(window.getHomePanel());

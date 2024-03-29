@@ -265,11 +265,6 @@ public class Toolbar {
     public JPanel getLoggedToolbar() {
         return LoggedToolbar.getPanel();
     }
-
-    public void setProfile(String nickname) {
-        LoggedToolbar.setNicknameProfile(nickname);
-    }
-
     public JPanel getPanel() {
         return mainPanelToolbar;
     }

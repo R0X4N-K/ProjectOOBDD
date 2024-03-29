@@ -32,29 +32,29 @@ public class CreatedPagesCard {
     public CreatedPagesCard() {
 
 
-        createdPagesJTable.addMouseListener(new MouseAdapter() {    //MouseListener per gestire i clic del mouse sulla cella
+        createdPagesJTable.addMouseListener(createMouseListener());
+    }
+
+
+    private MouseAdapter createMouseListener() {
+        return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = createdPagesJTable.rowAtPoint(e.getPoint());
                 int col = createdPagesJTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
                     String link = (String) createdPagesJTable.getValueAt(row, col);
-                    // Estrazione dell'idArticle dall'URL dell'hyperlink
                     String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
-                    // Mostra la Page con l'articolo corrispondente
                     Article article = Controller.getArticlesById(id);
                     Controller.getWindow().getPage().setTitlePageField(article.getTitle());
                     Controller.getWindow().getPage().setTextPageField(Controller.getLastArticleVersionByArticleId(id).getText());
                     Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
                 }
             }
-        });
+        };
     }
-
-
-
 
     public JPanel getPanel() {
         return createdPagesCardPanel;
@@ -111,13 +111,14 @@ public class CreatedPagesCard {
 
     public void setCreatedPagesJTable(){
         createdPagesJTable = createJTable();
+        createdPagesJTable.addMouseListener(createMouseListener());
     }
     public void setCreatedPages() {
         setCreatedPagesJTable();
-        /*createdPagesCardPanelJScrollPane.setViewportView(createdPagesJTable);
+        createdPagesCardPanelJScrollPane.setViewportView(createdPagesJTable);
         createdPagesCardPanelJScrollPane.revalidate();
         createdPagesCardPanelJScrollPane.repaint();
-    */}
+    }
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
         for (ArticleVersion articleVersion : articleVersions) {
