@@ -600,7 +600,7 @@ public class Page {
                 //TODO: deve avere il riferimento alla pagina tramite id e non tramite al titolo
                 // perchè il titolo può cambiare
 
-                selectedText = "<a href=" + idArticleLink + ">" + selectedText + "</a>";
+                selectedText = "<a href=" + idArticleLink + ">" + selectedText + "</a><span> </span>";
                 HTML_TAG = HTML.Tag.A;
                 break;
             case "BOLD":
