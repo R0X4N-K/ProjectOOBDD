@@ -1,6 +1,7 @@
 package gui.profileWindow;
 
 import controller.Controller;
+import gui.Page;
 import model.Article;
 import model.ArticleVersion;
 
@@ -41,7 +42,12 @@ public class CreatedPagesCard {
                     // Estrazione dell'idArticle dall'URL dell'hyperlink
                     String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
                     int id = Integer.parseInt(idString);
-                    System.out.println(id + " " + Controller.getArticlesById(id).getTitle());
+                    Controller.getWindow().getprofileWindow().setVisible(false);
+                    // Mostra la Page con l'articolo corrispondente
+                    Article article = Controller.getArticlesById(id);
+                    Controller.getWindow().getPage().setTitlePageField(article.getTitle());
+                    Controller.getWindow().getPage().setTextPageField(Controller.getLastArticleVersionByArticleId(id).getText());
+                    Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
                 }
             }
         });
@@ -61,8 +67,6 @@ public class CreatedPagesCard {
     private JTable createJTable() {
         int idAuthor= Controller.getCookie().getId();
         List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
-
-        // Convert the list of articles to a 2D array for the table model
         Object[][] data = new Object[articles.size()][6];
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
