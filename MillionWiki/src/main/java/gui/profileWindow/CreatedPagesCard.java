@@ -61,7 +61,13 @@ public class CreatedPagesCard {
     }
 
     private void createUIComponents() {
-        createdPagesJTable = createJTable();
+
+        if(Controller.getCookie() == null){
+               createdPagesJTable= new JTable();
+        }
+        else {
+            createdPagesJTable = createJTable();
+        }
     }
 
     private JTable createJTable() {
