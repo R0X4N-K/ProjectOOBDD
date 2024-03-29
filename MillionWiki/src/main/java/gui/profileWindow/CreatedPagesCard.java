@@ -66,7 +66,7 @@ public class CreatedPagesCard {
                createdPagesJTable= new JTable();
         }
         else {
-            createdPagesJTable = createJTable();
+            setCreatedPagesJTable();
         }
     }
 
@@ -108,8 +108,15 @@ public class CreatedPagesCard {
         }
         return table;
     }
-    private int getReceivedProposal(ArrayList<ArticleVersion> articleVersions) {
-        return articleVersions.size();
+
+    public void setCreatedPagesJTable(){
+        createdPagesJTable = createJTable();
+    }
+    public void setCreatedPages() {
+        setCreatedPagesJTable();
+        createdPagesCardPanelJScrollPane.setViewportView(createdPagesJTable);
+        createdPagesCardPanelJScrollPane.revalidate();
+        createdPagesCardPanelJScrollPane.repaint();
     }
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
@@ -139,4 +146,5 @@ public class CreatedPagesCard {
         }
         return lastRevisionDate;
     }
+
 }

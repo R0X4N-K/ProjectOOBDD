@@ -13,9 +13,9 @@ public class ProfileWindow extends JDialog {
     private JScrollPane profileWindowJScrollPane;
     private JPanel profileWindowJScrollPaneJPanel;
     private JPanel profilePanelCards;
-    private ProfileCard profileCard1;
-    private CreatedPagesCard createdPagesCard1;
-    private StatisticsCard statisticsCard1;
+    private ProfileCard profileCard;
+    private CreatedPagesCard createdPagesCard;
+    private StatisticsCard statisticsCard;
 
     public ProfileWindow(JFrame parent) {
         super(parent, true); // Set the dialog to be modal
@@ -27,19 +27,19 @@ public class ProfileWindow extends JDialog {
         buttonToProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                switchPanel(profileCard1.getPanel());
+                switchPanel(profileCard.getPanel());
             }
         });
         buttonToCreatedPages.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                switchPanel(createdPagesCard1.getPanel());
+                switchPanel(createdPagesCard.getPanel());
             }
         });
         buttonToStatistics.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                switchPanel(statisticsCard1.getPanel());
+                switchPanel(statisticsCard.getPanel());
             }
         });
     }
@@ -59,11 +59,14 @@ public class ProfileWindow extends JDialog {
     }
 
     public void setProfileCard(String nickname) {
-        profileCard1.setWelcomeMessage(nickname);
+        profileCard.setWelcomeMessage(nickname);
     }
-
+    public void setCreatedPagesCard(){
+        createdPagesCard.setCreatedPages();
+    }
     public void setProfileWindow(String nickname) {
         setProfileCard(nickname);
+        setCreatedPagesCard();
     }
 
     public void switchPanel(JPanel refPanel) {

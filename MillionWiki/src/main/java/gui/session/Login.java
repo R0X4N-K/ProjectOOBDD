@@ -65,11 +65,11 @@ public class Login {
                     String passwordStored = c.getPassword();
                     if (validatePassword(passwordTxtFld.getText(), passwordStored)) {
                         System.out.println("Loggato");
-                        Window.switchToLoggedWindow(Controller.getWindow(), c);
                         if (rembemberMeCheckbox.isSelected()) {
                             c.writeCookie();
                         }
                         Controller.setCookie(c);
+                        Window.switchToLoggedWindow(Controller.getWindow());
                     } else {
                         System.out.println("Stuprato");
                     }

@@ -68,7 +68,7 @@ public class Registration {
                     try {
                         Cookie c = new Cookie(Controller.getAuthorByNickname(nicknameTxtFld.getText()).getId(), passwordEncrypted);
                         Controller.setCookie(c);
-                        Window.switchToLoggedWindow(Controller.getWindow(), c);
+                        Window.switchToLoggedWindow(Controller.getWindow());
                         if (rembemberMeCheckbox.isSelected()) {
                             c.writeCookie();
                         }

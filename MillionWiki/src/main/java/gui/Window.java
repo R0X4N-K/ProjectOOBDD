@@ -43,7 +43,7 @@ public class Window extends JFrame {
         profileWindow.setVisible(false);
         Cookie cookie = Controller.getCookie();
         if (cookie != null) {
-            switchToLoggedWindow(this, cookie);
+            switchToLoggedWindow(this);
         } else {
             switchToUnloggedWindow(this);
         }
@@ -107,13 +107,13 @@ public class Window extends JFrame {
         return pagePanel;
     }
 
-    public static void switchToLoggedWindow(Window window) {
+    /*public static void switchToLoggedWindow(Window window) {
         window.toolbarMainPanel.setProfile(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
         window.toolbarMainPanel.switchToLoggedToolbar();
-    }
+    }*/
 
-    public static void switchToLoggedWindow(Window window, Cookie cookie) {
-        String nickname = Controller.getAuthorById(cookie.getId()).getNickname();
+    public static void switchToLoggedWindow(Window window) {
+        String nickname = Controller.getAuthorById(Controller.getCookie().getId()).getNickname();
         window.toolbarMainPanel.setProfile(nickname);
         window.profileWindow.setProfileWindow(nickname);
         window.toolbarMainPanel.switchToLoggedToolbar();

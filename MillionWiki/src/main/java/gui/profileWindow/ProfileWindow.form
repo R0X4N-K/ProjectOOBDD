@@ -71,17 +71,17 @@
         <properties/>
         <border type="none"/>
         <children>
-          <nested-form id="9d3d2" form-file="gui/profileWindow/ProfileCard.form" binding="profileCard1">
+          <nested-form id="9d3d2" form-file="gui/profileWindow/ProfileCard.form" binding="profileCard">
             <constraints>
               <card name="Card1"/>
             </constraints>
           </nested-form>
-          <nested-form id="d7988" form-file="gui/profileWindow/CreatedPagesCard.form" binding="createdPagesCard1" default-binding="true">
+          <nested-form id="d7988" form-file="gui/profileWindow/CreatedPagesCard.form" binding="createdPagesCard" default-binding="true">
             <constraints>
               <card name="Card2"/>
             </constraints>
           </nested-form>
-          <nested-form id="814cd" form-file="gui/profileWindow/StatisticsCard.form" binding="statisticsCard1" default-binding="true">
+          <nested-form id="814cd" form-file="gui/profileWindow/StatisticsCard.form" binding="statisticsCard" default-binding="true">
             <constraints>
               <card name="Card3"/>
             </constraints>
