@@ -35,4 +35,8 @@ public class ProfileCard {
         return profileCardMainPanel;
     }
 
+    public void setProfile() {
+        String nickname = Controller.getAuthorById(Controller.getCookie().getId()).getNickname();
+        setWelcomeMessage(nickname);
+    }
 }

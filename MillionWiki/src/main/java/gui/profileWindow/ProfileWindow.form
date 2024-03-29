@@ -81,7 +81,7 @@
               <card name="Card2"/>
             </constraints>
           </nested-form>
-          <nested-form id="814cd" form-file="gui/profileWindow/StatisticsCard.form" binding="statisticsCard" default-binding="true">
+          <nested-form id="814cd" form-file="gui/profileWindow/ProposalCard.form" binding="proposalCard" default-binding="true">
             <constraints>
               <card name="Card3"/>
             </constraints>
