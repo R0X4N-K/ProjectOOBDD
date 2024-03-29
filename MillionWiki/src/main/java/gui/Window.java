@@ -38,8 +38,8 @@ public class Window extends JFrame {
         setSize(800, 700);
         setMinimumSize(new Dimension(480, 480));
         setLocationRelativeTo(null);
-        setVisible(true);
         profileWindow = new ProfileWindow(this);
+        setVisible(true);
         profileWindow.setVisible(false);
         Cookie cookie = Controller.getCookie();
         if (cookie != null) {
