@@ -174,7 +174,8 @@
             <properties>
               <contentType value="text/plain"/>
               <font size="22" style="1"/>
-              <text value="Titolo"/>
+              <text value=""/>
+              <toolTipText value="Inserisci titolo"/>
             </properties>
           </component>
         </children>
