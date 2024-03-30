@@ -12,15 +12,23 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.*;
 
-import static controller.Controller.getAllArticleVersionByArticleId;
-
 public class ProposalCard {
     private JPanel proposalCardPanel;
     private JTable proposalCardJTable;
     private JScrollPane proposalCardJTableJScrollPane;
+    private JPanel subProposalCardPanelCards;
+    private JLabel subProposalCardPanelCardsJLabel;
+    private JPanel panelJLabelsubProposalCardPanelCards;
+    private JPanel panelJTableJScrollPane;
 
     public JPanel getPanel() {
         return proposalCardPanel;
+    }
+    public void switchPanel(JPanel refPanel) {
+        subProposalCardPanelCards.removeAll();
+        subProposalCardPanelCards.add(refPanel);
+        subProposalCardPanelCards.repaint();
+        subProposalCardPanelCards.revalidate();
     }
 
     private void createUIComponents() {
@@ -52,7 +60,7 @@ public class ProposalCard {
         for (ArticleVersion versionArticle : versionArticles) {
             uniqueArticleIds.add(versionArticle.getParentArticle().getId());
         }
-        Object[][] data = new Object[uniqueArticleIds.size()][6];
+        Object[][] data = new Object[uniqueArticleIds.size()][7];
         int j = 0;
         for (Integer idArticle : uniqueArticleIds) {
             List<ArticleVersion> filteredArticles = new ArrayList<>();
@@ -62,22 +70,23 @@ public class ProposalCard {
                 }
             }
             if (!filteredArticles.isEmpty()) {
-                data[j][0] = "<html><a href='" + filteredArticles.get(0).getId() + "'>" + filteredArticles.get(0).getParentArticle().getTitle() + "</a></html>";
-                data[j][1] = getSentProposalCount(filteredArticles, idArticle);
-                data[j][2] = getLastSentProposalDate(filteredArticles, idArticle);
-                data[j][3] = getAcceptedProposalCount(filteredArticles, idArticle);
-                data[j][4] = getRejectedProposalCount(filteredArticles, idArticle);
-                data[j][5] = getWaitedProposalCount(filteredArticles, idArticle);
+                data[j][0] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>" + filteredArticles.get(0).getParentArticle().getTitle() + "</a></html>";
+                data[j][1] = Controller.getNicknameAuthorById(filteredArticles.get(0).getParentArticle().getAuthor().getId());
+                data[j][2] = getSentProposalCount(filteredArticles, idArticle);
+                data[j][3] = getLastSentProposalDate(filteredArticles, idArticle);
+                data[j][4] = getAcceptedProposalCount(filteredArticles, idArticle);
+                data[j][5] = getRejectedProposalCount(filteredArticles, idArticle);
+                data[j][6] = getWaitedProposalCount(filteredArticles, idArticle);
                 j++;
             }
         }
 
-        String[] columns = {"Articolo", "Proposte inviate", "Ultima Inviata", "Proposte Accettate", "Proposte Rifiutate", "Proposte in Attesa"};
+        String[] columns = {"Articolo", "Autore", "Proposte inviate", "Ultima Inviata", "Proposte Accettate", "Proposte Rifiutate", "Proposte in Attesa"};
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Tutte le celle non sono modificabili
-                return false;
+                return true;
             }
         };
 
@@ -96,10 +105,16 @@ public class ProposalCard {
 
     private void setProposalCardJTable() {
         proposalCardJTable = createTable();
-        proposalCardJTable.addMouseListener(createMouseListener());
-        proposalCardJTableJScrollPane.setViewportView(proposalCardJTable);
-        proposalCardJTableJScrollPane.revalidate();
-        proposalCardJTableJScrollPane.repaint();
+        if (proposalCardJTable.getRowCount() > 0) {
+            switchPanel(panelJTableJScrollPane);
+            proposalCardJTable.addMouseListener(createMouseListener());
+            proposalCardJTableJScrollPane.setViewportView(proposalCardJTable);
+            proposalCardJTableJScrollPane.revalidate();
+            proposalCardJTableJScrollPane.repaint();
+        } else {
+            switchPanel(panelJLabelsubProposalCardPanelCards);
+        }
+
 
     }
     public void setProposalCard(){

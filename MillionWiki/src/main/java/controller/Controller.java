@@ -90,6 +90,9 @@ public final class Controller {
     public static Author getAuthorByNickname(String nickname){
         return new AuthorDAOImplementation().getAuthorByNickname(nickname);
     }
+    public static String getNicknameAuthorById(int idAuthor){
+        return new AuthorDAOImplementation().getNicknameById(idAuthor);
+    }
 
     public static boolean isAuthorRegisteredWithEmail(String email){
         return new AuthorDAOImplementation().isEmailUsed(email);

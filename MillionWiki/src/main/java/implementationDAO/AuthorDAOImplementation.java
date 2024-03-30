@@ -57,6 +57,21 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         return null;
     }
 
+    public String getNicknameById(int id) {
+        String query = "SELECT nickname FROM authors WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("nickname");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     @Override
     public ArrayList<Author> getAllAuthors() {
         ArrayList<Author> authors = new ArrayList<>();

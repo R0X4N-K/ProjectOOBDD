@@ -119,7 +119,7 @@ public class Page {
 
         pageField.addHyperlinkListener(e -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                System.out.println(e.getDescription() + " " + Controller.getArticlesById(Integer.decode(e.getDescription())).getTitle());
+                System.out.println(e.getDescription() + " " + Controller.getArticlesById(Integer.decode(e.getDescription())).getTitle()); //TODO: da problemi a convertire i link tipo questo "https://it.wikipedia.org/wiki/Bruce_Seldon"
             }
         });
 
