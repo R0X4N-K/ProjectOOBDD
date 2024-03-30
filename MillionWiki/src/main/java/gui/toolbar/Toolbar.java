@@ -136,8 +136,7 @@ public class Toolbar {
             public void actionPerformed(ActionEvent e) {
                 if (Controller.checkLoggedUser()) {
                     Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-                    Controller.getWindow().getPage().setEditorMode();
-                    Controller.getWindow().getPage().setIdArticle(-1);
+                    Controller.getWindow().getPage().createNewPage();
                 }
                 else{
                     if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
@@ -190,10 +189,7 @@ public class Toolbar {
                         ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
                         if(articleVersion != null){
                             Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-                            Controller.getWindow().getPage().setViewerMode();
-                            Controller.getWindow().getPage().setTitlePageField(mathesArticle.getTitle());
-                            Controller.getWindow().getPage().setTextPageField(articleVersion.getText());
-                            Controller.getWindow().getPage().setIdArticle(mathesArticle.getId());
+                            Controller.getWindow().getPage().openPage(mathesArticle.getTitle(), articleVersion.getText(), mathesArticle.getId());
                             searchDialog.setVisible(false);
                         }
 

@@ -48,8 +48,7 @@ public class CreatedPagesCard {
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
                     Article article = Controller.getArticlesById(id);
-                    Controller.getWindow().getPage().setTitlePageField(article.getTitle());
-                    Controller.getWindow().getPage().setTextPageField(Controller.getLastArticleVersionByArticleId(id).getText());
+                    Controller.getWindow().getPage().openPage(article.getTitle(), Controller.getLastArticleVersionByArticleId(id).getText(), id);
                     Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
                 }
             }

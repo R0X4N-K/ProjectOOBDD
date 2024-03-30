@@ -751,35 +751,49 @@ public class Page {
 
 
     public void setViewerMode(){
-        createMenu.setVisible(false);
-        textButton.setVisible(false);
-        boldButton.setVisible(false);
-        colorPickerButton.setVisible(false);
-        italicButton.setVisible(false);
-        pageField.setEditable(false);
-        pageField.setCaretColor(pageField.getBackground());
-        titlePageField.setEditable(false);
-        titlePageField.setCaretColor(titlePageField.getBackground());
-        toolMenu.setVisible(true);
-        editBtn.setVisible(true);
-        sendButton.setVisible(false);
-
-        pageMode = 0;
+        setMode(false);
     }
     public void setEditorMode(){
-        createMenu.setVisible(true);
-        textButton.setVisible(true);
-        boldButton.setVisible(true);
-        colorPickerButton.setVisible(true);
-        italicButton.setVisible(true);
-        pageField.setEditable(true);
-        pageField.setCaretColor(Color.BLACK);
-        titlePageField.setEditable(true);
-        titlePageField.setCaretColor(Color.BLACK);
-        editBtn.setVisible(false);
-        sendButton.setVisible(true);
+        setMode(true);
+    }
 
-        pageMode = 1;
+    private void setMode(boolean mode){
+        createMenu.setVisible(mode);
+        textButton.setVisible(mode);
+        boldButton.setVisible(mode);
+        colorPickerButton.setVisible(mode);
+        italicButton.setVisible(mode);
+        pageField.setEditable(mode);
+        titlePageField.setEditable(mode);
+        sendButton.setVisible(mode);
+
+        if(mode){
+            pageField.setCaretColor(Color.BLACK);
+            titlePageField.setCaretColor(Color.BLACK);
+            editBtn.setVisible(false);
+            pageMode = 1;
+        }
+        else{
+            pageField.setCaretColor(pageField.getBackground());
+            titlePageField.setCaretColor(Color.BLACK);
+            titlePageField.setCaretColor(Color.BLACK);
+            editBtn.setVisible(true);
+            pageMode = 0;
+        }
+    }
+
+    public void openPage(String title, String text, int idArticle){
+        setViewerMode();
+        setTitlePageField(title);
+        setTextPageField(text);
+        setIdArticle(idArticle);
+    }
+
+    public void createNewPage(){
+        setEditorMode();
+        setIdArticle(-1);
+        pageField.setText("");
+        titlePageField.setText("");
     }
 
     public void setIdArticle(int id) {

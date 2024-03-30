@@ -35,7 +35,7 @@ public class Window extends JFrame {
         setContentPane(mainPanelWindow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        setSize(800, 700);
+        setSize(1200, 700);
         setMinimumSize(new Dimension(480, 480));
         setLocationRelativeTo(null);
         profileWindow = new ProfileWindow(this);
