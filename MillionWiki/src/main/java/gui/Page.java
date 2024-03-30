@@ -115,11 +115,10 @@ public class Page {
             }
         });
 
-
-
         pageField.addHyperlinkListener(e -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                System.out.println(e.getDescription() + " " + Controller.getArticlesById(Integer.decode(e.getDescription())).getTitle());
+                //TODO: sistema apertura pagina alla pressione del link
+                System.out.println(e.getDescription());
             }
         });
 
@@ -143,9 +142,28 @@ public class Page {
                         searchPanel.setVisible(true);
                     searchTxtFld.requestFocus();
                 }
-
             }
         });
+
+        pageField.addKeyListener(new KeyAdapter() {
+            //TODO: funzione apposita per apertura link che setta lo stato di pageField e il cursore
+            //FIXME: bug del cursore
+
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
+                    pageField.setEditable(false);
+                }
+            }
+
+            @Override
+            public void keyReleased(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
+                    pageField.setEditable(true);
+                }
+            }
+        });
+
         titlePageField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyReleased(KeyEvent e) {
@@ -243,7 +261,7 @@ public class Page {
         sendButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //TODO: controllo per verificare se si tratta di una modifica, proposta di modifica
+                //TODO: CONTROLLI SUL TITOLO E SUL TESTO
                 if (idArticle == -1){
                     //Crea pagina
                     idArticle = Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText());
@@ -414,131 +432,7 @@ public class Page {
         linkBtnNewMenu.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
             if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
-                final Article[] articleToLink = {null};
-                JDialog inputLinkTxtDlg =  new JDialog();
-                inputLinkTxtDlg.setTitle("Seleziona una pagina");
-                inputLinkTxtDlg.setModal(true);
-                inputLinkTxtDlg.setLayout(new BorderLayout());
-
-                JPanel inputLinkPnl = new JPanel();
-                inputLinkPnl.setLayout(new FlowLayout());
-
-                JTextField searchPageToLinkTxtFld = new JTextField(20);
-                JButton searchPageToLinkBtn = new JButton("Cerca");
-
-                JPanel articlesFoundPanel = new JPanel();
-                articlesFoundPanel.setLayout(new BoxLayout(articlesFoundPanel, BoxLayout.Y_AXIS));
-
-                JPanel articlePreviewPanel = new JPanel();
-                articlePreviewPanel.setLayout(new BorderLayout());
-                JLabel articlePreviewTitleLbl = new JLabel("Preview");
-                JEditorPane articlePreviewFld = new JEditorPane();
-                articlePreviewFld.setEditable(false);
-                articlePreviewFld.setPreferredSize(new Dimension(320, 640));
-                articlePreviewFld.setContentType("text/html");
-                articlePreviewPanel.add(articlePreviewTitleLbl, BorderLayout.NORTH);
-                articlePreviewPanel.add(articlePreviewFld, BorderLayout.CENTER);
-
-                JScrollPane scrollPane = new JScrollPane(articlePreviewFld);
-                articlePreviewPanel.add(scrollPane);
-
-                JPanel inputLinkButtonsPanel = new JPanel();
-                JButton sendBtn = new JButton("Salva link");
-                JButton closeBtn = new JButton("Scarta");
-
-
-                sendBtn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        inputLinkTxtDlg.dispose();
-                        insertHTML("LINK", null, articleToLink[0].getTitle(), articleToLink[0].getId());
-                    }
-                });
-
-                closeBtn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-                        inputLinkTxtDlg.dispose();
-                    }
-                });
-
-                inputLinkButtonsPanel.add(sendBtn);
-                inputLinkButtonsPanel.add(closeBtn);
-
-
-
-                searchPageToLinkBtn.addActionListener(new ActionListener() {
-                    @Override
-                    public void actionPerformed(ActionEvent e) {
-
-                        if (searchThread == null || !searchThread.isAlive()) {
-                            searchThread = new Thread(() -> {
-                                ArrayList<Article> articlesFound = Controller.getMatchesArticlesByTitle(searchPageToLinkTxtFld.getText());
-
-                                if(articlesFound.isEmpty()){
-                                    System.out.println("Nessun articolo trovato con questo titolo: " + searchPageToLinkTxtFld.getText());
-                                }
-                                else{
-                                    articlesFoundPanel.removeAll();
-                                    for(Article article : articlesFound){
-                                        JPanel articleFoundItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                                        articleFoundItemPnl.setMaximumSize(new Dimension(320, 25));
-                                        JLabel articleFoundItemLbl = new JLabel(article.getTitle());
-                                        articleFoundItemPnl.add(articleFoundItemLbl);
-
-                                        articleFoundItemPnl.addMouseListener(new MouseAdapter() {
-                                            @Override
-                                            public void mouseClicked(MouseEvent e) {
-                                                super.mouseClicked(e);
-                                                System.out.println("Hai cliccato su " + article.getTitle());
-
-                                                articlePreviewFld.setText(Controller.getLastArticleVersionByArticleId(article.getId()).getText());
-
-                                                for (int i = 0 ; i < articlesFoundPanel.getComponentCount(); i++) {
-                                                    articlesFoundPanel.getComponent(i).setBackground(null);
-                                                    JPanel panel = (JPanel)  articlesFoundPanel.getComponent(i);
-                                                    for (Component innerComponent : panel.getComponents()) {
-                                                        if (innerComponent instanceof JLabel) {
-                                                            JLabel label = (JLabel) innerComponent;
-                                                            label.setForeground(null);
-                                                        }
-                                                    }
-                                                }
-
-                                                articleFoundItemPnl.setBackground(Color.decode("#007bff"));
-                                                articleFoundItemLbl.setForeground(Color.WHITE);
-
-                                                articleToLink[0] = article;
-                                            }
-
-                                        });
-
-                                        articlesFoundPanel.add(articleFoundItemPnl);
-                                    }
-                                    articlesFoundPanel.revalidate();
-                                    articlesFoundPanel.repaint();
-                                }
-                            }); // Crea un nuovo thread se il precedente è terminato
-                            searchThread.setDaemon(true);
-                            searchThread.start();
-                        }
-                    }
-                });
-
-                inputLinkPnl.add(searchPageToLinkTxtFld);
-                inputLinkPnl.add(searchPageToLinkBtn);
-                inputLinkPnl.setVisible(true);
-
-                inputLinkTxtDlg.add(inputLinkPnl, BorderLayout.NORTH);
-                inputLinkTxtDlg.add(articlesFoundPanel, BorderLayout.CENTER);
-                inputLinkTxtDlg.add(articlePreviewPanel, BorderLayout.EAST);
-                inputLinkTxtDlg.add(new JScrollPane(articlesFoundPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
-                inputLinkTxtDlg.add(inputLinkButtonsPanel, BorderLayout.SOUTH);
-
-                inputLinkTxtDlg.setSize(640, 640);
-                inputLinkTxtDlg.setResizable(false);
-                inputLinkTxtDlg.setLocationRelativeTo(null);
-                inputLinkTxtDlg.setVisible(true);
+                createSearchPageToLinkComponent();
             }
             else{
 
@@ -572,6 +466,140 @@ public class Page {
         });
     }
 
+
+    private void createSearchPageToLinkComponent(){
+        //TODO: non far apparire il tasto salva link finchè non si ha selezionato qualcosa
+
+        final Article[] articleToLink = {null};
+        JDialog inputLinkTxtDlg =  new JDialog();
+        inputLinkTxtDlg.setTitle("Seleziona una pagina");
+        inputLinkTxtDlg.setModal(true);
+        inputLinkTxtDlg.setLayout(new BorderLayout());
+
+        JPanel inputLinkPnl = new JPanel();
+        inputLinkPnl.setLayout(new FlowLayout());
+
+        JTextField searchPageToLinkTxtFld = new JTextField(20);
+        JButton searchPageToLinkBtn = new JButton("Cerca");
+
+        JPanel articlesFoundPanel = new JPanel();
+        articlesFoundPanel.setLayout(new BoxLayout(articlesFoundPanel, BoxLayout.Y_AXIS));
+
+        JPanel articlePreviewPanel = new JPanel();
+        articlePreviewPanel.setLayout(new BorderLayout());
+        JLabel articlePreviewTitleLbl = new JLabel("Preview");
+        JEditorPane articlePreviewFld = new JEditorPane();
+        articlePreviewFld.setEditable(false);
+        articlePreviewFld.setPreferredSize(new Dimension(320, 640));
+        articlePreviewFld.setContentType("text/html");
+        articlePreviewPanel.add(articlePreviewTitleLbl, BorderLayout.NORTH);
+        articlePreviewPanel.add(articlePreviewFld, BorderLayout.CENTER);
+
+        JScrollPane scrollPane = new JScrollPane(articlePreviewFld);
+        articlePreviewPanel.add(scrollPane);
+
+        JPanel inputLinkButtonsPanel = new JPanel();
+        JButton sendBtn = new JButton("Salva link");
+        sendBtn.setEnabled(false);
+        JButton closeBtn = new JButton("Scarta");
+
+
+        sendBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inputLinkTxtDlg.dispose();
+                insertHTML("LINK", null, articleToLink[0].getTitle(), articleToLink[0].getId());
+            }
+        });
+
+        closeBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                inputLinkTxtDlg.dispose();
+            }
+        });
+
+        inputLinkButtonsPanel.add(sendBtn);
+        inputLinkButtonsPanel.add(closeBtn);
+
+
+
+        searchPageToLinkBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+
+                if (searchThread == null || !searchThread.isAlive()) {
+                    searchThread = new Thread(() -> {
+                        ArrayList<Article> articlesFound = Controller.getMatchesArticlesByTitle(searchPageToLinkTxtFld.getText());
+
+                        if(articlesFound.isEmpty()){
+                            System.out.println("Nessun articolo trovato con questo titolo: " + searchPageToLinkTxtFld.getText());
+                        }
+                        else{
+                            articlesFoundPanel.removeAll();
+                            for(Article article : articlesFound){
+                                JPanel articleFoundItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                                articleFoundItemPnl.setMaximumSize(new Dimension(320, 25));
+                                JLabel articleFoundItemLbl = new JLabel(article.getTitle());
+                                articleFoundItemPnl.add(articleFoundItemLbl);
+
+                                articleFoundItemPnl.addMouseListener(new MouseAdapter() {
+                                    @Override
+                                    public void mouseClicked(MouseEvent e) {
+                                        super.mouseClicked(e);
+                                        System.out.println("Hai cliccato su " + article.getTitle());
+                                        sendBtn.setEnabled(true);
+                                        articlePreviewFld.setText(Controller.getLastArticleVersionByArticleId(article.getId()).getText());
+
+                                        for (int i = 0 ; i < articlesFoundPanel.getComponentCount(); i++) {
+                                            articlesFoundPanel.getComponent(i).setBackground(null);
+                                            JPanel panel = (JPanel)  articlesFoundPanel.getComponent(i);
+                                            for (Component innerComponent : panel.getComponents()) {
+                                                if (innerComponent instanceof JLabel) {
+                                                    JLabel label = (JLabel) innerComponent;
+                                                    label.setForeground(null);
+                                                }
+                                            }
+                                        }
+
+                                        articleFoundItemPnl.setBackground(Color.decode("#007bff"));
+                                        articleFoundItemLbl.setForeground(Color.WHITE);
+
+                                        articleToLink[0] = article;
+                                    }
+
+                                });
+
+                                articlesFoundPanel.add(articleFoundItemPnl);
+                            }
+                            articlesFoundPanel.revalidate();
+                            articlesFoundPanel.repaint();
+                        }
+                    }); // Crea un nuovo thread se il precedente è terminato
+                    searchThread.setDaemon(true);
+                    searchThread.start();
+                }
+            }
+        });
+
+        inputLinkPnl.add(searchPageToLinkTxtFld);
+        inputLinkPnl.add(searchPageToLinkBtn);
+        inputLinkPnl.setVisible(true);
+
+        inputLinkTxtDlg.add(inputLinkPnl, BorderLayout.NORTH);
+        inputLinkTxtDlg.add(articlesFoundPanel, BorderLayout.CENTER);
+        inputLinkTxtDlg.add(articlePreviewPanel, BorderLayout.EAST);
+        inputLinkTxtDlg.add(new JScrollPane(articlesFoundPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED), BorderLayout.CENTER);
+        inputLinkTxtDlg.add(inputLinkButtonsPanel, BorderLayout.SOUTH);
+
+        inputLinkTxtDlg.setSize(640, 640);
+        inputLinkTxtDlg.setResizable(false);
+        inputLinkTxtDlg.setLocationRelativeTo(null);
+        inputLinkTxtDlg.setVisible(true);
+
+
+    }
+
     private void insertHTML(String tag, Color textColor, String inputText, int idArticleLink) {
         int selectionStart = pageField.getSelectionStart();
         int selectionEnd = pageField.getSelectionEnd();
@@ -597,9 +625,6 @@ public class Page {
         // Setting tag
         switch (tag) {
             case "LINK":
-                //TODO: deve avere il riferimento alla pagina tramite id e non tramite al titolo
-                // perchè il titolo può cambiare
-
                 selectedText = "<a href=" + idArticleLink + ">" + selectedText + "</a><span> </span>";
                 HTML_TAG = HTML.Tag.A;
                 break;
