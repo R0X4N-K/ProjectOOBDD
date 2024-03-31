@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import gui.page.Page;
 import gui.profileWindow.ProfileWindow;
 import gui.session.Login;
 import gui.session.Registration;
@@ -11,7 +12,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.awt.event.WindowAdapter;
 
 public class Window extends JFrame {
     private JPanel mainPanelWindow;

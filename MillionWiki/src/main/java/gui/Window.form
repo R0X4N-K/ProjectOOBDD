@@ -39,7 +39,7 @@
               <card name="Registration"/>
             </constraints>
           </nested-form>
-          <nested-form id="eaedc" form-file="gui/Page.form" binding="pagePanel">
+          <nested-form id="eaedc" form-file="gui/page/Page.form" binding="pagePanel">
             <constraints>
               <card name="Card1"/>
             </constraints>
