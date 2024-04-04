@@ -1,6 +1,11 @@
 package gui.page;
 
+import controller.Controller;
+import model.Article;
+import model.ArticleVersion;
+
 import javax.swing.*;
+import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 
 public class LinkOpener extends JDialog {
@@ -23,6 +28,17 @@ public class LinkOpener extends JDialog {
         textEp.setEditable(false);
         titleTxtFld.setCaretColor(titleTxtFld.getBackground());
         textEp.setCaretColor(textEp.getBackground());
+
+        textEp.addHyperlinkListener(e -> {
+            if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
+                Article article = Controller.getArticlesById(Integer.parseInt(e.getDescription()));
+                ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(Integer.parseInt(e.getDescription()));
+
+                titleTxtFld.setText(article.getTitle());
+                textEp.setText(articleVersion.getText());
+            }
+        });
+
         add(titleTxtFld, BorderLayout.NORTH);
         add(textEp, BorderLayout.CENTER);
 
