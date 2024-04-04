@@ -86,7 +86,7 @@ public class ProposalCard {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // Tutte le celle non sono modificabili
-                return true;
+                return false;
             }
         };
 

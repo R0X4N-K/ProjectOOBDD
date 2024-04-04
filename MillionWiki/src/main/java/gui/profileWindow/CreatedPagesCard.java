@@ -1,19 +1,13 @@
 package gui.profileWindow;
 
 import controller.Controller;
-import gui.Page;
 import model.Article;
 import model.ArticleVersion;
 
 import javax.swing.*;
-import javax.swing.event.HyperlinkEvent;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import java.awt.*;
-import java.awt.event.ComponentAdapter;
-import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -26,7 +20,10 @@ public class CreatedPagesCard {
     private JPanel createdPagesCardPanel;
     private JTable createdPagesJTable;
     private JScrollPane createdPagesJTableJScrollPane;
-    private JScrollPane createdPagesCardPanelJScrollPane;
+    private JPanel cardLayoutPanel;
+    private JPanel cardCardLayoutPanelJTable;
+    private JPanel cardCardLayoutPanel2;
+    private JLabel cardCardLayoutPanel2JLabel;
 
 
     public CreatedPagesCard() {
@@ -60,13 +57,8 @@ public class CreatedPagesCard {
     }
 
     private void createUIComponents() {
-
-        if(Controller.getCookie() == null){
                createdPagesJTable= new JTable();
-        }
-        else {
-            setCreatedPagesJTable();
-        }
+
     }
 
     private JTable createJTable() {
@@ -99,7 +91,7 @@ public class CreatedPagesCard {
         };
 
         JTable table = new JTable(model);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+       // table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
@@ -117,9 +109,9 @@ public class CreatedPagesCard {
     }
     public void setCreatedPages() {
         setCreatedPagesJTable();
-        createdPagesCardPanelJScrollPane.setViewportView(createdPagesJTable);
-        createdPagesCardPanelJScrollPane.revalidate();
-        createdPagesCardPanelJScrollPane.repaint();
+        createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
+        createdPagesJTableJScrollPane.revalidate();
+        createdPagesJTableJScrollPane.repaint();
     }
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
