@@ -4,6 +4,7 @@ package gui.page;
 import controller.Controller;
 import gui.toolbar.Toolbar;
 import model.Article;
+import model.ArticleVersion;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -117,8 +118,9 @@ public class Page {
 
         pageField.addHyperlinkListener(e -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                //TODO: sistema apertura pagina alla pressione del link
-                System.out.println(e.getDescription());
+                Article article = Controller.getArticlesById(Integer.parseInt(e.getDescription()));
+                ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(Integer.parseInt(e.getDescription()));
+                new LinkOpener(article.getTitle(), articleVersion.getText());
             }
         });
 
