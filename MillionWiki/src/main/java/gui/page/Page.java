@@ -1,4 +1,4 @@
-package gui;
+package gui.page;
 
 
 import controller.Controller;
@@ -468,7 +468,6 @@ public class Page {
 
 
     private void createSearchPageToLinkComponent(){
-        //TODO: non far apparire il tasto salva link finchè non si ha selezionato qualcosa
 
         final Article[] articleToLink = {null};
         JDialog inputLinkTxtDlg =  new JDialog();
