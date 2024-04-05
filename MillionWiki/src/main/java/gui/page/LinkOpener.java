@@ -11,15 +11,19 @@ import java.awt.*;
 public class LinkOpener extends JDialog {
     private JTextField titleTxtFld;
     private JEditorPane textEp;
+    private JScrollPane scrollPane;
+
     public LinkOpener(String title, String text){
         titleTxtFld = new JTextField(title);
         textEp = new JEditorPane();
+        scrollPane = new JScrollPane(textEp);
+
         textEp.setContentType("text/html");
         textEp.setText(text);
 
         setLayout(new BorderLayout());
-        setSize(1200, 700);
-        setLocationRelativeTo(null);
+        setSize((int) Controller.getWindow().getSize().getWidth(), (int) Controller.getWindow().getSize().getHeight());
+        setLocationRelativeTo(Controller.getWindow());
 
         titleTxtFld.setFont(new Font(getFont().getFontName(), Font.BOLD, getFont().getSize() + 15));
         titleTxtFld.setEditable(false);
@@ -40,10 +44,10 @@ public class LinkOpener extends JDialog {
         });
 
         add(titleTxtFld, BorderLayout.NORTH);
-        add(textEp, BorderLayout.CENTER);
+        add(scrollPane, BorderLayout.CENTER);
 
         setModal(true);
-        setVisible(true);
+        setVisible(true); 
     }
 
     public JTextField getTitleTxtFld() {
