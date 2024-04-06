@@ -47,7 +47,6 @@ public class Page {
     private JButton sendButton;
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
-    private boolean titlePageFieldFlag = false;
     private int pageMode = 0; //0 ViewerMode, 1 EditorMode
 
     private int idArticle = -1;
@@ -178,16 +177,6 @@ public class Page {
             }
         });
 
-        titlePageField.addFocusListener(new FocusAdapter() {
-            @Override
-            public void focusGained(FocusEvent e) {
-                super.focusGained(e);
-                if(!titlePageFieldFlag && pageMode != 0){
-                    titlePageFieldFlag = true;
-                    titlePageField.setText("");
-                }
-            }
-        });
 
         titlePageField.addKeyListener(new KeyAdapter() {
             @Override
