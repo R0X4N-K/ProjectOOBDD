@@ -134,11 +134,34 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         }
 
     }
+
+    public void updateNicknameAuthor(int id, String newNickname){
+            String query = "UPDATE authors SET nickname = ? WHERE id = ?";
+            try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+                stmt.setString(1, newNickname);
+                stmt.setInt(2, id);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+    }
+
     public void updateEmailAuthor(Author author, String newEmail) {
         String query = "UPDATE authors SET email = ? WHERE id = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, newEmail);
             stmt.setInt(2, author.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEmailAuthor(int id, String newEmail) {
+        String query = "UPDATE authors SET email = ? WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, newEmail);
+            stmt.setInt(2, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -152,6 +175,18 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, newPassword);
             stmt.setInt(2, author.getId());
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePasswordAuthor(int id, String newPassword) {
+
+        String query = "UPDATE authors SET password = ? WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setString(1, newPassword);
+            stmt.setInt(2, id);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

@@ -1,7 +1,8 @@
 package gui.profileWindow;
 
+import gui.profileWindow.profileCard.ProfileCard;
+
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -18,12 +19,12 @@ public class ProfileWindow extends JDialog {
     private ProposalCard proposalCard;
 
     public ProfileWindow(JFrame parent) {
-        super(parent, true); // Set the dialog to be modal
+        super(parent, true);
         setContentPane(profileWindowMainPanel);
         pack();
         setSize(700, 600);
         setLocationRelativeTo(null);
-        setDefaultCloseOperation(DISPOSE_ON_CLOSE); // The dialog will be hidden and disposed
+        setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         buttonToProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -47,7 +48,7 @@ public class ProfileWindow extends JDialog {
         });
     }
 
-    JDialog getDialog() {
+    public JDialog getDialog() {
         return this;
     }
 

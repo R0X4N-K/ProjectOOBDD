@@ -66,6 +66,16 @@ public final class Controller {
         return null;
     }
 
+    public static void changeNickname(String newNickname){
+        new AuthorDAOImplementation().updateNicknameAuthor(cookie.getId(),newNickname);
+    }
+    public static void changeEmail(String newEmail){
+        new AuthorDAOImplementation().updateEmailAuthor(cookie.getId(),newEmail);
+    }
+    public static void changePassword(String newPassword){
+        new AuthorDAOImplementation().updatePasswordAuthor(cookie.getId(), newPassword);
+    }
+
 
     public static ArticleVersion getLastArticleVersionByArticleId(int idArticle){
         return new ArticleVersionDAOImplementation().getLastArticleVersionByArticleId(idArticle);

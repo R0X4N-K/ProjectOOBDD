@@ -17,7 +17,10 @@ public interface AuthorDAO {
     void updateAuthor(Author author, Author newAuthor, String password);
 
     void updateNicknameAuthor(Author author, String newNickname);
+    void updateNicknameAuthor(int id, String newNickname);
     void updatePasswordAuthor(Author author, String newPassword);
+    void updatePasswordAuthor(int id, String newPassword);
+    void updateEmailAuthor(int id, String newEmail);
     void updateAuthorRating(Author author, float newRating);
     void updateAuthorArticles(Author author, ArrayList<Article> newArticles, String password);
     void deleteAuthor(int id);
