@@ -100,6 +100,7 @@ public class ProposalCard {
                 column.setResizable(false);
             }
         }
+        columnModel.getColumn(4).setPreferredWidth(110);
         return table;
     }
 

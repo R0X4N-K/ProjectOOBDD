@@ -59,7 +59,9 @@
             <constraints>
               <card name="Card2"/>
             </constraints>
-            <properties/>
+            <properties>
+              <preferredSize width="1000" height="1000"/>
+            </properties>
             <border type="none"/>
             <children>
               <scrollpane id="75f45" binding="proposalCardJTableJScrollPane">
