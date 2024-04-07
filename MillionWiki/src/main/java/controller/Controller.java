@@ -80,6 +80,9 @@ public final class Controller {
     public static ArticleVersion getLastArticleVersionByArticleId(int idArticle){
         return new ArticleVersionDAOImplementation().getLastArticleVersionByArticleId(idArticle);
     }
+    public static ArrayList<Integer> getRecentArticles(int numberArticles){
+        return new ArticleDAOImplementation().getRecentArticles(numberArticles);
+    }
     public static ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle){
         return new ArticleVersionDAOImplementation().getAllArticleVersionByArticleId(idArticle);
     }

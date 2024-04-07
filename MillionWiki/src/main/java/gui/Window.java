@@ -2,6 +2,7 @@ package gui;
 
 import controller.Controller;
 import gui.authorWindow.AuthorWindow;
+import gui.homepage.Home;
 import gui.page.Page;
 import gui.profileWindow.ProfileWindow;
 import gui.session.Login;

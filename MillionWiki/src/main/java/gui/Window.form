@@ -24,7 +24,7 @@
         <properties/>
         <border type="none"/>
         <children>
-          <nested-form id="b6d54" form-file="gui/Home.form" binding="homePanel">
+          <nested-form id="b6d54" form-file="gui/homepage/Home.form" binding="homePanel">
             <constraints>
               <card name="Home"/>
             </constraints>

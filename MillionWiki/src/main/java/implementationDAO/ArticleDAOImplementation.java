@@ -51,6 +51,26 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         }
         return null;
     }
+
+    public ArrayList<Integer> getRecentArticles(int numberArticles) {
+        ArrayList<Integer> articles = new ArrayList<>();
+        String query = "SELECT id FROM articles ORDER BY creation_date DESC LIMIT ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, numberArticles);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                try {
+                    articles.add(rs.getInt("id"));
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
+
     @Override
     public ArrayList<Article> getMatchesArticlesByTitle(String title) {
         ArrayList<Article> articles = new ArrayList<>();
