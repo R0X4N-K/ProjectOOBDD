@@ -20,6 +20,11 @@
               <card name="Card1"/>
             </constraints>
           </nested-form>
+          <nested-form id="d0ea2" form-file="gui/authorWindow/ProfileAuthorWindow.form" binding="profileAuthorWindow">
+            <constraints>
+              <card name="Card2"/>
+            </constraints>
+          </nested-form>
         </children>
       </grid>
       <scrollpane id="3c203" binding="authorWindowJScrollPane">

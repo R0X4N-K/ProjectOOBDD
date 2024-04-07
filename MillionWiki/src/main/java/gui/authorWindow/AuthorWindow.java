@@ -1,6 +1,8 @@
 package gui.authorWindow;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 public class AuthorWindow extends JDialog{
     private JScrollPane authorWindowJScrollPane;
@@ -11,6 +13,7 @@ public class AuthorWindow extends JDialog{
     private JPanel authorPanelCards;
     private JPanel authorWindowMainPanel;
     private CreatedPagesAuthorWindow createdPagesAuthorWindow;
+    private ProfileAuthorWindow profileAuthorWindow;
     private int idAuthor = -1;
 
 
@@ -22,21 +25,21 @@ public class AuthorWindow extends JDialog{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-        /*buttonToProfile.addActionListener(new ActionListener() {
+        buttonToProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setProfileCard();
-                switchPanel(profileCard.getPanel());
+                switchPanel(profileAuthorWindow.getPanel());
             }
         });
         buttonToCreatedPages.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setCreatedPagesCard();
-                switchPanel(createdPagesCard.getPanel());
+                switchPanel(createdPagesAuthorWindow.getPanel());
             }
         });
-        buttonToStatistics.addActionListener(new ActionListener() {
+       /* buttonToStatistics.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 setProposalCard();
@@ -49,9 +52,9 @@ public class AuthorWindow extends JDialog{
         return this;
     }
 
-    /*public void setProfileCard() {
-        profileCard.setProfile();
-    }*/
+  public void setProfileCard() {
+        profileAuthorWindow.setProfile();
+    }
 
 
     public void setCreatedPagesCard(){
@@ -60,8 +63,8 @@ public class AuthorWindow extends JDialog{
 
     public void setAuthorWindow() {
         //setProfileCard();
-        setCreatedPagesCard();
-        switchPanel(createdPagesAuthorWindow.getPanel());
+        setProfileCard();
+        switchPanel(profileAuthorWindow.getPanel());
     }
 
     public void switchPanel(JPanel refPanel) {
