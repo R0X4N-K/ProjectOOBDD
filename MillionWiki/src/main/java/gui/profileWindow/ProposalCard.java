@@ -13,6 +13,7 @@ import java.awt.event.MouseEvent;
 import java.util.*;
 
 public class ProposalCard {
+
     private JPanel proposalCardPanel;
     private JTable proposalCardJTable;
     private JScrollPane proposalCardJTableJScrollPane;
@@ -34,7 +35,7 @@ public class ProposalCard {
     private void createUIComponents() {
             proposalCardJTable = new JTable();
     }
-    private MouseAdapter createMouseListener() {
+    private MouseAdapter createArticleMouseListener() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -52,6 +53,24 @@ public class ProposalCard {
                 }
             }
         };}
+    private MouseAdapter createAuthorMouseListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = proposalCardJTable.rowAtPoint(e.getPoint());
+                int col = proposalCardJTable.columnAtPoint(e.getPoint());
+                if (col == 1) {
+                    String link = (String) proposalCardJTable.getValueAt(row, col);
+                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    int id = Integer.parseInt(idString);
+                    // Codice per aprire la finestra AuthorWindow
+                    Controller.getWindow().getAuthorWindow().setIdAuthor(id);
+                    Controller.getWindow().getAuthorWindow().setAuthorWindow();
+                    Controller.getWindow().getAuthorWindow().setVisible(true);
+                }
+            }
+        };
+    }
 
     private JTable createTable() {
         int idAuthor= Controller.getCookie().getId();
@@ -71,7 +90,7 @@ public class ProposalCard {
             }
             if (!filteredArticles.isEmpty()) {
                 data[j][0] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>" + filteredArticles.get(0).getParentArticle().getTitle() + "</a></html>";
-                data[j][1] = Controller.getNicknameAuthorById(filteredArticles.get(0).getParentArticle().getAuthor().getId());
+                data[j][1] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getAuthor().getId() + "'>" + Controller.getNicknameAuthorById(filteredArticles.get(0).getParentArticle().getAuthor().getId()) + "</a></html>";
                 data[j][2] = getSentProposalCount(filteredArticles, idArticle);
                 data[j][3] = getLastSentProposalDate(filteredArticles, idArticle);
                 data[j][4] = getAcceptedProposalCount(filteredArticles, idArticle);
@@ -108,7 +127,8 @@ public class ProposalCard {
         proposalCardJTable = createTable();
         if (proposalCardJTable.getRowCount() > 0) {
             switchPanel(panelJTableJScrollPane);
-            proposalCardJTable.addMouseListener(createMouseListener());
+            proposalCardJTable.addMouseListener(createArticleMouseListener());
+            proposalCardJTable.addMouseListener(createAuthorMouseListener());
             proposalCardJTableJScrollPane.setViewportView(proposalCardJTable);
             proposalCardJTableJScrollPane.revalidate();
             proposalCardJTableJScrollPane.repaint();

@@ -30,6 +30,7 @@ public class ProfileChangeDialog extends JDialog {
         this.profileCard = profileCard;
         confirmButton.setEnabled(false);
         Dimension preferredSize = new Dimension(200, 30);
+        setResizable(false);
         inputField.setPreferredSize(preferredSize);
         passwordField.setPreferredSize(preferredSize);
 

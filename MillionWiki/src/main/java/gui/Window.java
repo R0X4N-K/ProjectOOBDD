@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Controller;
+import gui.authorWindow.AuthorWindow;
 import gui.page.Page;
 import gui.profileWindow.ProfileWindow;
 import gui.session.Login;
@@ -23,6 +24,7 @@ public class Window extends JFrame {
     private Page pagePanel;
     private Toolbar toolbarMainPanel;
     private final ProfileWindow profileWindow;
+    private final AuthorWindow authorWindow;
 
     public Window() {
         super("Million Wiki");
@@ -39,8 +41,10 @@ public class Window extends JFrame {
         setMinimumSize(new Dimension(480, 480));
         setLocationRelativeTo(null);
         profileWindow = new ProfileWindow(this);
+        authorWindow = new AuthorWindow(this);
         setVisible(true);
         profileWindow.setVisible(false);
+        authorWindow.setVisible(false);
         Cookie cookie = Controller.getCookie();
         if (cookie != null) {
             switchToLoggedWindow(this);
@@ -83,6 +87,7 @@ public class Window extends JFrame {
     public ProfileWindow getprofileWindow() {
         return profileWindow;
     }
+    public AuthorWindow getAuthorWindow(){ return authorWindow; }
 
     public JPanel getToolbarMainPanel() {
         return toolbarMainPanel.getPanel();

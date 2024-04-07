@@ -1,4 +1,4 @@
-package gui.profileWindow;
+package gui.authorWindow;
 
 import controller.Controller;
 import model.Article;
@@ -16,22 +16,24 @@ import java.util.List;
 
 import static controller.Controller.getAllArticleVersionByArticleId;
 
-public class CreatedPagesCard {
-    private JPanel createdPagesCardPanel;
-    private JTable createdPagesJTable;
-    private JScrollPane createdPagesJTableJScrollPane;
+public class CreatedPagesAuthorWindow {
     private JPanel cardLayoutPanel;
     private JPanel cardCardLayoutPanelJTable;
+    private JScrollPane createdPagesJTableJScrollPane;
+    private JTable createdPagesJTable;
     private JPanel cardCardLayoutPanel2;
     private JLabel cardCardLayoutPanel2JLabel;
+    private JPanel createdPagesAuthorMainPanel;
 
-
-    public CreatedPagesCard() {
+    public CreatedPagesAuthorWindow() {
 
 
         createdPagesJTable.addMouseListener(createMouseListener());
     }
 
+    private void createUIComponents() {
+        createdPagesJTable= new JTable();
+    }
 
     private MouseAdapter createMouseListener() {
         return new MouseAdapter() {
@@ -53,22 +55,11 @@ public class CreatedPagesCard {
     }
 
     public JPanel getPanel() {
-        return createdPagesCardPanel;
-    }
-    public void switchPanel(JPanel refPanel) {
-        cardLayoutPanel.removeAll();
-        cardLayoutPanel.add(refPanel);
-        cardLayoutPanel.repaint();
-        cardLayoutPanel.revalidate();
-    }
-
-    private void createUIComponents() {
-               createdPagesJTable= new JTable();
-
+        return createdPagesAuthorMainPanel;
     }
 
     private JTable createJTable() {
-        int idAuthor= Controller.getCookie().getId();
+        int idAuthor= Controller.getWindow().getAuthorWindow().getIdAuthor();
         List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
         Object[][] data = new Object[articles.size()][6];
         for (int i = 0; i < articles.size(); i++) {
@@ -111,18 +102,13 @@ public class CreatedPagesCard {
 
     public void setCreatedPagesJTable(){
         createdPagesJTable = createJTable();
+        createdPagesJTable.addMouseListener(createMouseListener());
     }
     public void setCreatedPages() {
         setCreatedPagesJTable();
-        if (createdPagesJTable.getRowCount() > 0){
-            switchPanel(cardCardLayoutPanelJTable);
-            createdPagesJTable.addMouseListener(createMouseListener());
-            createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
-            createdPagesJTableJScrollPane.revalidate();
-            createdPagesJTableJScrollPane.repaint();}
-        else {
-            switchPanel(cardCardLayoutPanel2);
-        }
+        createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
+        createdPagesJTableJScrollPane.revalidate();
+        createdPagesJTableJScrollPane.repaint();
     }
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
@@ -152,5 +138,4 @@ public class CreatedPagesCard {
         }
         return lastRevisionDate;
     }
-
 }
