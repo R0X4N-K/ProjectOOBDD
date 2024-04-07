@@ -51,6 +51,20 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         }
         return null;
     }
+    public String getTitleArticleByArticleId(int articleId){
+        String query = "SELECT title FROM articles WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)){
+            stmt.setInt(1, articleId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getString("title");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
 
     public ArrayList<Integer> getRecentArticles(int numberArticles) {
         ArrayList<Integer> articles = new ArrayList<>();

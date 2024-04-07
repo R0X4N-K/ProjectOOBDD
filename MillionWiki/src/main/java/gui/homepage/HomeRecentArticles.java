@@ -29,7 +29,7 @@ public class HomeRecentArticles {
         for (Integer articleId : recentArticles) {
             String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
             String plainText = Jsoup.parse(htmlText).text().trim();
-            HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), plainText);
+            HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), plainText, articleId);
             homeRecentArticlesMainPanel.add(recentArticle);
         }
 

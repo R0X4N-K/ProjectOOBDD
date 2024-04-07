@@ -12,7 +12,7 @@ import java.util.List;
 public interface ArticleDAO {
     Article getArticleById(int idArticle);
     Article getArticleByTitle(String articleTitle) throws SQLException;
-
+    String getTitleArticleByArticleId(int articleId);
     ArrayList<Article> getAllArticles() throws RuntimeException;
     ArrayList<Article> getAllArticlesByAuthor(int id) throws RuntimeException;
     ArrayList<Article> getAllArticlesByIdAuthor(int id);

@@ -76,6 +76,9 @@ public final class Controller {
         new AuthorDAOImplementation().updatePasswordAuthor(cookie.getId(), newPassword);
     }
 
+    public static String getTitleByArticleId(int idArticle){
+        return new ArticleDAOImplementation().getTitleArticleByArticleId(idArticle);
+    }
 
     public static ArticleVersion getLastArticleVersionByArticleId(int idArticle){
         return new ArticleVersionDAOImplementation().getLastArticleVersionByArticleId(idArticle);
