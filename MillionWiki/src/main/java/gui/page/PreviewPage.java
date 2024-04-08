@@ -8,12 +8,26 @@ import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 
-public class LinkOpener extends JDialog {
+public class PreviewPage extends JDialog {
     private JTextField titleTxtFld;
     private JEditorPane textEp;
     private JScrollPane scrollPane;
 
-    public LinkOpener(String title, String text){
+    public PreviewPage(String title, String text){
+        init_component(title, text);
+    }
+    public PreviewPage(){
+        init_component(null, null);
+    }
+
+    public void setTitle(String title){
+        titleTxtFld.setText(title);
+    }
+    public void setText(String text){
+        textEp.setText(text);
+    }
+
+    private void init_component(String title, String text){
         titleTxtFld = new JTextField(title);
         textEp = new JEditorPane();
         scrollPane = new JScrollPane(textEp);
@@ -47,7 +61,7 @@ public class LinkOpener extends JDialog {
         add(scrollPane, BorderLayout.CENTER);
 
         setModal(true);
-        setVisible(true); 
+        setVisible(true);
     }
 
     public JTextField getTitleTxtFld() {
