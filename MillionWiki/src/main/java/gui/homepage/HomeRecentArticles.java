@@ -8,10 +8,20 @@ import java.util.ArrayList;
 
 public class HomeRecentArticles {
     private JPanel homeRecentArticlesMainPanel;
+    private Thread thread;
 
     public HomeRecentArticles() {
         homeRecentArticlesMainPanel.setLayout(new GridLayout(2, 5));
+        if (thread == null || !thread.isAlive()) {
+            thread = new Thread(() -> {
+                initRecentArticles();
+            });
+        }
+        thread.setDaemon(true);
+        thread.start();
+    }
 
+    private void initRecentArticles() {
         ArrayList<Integer> recentArticles = new ArrayList<>();
         int attempts = 0;
         while (recentArticles.size() < 10 && attempts < 5) {
@@ -32,7 +42,8 @@ public class HomeRecentArticles {
             HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), plainText, articleId);
             homeRecentArticlesMainPanel.add(recentArticle);
         }
-
+        homeRecentArticlesMainPanel.repaint();
+        homeRecentArticlesMainPanel.revalidate();
     }
 
     public JPanel getPanel() {
