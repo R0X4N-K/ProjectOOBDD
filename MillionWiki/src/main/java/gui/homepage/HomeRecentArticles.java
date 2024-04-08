@@ -1,7 +1,6 @@
 package gui.homepage;
 
 import controller.Controller;
-import org.jsoup.Jsoup;
 import javax.swing.*;
 import java.awt.*;
 import java.util.ArrayList;
@@ -28,8 +27,7 @@ public class HomeRecentArticles {
             ArrayList<Integer> fetchedArticles = Controller.getRecentArticles(20);
             for (int i = 0; i < fetchedArticles.size() && recentArticles.size() < 10; i++){
                 String htmlText = Controller.getLastArticleVersionByArticleId(fetchedArticles.get(i)).getText();
-                String plainText = Jsoup.parse(htmlText).text().trim(); // rimuove gli spazi bianchi all'inizio e alla fine
-                if (plainText != null && !plainText.isEmpty()) {
+                if (htmlText != null && !htmlText.isEmpty()) {
                     recentArticles.add(fetchedArticles.get(i));
                 }
             }
@@ -38,8 +36,7 @@ public class HomeRecentArticles {
 
         for (Integer articleId : recentArticles) {
             String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
-            String plainText = Jsoup.parse(htmlText).text().trim();
-            HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), plainText, articleId);
+            HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
             homeRecentArticlesMainPanel.add(recentArticle);
         }
         homeRecentArticlesMainPanel.repaint();

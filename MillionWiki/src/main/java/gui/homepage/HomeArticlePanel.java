@@ -24,12 +24,13 @@ public class HomeArticlePanel extends JPanel{
                 Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
             }
         });
-        JTextArea textArea = new JTextArea(articleText);
-        textArea.setEditable(false);
-        textArea.setLineWrap(true);
-        textArea.setWrapStyleWord(true);
 
-        JScrollPane scrollPane = new JScrollPane(textArea);
+        JEditorPane editorPane = new JEditorPane();
+        editorPane.setContentType("text/html");
+        editorPane.setText(articleText);
+        editorPane.setEditable(false);
+
+        JScrollPane scrollPane = new JScrollPane(editorPane);
         scrollPane.setPreferredSize(new Dimension(200, 150));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
