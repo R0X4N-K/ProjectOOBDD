@@ -46,7 +46,7 @@ public class Page {
     private int pageMode = 0; //0 ViewerMode, 1 EditorMode
 
     private int idArticle = -1;
-    private Thread searchThread;
+    private Thread thread;
 
 
     //TODO: scorporare la classe ->
@@ -633,6 +633,14 @@ public class Page {
         setTitlePageField(title);
         setTextPageField(text);
         setIdArticle(idArticle);
+        if (thread == null || !thread.isAlive()) {
+            thread = new Thread(() -> {
+                Controller.incrementArticleViews(idArticle);
+            });
+        }
+        thread.setDaemon(true);
+        thread.start();
+
     }
 
     public void createNewPage(){

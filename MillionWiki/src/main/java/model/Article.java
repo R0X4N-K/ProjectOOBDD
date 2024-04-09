@@ -16,6 +16,8 @@ public class Article {
     private Author author;
 
 
+    private int views;
+
     public Article (String title, Author author) throws Exception {
         setTitle (title);
         setAuthor (author);
@@ -35,6 +37,7 @@ public class Article {
 
         setCreationDate (resultSet.getDate("creation_date"));
         setRevision (resultSet.getBoolean("revision"));
+        setViews(resultSet.getInt("views"));
         try {
             this.author = (Controller.getAuthorById(resultSet.getInt("author")));
         } catch (Exception e) {
@@ -81,6 +84,13 @@ public class Article {
         }
     }
 
+    public void setViews(int views) {
+        this.views = views;
+    }
+
+    public int getViews() {
+        return views;
+    }
     public Author getAuthor() {
         return author;
     }

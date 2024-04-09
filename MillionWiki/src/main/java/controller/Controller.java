@@ -66,6 +66,10 @@ public final class Controller {
         return null;
     }
 
+    public static void incrementArticleViews(int idArticle){
+        new ArticleDAOImplementation().incrementArticleViews(idArticle);
+    }
+
     public static void changeNickname(String newNickname){
         new AuthorDAOImplementation().updateNicknameAuthor(cookie.getId(),newNickname);
     }

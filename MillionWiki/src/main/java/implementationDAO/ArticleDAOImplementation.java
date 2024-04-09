@@ -1,7 +1,9 @@
 package implementationDAO;
+import controller.Controller;
 import database.DatabaseConnection;
 import model.Article;
 import model.Author;
+import model.Cookie;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -256,6 +258,23 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public void incrementArticleViews(int idArticle) {
+        Article article = getArticleById(idArticle);
+
+        //Verifico se l'articolo aperto dall'utente è un articolo creato da se stesso
+        if(Controller.getCookie() == null || Controller.getCookie().getId() != article.getAuthor().getId()) {
+            int currentViews = article.getViews() + 1;
+            String query = "UPDATE articles SET views = ? WHERE id = ?";
+            try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+                stmt.setInt(1, currentViews);
+                stmt.setInt(2, idArticle);
+                stmt.executeUpdate();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
         }
     }
 }

@@ -25,5 +25,5 @@ public interface ArticleDAO {
     void updateArticle(Article article, Article newArticle);
     void updateRevisionArticle(Article article, boolean newArticleRevisionStatus);
     void deleteArticle(Article articleToDelete);
-
+    void incrementArticleViews(int idArticle);
 }
