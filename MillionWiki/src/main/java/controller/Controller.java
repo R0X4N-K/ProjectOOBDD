@@ -108,6 +108,10 @@ public final class Controller {
         return new ArticleDAOImplementation().getMatchesArticlesByTitle(articleTitle);
     }
 
+    public static ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor){
+        return new AuthorDAOImplementation().getMatchesAuthorByNickname(nicknameAuthor);
+    }
+
     public static ArrayList<Article> getArticlesByIdAuthor(int idAuthor){
         return new ArticleDAOImplementation().getAllArticlesByIdAuthor(idAuthor);
     }

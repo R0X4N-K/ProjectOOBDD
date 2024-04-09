@@ -12,6 +12,8 @@ public interface AuthorDAO {
     String getNicknameById(int id);
     ArrayList<Author> getAllAuthors();
 
+    ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor);
+
     void saveAuthor(Author author, String password);
 
     void updateAuthor(Author author, Author newAuthor, String password);

@@ -2,12 +2,11 @@ package gui.toolbar;
 import controller.Controller;
 import model.Article;
 import model.ArticleVersion;
+import model.Author;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
-import javax.swing.event.MouseInputListener;
-import javax.swing.plaf.basic.BasicTextFieldUI;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
@@ -25,6 +24,7 @@ public class Toolbar {
     private JButton switchToUnloggedButton;
     private JButton createPageButton;
     private JButton searchBtn;
+    private JComboBox typeSearchCb;
 
     private JDialog searchDialog;
     private JPanel searchDialogPanel;
@@ -93,6 +93,17 @@ public class Toolbar {
             }
         });
 
+        typeSearchCb.addItemListener(new ItemListener() {
+            @Override
+            public void itemStateChanged(ItemEvent e) {
+                if (searchThread == null || !searchThread.isAlive()) {
+                    searchThread = new Thread(Toolbar.this::search); // Crea un nuovo thread se il precedente è terminato
+                    searchThread.setDaemon(true);
+                    searchThread.start();
+                }
+            }
+        });
+
         searchTxtFld.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -148,67 +159,129 @@ public class Toolbar {
         });
     }
 
+    //TODO: ricerca per autori e per articoli
     private void search(){
         if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
             searchDialog.setVisible(true);
             updateSearchDialogPos();
 
-            ArrayList<Article> matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
-
             searchDialogPanel.removeAll();
-            for (Article mathesArticle : matchesArticles) {
-                System.out.println(mathesArticle.getTitle());
 
-                JLabel articleItem = new JLabel(mathesArticle.getTitle());
-                articleItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
-                articleItem.setBorder(new EmptyBorder(4, 2, 0, 0));
+            ArrayList<Article> matchesArticles = null;
+            ArrayList<Author> matchesAuthors = null;
 
-                JPanel articleItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                articleItemPnl.setMaximumSize(new Dimension(searchTxtFld.getWidth(), 30));
-                articleItemPnl.add(articleItem);
+            if(typeSearchCb.getSelectedItem().equals("Articoli")){
+                System.out.println("Articoli");
+                matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
 
-                articleItemPnl.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseEntered(MouseEvent e) {
-                        articleItemPnl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-                        articleItemPnl.setBackground(Color.decode("#007bff"));
-                        articleItem.setForeground(Color.WHITE);
-                    }
+                for (Article mathesArticle : matchesArticles) {
+                    System.out.println(mathesArticle.getTitle());
 
-                    @Override
-                    public void mouseExited(MouseEvent e) {
-                        articleItemPnl.setCursor(Cursor.getDefaultCursor());
-                        articleItemPnl.setBackground(null);
-                        articleItem.setForeground(Color.BLACK);
-                    }
+                    JLabel articleItem = new JLabel(mathesArticle.getTitle());
+                    articleItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
+                    articleItem.setBorder(new EmptyBorder(4, 2, 0, 0));
 
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        System.out.println("Hai cliccato su " + mathesArticle.getTitle());
+                    JPanel articleItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    articleItemPnl.setMaximumSize(new Dimension(searchTxtFld.getWidth(), 30));
+                    articleItemPnl.add(articleItem);
 
-                        ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
-                        if(articleVersion != null){
-                            Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-                            Controller.getWindow().getPage().openPage(mathesArticle.getTitle(), articleVersion.getText(), mathesArticle.getId());
-                            searchDialog.setVisible(false);
+                    articleItemPnl.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            articleItemPnl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                            articleItemPnl.setBackground(Color.decode("#007bff"));
+                            articleItem.setForeground(Color.WHITE);
                         }
 
-                    }
-                });
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            articleItemPnl.setCursor(Cursor.getDefaultCursor());
+                            articleItemPnl.setBackground(null);
+                            articleItem.setForeground(Color.BLACK);
+                        }
 
-                searchDialogPanel.add(articleItemPnl);
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            System.out.println("Hai cliccato su " + mathesArticle.getTitle());
+
+                            ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
+                            if(articleVersion != null){
+                                Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
+                                Controller.getWindow().getPage().openPage(mathesArticle.getTitle(), articleVersion.getText(), mathesArticle.getId());
+                                searchDialog.setVisible(false);
+                            }
+
+                        }
+                    });
+
+                    searchDialogPanel.add(articleItemPnl);
+                }
+
+                if(matchesArticles.size() < 9)
+                    searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
+                else
+                    searchDialog.setSize(searchDialog.getWidth(), 200);
+
+                if(matchesArticles.isEmpty()){
+                    searchDialog.setSize(searchDialog.getWidth(), 25);
+                    searchDialogPanel.add(new JLabel("Nessun risultato"));
+                }
+                System.out.println("----");
+
+
+            }else{
+                System.out.println("Autori");
+                matchesAuthors = Controller.getMatchesAuthorByNickname(searchTxtFld.getText());
+
+                for (Author author : matchesAuthors) {
+                    System.out.println(author.getNickname());
+
+                    JLabel authorItem = new JLabel(author.getNickname());
+                    authorItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
+                    authorItem.setBorder(new EmptyBorder(4, 2, 0, 0));
+
+                    JPanel authorItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    authorItemPnl.setMaximumSize(new Dimension(searchTxtFld.getWidth(), 30));
+                    authorItemPnl.add(authorItem);
+
+                    authorItemPnl.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseEntered(MouseEvent e) {
+                            authorItemPnl.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+                            authorItemPnl.setBackground(Color.decode("#007bff"));
+                            authorItem.setForeground(Color.WHITE);
+                        }
+
+                        @Override
+                        public void mouseExited(MouseEvent e) {
+                            authorItemPnl.setCursor(Cursor.getDefaultCursor());
+                            authorItemPnl.setBackground(null);
+                            authorItem.setForeground(Color.BLACK);
+                        }
+
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            //TODO: apertura profilo autore
+                        }
+                    });
+
+                    searchDialogPanel.add(authorItemPnl);
+                }
+
+                if(matchesAuthors.size() < 9)
+                    searchDialog.setSize(searchDialog.getWidth(), matchesAuthors.size() * 35);
+                else
+                    searchDialog.setSize(searchDialog.getWidth(), 200);
+
+                if(matchesAuthors.isEmpty()){
+                    searchDialog.setSize(searchDialog.getWidth(), 25);
+                    searchDialogPanel.add(new JLabel("Nessun risultato"));
+                }
+                System.out.println("----");
             }
 
-            if(matchesArticles.size() < 9)
-                searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
-            else
-                searchDialog.setSize(searchDialog.getWidth(), 200);
 
-            if(matchesArticles.isEmpty()){
-                searchDialog.setSize(searchDialog.getWidth(), 25);
-                searchDialogPanel.add(new JLabel("Nessun risultato"));
-            }
-            System.out.println("----");
+
         }
         else{
             searchDialogPanel.removeAll();

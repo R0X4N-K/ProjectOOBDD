@@ -92,6 +92,38 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
     }
 
     @Override
+    public ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor){
+        ArrayList<Author> authors = new ArrayList<>();
+        String query = "";
+
+        if(nicknameAuthor.length() >= 4)
+            query = "SELECT * FROM authors WHERE nickname ILIKE ? OR nickname ILIKE ? LIMIT 10";
+        else
+            query = "SELECT * FROM authors WHERE nickname ILIKE ? LIMIT 10";
+
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            if(nicknameAuthor.length() >= 4) {
+                stmt.setString(1, nicknameAuthor + "%");
+                stmt.setString(2, "%" + nicknameAuthor + "%");
+                // deep search -> stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
+            }
+            else
+                stmt.setString(1,nicknameAuthor + "%");
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                try {
+                    authors.add(new Author(rs));
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return authors;
+    }
+
+    @Override
     public void saveAuthor(Author author, String password) {
         String query = "INSERT INTO authors (nickname, password, rating, id, email) VALUES (?, ?, ?, ?, ?)";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
