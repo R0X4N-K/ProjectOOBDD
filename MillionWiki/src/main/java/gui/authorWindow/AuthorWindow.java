@@ -28,15 +28,30 @@ public class AuthorWindow extends JDialog{
         buttonToProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setProfileCard();
-                switchPanel(profileAuthorWindow.getPanel());
+                Thread thread = null;
+                if (thread == null || !thread.isAlive()) {
+                    thread = new Thread(() -> {
+                        setProfileCard();
+                        switchPanel(profileAuthorWindow.getPanel());
+                    });
+                }
+                thread.setDaemon(true);
+                thread.start();
             }
         });
         buttonToCreatedPages.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setCreatedPagesCard();
-                switchPanel(createdPagesAuthorWindow.getPanel());
+                Thread thread = null;
+                if (thread == null || !thread.isAlive()) {
+                    thread = new Thread(() -> {
+                        switchPanel(createdPagesAuthorWindow.getPanel());
+                        setCreatedPagesCard();
+                    });
+                }
+                thread.setDaemon(true);
+                thread.start();
+
             }
         });
        /* buttonToStatistics.addActionListener(new ActionListener() {
@@ -62,7 +77,6 @@ public class AuthorWindow extends JDialog{
     }
 
     public void setAuthorWindow() {
-        //setProfileCard();
         setProfileCard();
         switchPanel(profileAuthorWindow.getPanel());
     }

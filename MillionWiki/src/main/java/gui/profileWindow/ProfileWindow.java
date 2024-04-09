@@ -10,7 +10,7 @@ public class ProfileWindow extends JDialog {
     private JPanel profileWindowMainPanel;
     private JButton buttonToProfile;
     private JButton buttonToCreatedPages;
-    private JButton buttonToStatistics;
+    private JButton buttonToProposal;
     private JScrollPane profileWindowJScrollPane;
     private JPanel profileWindowJScrollPaneJPanel;
     private JPanel profilePanelCards;
@@ -28,22 +28,44 @@ public class ProfileWindow extends JDialog {
         buttonToProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setProfileCard();
-                switchPanel(profileCard.getPanel());
+                Thread thread = null;
+                if (thread == null || !thread.isAlive()) {
+                    thread = new Thread(() -> {
+                        switchPanel(profileCard.getPanel());
+                        setProfileCard();
+                    });
+                }
+                thread.setDaemon(true);
+                thread.start();
             }
         });
         buttonToCreatedPages.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setCreatedPagesCard();
-                switchPanel(createdPagesCard.getPanel());
+                Thread thread = null;
+                if (thread == null || !thread.isAlive()) {
+                    thread = new Thread(() -> {
+                        switchPanel(createdPagesCard.getPanel());
+                        setCreatedPagesCard();
+                    });
+                }
+                thread.setDaemon(true);
+                thread.start();
             }
         });
-        buttonToStatistics.addActionListener(new ActionListener() {
+        buttonToProposal.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                setProposalCard();
-                switchPanel(proposalCard.getPanel());
+                Thread thread = null;
+                if (thread == null || !thread.isAlive()) {
+                    thread = new Thread(() -> {
+                        switchPanel(proposalCard.getPanel());
+                        setProposalCard();
+                    });
+                }
+                thread.setDaemon(true);
+                thread.start();
+
             }
         });
     }

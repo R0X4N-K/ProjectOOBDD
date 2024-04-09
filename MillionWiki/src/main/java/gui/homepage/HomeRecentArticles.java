@@ -21,19 +21,7 @@ public class HomeRecentArticles {
     }
 
     private void initRecentArticles() {
-        ArrayList<Integer> recentArticles = new ArrayList<>();
-        int attempts = 0;
-        while (recentArticles.size() < 10 && attempts < 5) {
-            ArrayList<Integer> fetchedArticles = Controller.getRecentArticles(20);
-            for (int i = 0; i < fetchedArticles.size() && recentArticles.size() < 10; i++){
-                String htmlText = Controller.getLastArticleVersionByArticleId(fetchedArticles.get(i)).getText();
-                if (htmlText != null && !htmlText.isEmpty()) {
-                    recentArticles.add(fetchedArticles.get(i));
-                }
-            }
-            attempts++;
-        }
-
+        ArrayList<Integer> recentArticles = Controller.getRecentArticles(10);
         for (Integer articleId : recentArticles) {
             String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
             HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);

@@ -124,6 +124,8 @@ public class ProposalCard {
     }
 
     private void setProposalCardJTable() {
+        switchPanel(panelJLabelsubProposalCardPanelCards);
+        subProposalCardPanelCardsJLabel.setText("Caricamento");
         proposalCardJTable = createTable();
         if (proposalCardJTable.getRowCount() > 0) {
             switchPanel(panelJTableJScrollPane);
@@ -133,7 +135,7 @@ public class ProposalCard {
             proposalCardJTableJScrollPane.revalidate();
             proposalCardJTableJScrollPane.repaint();
         } else {
-            switchPanel(panelJLabelsubProposalCardPanelCards);
+            subProposalCardPanelCardsJLabel.setText("Nessuna Proposta di modifica inviata");
         }
 
 

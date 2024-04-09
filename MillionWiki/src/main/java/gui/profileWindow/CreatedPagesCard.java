@@ -113,6 +113,8 @@ public class CreatedPagesCard {
         createdPagesJTable = createJTable();
     }
     public void setCreatedPages() {
+        switchPanel(cardCardLayoutPanel2);
+        cardCardLayoutPanel2JLabel.setText("Caricamento");
         setCreatedPagesJTable();
         if (createdPagesJTable.getRowCount() > 0){
             switchPanel(cardCardLayoutPanelJTable);
@@ -121,7 +123,7 @@ public class CreatedPagesCard {
             createdPagesJTableJScrollPane.revalidate();
             createdPagesJTableJScrollPane.repaint();}
         else {
-            switchPanel(cardCardLayoutPanel2);
+            cardCardLayoutPanel2JLabel.setText("Nessuna pagina ancora creata");
         }
     }
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
