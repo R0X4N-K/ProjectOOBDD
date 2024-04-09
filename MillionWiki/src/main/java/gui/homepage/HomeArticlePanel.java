@@ -29,6 +29,13 @@ public class HomeArticlePanel extends JPanel{
         editorPane.setContentType("text/html");
         editorPane.setText(articleText);
         editorPane.setEditable(false);
+        editorPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                Controller.getWindow().getPage().openPage(Controller.getTitleByArticleId(articleId), Controller.getLastArticleVersionByArticleId(articleId).getText(), articleId);
+                Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+               }
+        });
 
         JScrollPane scrollPane = new JScrollPane(editorPane);
         scrollPane.setPreferredSize(new Dimension(200, 150));
