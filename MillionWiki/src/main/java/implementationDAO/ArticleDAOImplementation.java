@@ -87,6 +87,26 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         return articles;
     }
 
+    public ArrayList<Article> getMostViewedArticles(int numberArticles) {
+        ArrayList<Article> articles = new ArrayList<>();
+        String query = "SELECT * FROM articles ORDER BY views DESC LIMIT ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, numberArticles);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                try {
+                    articles.add(new Article(rs));
+                } catch (RuntimeException e) {
+                    e.printStackTrace();
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articles;
+    }
+
+
     @Override
     public ArrayList<Article> getMatchesArticlesByTitle(String title) {
         ArrayList<Article> articles = new ArrayList<>();

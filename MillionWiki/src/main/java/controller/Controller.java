@@ -70,6 +70,10 @@ public final class Controller {
         new ArticleDAOImplementation().incrementArticleViews(idArticle);
     }
 
+    public static ArrayList<Article> getMostViewedArticles(int numberArticles){
+        return new ArticleDAOImplementation().getMostViewedArticles(numberArticles);
+    }
+
     public static void changeNickname(String newNickname){
         new AuthorDAOImplementation().updateNicknameAuthor(cookie.getId(),newNickname);
     }
