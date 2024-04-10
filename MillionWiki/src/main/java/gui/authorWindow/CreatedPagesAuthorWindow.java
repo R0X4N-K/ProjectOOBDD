@@ -30,7 +30,15 @@ public class CreatedPagesAuthorWindow {
 
         createdPagesJTable.addMouseListener(createMouseListener());
     }
-
+    public JPanel getPanel() {
+        return createdPagesAuthorMainPanel;
+    }
+    public void switchPanel(JPanel refPanel) {
+        cardLayoutPanel.removeAll();
+        cardLayoutPanel.add(refPanel);
+        cardLayoutPanel.repaint();
+        cardLayoutPanel.revalidate();
+    }
     private void createUIComponents() {
         createdPagesJTable= new JTable();
     }
@@ -52,10 +60,6 @@ public class CreatedPagesAuthorWindow {
                 }
             }
         };
-    }
-
-    public JPanel getPanel() {
-        return createdPagesAuthorMainPanel;
     }
 
     private JTable createJTable() {
@@ -102,13 +106,20 @@ public class CreatedPagesAuthorWindow {
 
     public void setCreatedPagesJTable(){
         createdPagesJTable = createJTable();
-        createdPagesJTable.addMouseListener(createMouseListener());
     }
     public void setCreatedPages() {
+        switchPanel(cardCardLayoutPanel2);
+        cardCardLayoutPanel2JLabel.setText("Caricamento");
         setCreatedPagesJTable();
-        createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
-        createdPagesJTableJScrollPane.revalidate();
-        createdPagesJTableJScrollPane.repaint();
+        if (createdPagesJTable.getRowCount() > 0) {
+            switchPanel(cardCardLayoutPanelJTable);
+            createdPagesJTable.addMouseListener(createMouseListener());
+            createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
+            createdPagesJTableJScrollPane.revalidate();
+            createdPagesJTableJScrollPane.repaint();
+        } else{
+            cardCardLayoutPanel2JLabel.setText("Nessuna pagina ancora creata dall'autore");
+        }
     }
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
