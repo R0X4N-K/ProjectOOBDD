@@ -30,7 +30,7 @@ public class Notification {
 
     public Notification(ArticleVersion a) {
         this();
-        profileButton.setText(getAuthorById(a.getId()).getNickname());
+        profileButton.setText(getAuthorById(a.getAuthorProposal().getId()).getNickname());
         //TODO: Add Link in proposalButton
     }
 

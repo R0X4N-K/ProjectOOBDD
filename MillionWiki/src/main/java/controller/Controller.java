@@ -162,6 +162,12 @@ public final class Controller {
         return true;
     }
 
+    public static ArrayList<ArticleVersion> getNotifications() {
+        ArrayList<ArticleVersion> notificationList = articleVersionDAO.getAllArticleVersionsWaiting(cookie.getId());
+
+        return notificationList;
+    }
+
     public static void setArticleDAO (ArticleDAO dao) throws NullPointerException {
         if (dao == null) {
             throw new NullPointerException();

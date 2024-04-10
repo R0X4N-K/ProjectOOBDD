@@ -222,6 +222,26 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         return id;
     }
 
+
+    public ArrayList<ArticleVersion> getAllArticleVersionsWaiting(int authorId) {
+        ArrayList<ArticleVersion> versionsWaiting = new ArrayList<>();
+        String getArticleQuery = "SELECT article_versions.* FROM article_versions\n" +
+                "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
+                "WHERE articles.author = ? AND article_versions.status = \'WAITING\'";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
+            stmt.setInt(1, authorId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ArticleVersion articleVersion = new ArticleVersion(rs);
+                    versionsWaiting.add(articleVersion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return versionsWaiting;
+    }
+
     @Override
     public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int authorProposal, String titleProposal) {
         String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal, title) VALUES (?, ?, ?, ?, ?, ?, ?) ";
