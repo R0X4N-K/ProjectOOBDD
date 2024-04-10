@@ -29,13 +29,10 @@ public class CreatedPagesCard {
 
 
     public CreatedPagesCard() {
-
-
-        createdPagesJTable.addMouseListener(createMouseListener());
     }
 
 
-    private MouseAdapter createMouseListener() {
+    private MouseAdapter createArticleTitleMouseListener() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -53,12 +50,29 @@ public class CreatedPagesCard {
             }
         };
     }
+    private MouseAdapter createArticleHistoryMouseListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = createdPagesJTable.rowAtPoint(e.getPoint());
+                int col = createdPagesJTable.columnAtPoint(e.getPoint());
+                if (col == 1) {
+                    String link = (String) createdPagesJTable.getValueAt(row, 0);
+                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    int id = Integer.parseInt(idString);
+                    Controller.getWindow().getArticleHistory().setIdArticle(id);
+                    Controller.getWindow().getArticleHistory().setArticleHistory();
+                    Controller.getWindow().getArticleHistory().setVisible(true);
+                }
+            }
+        };
+    }
     private void addHandCursorToTable() {
         createdPagesJTable.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 int col = createdPagesJTable.columnAtPoint(e.getPoint());
-                if (col == 0) {
+                if (col == 0 || col == 1) {
                     createdPagesJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 } else {
                     createdPagesJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -90,8 +104,8 @@ public class CreatedPagesCard {
             Article article = articles.get(i);
             ArrayList<ArticleVersion> articleVersions = getAllArticleVersionByArticleId(article.getId());
             Date lastRevisionDate = getLastRevisionDate(articleVersions);
-            data[i][0] = "<html><a href='"+article.getId()+"'>" + article.getTitle() + "</a></html>";
-            data[i][1] = "<html><a href='"+article.getId()+"'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
+            data[i][0] = "<html><a href='" + article.getId() + "'>" + article.getTitle() + "</a></html>";
+            data[i][1] = "<html><a href='"+ article.getId() + "'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
             data[i][2] = article.getCreationDate();
             if (lastRevisionDate != null) {
                 data[i][3] = lastRevisionDate;
@@ -139,7 +153,8 @@ public class CreatedPagesCard {
         setCreatedPagesJTable();
         if (createdPagesJTable.getRowCount() > 0){
             switchPanel(cardCardLayoutPanelJTable);
-            createdPagesJTable.addMouseListener(createMouseListener());
+            createdPagesJTable.addMouseListener(createArticleTitleMouseListener());
+            createdPagesJTable.addMouseListener(createArticleHistoryMouseListener());
             addHandCursorToTable();
             createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
             createdPagesJTableJScrollPane.revalidate();
