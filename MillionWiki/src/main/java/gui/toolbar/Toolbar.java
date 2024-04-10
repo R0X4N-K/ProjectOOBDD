@@ -1,5 +1,6 @@
 package gui.toolbar;
 import controller.Controller;
+import gui.authorWindow.AuthorWindow;
 import model.Article;
 import model.ArticleVersion;
 import model.Author;
@@ -262,6 +263,9 @@ public class Toolbar {
                         @Override
                         public void mouseClicked(MouseEvent e) {
                             //TODO: apertura profilo autore
+                            Controller.getWindow().getAuthorWindow().setIdAuthor(author.getId());
+                            Controller.getWindow().getAuthorWindow().setAuthorWindow();
+                            Controller.getWindow().getAuthorWindow().setVisible(true);
                         }
                     });
 
