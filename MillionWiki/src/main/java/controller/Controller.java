@@ -115,8 +115,17 @@ public final class Controller {
     public static ArrayList<Article> getArticlesByIdAuthor(int idAuthor){
         return new ArticleDAOImplementation().getAllArticlesByIdAuthor(idAuthor);
     }
+    public static int getArticlesNumberByIdAuthor(int idAuthor){
+        return new ArticleDAOImplementation().getAllArticlesNumberByIdAuthor(idAuthor);
+    }
+    public static int getArticlesNumberSentByIdAuthor(int idAuthor){
+        return new ArticleVersionDAOImplementation().getVersionArticlesNumberSent(idAuthor);
+    }
     public static Author getAuthorByNickname(String nickname){
         return new AuthorDAOImplementation().getAuthorByNickname(nickname);
+    }
+    public static float getRatingByAuthorId(int id){
+        return new AuthorDAOImplementation().getRatingByAuthorId(id);
     }
     public static String getNicknameAuthorById(int idAuthor){
         return new AuthorDAOImplementation().getNicknameById(idAuthor);

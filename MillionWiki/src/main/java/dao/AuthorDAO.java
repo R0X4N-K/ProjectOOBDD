@@ -10,6 +10,7 @@ public interface AuthorDAO {
     Author getAuthorByNickname(String nickname);
     Author getAuthorById(int id);
     String getNicknameById(int id);
+    float getRatingByAuthorId(int id);
     ArrayList<Author> getAllAuthors();
 
     ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor);

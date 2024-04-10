@@ -56,6 +56,23 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         return articleVersions;
     }
 
+    public int getVersionArticlesNumberSent(int idAuthor) {
+        int count = 0;
+        String query = "SELECT COUNT(*) FROM article_versions av JOIN articles a ON av.parent_article = a.id WHERE av.author_proposal = ? AND a.author != ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, idAuthor);
+            stmt.setInt(2, idAuthor);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    count = rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return count;
+    }
+
     @Override
     public ArrayList<ArticleVersion> getAllArticleVersions() {
         ArrayList<ArticleVersion> articleVersions = new ArrayList<>();

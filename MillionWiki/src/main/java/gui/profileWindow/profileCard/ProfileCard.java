@@ -23,10 +23,8 @@ public class ProfileCard {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Window.switchToUnloggedWindow(Controller.getWindow());
-                welcomeJLabel.setText("Benvenuto!");
                 Controller.getWindow().getprofileWindow().getDialog().dispose();
-
-
+                welcomeJLabel.setText("Benvenuto!");
             }
         });
         changeNicknameButton.addActionListener(new ActionListener() {

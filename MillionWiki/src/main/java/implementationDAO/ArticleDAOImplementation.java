@@ -163,6 +163,20 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     public ArrayList<Article> getAllArticlesByAuthor(int id) throws RuntimeException {
         return null;
     }
+    public int getAllArticlesNumberByIdAuthor(int idAuthor){
+        String query = "SELECT COUNT(*) FROM articles WHERE author = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, idAuthor);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getInt(1);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     public ArrayList<Article> getAllArticlesByIdAuthor(int id) {
         ArrayList<Article> articles = new ArrayList<>();

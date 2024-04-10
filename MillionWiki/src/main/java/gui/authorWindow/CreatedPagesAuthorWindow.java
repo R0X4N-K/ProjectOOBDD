@@ -92,11 +92,11 @@ public class CreatedPagesAuthorWindow {
         };
 
         JTable table = new JTable(model);
-        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
-            column.setPreferredWidth(100); // Imposta la larghezza preferita della colonna
+            column.setPreferredWidth(95); // Imposta la larghezza preferita della colonna
             if (i>0){ // Imposta le colonne non modificabili dalla seconda in poi
                 column.setResizable(false);
             }

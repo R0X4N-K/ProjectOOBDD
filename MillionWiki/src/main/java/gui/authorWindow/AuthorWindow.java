@@ -5,8 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class AuthorWindow extends JDialog{
-    private JScrollPane authorWindowJScrollPane;
-    private JPanel authorWindowJScrollPaneJPanel;
+    private JPanel authorWindowButtonsJPanel;
     private JButton buttonToProfile;
     private JButton buttonToCreatedPages;
     private JButton buttonToStatistics;
@@ -14,6 +13,7 @@ public class AuthorWindow extends JDialog{
     private JPanel authorWindowMainPanel;
     private CreatedPagesAuthorWindow createdPagesAuthorWindow;
     private ProfileAuthorWindow profileAuthorWindow;
+    private JPanel authorWindowJPanelButtons2;
     private int idAuthor = -1;
 
 

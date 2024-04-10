@@ -71,6 +71,20 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         }
         return null;
     }
+    public float getRatingByAuthorId(int id) {
+        String query = "SELECT rating FROM authors WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, id);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    return rs.getFloat("rating");
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return 0;
+    }
 
     @Override
     public ArrayList<Author> getAllAuthors() {
