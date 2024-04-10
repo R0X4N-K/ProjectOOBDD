@@ -39,6 +39,24 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         }
         return null;
     }
+
+    @Override
+    public ArticleVersion getArticleVersionByIdArticleVersion(int idArticleVersion) {
+        ArticleVersion articleVersion = null;
+        String query = "SELECT * FROM article_versions WHERE id = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.setInt(1, idArticleVersion);
+            try (ResultSet rs = stmt.executeQuery()) {
+                if (rs.next()) {
+                    articleVersion = new ArticleVersion(rs);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return articleVersion;
+    }
+
     public ArrayList<ArticleVersion> getAllArticleVersionByAuthorId(int authorId){
         ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
         String getArticleQuery = "SELECT * FROM article_versions WHERE author_proposal = ?";

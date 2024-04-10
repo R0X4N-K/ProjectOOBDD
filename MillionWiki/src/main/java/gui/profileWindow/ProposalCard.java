@@ -1,6 +1,7 @@
 package gui.profileWindow;
 
 import controller.Controller;
+import gui.articleHistory.ArticleHistory;
 import model.Article;
 import model.ArticleVersion;
 
@@ -56,13 +57,34 @@ public class ProposalCard {
                 }
             }
         };}
-    private MouseAdapter createAuthorMouseListener() {
+
+    private MouseAdapter createArticleHistoryMouseListener() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 int row = proposalCardJTable.rowAtPoint(e.getPoint());
                 int col = proposalCardJTable.columnAtPoint(e.getPoint());
                 if (col == 1) {
+                    String link = (String) proposalCardJTable.getValueAt(row, col);
+                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    int id = Integer.parseInt(idString);
+                    ArticleHistory articleHistory = Controller.getWindow().getArticleHistory();
+                    articleHistory.setIdArticle(id);
+
+                    articleHistory.setArticleHistory();
+                    articleHistory.setVisible(true);
+                }
+            }
+        };
+    }
+
+    private MouseAdapter createAuthorMouseListener() {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = proposalCardJTable.rowAtPoint(e.getPoint());
+                int col = proposalCardJTable.columnAtPoint(e.getPoint());
+                if (col == 2) {
                     String link = (String) proposalCardJTable.getValueAt(row, col);
                     String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
                     int id = Integer.parseInt(idString);
@@ -74,12 +96,13 @@ public class ProposalCard {
             }
         };
     }
+
     private void addHandCursorToTable() {
         proposalCardJTable.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
                 int col = proposalCardJTable.columnAtPoint(e.getPoint());
-                if (col == 0 || col == 1) {
+                if (col == 0 || col == 1|| col == 2) {
                     proposalCardJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 } else {
                     proposalCardJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -88,14 +111,14 @@ public class ProposalCard {
         });
     }
 
-    private JTable createTable() {
+    private JTable createJTable() {
         int idAuthor= Controller.getCookie().getId();
         List<ArticleVersion> versionArticles = Controller.getAllArticleVersionByAuthorId(idAuthor);
         Set<Integer> uniqueArticleIds = new HashSet<>();
         for (ArticleVersion versionArticle : versionArticles) {
             uniqueArticleIds.add(versionArticle.getParentArticle().getId());
         }
-        Object[][] data = new Object[uniqueArticleIds.size()][7];
+        Object[][] data = new Object[uniqueArticleIds.size()][8]; // Modifica la dimensione dell'array a 8
         int j = 0;
         for (Integer idArticle : uniqueArticleIds) {
             List<ArticleVersion> filteredArticles = new ArrayList<>();
@@ -106,17 +129,18 @@ public class ProposalCard {
             }
             if (!filteredArticles.isEmpty()) {
                 data[j][0] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>" + filteredArticles.get(0).getParentArticle().getTitle() + "</a></html>";
-                data[j][1] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getAuthor().getId() + "'>" + Controller.getNicknameAuthorById(filteredArticles.get(0).getParentArticle().getAuthor().getId()) + "</a></html>";
-                data[j][2] = getSentProposalCount(filteredArticles, idArticle);
-                data[j][3] = getLastSentProposalDate(filteredArticles, idArticle);
-                data[j][4] = getAcceptedProposalCount(filteredArticles, idArticle);
-                data[j][5] = getRejectedProposalCount(filteredArticles, idArticle);
-                data[j][6] = getWaitedProposalCount(filteredArticles, idArticle);
+                data[j][1] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
+                data[j][2] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getAuthor().getId() + "'>" + Controller.getNicknameAuthorById(filteredArticles.get(0).getParentArticle().getAuthor().getId()) + "</a></html>";
+                data[j][3] = getSentProposalCount(filteredArticles, idArticle);
+                data[j][4] = getLastSentProposalDate(filteredArticles, idArticle);
+                data[j][5] = getAcceptedProposalCount(filteredArticles, idArticle);
+                data[j][6] = getRejectedProposalCount(filteredArticles, idArticle);
+                data[j][7] = getWaitedProposalCount(filteredArticles, idArticle);
                 j++;
             }
         }
 
-        String[] columns = {"Articolo", "Autore", "Proposte inviate", "Ultima Inviata", "Proposte Accettate", "Proposte Rifiutate", "Proposte in Attesa"};
+        String[] columns = {"Articolo", "Storico", "Autore", "Proposte inviate", "Ultima Inviata", "Proposte Accettate", "Proposte Rifiutate", "Proposte in Attesa"}; // Aggiunge la nuova colonna "Storico"
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -135,18 +159,20 @@ public class ProposalCard {
                 column.setResizable(false);
             }
         }
-        columnModel.getColumn(4).setPreferredWidth(110);
+        columnModel.getColumn(1).setPreferredWidth(50);
+        columnModel.getColumn(5).setPreferredWidth(110);
         return table;
     }
 
     private void setProposalCardJTable() {
         switchPanel(panelJLabelsubProposalCardPanelCards);
         subProposalCardPanelCardsJLabel.setText("Caricamento");
-        proposalCardJTable = createTable();
+        proposalCardJTable = createJTable();
         if (proposalCardJTable.getRowCount() > 0) {
             switchPanel(panelJTableJScrollPane);
             proposalCardJTable.addMouseListener(createArticleMouseListener());
             proposalCardJTable.addMouseListener(createAuthorMouseListener());
+            proposalCardJTable.addMouseListener(createArticleHistoryMouseListener());
             addHandCursorToTable();
             proposalCardJTableJScrollPane.setViewportView(proposalCardJTable);
             proposalCardJTableJScrollPane.revalidate();
@@ -154,8 +180,6 @@ public class ProposalCard {
         } else {
             subProposalCardPanelCardsJLabel.setText("Nessuna Proposta di modifica inviata");
         }
-
-
     }
     public void setProposalCard(){
         setProposalCardJTable();

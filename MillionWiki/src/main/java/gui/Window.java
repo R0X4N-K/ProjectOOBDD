@@ -1,6 +1,8 @@
 package gui;
 
 import controller.Controller;
+import gui.articleHistory.ArticleHistory;
+import gui.articleHistory.ArticleHistoryTextWindow;
 import gui.authorWindow.AuthorWindow;
 import gui.homepage.Home;
 import gui.page.Page;
@@ -26,6 +28,8 @@ public class Window extends JFrame {
     private Toolbar toolbarMainPanel;
     private final ProfileWindow profileWindow;
     private final AuthorWindow authorWindow;
+    private final ArticleHistory articleHistory;
+    private final ArticleHistoryTextWindow articleHistoryTextWindow;
 
     public Window() {
         super("Million Wiki");
@@ -43,9 +47,13 @@ public class Window extends JFrame {
         setLocationRelativeTo(null);
         profileWindow = new ProfileWindow(this);
         authorWindow = new AuthorWindow(this);
+        articleHistory = new ArticleHistory(this);
+        articleHistoryTextWindow = new ArticleHistoryTextWindow(this);
         setVisible(true);
         profileWindow.setVisible(false);
         authorWindow.setVisible(false);
+        articleHistory.setVisible(false);
+        articleHistoryTextWindow.setVisible(false);
         Cookie cookie = Controller.getCookie();
         if (cookie != null) {
             switchToLoggedWindow(this);
@@ -53,29 +61,20 @@ public class Window extends JFrame {
             switchToUnloggedWindow(this);
         }
 
-
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
                 toolbarMainPanel.updateSearchDialogPos();
             }
-
             @Override
             public void componentMoved(ComponentEvent e) {
                 toolbarMainPanel.updateSearchDialogPos();
             }
-
             @Override
-            public void componentShown(ComponentEvent e) {
-
-            }
-
+            public void componentShown(ComponentEvent e) {}
             @Override
-            public void componentHidden(ComponentEvent e) {
-
-            }
+            public void componentHidden(ComponentEvent e) {}
         });
-
     }
 
     public void switchPanel(JPanel refPanel) {
@@ -89,6 +88,9 @@ public class Window extends JFrame {
         return profileWindow;
     }
     public AuthorWindow getAuthorWindow(){ return authorWindow; }
+    public ArticleHistory getArticleHistory() { return articleHistory; }
+    public ArticleHistoryTextWindow getArticleHistoryTextWindow() { return articleHistoryTextWindow; }
+
 
     public JPanel getToolbarMainPanel() {
         return toolbarMainPanel.getPanel();
@@ -112,11 +114,6 @@ public class Window extends JFrame {
     public Page getPage(){
         return pagePanel;
     }
-
-    /*public static void switchToLoggedWindow(Window window) {
-        window.toolbarMainPanel.setProfile(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
-        window.toolbarMainPanel.switchToLoggedToolbar();
-    }*/
 
     public static void switchToLoggedWindow(Window window) {
         window.toolbarMainPanel.switchToLoggedToolbar();

@@ -85,24 +85,25 @@ public class CreatedPagesCard {
     private JTable createJTable() {
         int idAuthor= Controller.getCookie().getId();
         List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
-        Object[][] data = new Object[articles.size()][6];
+        Object[][] data = new Object[articles.size()][7]; // Modifica la dimensione dell'array a 7
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
             ArrayList<ArticleVersion> articleVersions = getAllArticleVersionByArticleId(article.getId());
             Date lastRevisionDate = getLastRevisionDate(articleVersions);
             data[i][0] = "<html><a href='"+article.getId()+"'>" + article.getTitle() + "</a></html>";
-            data[i][1] = article.getCreationDate();
+            data[i][1] = "<html><a href='"+article.getId()+"'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
+            data[i][2] = article.getCreationDate();
             if (lastRevisionDate != null) {
-                data[i][2] = lastRevisionDate;
+                data[i][3] = lastRevisionDate;
             } else {
-                data[i][2] = "N/A";
+                data[i][3] = "N/A";
             }
-            data[i][3] = articleVersions.size();
-            data[i][4] = getCountWaitingProposal(articleVersions);
-            data[i][5] = getCountAcceptedProposal(articleVersions);
+            data[i][4] = articleVersions.size();
+            data[i][5] = getCountWaitingProposal(articleVersions);
+            data[i][6] = getCountAcceptedProposal(articleVersions);
         }
 
-        String[] columns = {"Titolo", "Data Creazione", "Ultima Revisione", "Mod. Ricevute","Mod. in Attesa", "Mod. Apportate"};
+        String[] columns = {"Titolo", "Storico", "Data Creazione", "Ultima Revisione", "Mod. Ricevute","Mod. in Attesa", "Mod. Apportate"}; // Aggiunge la nuova colonna "Storico"
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -112,11 +113,16 @@ public class CreatedPagesCard {
         };
 
         JTable table = new JTable(model);
-        //table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
-            column.setPreferredWidth(100); // Imposta la larghezza preferita della colonna
+            if (i == 1) {
+                column.setPreferredWidth(50); // Imposta la larghezza preferita della colonna
+            } else {
+                column.setPreferredWidth(100); // Imposta la larghezza preferita della colonna
+            }
+            // Imposta la larghezza preferita della colonna
             if (i>0){ // Imposta le colonne non modificabili dalla seconda in poi
                 column.setResizable(false);
             }

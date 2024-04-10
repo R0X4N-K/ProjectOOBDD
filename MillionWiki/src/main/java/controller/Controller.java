@@ -121,6 +121,9 @@ public final class Controller {
     public static int getArticlesNumberSentByIdAuthor(int idAuthor){
         return new ArticleVersionDAOImplementation().getVersionArticlesNumberSent(idAuthor);
     }
+    public static ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion){
+        return new ArticleVersionDAOImplementation().getArticleVersionByIdArticleVersion(idArticleVersion);
+    }
     public static Author getAuthorByNickname(String nickname){
         return new AuthorDAOImplementation().getAuthorByNickname(nickname);
     }
