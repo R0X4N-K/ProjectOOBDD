@@ -1,13 +1,11 @@
 package gui.homepage;
 
 import controller.Controller;
-import model.Article;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.ArrayList;
 
 
 public class Home {
@@ -20,6 +18,7 @@ public class Home {
     private JLabel recentLabel;
     private JLabel footerLabel;
     private HomeRecentArticles homeRecentArticles;
+    private HomeFeaturedArticles homeFeaturedArticles;
 
     public Home() {
         editorButton.addActionListener(new ActionListener() {

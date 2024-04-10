@@ -12,6 +12,8 @@ import java.net.URISyntaxException;
 
 public class HomeArticlePanel extends JPanel{
 
+    private JPanel homeArticleMainPanel;
+
     public HomeArticlePanel(String title, String articleText, int articleId) {
         setLayout(new BorderLayout());
 
@@ -29,6 +31,7 @@ public class HomeArticlePanel extends JPanel{
         editorPane.setContentType("text/html");
         editorPane.setText(articleText);
         editorPane.setEditable(false);
+        editorPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
         editorPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {

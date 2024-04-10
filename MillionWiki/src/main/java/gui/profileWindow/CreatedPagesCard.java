@@ -8,8 +8,10 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -50,6 +52,19 @@ public class CreatedPagesCard {
                 }
             }
         };
+    }
+    private void addHandCursorToTable() {
+        createdPagesJTable.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                int col = createdPagesJTable.columnAtPoint(e.getPoint());
+                if (col == 0) {
+                    createdPagesJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                } else {
+                    createdPagesJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+        });
     }
 
     public JPanel getPanel() {
@@ -119,6 +134,7 @@ public class CreatedPagesCard {
         if (createdPagesJTable.getRowCount() > 0){
             switchPanel(cardCardLayoutPanelJTable);
             createdPagesJTable.addMouseListener(createMouseListener());
+            addHandCursorToTable();
             createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
             createdPagesJTableJScrollPane.revalidate();
             createdPagesJTableJScrollPane.repaint();}

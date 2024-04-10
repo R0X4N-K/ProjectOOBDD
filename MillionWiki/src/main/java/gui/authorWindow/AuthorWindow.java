@@ -8,7 +8,6 @@ public class AuthorWindow extends JDialog{
     private JPanel authorWindowButtonsJPanel;
     private JButton buttonToProfile;
     private JButton buttonToCreatedPages;
-    private JButton buttonToStatistics;
     private JPanel authorPanelCards;
     private JPanel authorWindowMainPanel;
     private CreatedPagesAuthorWindow createdPagesAuthorWindow;
@@ -54,13 +53,6 @@ public class AuthorWindow extends JDialog{
 
             }
         });
-       /* buttonToStatistics.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                setProposalCard();
-                switchPanel(proposalCard.getPanel());
-            }
-        });*/
     }
 
     public JDialog getDialog() {

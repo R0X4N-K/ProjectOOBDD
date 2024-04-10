@@ -8,9 +8,12 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
+import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseMotionAdapter;
 import java.util.*;
+import java.util.List;
 
 public class ProposalCard {
 
@@ -70,6 +73,19 @@ public class ProposalCard {
                 }
             }
         };
+    }
+    private void addHandCursorToTable() {
+        proposalCardJTable.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                int col = proposalCardJTable.columnAtPoint(e.getPoint());
+                if (col == 0 || col == 1) {
+                    proposalCardJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                } else {
+                    proposalCardJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+        });
     }
 
     private JTable createTable() {
@@ -131,6 +147,7 @@ public class ProposalCard {
             switchPanel(panelJTableJScrollPane);
             proposalCardJTable.addMouseListener(createArticleMouseListener());
             proposalCardJTable.addMouseListener(createAuthorMouseListener());
+            addHandCursorToTable();
             proposalCardJTableJScrollPane.setViewportView(proposalCardJTable);
             proposalCardJTableJScrollPane.revalidate();
             proposalCardJTableJScrollPane.repaint();
