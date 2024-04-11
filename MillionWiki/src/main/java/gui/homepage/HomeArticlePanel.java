@@ -27,12 +27,14 @@ public class HomeArticlePanel extends JPanel{
             }
         });
 
-        JEditorPane editorPane = new JEditorPane();
-        editorPane.setContentType("text/html");
-        editorPane.setText(articleText);
-        editorPane.setEditable(false);
-        editorPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        editorPane.addMouseListener(new MouseAdapter() {
+        JTextPane textPane = new JTextPane();
+        textPane.setContentType("text/html");
+        textPane.setText(articleText);
+        textPane.getCaret().setVisible(false);
+        textPane.setCaretColor(textPane.getBackground());
+        textPane.setEditable(false);
+        textPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        textPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
                 Controller.getWindow().getPage().openPage(Controller.getTitleByArticleId(articleId), Controller.getLastArticleVersionByArticleId(articleId).getText(), articleId);
@@ -40,7 +42,7 @@ public class HomeArticlePanel extends JPanel{
                }
         });
 
-        JScrollPane scrollPane = new JScrollPane(editorPane);
+        JScrollPane scrollPane = new JScrollPane(textPane);
         scrollPane.setPreferredSize(new Dimension(200, 150));
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
 
