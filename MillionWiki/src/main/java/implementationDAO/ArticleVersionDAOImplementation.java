@@ -1,4 +1,5 @@
 package implementationDAO;
+import controller.Controller;
 import dao.ArticleVersionDAO;
 import database.DatabaseConnection;
 import model.Article;
@@ -225,20 +226,32 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
 
     public ArrayList<ArticleVersion> getAllArticleVersionsWaiting(int authorId) {
         ArrayList<ArticleVersion> versionsWaiting = new ArrayList<>();
-        String getArticleQuery = "SELECT article_versions.* FROM article_versions\n" +
+        // -- FULL QUERY --
+        /* String getArticleQuery = "SELECT article_versions.* FROM article_versions\n" +
                 "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
                 "WHERE articles.author = ? AND article_versions.status = \'WAITING\'";
+         */
+         String getArticleQuery = "SELECT article_versions.id, article_versions.status, version_date, author_proposal, parent_article, article_versions.title FROM article_versions\n" +
+                 "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
+                 "WHERE articles.author = ? AND article_versions.status = \'WAITING\'";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
             stmt.setInt(1, authorId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    ArticleVersion articleVersion = new ArticleVersion(rs);
+                    ArticleVersion articleVersion = new ArticleVersion(rs.getInt("id"),
+                            //rs.getString("text"),
+                            rs.getDate("version_date"),
+                            Controller.getArticlesById(rs.getInt("parent_article")),
+                            Controller.getAuthorById(rs.getInt("author_proposal"))
+                    );
                     versionsWaiting.add(articleVersion);
                 }
+                rs.close();
+                stmt.close();
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
         return versionsWaiting;
     }
 
