@@ -230,7 +230,9 @@ public class Toolbar {
                 System.out.println("----");
 
 
-            }else{
+            }
+
+            else{
                 System.out.println("Autori");
                 matchesAuthors = Controller.getMatchesAuthorByNickname(searchTxtFld.getText());
 

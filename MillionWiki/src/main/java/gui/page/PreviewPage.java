@@ -39,7 +39,7 @@ public class PreviewPage extends JDialog {
         setSize((int) Controller.getWindow().getSize().getWidth(), (int) Controller.getWindow().getSize().getHeight());
         setLocationRelativeTo(Controller.getWindow());
 
-        titleTxtFld.setFont(new Font(getFont().getFontName(), Font.BOLD, getFont().getSize() + 15));
+        titleTxtFld.setFont(new Font(titleTxtFld.getFont().getFontName(), Font.BOLD, titleTxtFld.getFont().getSize() + 15));
         titleTxtFld.setEditable(false);
         titleTxtFld.setCaretColor(titleTxtFld.getBackground());
 
