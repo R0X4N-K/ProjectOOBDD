@@ -15,6 +15,7 @@ public class Notification {
     private JButton profileButton;
     private JButton proposalButton;
     private JButton confirmButton;
+    private ArticleVersion articleVersion;
 
     public JPanel getPanel() {
         return notificationPanel;
@@ -31,6 +32,7 @@ public class Notification {
     public Notification(ArticleVersion a) {
         this();
         profileButton.setText(getAuthorById(a.getAuthorProposal().getId()).getNickname());
+        articleVersion = a;
         //TODO: Add Link in proposalButton
     }
 
@@ -42,6 +44,10 @@ public class Notification {
         } else {
             System.out.println("Decidi se accettare o meno, se vuoi visualizzare la proposta premi il tasto proposta"); // TODO: change to dialog
         }
+    }
+
+    public ArticleVersion getArticleVersion() {
+        return articleVersion;
     }
 
 }

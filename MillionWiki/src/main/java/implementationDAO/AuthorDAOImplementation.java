@@ -48,6 +48,8 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 if (rs.next()) {
                     return new Author(rs);
                 }
+                rs.close();
+                stmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

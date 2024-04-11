@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.Date;
 
 public class ArticleVersion {
+
     public enum Status {
         WAITING,
         ACCEPTED,
@@ -33,6 +34,21 @@ public class ArticleVersion {
 
     public ArticleVersion() {
 
+    }
+    public ArticleVersion(int id, String text, Date versionDate, Date revisionDate, Article parentArticle, Author authorProposal) {
+        setId(id);
+        setAuthorProposal(authorProposal);
+        setText(text);
+        setVersionDate(versionDate);
+        setRevisionDate(revisionDate);
+        setParentArticle(parentArticle);
+    }
+    public ArticleVersion(int id, Date versionDate, Article parentArticle, Author authorProposal) {
+        setId(id);
+        setAuthorProposal(authorProposal);
+        setText(text);
+        setVersionDate(versionDate);
+        setParentArticle(parentArticle);
     }
     public ArticleVersion(int id, Article parentArticle, String text, String titleProposal) {
         setId(id);

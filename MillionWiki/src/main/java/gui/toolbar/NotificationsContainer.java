@@ -14,6 +14,7 @@ public class NotificationsContainer extends JPopupMenu {
     private JPanel notificationsContainerMainPanel;
     private JScrollPane notificationsScrollPane;
     private final ArrayList<Notification> notificationsList;
+    private final ArrayList<CompactNotification> compactNotificationsList;
     private JPanel notificationsContainerScrollablePanel;
     private final GridBagConstraints constraints = new GridBagConstraints();
 
@@ -36,7 +37,6 @@ public class NotificationsContainer extends JPopupMenu {
 
         public void windowDeactivated(WindowEvent e) {
             super.windowDeactivated(e);
-            System.out.println("DEACTIVATED");
             setVisible(false);
         }
     };
@@ -51,12 +51,13 @@ public class NotificationsContainer extends JPopupMenu {
         SwingUtilities.getWindowAncestor(owner).addWindowListener(closeOnWindowChangeListener);
         owner.addHierarchyBoundsListener(closeOnPanelChangeListener);
     }
+
+
     public void setNotificationList() {
         ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
         notificationsContainerScrollablePanel.removeAll();
         notificationsScrollPane.getVerticalScrollBar().setValue(0);
         notificationsList.clear();
-        constraints.fill = GridBagConstraints.HORIZONTAL;
 
         if (notificationsPool != null) {
             for (ArticleVersion version : notificationsPool) {
@@ -72,8 +73,40 @@ public class NotificationsContainer extends JPopupMenu {
         setMaximumSize(new Dimension(515, getMaximumSize().height));
     }
 
+    public void setCompactNotificationList() {
+        ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
+        notificationsContainerScrollablePanel.removeAll();
+        notificationsScrollPane.getVerticalScrollBar().setValue(0);
+        compactNotificationsList.clear();
+
+        if (notificationsPool != null) {
+            for (ArticleVersion version : notificationsPool) {
+                int i = 0;
+                boolean foundSameVersion = false;
+                while (i < compactNotificationsList.size() && !foundSameVersion) {
+                    if (version.getParentArticle().getId() == compactNotificationsList.get(i).getArticleVersion().getParentArticle().getId()) {
+                        foundSameVersion = true;
+                        compactNotificationsList.get(i).incrementModificationsCount();
+                    }
+                    i++;
+                }
+
+                if (!foundSameVersion){
+                    CompactNotification cn = new CompactNotification(version);
+                    compactNotificationsList.add(cn);
+                    notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
+                }
+            }
+        } else {
+            System.out.println("WARNING! La pool di notifiche è uguale a NULL");
+        }
+        notificationCountLabel.setText("Hai " + notificationsList.size() + " nuove notifiche");
+
+        setMaximumSize(new Dimension(515, getMaximumSize().height));
+    }
+
     public void demoList() { // TODO: Rimuovere Funzione
-        removeAll();
+        notificationsContainerScrollablePanel.removeAll();
         for (int i = 0; i < 100; i++) {
             Notification n = new Notification();
             notificationsContainerScrollablePanel.add(n.getPanel(), constraints);
@@ -86,6 +119,7 @@ public class NotificationsContainer extends JPopupMenu {
 
     public NotificationsContainer() {
         constraints.anchor = GridBagConstraints.NORTH;
+        constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.0;
         constraints.weighty = 0.0;
         constraints.gridx = 0;
@@ -94,6 +128,7 @@ public class NotificationsContainer extends JPopupMenu {
         notificationsContainerMainPanel.add(notificationsScrollPane);
         notificationsScrollPane.getVerticalScrollBar().setUnitIncrement(12);
         notificationsList = new ArrayList<Notification>();
+        compactNotificationsList = new ArrayList<CompactNotification>();
 
     }
 
