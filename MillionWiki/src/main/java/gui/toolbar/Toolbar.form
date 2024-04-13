@@ -2,18 +2,21 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.toolbar.Toolbar">
   <grid id="27dc6" binding="mainPanelToolbar" layout-manager="FlowLayout" hgap="-1" vgap="-1" flow-align="1">
     <constraints>
-      <xy x="20" y="20" width="32767" height="50"/>
+      <xy x="440" y="20" width="1057" height="38"/>
     </constraints>
     <properties>
-      <maximumSize width="32767" height="50"/>
-      <minimumSize width="783" height="50"/>
-      <preferredSize width="953" height="50"/>
+      <maximumSize width="32767" height="38"/>
+      <minimumSize width="783" height="38"/>
+      <preferredSize width="953" height="38"/>
     </properties>
     <border type="none"/>
     <children>
       <grid id="40c79" binding="commonToolbar" layout-manager="FlowLayout" hgap="-1" vgap="-1" flow-align="0">
         <constraints/>
-        <properties/>
+        <properties>
+          <minimumSize width="167" height="38"/>
+          <preferredSize width="413" height="38"/>
+        </properties>
         <border type="none"/>
         <children>
           <component id="2c5e2" class="javax.swing.JButton" binding="homeBtn">
@@ -35,17 +38,17 @@
               <preferredSize width="250" height="30"/>
             </properties>
           </component>
-          <component id="7d59e" class="javax.swing.JComboBox" binding="typeSearchCb">
-            <constraints/>
-            <properties>
-              <model>
-                <item value="Articoli"/>
-                <item value="Autori"/>
-              </model>
-            </properties>
-          </component>
         </children>
       </grid>
+      <component id="7d59e" class="javax.swing.JComboBox" binding="typeSearchCb">
+        <constraints/>
+        <properties>
+          <model>
+            <item value="Articoli"/>
+            <item value="Autori"/>
+          </model>
+        </properties>
+      </component>
       <component id="d54fd" class="javax.swing.JButton" binding="createPageButton">
         <constraints/>
         <properties>
@@ -57,8 +60,9 @@
       <grid id="19c14" binding="uncommonToolbar" layout-manager="CardLayout" hgap="-1" vgap="-1">
         <constraints/>
         <properties>
-          <minimumSize width="334" height="60"/>
-          <preferredSize width="334" height="40"/>
+          <maximumSize width="2147483647" height="38"/>
+          <minimumSize width="334" height="38"/>
+          <preferredSize width="334" height="38"/>
         </properties>
         <border type="none"/>
         <children>

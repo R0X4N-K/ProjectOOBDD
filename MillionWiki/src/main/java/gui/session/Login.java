@@ -12,7 +12,6 @@ import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
-import java.util.Arrays;
 
 public class Login {
     private JLabel loginPageTitleLbl;
@@ -23,7 +22,6 @@ public class Login {
     private JButton submitBtn;
     private JButton toRegistrationPanelBtn;
     private JPanel mainPanelLogin;
-    private JButton toHomePanelBtn;
     private JLabel emailNicknameErrLbl;
     private JLabel passwordErrLbl;
     private JCheckBox rembemberMeCheckbox;
@@ -32,12 +30,6 @@ public class Login {
 
     public Login() {
 
-        toHomePanelBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
-            }
-        });
         toRegistrationPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
