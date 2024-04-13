@@ -1,6 +1,5 @@
 package gui.toolbar;
 import controller.Controller;
-import gui.authorWindow.AuthorWindow;
 import model.Article;
 import model.ArticleVersion;
 import model.Author;
@@ -15,6 +14,9 @@ import java.util.ArrayList;
 public class Toolbar {
     private JPanel commonToolbar;
     private JButton homeBtn;
+
+
+
     private JTextField searchTxtFld;
     private JPanel accessUserPanel;
     private JPanel mainPanelToolbar;
@@ -24,7 +26,6 @@ public class Toolbar {
     private JButton switchUnloggedLoggedButton;
     private JButton switchToUnloggedButton;
     private JButton createPageButton;
-    private JButton searchBtn;
     private JComboBox typeSearchCb;
 
     private JDialog searchDialog;
@@ -131,18 +132,7 @@ public class Toolbar {
 
 
 
-        switchUnloggedLoggedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switchPanel(LoggedToolbar.getPanel());
-            }
-        });
-        switchToUnloggedButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                switchPanel(UnloggedToolbar.getPanel());
-            }
-        });
+
         createPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -343,5 +333,7 @@ public class Toolbar {
     public JPanel getPanel() {
         return mainPanelToolbar;
     }
-
+    public JTextField getSearchTxtFld() {
+        return searchTxtFld;
+    }
 }

@@ -1,10 +1,12 @@
 package gui.toolbar;
 
 import controller.Controller;
+import gui.page.PageLinker;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 public class LoggedToolbar {
     private JPanel loggedUserPanel;
@@ -15,6 +17,7 @@ public class LoggedToolbar {
     private Thread thread = null;
 
     public LoggedToolbar() {
+
         getPanel().setComponentPopupMenu(notificationsContainer);
         showNotificationsButton.addActionListener(e -> {
             if (!setPopupMenu)

@@ -39,6 +39,9 @@ public class Window extends JFrame {
             }
         }, "Shutdown-thread"));
 
+
+
+
         setContentPane(mainPanelWindow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();

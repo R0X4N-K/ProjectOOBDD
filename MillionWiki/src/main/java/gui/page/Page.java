@@ -51,11 +51,10 @@ public class Page {
 
 
     //TODO: scorporare la classe ->
-    // La visualizzazione dell'anteprima si deve sostituire con il PreviewPage che deve essere cambiato in PreviewPage
-    // Scorporare la funzionalità di linkare pogine e creazione link compresa la gui
-    // Valuare l'idea di creare una classe apposita in cui inserire tutti i listener della classe
-    // Aspettativa: Page arriva a circa 200 righe di codice
-    // Commentare il codice
+    // continuare a inserire funzionalità in PageUtils:
+    //      - createColorChooserComponent
+    //      - altri listeners
+    //      - funzioni di ricerca
 
     public Page(){
 

@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class PageLinker extends JPanel {
@@ -87,6 +88,7 @@ public class PageLinker extends JPanel {
 
         inputLinkButtonsPanel.add(sendBtn);
         inputLinkButtonsPanel.add(closeBtn);
+
 
         searchPageToLinkBtn.addActionListener(new ActionListener() {
             @Override
