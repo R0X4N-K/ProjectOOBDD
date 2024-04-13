@@ -50,6 +50,7 @@ public class ArticleVersion {
         setVersionDate(versionDate);
         setParentArticle(parentArticle);
     }
+
     public ArticleVersion(int id, Article parentArticle, String text, String titleProposal) {
         setId(id);
         setParentArticle(parentArticle);
@@ -58,6 +59,23 @@ public class ArticleVersion {
         setStatus(Status.WAITING);
         this.versionDate = new Date();
         setAuthorProposal(parentArticle.getAuthor());
+    }
+
+    public ArticleVersion(int id, Article parentArticle, String text, String titleProposal, Author authorProposal, Date versionDate, String status) {
+        setId(id);
+        setParentArticle(parentArticle);
+        setText(text);
+        setTitleProposal(titleProposal);
+        setStatus(Status.WAITING);
+        setTitleProposal(titleProposal);
+        setAuthorProposal(authorProposal);
+        this.versionDate = new Date();
+        setVersionDate(versionDate);
+        try {
+            setStatus(status);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
     public ArticleVersion(int id, Article parentArticle, String text, Author authorProposal) {
         setId(id);
@@ -101,6 +119,15 @@ public class ArticleVersion {
 
     public void setStatus(Status status) {
         this.status = status;
+    }
+    public void setStatus(String status) throws Exception {
+
+        switch (status){
+            case "WAITING" : this.status = Status.WAITING; break;
+            case "REJECTED" : this.status = Status.REJECTED; break;
+            case "ACCEPTED" : this.status = Status.ACCEPTED; break;
+            default : throw new Exception("Uno stato può essere uguale solo a waiting, accepted e rejected");
+        }
     }
 
     public int getId() {
@@ -146,5 +173,4 @@ public class ArticleVersion {
     public void setAuthorProposal(Author authorProposal){
         this.authorProposal = authorProposal;
     }
-
 }

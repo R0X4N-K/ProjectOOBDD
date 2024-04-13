@@ -7,15 +7,17 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class NotificationsContainer extends JPopupMenu {
     private JLabel notificationCountLabel;
     private JPanel notificationsContainerMainPanel;
+    private JPanel notificationsLoadingPane;
+    private JLabel loadingLabel;
     private JScrollPane notificationsScrollPane;
     private final ArrayList<Notification> notificationsList;
     private final ArrayList<CompactNotification> compactNotificationsList;
     private JPanel notificationsContainerScrollablePanel;
+    private JPanel notificationsVisualizerPanel;
     private final GridBagConstraints constraints = new GridBagConstraints();
 
     private JPanel owner = null;
@@ -70,7 +72,6 @@ public class NotificationsContainer extends JPopupMenu {
         }
         notificationCountLabel.setText("Hai " + notificationsList.size() + " nuove notifiche");
 
-        setMaximumSize(new Dimension(515, getMaximumSize().height));
     }
 
     public void setCompactNotificationList() {
@@ -86,23 +87,43 @@ public class NotificationsContainer extends JPopupMenu {
                 while (i < compactNotificationsList.size() && !foundSameVersion) {
                     if (version.getParentArticle().getId() == compactNotificationsList.get(i).getArticleVersion().getParentArticle().getId()) {
                         foundSameVersion = true;
-                        compactNotificationsList.get(i).incrementModificationsCount();
+                        try {
+                            compactNotificationsList.get(i).incrementModificationsCount(version);
+                        } catch (Exception e) {
+                            System.err.println("Article_Version == NULL, incremento fallito");
+                        }
                     }
                     i++;
                 }
 
                 if (!foundSameVersion){
-                    CompactNotification cn = new CompactNotification(version);
-                    compactNotificationsList.add(cn);
-                    notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
+                    try {
+                        CompactNotification cn = new CompactNotification(version);
+                        compactNotificationsList.add(cn);
+                        Thread thread = getAddNotificationThread(cn);
+                        thread.start();
+                    } catch (Exception e) {
+                        System.err.println("Article_Version == NULL, creazione fallita");
+                    }
                 }
             }
         } else {
             System.out.println("WARNING! La pool di notifiche è uguale a NULL");
         }
-        notificationCountLabel.setText("Hai " + notificationsList.size() + " nuove notifiche");
+        notificationCountLabel.setText("Hai " + compactNotificationsList.size() + " nuove notifiche");
 
-        setMaximumSize(new Dimension(515, getMaximumSize().height));
+        loaded();
+    }
+
+    private Thread getAddNotificationThread(CompactNotification cn) {
+        Thread thread = new Thread(() -> {
+            notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
+            if (notificationsContainerMainPanel.getPreferredSize().width < cn.getPanel().getPreferredSize().width) {
+                notificationsContainerMainPanel.setPreferredSize(new Dimension(cn.getPanel().getPreferredSize().width, notificationsContainerMainPanel.getPreferredSize().height));
+            }
+            notificationsContainerScrollablePanel.repaint();
+        });
+        return thread;
     }
 
     public void demoList() { // TODO: Rimuovere Funzione
@@ -125,11 +146,18 @@ public class NotificationsContainer extends JPopupMenu {
         constraints.gridx = 0;
 
         add(notificationsContainerMainPanel);
-        notificationsContainerMainPanel.add(notificationsScrollPane);
         notificationsScrollPane.getVerticalScrollBar().setUnitIncrement(12);
         notificationsList = new ArrayList<Notification>();
         compactNotificationsList = new ArrayList<CompactNotification>();
 
+    }
+
+    public void loading() {
+        ((CardLayout) notificationsContainerMainPanel.getLayout()).show(notificationsContainerMainPanel, "Card2");
+    }
+
+    private void loaded() {
+        ((CardLayout) notificationsContainerMainPanel.getLayout()).show(notificationsContainerMainPanel, "Card1");
     }
 
     public JPanel getPanel() {

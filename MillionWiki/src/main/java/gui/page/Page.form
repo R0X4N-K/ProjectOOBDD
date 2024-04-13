@@ -2,7 +2,7 @@
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.page.Page">
   <grid id="27dc6" binding="mainPanelPage" layout-manager="BorderLayout" hgap="0" vgap="0">
     <constraints>
-      <xy x="20" y="20" width="845" height="452"/>
+      <xy x="20" y="20" width="1453" height="452"/>
     </constraints>
     <properties>
       <maximumSize width="2147483647" height="2147483647"/>
@@ -104,6 +104,9 @@
                   <text value="Invia"/>
                 </properties>
               </component>
+              <nested-form id="96d06" form-file="gui/page/VersionRevision/PageVersionPreview.form" binding="pageVersionPreview">
+                <constraints/>
+              </nested-form>
             </children>
           </grid>
           <grid id="52f8a" binding="searchPanel" layout-manager="BorderLayout" hgap="0" vgap="0">

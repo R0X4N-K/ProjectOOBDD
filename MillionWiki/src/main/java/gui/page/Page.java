@@ -1,23 +1,17 @@
 package gui.page;
 import controller.Controller;
-import model.Article;
-import model.ArticleVersion;
+import gui.page.VersionRevision.PageVersionPreview;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
-import javax.swing.event.HyperlinkEvent;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
-import java.awt.event.*;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Enumeration;
-
-import static model.ArticleVersion.Status.WAITING;
 
 public class Page {
     private JPanel mainPanelPage;
@@ -41,9 +35,10 @@ public class Page {
     private JButton editBtn;
     private JEditorPane titlePageField;
     private JButton sendButton;
+    private PageVersionPreview pageVersionPreview;
+    private JPanel editorPanelPage;
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
-    private int pageMode = 0; //0 ViewerMode, 1 EditorMode
 
 
     private int idArticle = -1;
@@ -55,6 +50,12 @@ public class Page {
     //      - createColorChooserComponent
     //      - altri listeners
     //      - funzioni di ricerca
+
+    public enum Mode {
+        VIEWER,
+        EDITOR,
+        REVIEWER
+    }
 
     public Page(){
 
@@ -194,7 +195,7 @@ public class Page {
     }
 
     public JPanel getPanel() {
-        setViewerMode();
+        // TODO: VERIFICARE PERCHÉ c'era setViewerMode();
         return mainPanelPage;
     }
 
@@ -256,13 +257,13 @@ public class Page {
 
         zoomInBtnToolMenu.addActionListener(e -> {
             pageField.setFont(new Font(
-				    pageField.getFont().getFontName(),
-				    pageField.getFont().getStyle(),
-				    pageField.getFont().getSize() + 1));
+                    pageField.getFont().getFontName(),
+                    pageField.getFont().getStyle(),
+                    pageField.getFont().getSize() + 1));
             titlePageField.setFont(new Font(
-				    titlePageField.getFont().getFontName(),
-				    titlePageField.getFont().getStyle(),
-				    titlePageField.getFont().getSize() + 1));
+                    titlePageField.getFont().getFontName(),
+                    titlePageField.getFont().getStyle(),
+                    titlePageField.getFont().getSize() + 1));
         });
         zoomOutBtnToolMenu.addActionListener(e -> {
             pageField.setFont(new Font(pageField.getFont().getFontName(), pageField.getFont().getStyle(), pageField.getFont().getSize() - 1));
@@ -417,34 +418,41 @@ public class Page {
         setSearchOccurrenceIndex(0);
     }
     public void setViewerMode(){
-        setMode(false);
+        setMode(Mode.VIEWER);
     }
     public void setEditorMode(){
-        setMode(true);
+        setMode(Mode.EDITOR);
+    }
+    public void setReviewerMode(int articleId){
+        setMode(Mode.REVIEWER);
+        pageVersionPreview.setArticleVersions(articleId);
+        Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
     }
 
-    private void setMode(boolean mode){
-        createMenu.setVisible(mode);
-        textButton.setVisible(mode);
-        boldButton.setVisible(mode);
-        colorPickerButton.setVisible(mode);
-        italicButton.setVisible(mode);
-        pageField.setEditable(mode);
-        titlePageField.setEditable(mode);
-        sendButton.setVisible(mode);
+    private void setMode(Mode mode){
+        createMenu.setVisible(mode == Mode.EDITOR);
+        textButton.setVisible(mode == Mode.EDITOR);
+        boldButton.setVisible(mode == Mode.EDITOR);
+        colorPickerButton.setVisible(mode == Mode.EDITOR);
+        italicButton.setVisible(mode == Mode.EDITOR);
+        pageField.setEditable(mode == Mode.EDITOR);
+        titlePageField.setEditable(mode == Mode.EDITOR);
+        sendButton.setVisible(mode == Mode.EDITOR);
+        editBtn.setVisible(mode == Mode.VIEWER);
+        pageVersionPreview.getPanel().setVisible(mode == Mode.REVIEWER);
 
-        if(mode){
+        if (mode == Mode.REVIEWER){
+            pageVersionPreview.setEditorPane(pageField, titlePageField);
+        }
+
+        if(mode == Mode.EDITOR){
             pageField.setCaretColor(Color.BLACK);
             titlePageField.setCaretColor(Color.BLACK);
-            editBtn.setVisible(false);
-            pageMode = 1;
         }
         else{
             pageField.setCaretColor(pageField.getBackground());
             titlePageField.setCaretColor(Color.BLACK);
             titlePageField.setCaretColor(Color.BLACK);
-            editBtn.setVisible(true);
-            pageMode = 0;
         }
     }
 

@@ -244,28 +244,25 @@ public class PageUtils {
             }
         });
 
-        sendButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                //TODO: CONTROLLI SUL TITOLO E SUL TESTO
-                if (Controller.getWindow().getPage().getIdArticle() == -1){
-                    //Crea pagina
-                    Controller.getWindow().getPage().setIdArticle(Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText()));
-                    if (Controller.getWindow().getPage().getIdArticle() != -1){
-                        // Finesta -> Operazione avvenuta con successo
-                    }
-                    else {
-                        // Finestra -> Operazione Fallita
-                    }
+        sendButton.addActionListener(e -> {
+            //TODO: CONTROLLI SUL TITOLO E SUL TESTO
+            if (Controller.getWindow().getPage().getIdArticle() == -1){
+                //Crea pagina
+                Controller.getWindow().getPage().setIdArticle(Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , new Date() , false , pageField.getText()));
+                if (Controller.getWindow().getPage().getIdArticle() != -1){
+                    // Finesta -> Operazione avvenuta con successo
                 }
-                else{
-                    //Modifica pagina
-                    if (Controller.createProposal(Controller.getWindow().getPage().getIdArticle(), titlePageField.getText(), WAITING, pageField.getText(), new Date(), null, Controller.getCookie().getId()) != -1){
-                        // Finesta -> Operazione avvenuta con successo
-                    }
-                    else {
-                        // Finestra -> Operazione Fallita
-                    }
+                else {
+                    // Finestra -> Operazione Fallita
+                }
+            }
+            else{
+                //Modifica pagina
+                if (Controller.createProposal(Controller.getWindow().getPage().getIdArticle(), titlePageField.getText(), WAITING, pageField.getText(), new Date(), null, Controller.getCookie().getId()) != -1){
+                    // Finesta -> Operazione avvenuta con successo
+                }
+                else {
+                    // Finestra -> Operazione Fallita
                 }
             }
         });

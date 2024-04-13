@@ -163,9 +163,15 @@ public final class Controller {
     }
 
     public static ArrayList<ArticleVersion> getNotifications() {
-        ArrayList<ArticleVersion> notificationList = articleVersionDAO.getAllArticleVersionsWaiting(cookie.getId());
+        return articleVersionDAO.getAllArticleVersionsWaiting(cookie.getId());
+    }
 
-        return notificationList;
+    public static ArrayList<ArticleVersion> getNotificationsText(int articleId) {
+        return articleVersionDAO.getAllArticleVersionsWaitingFull(articleId);
+    }
+
+    public static void reviewArticles(ArrayList<ArticleVersion> a) {
+        articleVersionDAO.reviewArticles(a);
     }
 
     public static void setArticleDAO (ArticleDAO dao) throws NullPointerException {

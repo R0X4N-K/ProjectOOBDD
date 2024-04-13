@@ -10,6 +10,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 
 
@@ -231,15 +232,14 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                 "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
                 "WHERE articles.author = ? AND article_versions.status = \'WAITING\'";
          */
-         String getArticleQuery = "SELECT article_versions.id, article_versions.status, version_date, author_proposal, parent_article, article_versions.title FROM article_versions\n" +
-                 "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
-                 "WHERE articles.author = ? AND article_versions.status = \'WAITING\'";
+        String getArticleQuery = "SELECT article_versions.id, article_versions.status, version_date, author_proposal, parent_article, article_versions.title FROM article_versions\n" +
+                "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
+                "WHERE articles.author = ? AND article_versions.status = \'WAITING\' ORDER BY  article_versions.version_date ASC";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
             stmt.setInt(1, authorId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
                     ArticleVersion articleVersion = new ArticleVersion(rs.getInt("id"),
-                            //rs.getString("text"),
                             rs.getDate("version_date"),
                             Controller.getArticlesById(rs.getInt("parent_article")),
                             Controller.getAuthorById(rs.getInt("author_proposal"))
@@ -249,10 +249,57 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                 rs.close();
                 stmt.close();
             }
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         return versionsWaiting;
+    }
+
+    public ArrayList<ArticleVersion> getAllArticleVersionsWaitingFull(int articleId) {
+        ArrayList<ArticleVersion> versionsWaiting = new ArrayList<>();
+        // -- FULL QUERY --
+        String getArticleQuery = "SELECT article_versions.* FROM article_versions\n" +
+                "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
+                "WHERE articles.id = ? AND article_versions.status = \'WAITING\' ORDER BY article_versions.version_date ASC";
+
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
+            stmt.setInt(1, articleId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ArticleVersion articleVersion = new ArticleVersion(rs.getInt("id"),
+                            Controller.getArticlesById(rs.getInt("parent_article")),
+                            rs.getString("text"),
+                            rs.getString("title"),
+                            Controller.getAuthorById(rs.getInt("author_proposal")),
+                            rs.getDate("version_date"),
+                            rs.getString("status")
+                    );
+                    versionsWaiting.add(articleVersion);
+                }
+                rs.close();
+                stmt.close();
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return versionsWaiting;
+    }
+
+
+    public void reviewArticles(ArrayList<ArticleVersion> a) {
+        String query = "BEGIN;\n";
+        for (ArticleVersion version : a) {
+            query = query.concat("UPDATE article_versions\n" +
+                    "SET status = \'" + version.getStatus().toString() + "\'\n" +
+                    "WHERE article_versions.id = " + version.getId() + ";\n");
+        }
+        query = query.concat("COMMIT;");
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.execute();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
     }
 
     @Override

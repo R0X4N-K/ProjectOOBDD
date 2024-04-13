@@ -8,7 +8,9 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Objects;
 
+
 public class LoggedToolbar {
+
     private JPanel loggedUserPanel;
     private JButton showNotificationsButton;
     private JButton showProfileButton;
@@ -17,18 +19,16 @@ public class LoggedToolbar {
     private Thread thread = null;
 
     public LoggedToolbar() {
-
         getPanel().setComponentPopupMenu(notificationsContainer);
         showNotificationsButton.addActionListener(e -> {
             if (!setPopupMenu)
                 notificationsContainer.setPanelOwner(getPanel());
+            if (SwingUtilities.getWindowAncestor(this.getPanel()).isActive()) {
+                notificationsContainer.loading();
+                notificationsContainer.show(showNotificationsButton, showNotificationsButton.getLocation().x, showNotificationsButton.getLocation().y + showNotificationsButton.getHeight());
+            }
             if(thread == null || !thread.isAlive()){
-                thread = new Thread(() ->
-                {
-                    notificationsContainer.setCompactNotificationList();
-                    if (SwingUtilities.getWindowAncestor(this.getPanel()).isActive())
-                        notificationsContainer.show(showNotificationsButton, showNotificationsButton.getLocation().x, showNotificationsButton.getLocation().y + showNotificationsButton.getHeight());
-                });
+                thread = new Thread(notificationsContainer::setCompactNotificationList);
                 thread.start();
             }
         });
