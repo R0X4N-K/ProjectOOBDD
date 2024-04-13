@@ -12,7 +12,7 @@ public class HomeFeaturedArticles {
     private Thread thread;
 
     public HomeFeaturedArticles() {
-        homeFeaturedArticlesMainPanel.setLayout(new GridLayout(2, 5));
+        homeFeaturedArticlesMainPanel.setLayout(new GridLayout(2, 5, 10, 10));
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(this::initMostViewedArticles);
         }

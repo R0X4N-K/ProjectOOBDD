@@ -17,6 +17,9 @@ public class Home {
     private JLabel categoriesLabel;
     private JLabel recentLabel;
     private JLabel footerLabel;
+
+
+
     private HomeRecentArticles homeRecentArticles;
     private HomeFeaturedArticles homeFeaturedArticles;
 
@@ -41,6 +44,13 @@ public class Home {
 
         // Footer
         footerLabel.setFont(new Font("Arial", Font.PLAIN, 10));
+    }
+    public HomeRecentArticles getHomeRecentArticles() {
+        return homeRecentArticles;
+    }
+
+    public HomeFeaturedArticles getHomeFeaturedArticles() {
+        return homeFeaturedArticles;
     }
 
     public JPanel getPanel() {

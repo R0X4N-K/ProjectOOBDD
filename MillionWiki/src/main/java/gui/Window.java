@@ -68,6 +68,17 @@ public class Window extends JFrame {
             @Override
             public void componentResized(ComponentEvent e) {
                 toolbarMainPanel.updateSearchDialogPos();
+                homePanel.getHomeRecentArticles().getPanel().setLayout(
+                        new GridLayout(2, 5, calculate_spacing_articles_home().x, calculate_spacing_articles_home().y)
+                );
+                homePanel.getHomeFeaturedArticles().getPanel().setLayout(
+                        new GridLayout(2, 5, calculate_spacing_articles_home().x, calculate_spacing_articles_home().y)
+                );
+                homePanel.getHomeRecentArticles().getPanel().revalidate();
+                homePanel.getHomeRecentArticles().getPanel().repaint();
+
+                homePanel.getHomeFeaturedArticles().getPanel().revalidate();
+                homePanel.getHomeFeaturedArticles().getPanel().repaint();
             }
             @Override
             public void componentMoved(ComponentEvent e) {
@@ -126,6 +137,20 @@ public class Window extends JFrame {
     public static void switchToUnloggedWindow(Window window) {
         Controller.deleteCookie();
         window.toolbarMainPanel.switchToUnloggedToolbar();
+    }
+
+    private Point calculate_spacing_articles_home(){
+        int width = getWidth();
+        int height = getHeight();
+        int propWidth = 1200;
+        int propHeigth = 700;
+
+
+        int hgap = (((propWidth * width) / 10000) - 50);
+
+        int vgap =   (propHeigth * hgap) / 10000;
+
+        return new Point(hgap, vgap);
     }
 
 }

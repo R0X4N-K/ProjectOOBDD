@@ -10,7 +10,7 @@ public class HomeRecentArticles {
     private Thread thread;
 
     public HomeRecentArticles() {
-        homeRecentArticlesMainPanel.setLayout(new GridLayout(2, 5));
+        homeRecentArticlesMainPanel.setLayout(new GridLayout(2, 5, 10, 10));
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
                 initRecentArticles();
