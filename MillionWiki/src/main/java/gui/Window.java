@@ -42,6 +42,7 @@ public class Window extends JFrame {
 
 
 
+
         setContentPane(mainPanelWindow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
