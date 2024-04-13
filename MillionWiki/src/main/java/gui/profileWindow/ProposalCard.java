@@ -116,7 +116,9 @@ public class ProposalCard {
         List<ArticleVersion> versionArticles = Controller.getAllArticleVersionByAuthorId(idAuthor);
         Set<Integer> uniqueArticleIds = new HashSet<>();
         for (ArticleVersion versionArticle : versionArticles) {
-            uniqueArticleIds.add(versionArticle.getParentArticle().getId());
+            if (versionArticle.getParentArticle().getAuthor().getId() != idAuthor) {
+                uniqueArticleIds.add(versionArticle.getParentArticle().getId());
+            }
         }
         Object[][] data = new Object[uniqueArticleIds.size()][8]; // Modifica la dimensione dell'array a 8
         int j = 0;

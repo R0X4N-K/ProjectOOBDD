@@ -17,6 +17,8 @@ public class ProfileWindow extends JDialog {
     private ProfileCard profileCard;
     private CreatedPagesCard createdPagesCard;
     private ProposalCard proposalCard;
+    private JButton buttonToNotification;
+    private NotificationCard notificationCard;
 
     public ProfileWindow(JFrame parent) {
         super(parent, true);
@@ -66,6 +68,20 @@ public class ProfileWindow extends JDialog {
                 thread.setDaemon(true);
                 thread.start();
 
+            }
+        });
+        buttonToNotification.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Thread thread = null;
+                if (thread == null || !thread.isAlive()) {
+                    thread = new Thread(() -> {
+                        switchPanel(notificationCard.getPanel());
+                        notificationCard.setNotificationCard();
+                    });
+                }
+                thread.setDaemon(true);
+                thread.start();
             }
         });
     }

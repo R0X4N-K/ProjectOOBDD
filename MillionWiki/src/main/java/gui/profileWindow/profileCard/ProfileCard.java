@@ -16,6 +16,7 @@ public class ProfileCard {
     private JButton logoutButton;
     private JButton changeNicknameButton;
     private JLabel emailJLabel;
+    private JPanel profileButtons;
     private ProfileWindow profileWindow;
 
     public ProfileCard() {
