@@ -67,89 +67,90 @@ public final class Controller {
     }
 
     public static void incrementArticleViews(int idArticle){
-        new ArticleDAOImplementation().incrementArticleViews(idArticle);
+        articleDAO.incrementArticleViews(idArticle);
     }
 
     public static ArrayList<Article> getMostViewedArticles(int numberArticles){
-        return new ArticleDAOImplementation().getMostViewedArticles(numberArticles);
+        return articleDAO.getMostViewedArticles(numberArticles);
     }
 
     public static void changeNickname(String newNickname){
-        new AuthorDAOImplementation().updateNicknameAuthor(cookie.getId(),newNickname);
+        authorDAO.updateNicknameAuthor(cookie.getId(),newNickname);
     }
     public static void changeEmail(String newEmail){
-        new AuthorDAOImplementation().updateEmailAuthor(cookie.getId(),newEmail);
+        authorDAO.updateEmailAuthor(cookie.getId(),newEmail);
     }
     public static void changePassword(String newPassword){
-        new AuthorDAOImplementation().updatePasswordAuthor(cookie.getId(), newPassword);
+        authorDAO.updatePasswordAuthor(cookie.getId(), newPassword);
     }
 
     public static String getTitleByArticleId(int idArticle){
-        return new ArticleDAOImplementation().getTitleArticleByArticleId(idArticle);
+        return articleDAO.getTitleArticleByArticleId(idArticle);
     }
 
     public static ArticleVersion getLastArticleVersionByArticleId(int idArticle){
-        return new ArticleVersionDAOImplementation().getLastArticleVersionByArticleId(idArticle);
+        return articleVersionDAO.getLastArticleVersionByArticleId(idArticle);
     }
+
     public static ArrayList<Integer> getRecentArticles(int numberArticles){
-        return new ArticleDAOImplementation().getRecentArticles(numberArticles);
+        return articleDAO.getRecentArticles(numberArticles);
     }
     public static ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle){
-        return new ArticleVersionDAOImplementation().getAllArticleVersionByArticleId(idArticle);
+        return articleVersionDAO.getAllArticleVersionByArticleId(idArticle);
     }
     public static ArrayList<ArticleVersion> getAllArticleVersionByAuthorId(int authorId){
-        return new ArticleVersionDAOImplementation().getAllArticleVersionByAuthorId(authorId);
+        return articleVersionDAO.getAllArticleVersionByAuthorId(authorId);
     }
     public static Article getArticlesById(int idArticle){
-        return new ArticleDAOImplementation().getArticleById(idArticle);
+        return articleDAO.getArticleById(idArticle);
     }
 
     public static ArrayList<Article> getMatchesArticlesByTitle(String articleTitle){
-        return new ArticleDAOImplementation().getMatchesArticlesByTitle(articleTitle);
+        return articleDAO.getMatchesArticlesByTitle(articleTitle);
     }
 
     public static ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor){
-        return new AuthorDAOImplementation().getMatchesAuthorByNickname(nicknameAuthor);
+        return authorDAO.getMatchesAuthorByNickname(nicknameAuthor);
     }
 
     public static ArrayList<Article> getArticlesByIdAuthor(int idAuthor){
-        return new ArticleDAOImplementation().getAllArticlesByIdAuthor(idAuthor);
+        return articleDAO.getAllArticlesByIdAuthor(idAuthor);
     }
     public static int getArticlesNumberByIdAuthor(int idAuthor){
-        return new ArticleDAOImplementation().getAllArticlesNumberByIdAuthor(idAuthor);
+        return articleDAO.getAllArticlesNumberByIdAuthor(idAuthor);
     }
     public static int getArticlesNumberSentByIdAuthor(int idAuthor){
-        return new ArticleVersionDAOImplementation().getVersionArticlesNumberSent(idAuthor);
+        return articleVersionDAO.getVersionArticlesNumberSent(idAuthor);
     }
     public static ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion){
-        return new ArticleVersionDAOImplementation().getArticleVersionByIdArticleVersion(idArticleVersion);
+        return articleVersionDAO.getArticleVersionByIdArticleVersion(idArticleVersion);
     }
     public static Author getAuthorByNickname(String nickname){
-        return new AuthorDAOImplementation().getAuthorByNickname(nickname);
+        return authorDAO.getAuthorByNickname(nickname);
     }
     public static float getRatingByAuthorId(int id){
-        return new AuthorDAOImplementation().getRatingByAuthorId(id);
+        return authorDAO.getRatingByAuthorId(id);
     }
     public static String getNicknameAuthorById(int idAuthor){
-        return new AuthorDAOImplementation().getNicknameById(idAuthor);
+        return authorDAO.getNicknameById(idAuthor);
     }
 
     public static boolean isAuthorRegisteredWithEmail(String email){
-        return new AuthorDAOImplementation().isEmailUsed(email);
+        return authorDAO.isEmailUsed(email);
     }
 
     public static boolean isAuthorRegisteredWithNickname(String nickname){
-        return new AuthorDAOImplementation().isNicknameUsed(nickname);
+        return authorDAO.isNicknameUsed(nickname);
     }
 
     public static Cookie doLogin(String nicknameOrEmail, String password) throws SQLException {
         Cookie cookie = null;
         if (isAuthorRegisteredWithEmail(nicknameOrEmail)){
-            cookie = new AuthorDAOImplementation().loginAuthor(nicknameOrEmail, null, password);
+            cookie = authorDAO.loginAuthor(nicknameOrEmail, null, password);
 
         }
         else if(isAuthorRegisteredWithNickname(nicknameOrEmail)){
-            cookie = new AuthorDAOImplementation().loginAuthor(null, nicknameOrEmail, password);
+            cookie = authorDAO.loginAuthor(null, nicknameOrEmail, password);
         }
         return cookie;
     }
@@ -158,7 +159,7 @@ public final class Controller {
         if (isAuthorRegisteredWithEmail(email) || isAuthorRegisteredWithNickname(nickname)){
             return false;
         }
-        new AuthorDAOImplementation().registerAuthor(nickname, password, 0, email);
+        authorDAO.registerAuthor(nickname, password, 0, email);
         return true;
     }
 
@@ -203,7 +204,7 @@ public final class Controller {
         return articleDAO.saveArticle(title, creationDate, revision, author);
     }
     public static int createArticle(String title,int idAuthor, Date creationDate,Boolean revision, String text){
-        int idArticle= articleDAO.saveArticle(title, creationDate, revision, idAuthor);
+        int idArticle = articleDAO.saveArticle(title, creationDate, revision, idAuthor);
         ArticleVersion.Status status = ArticleVersion.Status.valueOf("ACCEPTED");
         articleVersionDAO.saveArticleVersion(idArticle, status, text, creationDate, creationDate, idAuthor, title);
         return idArticle;
@@ -268,7 +269,7 @@ public final class Controller {
         }
     }
     public static Author getAuthorById(int id){
-        return new AuthorDAOImplementation().getAuthorById(id);
+        return authorDAO.getAuthorById(id);
     }
 
 
