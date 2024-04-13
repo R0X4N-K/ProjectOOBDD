@@ -20,7 +20,7 @@ public class NotificationsContainer extends JPopupMenu {
     private JPanel notificationsVisualizerPanel;
     private final GridBagConstraints constraints = new GridBagConstraints();
 
-    private JPanel owner = null;
+    private Component owner = null;
     private final HierarchyBoundsListener closeOnPanelChangeListener = new HierarchyBoundsListener() {
 
         public void ancestorMoved(HierarchyEvent e) {
@@ -43,7 +43,7 @@ public class NotificationsContainer extends JPopupMenu {
         }
     };
 
-    void setPanelOwner(JPanel panelOwner) {
+    void setPanelOwner(Component panelOwner) {
         if (owner != null) {
             owner.removeHierarchyBoundsListener(closeOnPanelChangeListener);
             SwingUtilities.getWindowAncestor(owner).removeWindowListener(closeOnWindowChangeListener);

@@ -22,7 +22,7 @@ public class LoggedToolbar {
         getPanel().setComponentPopupMenu(notificationsContainer);
         showNotificationsButton.addActionListener(e -> {
             if (!setPopupMenu)
-                notificationsContainer.setPanelOwner(getPanel());
+                notificationsContainer.setPanelOwner(showNotificationsButton);
             if (SwingUtilities.getWindowAncestor(this.getPanel()).isActive()) {
                 notificationsContainer.loading();
                 notificationsContainer.show(showNotificationsButton, showNotificationsButton.getLocation().x, showNotificationsButton.getLocation().y + showNotificationsButton.getHeight());

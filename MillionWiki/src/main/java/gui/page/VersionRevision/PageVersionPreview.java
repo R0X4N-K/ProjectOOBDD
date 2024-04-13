@@ -18,7 +18,8 @@ public class PageVersionPreview {
     private JEditorPane editorPane;
     private ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
     private int currentArticlePosition = 0;
-    private int reviewed = 0;
+    private ArrayList<ArticleVersion> reviewed = new ArrayList<>();
+    private int rejectedCount = 0;
     private int acceptedCount = 0;
 
     public PageVersionPreview(){
@@ -36,12 +37,16 @@ public class PageVersionPreview {
 
         acceptRadioButton.addActionListener(e -> {
             rejectRadioButton.setSelected(false);
-            articleVersions.get(currentArticlePosition).setStatus(ArticleVersion.Status.ACCEPTED);
+            acceptedCount += acceptRadioButton.isSelected() ? 1 : -1;
+            rejectedCount -= articleVersions.get(currentArticlePosition).getStatus() == ArticleVersion.Status.REJECTED ? 1 : 0;
+            articleVersions.get(currentArticlePosition).setStatus(acceptRadioButton.isSelected() ? ArticleVersion.Status.ACCEPTED : ArticleVersion.Status.WAITING);
         });
 
         rejectRadioButton.addActionListener(e -> {
             acceptRadioButton.setSelected(false);
-            articleVersions.get(currentArticlePosition).setStatus(ArticleVersion.Status.REJECTED);
+            rejectedCount += rejectRadioButton.isSelected() ? 1 : -1;
+            acceptedCount -= articleVersions.get(currentArticlePosition).getStatus() == ArticleVersion.Status.ACCEPTED ? 1 : 0;
+            articleVersions.get(currentArticlePosition).setStatus(rejectRadioButton.isSelected() ? ArticleVersion.Status.REJECTED : ArticleVersion.Status.WAITING);
         });
 
         confirmButton.addActionListener(e -> checkReception());
@@ -60,6 +65,7 @@ public class PageVersionPreview {
         if (articleId != -1) {
             ArrayList<ArticleVersion> temp = Controller.getNotificationsText(articleId);
             if (temp != null) {
+                reviewed.clear();
                 articleVersions = temp;
                 currentArticlePosition = 0;
                 changeProposal();
@@ -78,23 +84,26 @@ public class PageVersionPreview {
     }    
     
     private void checkReception() {
-        updateCounters();
 
-        if (reviewed == articleVersions.size()){
-            if (acceptedCount > 1) {
-                checkMultipleAcceptedDialog dialog = new checkMultipleAcceptedDialog(acceptedCount, this);
+        if (reviewed.size() == articleVersions.size()){
+            if (rejectedCount + acceptedCount < reviewed.size()) {
+                checkExplicitlyReviewedDialog dialog = new checkExplicitlyReviewedDialog(reviewed.size() - (acceptedCount + rejectedCount), this);
                 dialog.pack();
                 dialog.setVisible(true);
             } else {
-                revisionCheck();
+                if (acceptedCount > 1) {
+                    checkMultipleAcceptedDialog dialog = new checkMultipleAcceptedDialog(acceptedCount, this);
+                    dialog.pack();
+                    dialog.setVisible(true);
+                } else {
+                    revisionCheck();
+                }
             }
         } else {
             System.out.println("Devi vedere anche le altre");
         }
     }
     void setLastAccepted () {
-        updateCounters();
-
         int i = 0;
         for (ArticleVersion articleVersion : articleVersions) {
             if (articleVersion.getStatus() == ArticleVersion.Status.ACCEPTED) {
@@ -108,9 +117,7 @@ public class PageVersionPreview {
     }
 
     void revisionCheck() {
-        updateCounters();
-
-        if (reviewed == articleVersions.size()) {
+        if (reviewed.size() == articleVersions.size()) {
             if (acceptedCount > 1) {
                 System.out.println("NON PUOI ACCETTARE PIÙ ARTICOLI IN CONTEMPORANEA");
             } else {
@@ -132,17 +139,27 @@ public class PageVersionPreview {
 
     private void changeProposal(){
         profileButton.setText(articleVersions.get(currentArticlePosition).getAuthorProposal().getNickname());
+        if(!reviewed.contains(articleVersions.get(currentArticlePosition))) {
+            reviewed.add(articleVersions.get(currentArticlePosition));
+        }
         openVersion();
         updateBackButton();
         updateNextButton();
     }
 
-    private void updateCounters() {
+    /*private void updateCounters() {
         reviewed = 0;
         acceptedCount = 0;
         for (ArticleVersion articleVersion : articleVersions) {
             acceptedCount += articleVersion.getStatus() == ArticleVersion.Status.ACCEPTED ? 1 : 0;
             reviewed += articleVersion.getStatus() != ArticleVersion.Status.WAITING ? 1 : 0;
+        }
+    }*/
+    void rejectUnexplicited() {
+        for (ArticleVersion articleVersion : articleVersions) {
+            if (articleVersion.getStatus() == ArticleVersion.Status.WAITING) {
+                articleVersion.setStatus(ArticleVersion.Status.REJECTED);
+            }
         }
     }
 
