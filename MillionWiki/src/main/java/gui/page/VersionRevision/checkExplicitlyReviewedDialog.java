@@ -3,19 +3,19 @@ package gui.page.VersionRevision;
 import javax.swing.*;
 import java.awt.event.*;
 
-public class checkMultipleAcceptedDialog extends JDialog {
+public class checkExplicitlyReviewedDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JLabel warningLabel;
     private PageVersionPreview p;
 
-    public checkMultipleAcceptedDialog(int acceptedCount, PageVersionPreview p) {
+    public checkExplicitlyReviewedDialog(int unexplicitedCount, PageVersionPreview p) {
         this.p = p;
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
-        warningLabel.setText("Hai accettato " + acceptedCount + " modifiche, vuoi che venga accettata solo l'ultima ?");
+        warningLabel.setText("Non hai espresso un parere esplicito su " + unexplicitedCount + " modifiche, sono tutte da rifiutare?");
 
         buttonOK.addActionListener(e -> onOK());
 
@@ -34,8 +34,7 @@ public class checkMultipleAcceptedDialog extends JDialog {
     }
 
     private void onOK() {
-        p.setLastAccepted();
-        p.revisionCheck();
+        p.rejectUnexplicited();
         dispose();
     }
 
