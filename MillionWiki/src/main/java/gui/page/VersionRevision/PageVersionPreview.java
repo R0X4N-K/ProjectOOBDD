@@ -161,6 +161,7 @@ public class PageVersionPreview {
                 articleVersion.setStatus(ArticleVersion.Status.REJECTED);
             }
         }
+        revisionCheck();
     }
 
     public JPanel getPanel() {
