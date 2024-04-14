@@ -12,9 +12,7 @@ public class Home {
     private JPanel mainPanelHome;
     private JButton editorButton;
     private JLabel titleLabel;
-    private JTextField searchField;
     private JLabel featuredLabel;
-    private JLabel categoriesLabel;
     private JLabel recentLabel;
     private JLabel footerLabel;
 

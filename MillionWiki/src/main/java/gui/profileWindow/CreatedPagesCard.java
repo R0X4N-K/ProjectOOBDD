@@ -19,13 +19,13 @@ import java.util.List;
 import static controller.Controller.getAllArticleVersionByArticleId;
 
 public class CreatedPagesCard {
-    private JPanel createdPagesCardPanel;
-    private JTable createdPagesJTable;
-    private JScrollPane createdPagesJTableJScrollPane;
+    private JPanel createdPagesCardMainPanel;
+    private JTable reloadedJTable;
+    private JScrollPane reloadedJScrollPane;
     private JPanel cardLayoutPanel;
-    private JPanel cardCardLayoutPanelJTable;
-    private JPanel cardCardLayoutPanel2;
-    private JLabel cardCardLayoutPanel2JLabel;
+    private JPanel reloaded;
+    private JPanel reloading;
+    private JLabel reloadingJLabel;
 
 
     public CreatedPagesCard() {
@@ -36,10 +36,10 @@ public class CreatedPagesCard {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = createdPagesJTable.rowAtPoint(e.getPoint());
-                int col = createdPagesJTable.columnAtPoint(e.getPoint());
+                int row = reloadedJTable.rowAtPoint(e.getPoint());
+                int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
-                    String link = (String) createdPagesJTable.getValueAt(row, col);
+                    String link = (String) reloadedJTable.getValueAt(row, col);
                     String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
@@ -54,10 +54,10 @@ public class CreatedPagesCard {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = createdPagesJTable.rowAtPoint(e.getPoint());
-                int col = createdPagesJTable.columnAtPoint(e.getPoint());
+                int row = reloadedJTable.rowAtPoint(e.getPoint());
+                int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 1) {
-                    String link = (String) createdPagesJTable.getValueAt(row, 0);
+                    String link = (String) reloadedJTable.getValueAt(row, 0);
                     String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getArticleHistory().setIdArticle(id);
@@ -68,21 +68,21 @@ public class CreatedPagesCard {
         };
     }
     private void addHandCursorToTable() {
-        createdPagesJTable.addMouseMotionListener(new MouseMotionAdapter() {
+        reloadedJTable.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                int col = createdPagesJTable.columnAtPoint(e.getPoint());
+                int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 0 || col == 1) {
-                    createdPagesJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    reloadedJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 } else {
-                    createdPagesJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    reloadedJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             }
         });
     }
 
     public JPanel getPanel() {
-        return createdPagesCardPanel;
+        return createdPagesCardMainPanel;
     }
     public void switchPanel(JPanel refPanel) {
         cardLayoutPanel.removeAll();
@@ -92,7 +92,7 @@ public class CreatedPagesCard {
     }
 
     private void createUIComponents() {
-               createdPagesJTable= new JTable();
+               reloadedJTable = new JTable();
 
     }
 
@@ -145,22 +145,22 @@ public class CreatedPagesCard {
     }
 
     public void setCreatedPagesJTable(){
-        createdPagesJTable = createJTable();
+        reloadedJTable = createJTable();
     }
     public void setCreatedPages() {
-        switchPanel(cardCardLayoutPanel2);
-        cardCardLayoutPanel2JLabel.setText("Caricamento");
+        switchPanel(reloading);
+        reloadingJLabel.setText("Caricamento");
         setCreatedPagesJTable();
-        if (createdPagesJTable.getRowCount() > 0){
-            switchPanel(cardCardLayoutPanelJTable);
-            createdPagesJTable.addMouseListener(createArticleTitleMouseListener());
-            createdPagesJTable.addMouseListener(createArticleHistoryMouseListener());
+        if (reloadedJTable.getRowCount() > 0){
+            switchPanel(reloaded);
+            reloadedJTable.addMouseListener(createArticleTitleMouseListener());
+            reloadedJTable.addMouseListener(createArticleHistoryMouseListener());
             addHandCursorToTable();
-            createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
-            createdPagesJTableJScrollPane.revalidate();
-            createdPagesJTableJScrollPane.repaint();}
+            reloadedJScrollPane.setViewportView(reloadedJTable);
+            reloadedJScrollPane.revalidate();
+            reloadedJScrollPane.repaint();}
         else {
-            cardCardLayoutPanel2JLabel.setText("Nessuna pagina ancora creata");
+            reloadingJLabel.setText("Nessuna pagina ancora creata");
         }
     }
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {

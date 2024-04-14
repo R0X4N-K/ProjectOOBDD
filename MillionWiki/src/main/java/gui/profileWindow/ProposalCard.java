@@ -18,35 +18,35 @@ import java.util.List;
 
 public class ProposalCard {
 
-    private JPanel proposalCardPanel;
-    private JTable proposalCardJTable;
-    private JScrollPane proposalCardJTableJScrollPane;
-    private JPanel subProposalCardPanelCards;
-    private JLabel subProposalCardPanelCardsJLabel;
-    private JPanel panelJLabelsubProposalCardPanelCards;
-    private JPanel panelJTableJScrollPane;
+    private JPanel proposalCardMainPanel;
+    private JTable reloadedJTable;
+    private JScrollPane reloadedJScrollPane;
+    private JPanel cardLayoutPanel;
+    private JLabel reloadingJLabel;
+    private JPanel reloading;
+    private JPanel reloaded;
 
     public JPanel getPanel() {
-        return proposalCardPanel;
+        return proposalCardMainPanel;
     }
     public void switchPanel(JPanel refPanel) {
-        subProposalCardPanelCards.removeAll();
-        subProposalCardPanelCards.add(refPanel);
-        subProposalCardPanelCards.repaint();
-        subProposalCardPanelCards.revalidate();
+        cardLayoutPanel.removeAll();
+        cardLayoutPanel.add(refPanel);
+        cardLayoutPanel.repaint();
+        cardLayoutPanel.revalidate();
     }
 
     private void createUIComponents() {
-            proposalCardJTable = new JTable();
+            reloadedJTable = new JTable();
     }
     private MouseAdapter createArticleMouseListener() {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = proposalCardJTable.rowAtPoint(e.getPoint());
-                int col = proposalCardJTable.columnAtPoint(e.getPoint());
+                int row = reloadedJTable.rowAtPoint(e.getPoint());
+                int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
-                    String link = (String) proposalCardJTable.getValueAt(row, col);
+                    String link = (String) reloadedJTable.getValueAt(row, col);
                     String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
@@ -62,10 +62,10 @@ public class ProposalCard {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = proposalCardJTable.rowAtPoint(e.getPoint());
-                int col = proposalCardJTable.columnAtPoint(e.getPoint());
+                int row = reloadedJTable.rowAtPoint(e.getPoint());
+                int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 1) {
-                    String link = (String) proposalCardJTable.getValueAt(row, col);
+                    String link = (String) reloadedJTable.getValueAt(row, col);
                     String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
                     int id = Integer.parseInt(idString);
                     ArticleHistory articleHistory = Controller.getWindow().getArticleHistory();
@@ -82,10 +82,10 @@ public class ProposalCard {
         return new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                int row = proposalCardJTable.rowAtPoint(e.getPoint());
-                int col = proposalCardJTable.columnAtPoint(e.getPoint());
+                int row = reloadedJTable.rowAtPoint(e.getPoint());
+                int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 2) {
-                    String link = (String) proposalCardJTable.getValueAt(row, col);
+                    String link = (String) reloadedJTable.getValueAt(row, col);
                     String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
                     int id = Integer.parseInt(idString);
                     // Codice per aprire la finestra AuthorWindow
@@ -98,14 +98,14 @@ public class ProposalCard {
     }
 
     private void addHandCursorToTable() {
-        proposalCardJTable.addMouseMotionListener(new MouseMotionAdapter() {
+        reloadedJTable.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
             public void mouseMoved(MouseEvent e) {
-                int col = proposalCardJTable.columnAtPoint(e.getPoint());
+                int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 0 || col == 1|| col == 2) {
-                    proposalCardJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                    reloadedJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 } else {
-                    proposalCardJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                    reloadedJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
                 }
             }
         });
@@ -167,20 +167,20 @@ public class ProposalCard {
     }
 
     private void setProposalCardJTable() {
-        switchPanel(panelJLabelsubProposalCardPanelCards);
-        subProposalCardPanelCardsJLabel.setText("Caricamento");
-        proposalCardJTable = createJTable();
-        if (proposalCardJTable.getRowCount() > 0) {
-            switchPanel(panelJTableJScrollPane);
-            proposalCardJTable.addMouseListener(createArticleMouseListener());
-            proposalCardJTable.addMouseListener(createAuthorMouseListener());
-            proposalCardJTable.addMouseListener(createArticleHistoryMouseListener());
+        switchPanel(reloading);
+        reloadingJLabel.setText("Caricamento");
+        reloadedJTable = createJTable();
+        if (reloadedJTable.getRowCount() > 0) {
+            switchPanel(reloaded);
+            reloadedJTable.addMouseListener(createArticleMouseListener());
+            reloadedJTable.addMouseListener(createAuthorMouseListener());
+            reloadedJTable.addMouseListener(createArticleHistoryMouseListener());
             addHandCursorToTable();
-            proposalCardJTableJScrollPane.setViewportView(proposalCardJTable);
-            proposalCardJTableJScrollPane.revalidate();
-            proposalCardJTableJScrollPane.repaint();
+            reloadedJScrollPane.setViewportView(reloadedJTable);
+            reloadedJScrollPane.revalidate();
+            reloadedJScrollPane.repaint();
         } else {
-            subProposalCardPanelCardsJLabel.setText("Nessuna Proposta di modifica inviata");
+            reloadingJLabel.setText("Nessuna Proposta di modifica inviata");
         }
     }
     public void setProposalCard(){
