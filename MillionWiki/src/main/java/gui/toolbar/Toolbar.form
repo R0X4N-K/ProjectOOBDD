@@ -21,7 +21,7 @@
             <constraints/>
             <properties>
               <borderPainted value="false"/>
-              <icon value="icons/home.png"/>
+              <icon value="icons/logo/png/logo24px.png"/>
               <label value=""/>
               <text value=""/>
             </properties>

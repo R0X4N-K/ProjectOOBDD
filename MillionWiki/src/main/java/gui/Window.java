@@ -16,6 +16,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
+import java.net.URL;
 
 public class Window extends JFrame {
     private JPanel mainPanelWindow;
@@ -33,6 +34,8 @@ public class Window extends JFrame {
 
     public Window() {
         super("Million Wiki");
+        setIconImage(new ImageIcon(Window.class.getResource("/icons/logo/png/logo16px.png")).getImage());
+
         Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
             public void run() {
                 Controller.deleteLockFile();
@@ -46,8 +49,8 @@ public class Window extends JFrame {
         setContentPane(mainPanelWindow);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
-        setSize(1200, 700);
-        setMinimumSize(new Dimension(480, 480));
+        setSize(1200, 500);
+        setMinimumSize(new Dimension(480, 500));
         setLocationRelativeTo(null);
         profileWindow = new ProfileWindow(this);
         authorWindow = new AuthorWindow(this);

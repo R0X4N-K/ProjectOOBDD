@@ -1,6 +1,7 @@
 import com.formdev.flatlaf.FlatIntelliJLaf;
 import controller.Controller;
 import gui.*;
+import gui.SplashScreen;
 import gui.Window;
 import implementationDAO.ArticleDAOImplementation;
 import implementationDAO.ArticleVersionDAOImplementation;
@@ -10,6 +11,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.net.URL;
+import java.nio.file.attribute.FileAttribute;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -23,6 +25,7 @@ public class Main {
 
         UIManager.put("Button.background", UIManager.getDefaults());
 
+        Controller.setSplashScreen(new SplashScreen());
 
         if (Controller.verifyAppIstances()) {
             Controller.notifyOtherAppIstances();

@@ -14,6 +14,9 @@ public class HomeRecentArticles {
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
                 initRecentArticles();
+                Controller.getSplashScreen().dispose();
+                Controller.getWindow().setSize(1200, 700);
+                Controller.getWindow().setLocationRelativeTo(null);
             });
         }
         thread.setDaemon(true);

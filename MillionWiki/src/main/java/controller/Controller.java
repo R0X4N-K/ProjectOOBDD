@@ -3,6 +3,7 @@ package controller;
 import dao.ArticleDAO;
 import dao.ArticleVersionDAO;
 import dao.AuthorDAO;
+import gui.SplashScreen;
 import gui.Window;
 import implementationDAO.*;
 import model.*;
@@ -26,12 +27,20 @@ public final class Controller {
     public static Window getWindow() {
         return window;
     }
+    public static SplashScreen getSplashScreen() {
+        return splashScreen;
+    }
+
+    public static void setSplashScreen(SplashScreen splashScreen) {
+        Controller.splashScreen = splashScreen;
+    }
 
     public static void setWindow(Window window) {
         Controller.window = window;
     }
 
     private static Window window;
+    private static SplashScreen splashScreen;
 
     private Controller() {
 
