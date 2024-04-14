@@ -14,7 +14,8 @@ public class HomeArticlePanel extends JPanel{
     public HomeArticlePanel(String title, String articleText, int articleId) {
         setLayout(new BorderLayout());
 
-        JLabel titleLabel = new JLabel("<html><a href='" + articleId +"'>" + title + "</a></html>", SwingConstants.CENTER);
+        JLabel titleLabel = new JLabel("<html>" + title + "</html>", SwingConstants.CENTER);
+        titleLabel.setFont(getFont().deriveFont(Font.BOLD));
         titleLabel.setCursor(new Cursor(Cursor.HAND_CURSOR));
         titleLabel.addMouseListener(new MouseAdapter() {
             @Override
