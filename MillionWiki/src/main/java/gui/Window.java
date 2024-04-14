@@ -50,7 +50,7 @@ public class Window extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         pack();
         setSize(1200, 500);
-        setMinimumSize(new Dimension(480, 500));
+        setMinimumSize(new Dimension(1000, 500));
         setLocationRelativeTo(null);
         profileWindow = new ProfileWindow(this);
         authorWindow = new AuthorWindow(this);

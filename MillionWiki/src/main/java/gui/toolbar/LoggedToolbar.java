@@ -20,6 +20,9 @@ public class LoggedToolbar {
 
     public LoggedToolbar() {
         getPanel().setComponentPopupMenu(notificationsContainer);
+
+        showProfileButton.setText(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
+
         showNotificationsButton.addActionListener(e -> {
             if (!setPopupMenu)
                 notificationsContainer.setPanelOwner(showNotificationsButton);
