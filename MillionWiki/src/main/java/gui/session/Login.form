@@ -16,19 +16,6 @@
         <properties/>
         <border type="none"/>
         <children>
-          <component id="a7a0" class="javax.swing.JLabel" binding="loginPageTitleLbl">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="2" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="50"/>
-              </grid>
-            </constraints>
-            <properties>
-              <font size="22" style="1"/>
-              <horizontalAlignment value="0"/>
-              <text value="Effettua il tuo Accesso"/>
-              <verticalAlignment value="1"/>
-            </properties>
-          </component>
           <component id="15f3e" class="javax.swing.JLabel" binding="passwordLbl">
             <constraints>
               <grid row="4" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="2" fill="1" indent="0" use-parent-layout="false">
@@ -125,11 +112,6 @@
               </component>
             </children>
           </grid>
-          <hspacer id="76270">
-            <constraints>
-              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
-            </constraints>
-          </hspacer>
           <hspacer id="8cd7b">
             <constraints>
               <grid row="2" column="4" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
@@ -168,6 +150,24 @@
               <text value="Ricordami"/>
             </properties>
           </component>
+          <component id="a7a0" class="javax.swing.JLabel" binding="loginPageTitleLbl">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="3" vsize-policy="6" hsize-policy="6" anchor="2" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="50"/>
+              </grid>
+            </constraints>
+            <properties>
+              <font size="22" style="1"/>
+              <horizontalAlignment value="0"/>
+              <text value="Effettua il tuo Accesso"/>
+              <verticalAlignment value="1"/>
+            </properties>
+          </component>
+          <hspacer id="76270">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="1" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false"/>
+            </constraints>
+          </hspacer>
         </children>
       </grid>
     </children>

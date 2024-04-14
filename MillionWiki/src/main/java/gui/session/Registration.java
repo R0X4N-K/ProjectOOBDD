@@ -24,7 +24,6 @@ public class Registration {
     private JPasswordField passwordTxtFld;
     private JButton submitBtn;
     private JButton toLoginPanelBtn;
-    private JButton toHomePanelBtn;
     private JLabel nicknameLbl;
     private JTextField nicknameTxtFld;
     private JLabel passwordLbl2;
@@ -43,12 +42,6 @@ public class Registration {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Controller.getWindow().switchPanel(Controller.getWindow().getLoginPanel());
-            }
-        });
-        toHomePanelBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
             }
         });
 
