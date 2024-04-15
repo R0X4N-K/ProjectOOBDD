@@ -269,6 +269,8 @@ public final class Controller {
         System.out.println("Un'altra istanza di questa applicazione è attualmente in esecuzione, " +
                 "ti preghiamo di chiudere quell'istanza prima di aprirne una nuova. Se non sono aperte altre istanze, elimina il file: "
                 + lockFilePath);
+
+        getSplashScreen().dispose();
     }
 
     public static void deleteLockFile() {

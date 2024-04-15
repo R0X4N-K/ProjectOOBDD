@@ -19,6 +19,10 @@ import java.awt.event.ComponentListener;
 import java.net.URL;
 
 public class Window extends JFrame {
+    public JPanel getMainPanelWindow() {
+        return mainPanelWindow;
+    }
+
     private JPanel mainPanelWindow;
     private JPanel toolbarPanel;
     private JPanel windowPane;

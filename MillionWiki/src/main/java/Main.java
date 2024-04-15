@@ -30,11 +30,17 @@ public class Main {
         if (Controller.verifyAppIstances()) {
             Controller.notifyOtherAppIstances();
         } else {
-            Controller.setArticleDAO(new ArticleDAOImplementation());
-            Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
-            Controller.setAuthorDAO(new AuthorDAOImplementation());
-            Controller.checkIfRememberedLogin();
-            Controller.setWindow(new Window());
+            try{
+                Controller.setArticleDAO(new ArticleDAOImplementation());
+                Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
+                Controller.setAuthorDAO(new AuthorDAOImplementation());
+                Controller.checkIfRememberedLogin();
+                Controller.setWindow(new Window());
+            }catch (Exception e){
+                System.out.println("Connessione assente");
+                Controller.getSplashScreen().dispose();
+            }
+
         }
      //Controller controller = Controller.ge;
      //ArticleDAOImplementation articleDAOImplementation = new ArticleDAOImplementation();
