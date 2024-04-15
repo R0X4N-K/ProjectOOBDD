@@ -4,6 +4,8 @@ import controller.Controller;
 import model.ArticleVersion;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PageVersionPreview {
@@ -55,6 +57,14 @@ public class PageVersionPreview {
         });
 
         confirmButton.addActionListener(e -> checkReception());
+        profileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.getWindow().getAuthorWindow().setIdAuthor(articleVersions.get(currentArticlePosition).getAuthorProposal().getId());
+                Controller.getWindow().getAuthorWindow().setAuthorWindow();
+                Controller.getWindow().getAuthorWindow().setVisible(true);
+            }
+        });
     }
 
     public void setEditorPane(JEditorPane editorPane, JEditorPane titlePane) {
