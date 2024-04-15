@@ -20,7 +20,7 @@ public interface ArticleDAO {
     ArrayList<Integer> getRecentArticles(int numberArticles);
     ArrayList<Article> getMatchesArticlesByTitle(String title);
     int saveArticle(String title, Date creationDate, boolean revision, Author author);
-    int saveArticle(String title, Date creationDate, boolean revision, int idAuthor);
+    int saveArticle(String title, boolean revision, int idAuthor);
     void saveArticle(Article article);
     void updateArticle(int idArticle, String title); // TODO: RIMUOVERE FUNZIONE PERCHÉ NON PIÙ UTILE (SOSTITUITA DA IMPLEMENTAZIONE PIÙ SICURA SUL DATABASE)
     void updateArticle(Article article, Article newArticle);

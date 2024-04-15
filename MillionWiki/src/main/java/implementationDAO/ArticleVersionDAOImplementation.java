@@ -143,23 +143,16 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         return articleVersions;
     }
 
-    public int insertArticleVersion(int idArticle, ArticleVersion.Status status,
-                                    String text, Date versionDate, Date revisionDate,
+    public int insertArticleVersion(int idArticle,
+                                    String text,
                                     int idAuthor, String titleProposal){
         int id = -1;
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal, title) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO article_versions (parent_article, text, author_proposal, title) VALUES (?, ?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setInt(1, idArticle);
-            stmt.setString(2, status.toString());
-            stmt.setString(3, text);
-            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            if (revisionDate != null) {
-                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setInt(6, idAuthor);
-            stmt.setString(7, titleProposal);
+            stmt.setString(2, text);
+            stmt.setInt(3, idAuthor);
+            stmt.setString(4, titleProposal);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("id");
@@ -172,66 +165,16 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
 
 
     public int insertArticleVersion(ArticleVersion articleVersion) {
-        int id = -1;
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, articleVersion.getParentArticle().getTitle());
-            stmt.setString(2, articleVersion.getStatus().toString());
-            stmt.setString(3, articleVersion.getText());
-            stmt.setDate(4, new java.sql.Date(articleVersion.getVersionDate().getTime()));
-            if (articleVersion.getRevisionDate() != null) {
-                stmt.setDate(5, new java.sql.Date(articleVersion.getRevisionDate().getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setString(6, articleVersion.getAuthorProposal().getNickname());
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                id = rs.getInt("id");
-            }
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
-    }
-
-    public int insertArticleVersion(String title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal, String titleProposal) {
-        int id = -1;
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, title);
-            stmt.setString(2, status.toString());
-            stmt.setString(3, text);
-            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            if (revisionDate != null) {
-                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setString(6, String.valueOf(authorProposal.getId()));
-            stmt.setString(7, titleProposal);
-            ResultSet rs = stmt.executeQuery();
-
-
-            if (rs.next()) {
-                id = rs.getInt("id");
-            }
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        int id = insertArticleVersion(articleVersion.getParentArticle().getId(),
+                articleVersion.getText(),
+                articleVersion.getAuthorProposal().getId(),
+                articleVersion.getTitleProposal());
         return id;
     }
 
 
     public ArrayList<ArticleVersion> getAllArticleVersionsWaiting(int authorId) {
         ArrayList<ArticleVersion> versionsWaiting = new ArrayList<>();
-        // -- FULL QUERY --
-        /* String getArticleQuery = "SELECT article_versions.* FROM article_versions\n" +
-                "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
-                "WHERE articles.author = ? AND article_versions.status = \'WAITING\'";
-         */
         String getArticleQuery = "SELECT article_versions.id, article_versions.status, version_date, author_proposal, parent_article, article_versions.title FROM article_versions\n" +
                 "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
                 "WHERE articles.author = ? AND article_versions.status = \'WAITING\' ORDER BY  article_versions.version_date ASC";
@@ -257,7 +200,6 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
 
     public ArrayList<ArticleVersion> getAllArticleVersionsWaitingFull(int articleId) {
         ArrayList<ArticleVersion> versionsWaiting = new ArrayList<>();
-        // -- FULL QUERY --
         String getArticleQuery = "SELECT article_versions.* FROM article_versions\n" +
                 "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
                 "WHERE articles.id = ? AND article_versions.status = \'WAITING\' ORDER BY article_versions.version_date ASC";
@@ -300,47 +242,5 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             e.printStackTrace();
         }
 
-    }
-
-    @Override
-    public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int authorProposal, String titleProposal) {
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal, title) VALUES (?, ?, ?, ?, ?, ?, ?) ";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, idArticle);
-            stmt.setString(2, status.toString());
-            stmt.setString(3, text);
-            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            stmt.setInt(6, authorProposal);
-
-            if (revisionDate != null) {
-                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setInt(6, authorProposal);
-            stmt.setString(7, titleProposal);
-            stmt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-    }
-
-    public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal) {
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) ";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, idArticle);
-            stmt.setString(2, status.toString());
-            stmt.setString(3, text);
-            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            if (revisionDate != null) {
-                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setString(6, String.valueOf(authorProposal.getId()));
-            stmt.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
     }
 }

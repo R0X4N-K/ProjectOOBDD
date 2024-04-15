@@ -35,7 +35,7 @@ public class checkMultipleAcceptedDialog extends JDialog {
 
     private void onOK() {
         p.setLastAccepted();
-        p.revisionCheck();
+        p.checkReception();
         dispose();
     }
 

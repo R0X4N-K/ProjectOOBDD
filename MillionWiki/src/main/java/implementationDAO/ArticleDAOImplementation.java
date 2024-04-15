@@ -230,14 +230,13 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         return id;
     }
 
-    public int saveArticle(String title, Date creationDate, boolean revision, int idAuthor) {
+    public int saveArticle(String title, boolean revision, int idAuthor) {
         int id=-1;
-        String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO articles (title, author, revision) VALUES (?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, title);
             stmt.setInt(2, idAuthor);
-            stmt.setDate(3, new java.sql.Date(creationDate.getTime()));
-            stmt.setBoolean(4, revision);
+            stmt.setBoolean(3, revision);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("id");
