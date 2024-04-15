@@ -25,11 +25,12 @@ public class Main {
 
         UIManager.put("Button.background", UIManager.getDefaults());
 
-        Controller.setSplashScreen(new SplashScreen());
+
 
         if (Controller.verifyAppIstances()) {
             Controller.notifyOtherAppIstances();
         } else {
+            Controller.setSplashScreen(new SplashScreen());
             Controller.setArticleDAO(new ArticleDAOImplementation());
             Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
             Controller.setAuthorDAO(new AuthorDAOImplementation());
