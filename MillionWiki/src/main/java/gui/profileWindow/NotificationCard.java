@@ -137,11 +137,10 @@ public class NotificationCard {
         JTable table = new JTable(model);
         table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
         TableColumnModel columnModel = table.getColumnModel();
-        for (int i = 0; i < columnModel.getColumnCount(); i++) {
-            TableColumn column = columnModel.getColumn(i);
-            column.setPreferredWidth(100);
-        }
+        columnModel.getColumn(0).setPreferredWidth(100);
         columnModel.getColumn(1).setPreferredWidth(50);
+        columnModel.getColumn(2).setPreferredWidth(150);
+        columnModel.getColumn(3).setPreferredWidth(170);
         return table;
     }
     private int getUnreviewedModificationsCount(List<ArticleVersion> versionArticles, int idArticle) {
@@ -158,8 +157,9 @@ public class NotificationCard {
         Date latestDate = null;
         for (ArticleVersion versionArticle : versionArticles) {
             if (versionArticle.getParentArticle().getId() == idArticle && versionArticle.getStatus() == ArticleVersion.Status.WAITING) {
-                if (latestDate == null || versionArticle.getVersionDate().after(latestDate)) {
-                    latestDate = versionArticle.getVersionDate();
+                Date versionDate = versionArticle.getVersionDate();
+                if (versionDate != null && (latestDate == null || versionDate.after(latestDate))) {
+                    latestDate = versionDate;
                 }
             }
         }
