@@ -5,6 +5,7 @@ import model.Article;
 import model.Author;
 import model.Cookie;
 
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         try {
             dbConnection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(e);
         }
     }
@@ -34,6 +36,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -50,6 +53,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -64,6 +68,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -79,10 +84,12 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
                     articles.add(rs.getInt("id"));
                 } catch (RuntimeException e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articles;
     }
@@ -102,6 +109,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articles;
     }
@@ -132,6 +140,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
                     articles.add(new Article(rs));
                 } catch (RuntimeException e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (SQLException e) {
@@ -151,10 +160,12 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
                     articles.add(new Article(rs));
                 } catch (RuntimeException e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articles;
     }
@@ -174,6 +185,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return 0;
     }
@@ -189,10 +201,12 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
                     articles.add(new Article(rs));
                 } catch (RuntimeException e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articles;
     }
@@ -208,6 +222,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -226,6 +241,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return id;
     }
@@ -243,6 +259,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return id;
     }
@@ -255,6 +272,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
     @Override
@@ -268,6 +286,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -280,6 +299,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -291,6 +311,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -306,6 +327,7 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 }

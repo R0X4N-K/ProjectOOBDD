@@ -6,6 +6,7 @@ import model.Article;
 import model.ArticleVersion;
 import model.Author;
 
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +22,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         try {
             dbConnection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(e);
         }
     }
@@ -38,6 +40,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -55,6 +58,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articleVersion;
     }
@@ -72,6 +76,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articleVersions;
     }
@@ -89,6 +94,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return count;
     }
@@ -110,6 +116,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException | RuntimeException e) {
             System.err.println("Errore SQL: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 if (rs != null) {
@@ -120,6 +127,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                 }
             } catch (SQLException e) {
                 System.err.println("Errore durante la chiusura delle risorse del database: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Errore durante la chiusura delle risorse del database: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -139,6 +147,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articleVersions;
     }
@@ -159,6 +168,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return id;
     }
@@ -194,6 +204,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return versionsWaiting;
     }
@@ -223,6 +234,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return versionsWaiting;
     }
@@ -240,6 +252,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
 
     }
