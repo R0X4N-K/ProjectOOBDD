@@ -5,6 +5,7 @@ import model.Article;
 import model.Author;
 import model.Cookie;
 
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -18,6 +19,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             dbConnection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -32,6 +34,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                         return new Author(rs);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
@@ -52,9 +55,11 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 stmt.close();
             } catch (Exception e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -70,6 +75,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -84,6 +90,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return 0;
     }
@@ -99,10 +106,12 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                     authors.add(new Author(rs));
                 } catch (Exception e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return authors;
     }
@@ -130,11 +139,15 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 try {
                     authors.add(new Author(rs));
                 } catch (Exception e) {
+                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(e);
+
+
                 }
             }
         }catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return authors;
     }
@@ -150,6 +163,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -166,6 +180,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -179,6 +194,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
 
     }
@@ -191,6 +207,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 stmt.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
     }
 
@@ -202,6 +219,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -213,6 +231,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -226,6 +245,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -238,6 +258,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -250,6 +271,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -262,6 +284,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -273,6 +296,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                 stmt.executeUpdate();
             } catch (SQLException e) {
                 e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
         }
     public void registerAuthor(String nickname, String password, float rating, String email) {
@@ -285,6 +309,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -308,11 +333,13 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                         return new Cookie(rs);
                     } catch (Exception e) {
                         e.printStackTrace();
+                        JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -327,10 +354,12 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
                     return new Cookie(id, password);
                 }
             } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 throw new RuntimeException(e);
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -345,6 +374,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }
@@ -360,6 +390,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return false;
     }

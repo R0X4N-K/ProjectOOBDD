@@ -4,6 +4,8 @@ import controller.Controller;
 import model.ArticleVersion;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 
 public class PageVersionPreview {
@@ -19,8 +21,8 @@ public class PageVersionPreview {
     private ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
     private int currentArticlePosition = 0;
     private ArrayList<ArticleVersion> reviewed = new ArrayList<>();
+    private ArrayList<ArticleVersion> accepted = new ArrayList<>();
     private int rejectedCount = 0;
-    private int acceptedCount = 0;
 
     public PageVersionPreview(){
         backButton.addActionListener( actionEvent -> {
@@ -36,20 +38,33 @@ public class PageVersionPreview {
 
 
         acceptRadioButton.addActionListener(e -> {
+            rejectedCount -= rejectRadioButton.isSelected() ? 1 : 0;
             rejectRadioButton.setSelected(false);
-            acceptedCount += acceptRadioButton.isSelected() ? 1 : -1;
-            rejectedCount -= articleVersions.get(currentArticlePosition).getStatus() == ArticleVersion.Status.REJECTED ? 1 : 0;
-            articleVersions.get(currentArticlePosition).setStatus(acceptRadioButton.isSelected() ? ArticleVersion.Status.ACCEPTED : ArticleVersion.Status.WAITING);
+            if (acceptRadioButton.isSelected()) {
+                accepted.add(articleVersions.get(currentArticlePosition));
+                articleVersions.get(currentArticlePosition).setStatus(ArticleVersion.Status.ACCEPTED);
+            } else {
+                accepted.remove(articleVersions.get(currentArticlePosition));
+                articleVersions.get(currentArticlePosition).setStatus(ArticleVersion.Status.WAITING);
+            }
         });
 
         rejectRadioButton.addActionListener(e -> {
             acceptRadioButton.setSelected(false);
             rejectedCount += rejectRadioButton.isSelected() ? 1 : -1;
-            acceptedCount -= articleVersions.get(currentArticlePosition).getStatus() == ArticleVersion.Status.ACCEPTED ? 1 : 0;
+            accepted.remove(articleVersions.get(currentArticlePosition));
             articleVersions.get(currentArticlePosition).setStatus(rejectRadioButton.isSelected() ? ArticleVersion.Status.REJECTED : ArticleVersion.Status.WAITING);
         });
 
         confirmButton.addActionListener(e -> checkReception());
+        profileButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.getWindow().getAuthorWindow().setIdAuthor(articleVersions.get(currentArticlePosition).getAuthorProposal().getId());
+                Controller.getWindow().getAuthorWindow().setAuthorWindow();
+                Controller.getWindow().getAuthorWindow().setVisible(true);
+            }
+        });
     }
 
     public void setEditorPane(JEditorPane editorPane, JEditorPane titlePane) {
@@ -83,20 +98,21 @@ public class PageVersionPreview {
         backButton.setEnabled(currentArticlePosition > 0);
     }    
     
-    private void checkReception() {
+    void checkReception() {
 
         if (reviewed.size() == articleVersions.size()){
-            if (rejectedCount + acceptedCount < reviewed.size()) {
-                checkExplicitlyReviewedDialog dialog = new checkExplicitlyReviewedDialog(reviewed.size() - (acceptedCount + rejectedCount), this);
+            if (rejectedCount + accepted.size() < reviewed.size()) {
+                checkExplicitlyReviewedDialog dialog = new checkExplicitlyReviewedDialog(reviewed.size() - (accepted.size() + rejectedCount), this);
                 dialog.pack();
                 dialog.setVisible(true);
             } else {
-                if (acceptedCount > 1) {
-                    checkMultipleAcceptedDialog dialog = new checkMultipleAcceptedDialog(acceptedCount, this);
+                if (accepted.size() > 1) {
+                    checkMultipleAcceptedDialog dialog = new checkMultipleAcceptedDialog(accepted.size(), this);
                     dialog.pack();
                     dialog.setVisible(true);
                 } else {
-                    revisionCheck();
+                    Controller.reviewArticles(articleVersions);
+                    Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
                 }
             }
         } else {
@@ -104,30 +120,12 @@ public class PageVersionPreview {
         }
     }
     void setLastAccepted () {
-        int i = 0;
-        for (ArticleVersion articleVersion : articleVersions) {
-            if (articleVersion.getStatus() == ArticleVersion.Status.ACCEPTED) {
-                if (i < acceptedCount) {
-                    articleVersion.setStatus(ArticleVersion.Status.REJECTED);
-                    i++;
-                }
-            }
+        while (accepted.size() > 1){
+            accepted.getFirst().setStatus(ArticleVersion.Status.REJECTED);
+            rejectedCount += 1;
+            System.out.println(accepted.remove(accepted.getFirst()));
+            System.out.println(accepted.size());
         }
-
-    }
-
-    void revisionCheck() {
-        if (reviewed.size() == articleVersions.size()) {
-            if (acceptedCount > 1) {
-                System.out.println("NON PUOI ACCETTARE PIÙ ARTICOLI IN CONTEMPORANEA");
-            } else {
-                Controller.reviewArticles(articleVersions);
-                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
-            }
-        } else {
-            System.out.println("Devi vedere anche le altre");
-        }
-
     }
 
     private void openVersion(){
@@ -147,21 +145,15 @@ public class PageVersionPreview {
         updateNextButton();
     }
 
-    /*private void updateCounters() {
-        reviewed = 0;
-        acceptedCount = 0;
-        for (ArticleVersion articleVersion : articleVersions) {
-            acceptedCount += articleVersion.getStatus() == ArticleVersion.Status.ACCEPTED ? 1 : 0;
-            reviewed += articleVersion.getStatus() != ArticleVersion.Status.WAITING ? 1 : 0;
-        }
-    }*/
+
     void rejectUnexplicited() {
         for (ArticleVersion articleVersion : articleVersions) {
             if (articleVersion.getStatus() == ArticleVersion.Status.WAITING) {
                 articleVersion.setStatus(ArticleVersion.Status.REJECTED);
+                rejectedCount++;
             }
         }
-        revisionCheck();
+        checkReception();
     }
 
     public JPanel getPanel() {

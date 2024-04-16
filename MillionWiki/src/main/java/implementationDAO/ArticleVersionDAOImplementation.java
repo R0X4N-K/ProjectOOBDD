@@ -6,6 +6,7 @@ import model.Article;
 import model.ArticleVersion;
 import model.Author;
 
+import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -21,6 +22,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         try {
             dbConnection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             throw new RuntimeException(e);
         }
     }
@@ -38,6 +40,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
@@ -55,6 +58,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articleVersion;
     }
@@ -72,6 +76,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articleVersions;
     }
@@ -89,6 +94,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return count;
     }
@@ -110,6 +116,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException | RuntimeException e) {
             System.err.println("Errore SQL: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         } finally {
             try {
                 if (rs != null) {
@@ -120,6 +127,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                 }
             } catch (SQLException e) {
                 System.err.println("Errore durante la chiusura delle risorse del database: " + e.getMessage());
+                JOptionPane.showMessageDialog(null, "Errore durante la chiusura delle risorse del database: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
             }
         }
 
@@ -139,99 +147,44 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return articleVersions;
     }
 
-    public int insertArticleVersion(int idArticle, ArticleVersion.Status status,
-                                    String text, Date versionDate, Date revisionDate,
+    public int insertArticleVersion(int idArticle,
+                                    String text,
                                     int idAuthor, String titleProposal){
         int id = -1;
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal, title) VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO article_versions (parent_article, text, author_proposal, title) VALUES (?, ?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setInt(1, idArticle);
-            stmt.setString(2, status.toString());
-            stmt.setString(3, text);
-            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            if (revisionDate != null) {
-                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setInt(6, idAuthor);
-            stmt.setString(7, titleProposal);
+            stmt.setString(2, text);
+            stmt.setInt(3, idAuthor);
+            stmt.setString(4, titleProposal);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("id");
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return id;
     }
 
 
     public int insertArticleVersion(ArticleVersion articleVersion) {
-        int id = -1;
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, articleVersion.getParentArticle().getTitle());
-            stmt.setString(2, articleVersion.getStatus().toString());
-            stmt.setString(3, articleVersion.getText());
-            stmt.setDate(4, new java.sql.Date(articleVersion.getVersionDate().getTime()));
-            if (articleVersion.getRevisionDate() != null) {
-                stmt.setDate(5, new java.sql.Date(articleVersion.getRevisionDate().getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setString(6, articleVersion.getAuthorProposal().getNickname());
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                id = rs.getInt("id");
-            }
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return id;
-    }
-
-    public int insertArticleVersion(String title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal, String titleProposal) {
-        int id = -1;
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) RETURNING id";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, title);
-            stmt.setString(2, status.toString());
-            stmt.setString(3, text);
-            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            if (revisionDate != null) {
-                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setString(6, String.valueOf(authorProposal.getId()));
-            stmt.setString(7, titleProposal);
-            ResultSet rs = stmt.executeQuery();
-
-
-            if (rs.next()) {
-                id = rs.getInt("id");
-            }
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
+        int id = insertArticleVersion(articleVersion.getParentArticle().getId(),
+                articleVersion.getText(),
+                articleVersion.getAuthorProposal().getId(),
+                articleVersion.getTitleProposal());
         return id;
     }
 
 
     public ArrayList<ArticleVersion> getAllArticleVersionsWaiting(int authorId) {
         ArrayList<ArticleVersion> versionsWaiting = new ArrayList<>();
-        // -- FULL QUERY --
-        /* String getArticleQuery = "SELECT article_versions.* FROM article_versions\n" +
-                "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
-                "WHERE articles.author = ? AND article_versions.status = \'WAITING\'";
-         */
         String getArticleQuery = "SELECT article_versions.id, article_versions.status, version_date, author_proposal, parent_article, article_versions.title FROM article_versions\n" +
                 "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
                 "WHERE articles.author = ? AND article_versions.status = \'WAITING\' ORDER BY  article_versions.version_date ASC";
@@ -251,13 +204,13 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return versionsWaiting;
     }
 
     public ArrayList<ArticleVersion> getAllArticleVersionsWaitingFull(int articleId) {
         ArrayList<ArticleVersion> versionsWaiting = new ArrayList<>();
-        // -- FULL QUERY --
         String getArticleQuery = "SELECT article_versions.* FROM article_versions\n" +
                 "INNER JOIN articles ON articles.id = article_versions.parent_article\n" +
                 "WHERE articles.id = ? AND article_versions.status = \'WAITING\' ORDER BY article_versions.version_date ASC";
@@ -281,12 +234,18 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return versionsWaiting;
     }
 
 
     public void reviewArticles(ArrayList<ArticleVersion> a) {
+        try {
+            dbConnection.connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String query = "BEGIN;\n";
         for (ArticleVersion version : a) {
             query = query.concat("UPDATE article_versions\n" +
@@ -298,49 +257,22 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             stmt.execute();
         } catch (SQLException e) {
             e.printStackTrace();
-        }
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+            try {
+                dbConnection.connection.rollback();
+                dbConnection.connection.commit();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
 
-    }
-
-    @Override
-    public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int authorProposal, String titleProposal) {
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal, title) VALUES (?, ?, ?, ?, ?, ?, ?) ";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, idArticle);
-            stmt.setString(2, status.toString());
-            stmt.setString(3, text);
-            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            stmt.setInt(6, authorProposal);
-
-            if (revisionDate != null) {
-                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
             }
-            stmt.setInt(6, authorProposal);
-            stmt.setString(7, titleProposal);
-            stmt.execute();
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-    }
 
-    public void saveArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal) {
-        String query = "INSERT INTO article_versions (parent_article, status, text, version_date, revision_date, author_proposal) VALUES (?, ?, ?, ?, ?, ?) ";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, idArticle);
-            stmt.setString(2, status.toString());
-            stmt.setString(3, text);
-            stmt.setDate(4, new java.sql.Date(versionDate.getTime()));
-            if (revisionDate != null) {
-                stmt.setDate(5, new java.sql.Date(revisionDate.getTime()));
-            } else {
-                stmt.setNull(5, java.sql.Types.DATE);
-            }
-            stmt.setString(6, String.valueOf(authorProposal.getId()));
-            stmt.executeQuery();
+        try {
+            dbConnection.connection.setAutoCommit(false);
         } catch (SQLException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
+
     }
 }

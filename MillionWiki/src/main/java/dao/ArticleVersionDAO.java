@@ -17,7 +17,5 @@ public interface ArticleVersionDAO {
     int getVersionArticlesNumberSent(int idAuthor);
     ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion);
     int insertArticleVersion(ArticleVersion articleVersion);
-    int insertArticleVersion(int idArticle, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int idAuthor, String titleProposal);
-    int insertArticleVersion(String title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, Author authorProposal, String titleProposal);
-    void saveArticleVersion(int title, ArticleVersion.Status status, String text, Date versionDate, Date revisionDate, int authorProposal, String titleProposal);
+    int insertArticleVersion(int idArticle, String text, int idAuthor, String titleProposal);
 }

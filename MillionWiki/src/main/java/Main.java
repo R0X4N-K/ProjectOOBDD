@@ -25,22 +25,17 @@ public class Main {
 
         UIManager.put("Button.background", UIManager.getDefaults());
 
-        Controller.setSplashScreen(new SplashScreen());
+
 
         if (Controller.verifyAppIstances()) {
             Controller.notifyOtherAppIstances();
         } else {
-            try{
-                Controller.setArticleDAO(new ArticleDAOImplementation());
-                Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
-                Controller.setAuthorDAO(new AuthorDAOImplementation());
-                Controller.checkIfRememberedLogin();
-                Controller.setWindow(new Window());
-            }catch (Exception e){
-                System.out.println("Connessione assente");
-                Controller.getSplashScreen().dispose();
-            }
-
+            Controller.setSplashScreen(new SplashScreen());
+            Controller.setArticleDAO(new ArticleDAOImplementation());
+            Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
+            Controller.setAuthorDAO(new AuthorDAOImplementation());
+            Controller.checkIfRememberedLogin();
+            Controller.setWindow(new Window());
         }
      //Controller controller = Controller.ge;
      //ArticleDAOImplementation articleDAOImplementation = new ArticleDAOImplementation();

@@ -15,6 +15,7 @@ import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Objects;
 
 public final class Controller {
 
@@ -27,6 +28,7 @@ public final class Controller {
     public static Window getWindow() {
         return window;
     }
+
     public static SplashScreen getSplashScreen() {
         return splashScreen;
     }
@@ -39,8 +41,8 @@ public final class Controller {
         Controller.window = window;
     }
 
-    private static Window window;
     private static SplashScreen splashScreen;
+    private static Window window;
 
     private Controller() {
 
@@ -207,36 +209,29 @@ public final class Controller {
             authorDAO = dao;
         }
     }
-    public static int createArticle(String title,Author author,Date creationDate,Boolean revision){
-        ArticleVersion.Status status= ArticleVersion.Status.valueOf("Accepted");
-        String text= "";
-        return articleDAO.saveArticle(title, creationDate, revision, author);
-    }
-    public static int createArticle(String title,int idAuthor, Date creationDate,Boolean revision, String text){
-        int idArticle = articleDAO.saveArticle(title, creationDate, revision, idAuthor);
-        ArticleVersion.Status status = ArticleVersion.Status.valueOf("ACCEPTED");
-        articleVersionDAO.saveArticleVersion(idArticle, status, text, creationDate, creationDate, idAuthor, title);
+
+    public static int createArticle(String title,int idAuthor,Boolean revision, String text){
+        int idArticle = articleDAO.saveArticle(title, revision, idAuthor);
+
+        articleVersionDAO.insertArticleVersion(idArticle, text, idAuthor, title);
         return idArticle;
     }
 
-    public static int createProposal(int idArticle, String titleArticle, ArticleVersion.Status status,
-                                     String text, Date versionDate, Date revisionDate,
-                                     int idAuthor){
+    public static int createProposal(int idArticle, String titleArticle,
+                                     String text, int idAuthor){
         /*if (idAuthor == cookie.getId()) {
             articleDAO.updateArticle(idArticle, titleArticle);
         }*/ // TODO: RIMUOVERE FUNZIONE
-        return articleVersionDAO.insertArticleVersion(idArticle, status, text, versionDate, revisionDate, idAuthor, titleArticle);
+        return articleVersionDAO.insertArticleVersion(idArticle, text, idAuthor, titleArticle);
     }
 
-    public static int createProposal(Article parentArticle, ArticleVersion.Status status,
-                                     String text, Date versionDate, Date revisionDate,
+    public static int createProposal(Article parentArticle, String text,
                                      Author authorProposal, String titleProposal) {
-        return articleVersionDAO.insertArticleVersion(parentArticle.getTitle(), status, text, versionDate, revisionDate, authorProposal, titleProposal);
+        return articleVersionDAO.insertArticleVersion(parentArticle.getId(), text, authorProposal.getId(), titleProposal);
     }
-    public static int createProposal(String title, ArticleVersion.Status status,
-                                     String text, Date versionDate, Date revisionDate,
+    public static int createProposal(String title,String text,
                                      Author authorProposal, String titleProposal) {
-        return articleVersionDAO.insertArticleVersion(title, status, text, versionDate, revisionDate, authorProposal, titleProposal);
+        return articleVersionDAO.insertArticleVersion(authorProposal.getId(), text, Objects.requireNonNull(getArticleByTitle(title)).getId(), titleProposal);
     }
 
     public static boolean checkLoggedUser(){
