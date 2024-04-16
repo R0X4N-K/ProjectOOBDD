@@ -12,6 +12,7 @@ public class checkMultipleAcceptedDialog extends JDialog {
 
     public checkMultipleAcceptedDialog(int acceptedCount, PageVersionPreview p) {
         this.p = p;
+        setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);

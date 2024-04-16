@@ -241,6 +241,11 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
 
 
     public void reviewArticles(ArrayList<ArticleVersion> a) {
+        try {
+            dbConnection.connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
         String query = "BEGIN;\n";
         for (ArticleVersion version : a) {
             query = query.concat("UPDATE article_versions\n" +
@@ -253,6 +258,20 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         } catch (SQLException e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+            try {
+                dbConnection.connection.rollback();
+                dbConnection.connection.commit();
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + ex.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+
+            }
+        }
+
+        try {
+            dbConnection.connection.setAutoCommit(false);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
 
     }
