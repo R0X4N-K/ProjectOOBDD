@@ -37,4 +37,12 @@ public class HomeRecentArticles {
     public JPanel getPanel() {
         return homeRecentArticlesMainPanel;
     }
+    public void setHomeRecentArticles() {
+        homeRecentArticlesMainPanel.removeAll();
+        if (thread == null || !thread.isAlive()) {
+            thread = new Thread(this::initRecentArticles);
+            thread.setDaemon(true);
+            thread.start();
+        }
+    }
 }
