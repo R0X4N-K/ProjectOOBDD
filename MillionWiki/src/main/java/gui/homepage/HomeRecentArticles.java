@@ -14,7 +14,11 @@ public class HomeRecentArticles {
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
                 initRecentArticles();
-                Controller.getSplashScreen().dispose();
+                try {
+                    Controller.getSplashScreen().dispose();
+                }catch (NullPointerException e){
+                    System.out.println("Errore creazione splash screen");
+                }
                 Controller.getWindow().setSize(1200, 700);
                 Controller.getWindow().setLocationRelativeTo(null);
             });

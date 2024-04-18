@@ -20,7 +20,7 @@ public class HomeArticlePanel extends JPanel{
         titleLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Controller.getWindow().getPage().openPage(Controller.getTitleByArticleId(articleId), Controller.getLastArticleVersionByArticleId(articleId).getText(), articleId);
+                Controller.getWindow().getPage().openPage(Controller.getArticlesById(articleId));
                 Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
             }
         });
@@ -35,7 +35,7 @@ public class HomeArticlePanel extends JPanel{
         textPane.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Controller.getWindow().getPage().openPage(Controller.getTitleByArticleId(articleId), Controller.getLastArticleVersionByArticleId(articleId).getText(), articleId);
+                Controller.getWindow().getPage().openPage(Controller.getArticlesById(articleId));
                 Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
                }
         });

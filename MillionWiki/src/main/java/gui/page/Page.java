@@ -1,6 +1,7 @@
 package gui.page;
 import controller.Controller;
 import gui.page.VersionRevision.PageVersionPreview;
+import model.Article;
 
 import javax.swing.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
@@ -36,10 +37,11 @@ public class Page {
     private JEditorPane titlePageField;
     private JButton sendButton;
     private PageVersionPreview pageVersionPreview;
+    private JButton infoPageBtn;
+    private JPanel infoPagePnl;
     private JPanel editorPanelPage;
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
-
     private Mode mode = Mode.VIEWER;
 
 
@@ -77,7 +79,8 @@ public class Page {
                 previousOccurrenceBtn,
                 closeSearchBtn,
                 editBtn,
-                sendButton
+                sendButton,
+                infoPageBtn
         );
 
         //Set della modalità viewer di Default
@@ -206,16 +209,12 @@ public class Page {
         createMenu = new JMenu("Crea");
         //Dichiarazione dei sotto menu di newMenu
         JMenuItem linkBtnNewMenu = new JMenuItem("Link");
-        JMenuItem sectionBtnNewMenu = new JMenuItem("Paragrafo");
-        JMenuItem listBtnNewMenu = new JMenuItem("Lista");
-
         //Aggiunta dei sotto menu al newMenu
         createMenu.add(linkBtnNewMenu);
-        createMenu.add(sectionBtnNewMenu);
-        createMenu.add(listBtnNewMenu);
-
         //Menu strumenti
         toolMenu = new JMenu("Strumenti");
+
+
 
         //Dichiarazione dei sotto menu di toolMenu
         JMenuItem searchBtnToolMenu = new JMenuItem("Cerca");
@@ -460,14 +459,17 @@ public class Page {
         this.mode = mode;
     }
 
-    public void openPage(String title, String text, int idArticle){
+    public void openPage(Article article){
         setViewerMode();
-        setTitlePageField(title);
-        setTextPageField(text);
-        setIdArticle(idArticle);
+
+        infoPageBtn.setText(article.getAuthor().getNickname());
+
+        setTitlePageField(article.getTitle());
+        setTextPageField(Controller.getLastArticleVersionByArticleId(article.getId()).getText());
+        setIdArticle(article.getId());
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
-                Controller.incrementArticleViews(idArticle);
+                Controller.incrementArticleViews(article.getId());
             });
         }
         thread.setDaemon(true);
@@ -500,4 +502,7 @@ public class Page {
     public void setTextPageField(String title) {
         this.pageField.setText(title);
     }
+
+
+
 }

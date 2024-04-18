@@ -4,6 +4,7 @@ import controller.Controller;
 import model.Article;
 import model.ArticleVersion;
 
+import javax.naming.ldap.Control;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
@@ -29,6 +30,7 @@ public class PageUtils {
     JButton closeSearchBtn;
     JButton editBtn;
     JButton sendButton;
+    JButton infoPageBtn;
 
     public PageUtils(JPanel mainPanelPage,
                      JEditorPane pageField,
@@ -45,7 +47,8 @@ public class PageUtils {
                      JButton previousOccurrenceBtn,
                      JButton closeSearchBtn,
                      JButton editBtn,
-                     JButton sendButton) {
+                     JButton sendButton,
+                     JButton infoPageBtn) {
 
         this.mainPanelPage = mainPanelPage;
         this.pageField = pageField;
@@ -63,6 +66,7 @@ public class PageUtils {
         this.closeSearchBtn = closeSearchBtn;
         this.editBtn = editBtn;
         this.sendButton = sendButton;
+        this.infoPageBtn = infoPageBtn;
 
         init_listeners();
     }
@@ -264,6 +268,15 @@ public class PageUtils {
                 else {
                     // Finestra -> Operazione Fallita
                 }
+            }
+        });
+
+        infoPageBtn.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.getWindow().getAuthorWindow().setIdAuthor(Controller.getAuthorByNickname(infoPageBtn.getText()).getId());
+                Controller.getWindow().getAuthorWindow().setAuthorWindow();
+                Controller.getWindow().getAuthorWindow().setVisible(true);
             }
         });
     }

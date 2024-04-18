@@ -195,6 +195,30 @@
           <JEditorPane.w3cLengthUnits class="java.lang.Boolean" value="false"/>
         </clientProperties>
       </component>
+      <grid id="51467" binding="infoPagePnl" layout-manager="BorderLayout" hgap="0" vgap="0">
+        <constraints border-constraint="South"/>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <grid id="5cf52" layout-manager="BorderLayout" hgap="0" vgap="0">
+            <constraints border-constraint="East"/>
+            <properties/>
+            <border type="none"/>
+            <children>
+              <component id="e9e2e" class="javax.swing.JButton" binding="infoPageBtn">
+                <constraints border-constraint="Center"/>
+                <properties>
+                  <borderPainted value="false"/>
+                  <horizontalAlignment value="0"/>
+                  <horizontalTextPosition value="11"/>
+                  <icon value="icons/user.png"/>
+                  <text value=""/>
+                </properties>
+              </component>
+            </children>
+          </grid>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>

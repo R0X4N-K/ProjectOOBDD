@@ -200,7 +200,7 @@ public class Toolbar {
                             ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
                             if(articleVersion != null){
                                 Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-                                Controller.getWindow().getPage().openPage(mathesArticle.getTitle(), articleVersion.getText(), mathesArticle.getId());
+                                Controller.getWindow().getPage().openPage(mathesArticle);
                                 searchDialog.setVisible(false);
                             }
 

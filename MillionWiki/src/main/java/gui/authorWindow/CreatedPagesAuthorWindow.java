@@ -57,7 +57,7 @@ public class CreatedPagesAuthorWindow {
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
                     Article article = Controller.getArticlesById(id);
-                    Controller.getWindow().getPage().openPage(article.getTitle(), Controller.getLastArticleVersionByArticleId(id).getText(), id);
+                    Controller.getWindow().getPage().openPage(article);
                     Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
                 }
             }
