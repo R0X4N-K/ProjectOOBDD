@@ -442,6 +442,11 @@ public class Page {
         editBtn.setVisible(mode == Mode.VIEWER);
         pageVersionPreview.getPanel().setVisible(mode == Mode.REVIEWER);
 
+        if(mode == Mode.VIEWER)
+            infoPageBtn.setVisible(true);
+        else
+            infoPageBtn.setVisible(false);
+
         if (mode == Mode.REVIEWER){
             pageVersionPreview.setEditorPane(pageField, titlePageField);
         }
