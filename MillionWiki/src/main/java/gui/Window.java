@@ -117,7 +117,9 @@ public class Window extends JFrame {
     public JPanel getToolbarMainPanel() {
         return toolbarMainPanel.getPanel();
     }
-
+    public Home getHomepage(){
+        return homePanel;
+    }
     public JPanel getHomePanel() {
         return homePanel.getPanel();
     }

@@ -30,6 +30,14 @@ public class HomeFeaturedArticles {
         homeFeaturedArticlesMainPanel.repaint();
         homeFeaturedArticlesMainPanel.revalidate();
     }
+    public void setHomeFeaturedArticles() {
+        homeFeaturedArticlesMainPanel.removeAll();
+        if (thread == null || !thread.isAlive()) {
+            thread = new Thread(this::initMostViewedArticles);
+            thread.setDaemon(true);
+            thread.start();
+        }
+    }
 
     public JPanel getPanel() {
         return homeFeaturedArticlesMainPanel;

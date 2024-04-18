@@ -79,6 +79,8 @@ public class Toolbar {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
+                Controller.getWindow().getHomepage().getHomeFeaturedArticles().setHomeFeaturedArticles();
+                Controller.getWindow().getHomepage().getHomeRecentArticles().setHomeRecentArticles();
             }
         });
 
