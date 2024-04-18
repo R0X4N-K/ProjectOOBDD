@@ -265,7 +265,11 @@ public final class Controller {
                 "ti preghiamo di chiudere quell'istanza prima di aprirne una nuova. Se non sono aperte altre istanze, elimina il file: "
                 + lockFilePath);
 
-        getSplashScreen().dispose();
+        try {
+            getSplashScreen().dispose();
+        }catch(NullPointerException e){
+            System.out.println("Splash screen è null");
+        }
     }
 
     public static void deleteLockFile() {

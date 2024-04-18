@@ -208,13 +208,13 @@ public class Page {
         //Menu creazione
         createMenu = new JMenu("Crea");
         //Dichiarazione dei sotto menu di newMenu
-        JMenuItem linkBtnNewMenu = new JMenuItem("Link");
+        JMenuItem linkBtnNewMenu = new JMenuItem("<html><u>Link</u>");
+        linkBtnNewMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/link.png")));
         //Aggiunta dei sotto menu al newMenu
         createMenu.add(linkBtnNewMenu);
         //Menu strumenti
         toolMenu = new JMenu("Strumenti");
-
-
+        toolMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/tools.png")));
 
         //Dichiarazione dei sotto menu di toolMenu
         JMenuItem searchBtnToolMenu = new JMenuItem("Cerca");
