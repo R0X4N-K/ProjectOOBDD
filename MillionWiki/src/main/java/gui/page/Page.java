@@ -40,6 +40,8 @@ public class Page {
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
 
+    private Mode mode = Mode.VIEWER;
+
 
     private int idArticle = -1;
     private Thread thread;
@@ -454,6 +456,8 @@ public class Page {
             titlePageField.setCaretColor(Color.BLACK);
             titlePageField.setCaretColor(Color.BLACK);
         }
+
+        this.mode = mode;
     }
 
     public void openPage(String title, String text, int idArticle){
@@ -483,6 +487,10 @@ public class Page {
     }
     public void setIdArticle(int id) {
         idArticle = id;
+    }
+
+    public Mode getMode() {
+        return mode;
     }
 
     public void setTitlePageField(String title) {
