@@ -15,6 +15,7 @@ public class checkMultipleAcceptedDialog extends JDialog {
         setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         setContentPane(contentPane);
         setModal(true);
+        setLocationRelativeTo(null);
         getRootPane().setDefaultButton(buttonOK);
         warningLabel.setText("Hai accettato " + acceptedCount + " modifiche, vuoi che venga accettata solo l'ultima ?");
 

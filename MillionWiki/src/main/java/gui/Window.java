@@ -19,10 +19,6 @@ import java.awt.event.ComponentListener;
 import java.net.URL;
 
 public class Window extends JFrame {
-    public JPanel getMainPanelWindow() {
-        return mainPanelWindow;
-    }
-
     private JPanel mainPanelWindow;
     private JPanel toolbarPanel;
     private JPanel windowPane;
@@ -45,9 +41,6 @@ public class Window extends JFrame {
                 Controller.deleteLockFile();
             }
         }, "Shutdown-thread"));
-
-
-
 
 
         setContentPane(mainPanelWindow);
@@ -100,10 +93,12 @@ public class Window extends JFrame {
     }
 
     public void switchPanel(JPanel refPanel) {
+
         windowPane.removeAll();
         windowPane.add(refPanel);
         windowPane.repaint();
         windowPane.revalidate();
+
     }
 
     public ProfileWindow getprofileWindow() {

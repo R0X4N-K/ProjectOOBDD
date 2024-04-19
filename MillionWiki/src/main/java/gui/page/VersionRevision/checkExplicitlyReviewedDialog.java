@@ -15,6 +15,7 @@ public class checkExplicitlyReviewedDialog extends JDialog {
         setContentPane(contentPane);
         setModal(true);
         getRootPane().setDefaultButton(buttonOK);
+        setLocationRelativeTo(null);
         warningLabel.setText("Non hai espresso un parere esplicito su " + unexplicitedCount + " modifiche, sono tutte da rifiutare?");
 
         buttonOK.addActionListener(e -> onOK());

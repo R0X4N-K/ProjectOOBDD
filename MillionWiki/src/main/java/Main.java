@@ -26,7 +26,6 @@ public class Main {
         UIManager.put("Button.background", UIManager.getDefaults());
 
 
-
         if (Controller.verifyAppIstances()) {
             Controller.notifyOtherAppIstances();
         } else {

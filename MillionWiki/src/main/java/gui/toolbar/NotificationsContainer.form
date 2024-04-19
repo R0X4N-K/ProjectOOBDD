@@ -14,7 +14,7 @@
           <card name="Card1"/>
         </constraints>
         <properties>
-          <visible value="false"/>
+          <visible value="true"/>
         </properties>
         <border type="none"/>
         <children>
@@ -22,6 +22,7 @@
             <constraints border-constraint="North"/>
             <properties>
               <horizontalAlignment value="2"/>
+              <icon value="icons/bell2.png"/>
               <text value="Label"/>
               <verticalAlignment value="0"/>
             </properties>
@@ -70,7 +71,7 @@
         </constraints>
         <properties>
           <enabled value="true"/>
-          <visible value="true"/>
+          <visible value="false"/>
         </properties>
         <border type="none"/>
         <children>

@@ -70,7 +70,7 @@ public class NotificationsContainer extends JPopupMenu {
         } else {
             System.out.println("WARNING! La pool di notifiche è uguale a NULL");
         }
-        notificationCountLabel.setText("Hai " + notificationsList.size() + " nuove notifiche");
+        notificationCountLabel.setText("<html> Hai " + "<b>" + notificationsList.size() + "</b>" + " nuove notifiche" + "</html>");
 
     }
 
@@ -110,7 +110,7 @@ public class NotificationsContainer extends JPopupMenu {
         } else {
             System.out.println("WARNING! La pool di notifiche è uguale a NULL");
         }
-        notificationCountLabel.setText("Hai " + compactNotificationsList.size() + " nuove notifiche");
+        notificationCountLabel.setText("<html> Hai " + "<b>" + compactNotificationsList.size() + "</b>" + " nuove notifiche" + "</html>");
 
         loaded();
     }

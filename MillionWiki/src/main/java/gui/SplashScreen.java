@@ -1,5 +1,7 @@
 package gui;
 
+import controller.Controller;
+
 import javax.swing.*;
 import java.awt.*;
 
@@ -12,7 +14,7 @@ public class SplashScreen extends JFrame {
         setAlwaysOnTop(true);
         setSize(1200, 500);
         setPreferredSize(new Dimension(1200, 500));
-
+        setCursor(new Cursor(Cursor.WAIT_CURSOR));
         add(mainPanelSplashScreen);
 
         setLocationRelativeTo(null);
