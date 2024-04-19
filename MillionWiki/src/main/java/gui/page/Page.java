@@ -13,6 +13,7 @@ import java.awt.*;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Objects;
 
 public class Page {
     private JPanel mainPanelPage;
@@ -214,6 +215,7 @@ public class Page {
         createMenu.add(linkBtnNewMenu);
         //Menu strumenti
         toolMenu = new JMenu("Strumenti");
+        toolMenu.setText("Strumenti");
         toolMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/tools.png")));
 
         //Dichiarazione dei sotto menu di toolMenu
@@ -467,6 +469,15 @@ public class Page {
     public void openPage(Article article){
         setViewerMode();
 
+        if(! Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
+            sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
+            sendButton.setText("Invia proposta");
+        }
+        else {
+            sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
+            sendButton.setText("Salva articolo");
+        }
+
         infoPageBtn.setText(article.getAuthor().getNickname());
 
         setTitlePageField(article.getTitle());
@@ -484,6 +495,10 @@ public class Page {
 
     public void createNewPage(){
         setEditorMode();
+
+        sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
+        sendButton.setText("Crea articolo");
+
         setIdArticle(-1);
         pageField.setText("");
         titlePageField.setText("");
