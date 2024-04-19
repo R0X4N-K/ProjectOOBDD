@@ -220,9 +220,12 @@ public class Page {
 
         //Dichiarazione dei sotto menu di toolMenu
         JMenuItem searchBtnToolMenu = new JMenuItem("Cerca");
+        searchBtnToolMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/search-interface-symbol.png")));
         JMenuItem zoomInBtnToolMenu = new JMenuItem("Zoom in");
+        zoomInBtnToolMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/zoom-in.png")));
         zoomInBtnToolMenu.setToolTipText("Ctrl + Mouse wheel rotation");
         JMenuItem zoomOutBtnToolMenu = new JMenuItem("Zoom out");
+        zoomOutBtnToolMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/zoom-out.png")));
         zoomOutBtnToolMenu.setToolTipText("Ctrl + Mouse wheel rotation");
 
         //Aggiunta dei sotto menu al toolMenu
@@ -522,7 +525,6 @@ public class Page {
     public void setTextPageField(String title) {
         this.pageField.setText(title);
     }
-
 
 
 }

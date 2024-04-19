@@ -137,18 +137,23 @@
                   <component id="84e0b" class="javax.swing.JButton" binding="previousOccurrenceBtn">
                     <constraints/>
                     <properties>
-                      <text value="Pre"/>
+                      <borderPainted value="false"/>
+                      <icon value="icons/left.png"/>
+                      <text value=""/>
                     </properties>
                   </component>
                   <component id="145c5" class="javax.swing.JButton" binding="nextOccurrenceBtn">
                     <constraints/>
                     <properties>
-                      <text value="Succ"/>
+                      <borderPainted value="false"/>
+                      <icon value="icons/right.png"/>
+                      <text value=""/>
                     </properties>
                   </component>
                   <component id="803a0" class="javax.swing.JToggleButton" binding="caseSensitiveToggleButton">
                     <constraints/>
                     <properties>
+                      <borderPainted value="false"/>
                       <text value="Cc"/>
                     </properties>
                   </component>
@@ -164,13 +169,18 @@
                   <component id="9b89" class="javax.swing.JButton" binding="searchBtn">
                     <constraints/>
                     <properties>
-                      <text value="Cerca"/>
+                      <borderPainted value="false"/>
+                      <horizontalTextPosition value="0"/>
+                      <icon value="icons/search-interface-symbol.png"/>
+                      <text value=""/>
                     </properties>
                   </component>
                   <component id="96a2f" class="javax.swing.JButton" binding="closeSearchBtn">
                     <constraints/>
                     <properties>
-                      <text value="Chiudi"/>
+                      <borderPainted value="false"/>
+                      <icon value="icons/close.png"/>
+                      <text value=""/>
                     </properties>
                   </component>
                 </children>

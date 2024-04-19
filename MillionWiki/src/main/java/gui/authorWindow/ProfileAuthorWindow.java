@@ -29,12 +29,12 @@ public class ProfileAuthorWindow {
     }
     public void setProfile(){
         switchPanel(cardReloading);
-        nicknameProfileJLabel.setText("Benvenuto, questo è il profilo di " + Controller.getNicknameAuthorById(Controller.getWindow().getAuthorWindow().getIdAuthor()));
-        createdArticlesJLabel.setText("Ha creato " + Controller.getArticlesNumberByIdAuthor(Controller.getWindow().getAuthorWindow().getIdAuthor()) + " articoli");
-        sentProposalsJLabel.setText("Ha inviato " + Controller.getArticlesNumberSentByIdAuthor(Controller.getWindow().getAuthorWindow().getIdAuthor()) + " proposte");
+        nicknameProfileJLabel.setText("<html> Benvenuto, questo è il profilo di " + "<b>" + Controller.getNicknameAuthorById(Controller.getWindow().getAuthorWindow().getIdAuthor()) + "</b>" + "</html>");
+        createdArticlesJLabel.setText("<html> Ha creato " + "<b>" + Controller.getArticlesNumberByIdAuthor(Controller.getWindow().getAuthorWindow().getIdAuthor()) + "</b>" + " articoli" + "</html>");
+        sentProposalsJLabel.setText("<html> Ha inviato " + "<b>" +Controller.getArticlesNumberSentByIdAuthor(Controller.getWindow().getAuthorWindow().getIdAuthor()) + "</b>" + " proposte" + "</html>");
         float rating = Controller.getRatingByAuthorId(Controller.getWindow().getAuthorWindow().getIdAuthor());
         if (rating !=0){
-            ratingJLabel.setText("Il suo rating (Proposte Accettate/Inviate) è del" + rating * 100 + "%");
+            ratingJLabel.setText("<html> Il suo rating (Proposte Accettate/Inviate) è del " + "<b>" +rating * 100 + " %" + "</b>" + "</html>");
         } else {
             ratingJLabel.setText("Nessuna proposta ancora valutata");
         }

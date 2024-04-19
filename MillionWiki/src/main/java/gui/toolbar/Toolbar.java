@@ -164,11 +164,9 @@ public class Toolbar {
             ArrayList<Author> matchesAuthors = null;
 
             if(typeSearchCb.getSelectedItem().equals("Articoli")){
-                System.out.println("Articoli");
                 matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
 
                 for (Article mathesArticle : matchesArticles) {
-                    System.out.println(mathesArticle.getTitle());
 
                     JLabel articleItem = new JLabel(mathesArticle.getTitle());
                     articleItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
@@ -195,8 +193,6 @@ public class Toolbar {
 
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            System.out.println("Hai cliccato su " + mathesArticle.getTitle());
-
                             ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
                             if(articleVersion != null){
                                 Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
@@ -219,17 +215,15 @@ public class Toolbar {
                     searchDialog.setSize(searchDialog.getWidth(), 25);
                     searchDialogPanel.add(new JLabel("Nessun risultato"));
                 }
-                System.out.println("----");
+
 
 
             }
 
             else{
-                System.out.println("Autori");
                 matchesAuthors = Controller.getMatchesAuthorByNickname(searchTxtFld.getText());
 
                 for (Author author : matchesAuthors) {
-                    System.out.println(author.getNickname());
 
                     JLabel authorItem = new JLabel(author.getNickname());
                     authorItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
@@ -275,7 +269,6 @@ public class Toolbar {
                     searchDialog.setSize(searchDialog.getWidth(), 25);
                     searchDialogPanel.add(new JLabel("Nessun risultato"));
                 }
-                System.out.println("----");
             }
 
 

@@ -18,6 +18,8 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <borderPainted value="false"/>
+              <icon value="icons/user.png"/>
               <text value="Profilo"/>
             </properties>
           </component>
@@ -27,7 +29,9 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
-              <text value="&lt;-"/>
+              <borderPainted value="false"/>
+              <icon value="icons/left.png"/>
+              <text value=""/>
             </properties>
           </component>
           <component id="a73f5" class="javax.swing.JButton" binding="nextButton">
@@ -36,8 +40,10 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <borderPainted value="false"/>
               <enabled value="true"/>
-              <text value="-&gt;"/>
+              <icon value="icons/right.png"/>
+              <text value=""/>
             </properties>
           </component>
           <hspacer id="4731e">
@@ -77,6 +83,8 @@
               <component id="cfbf" class="javax.swing.JButton" binding="confirmButton">
                 <constraints/>
                 <properties>
+                  <borderPainted value="false"/>
+                  <icon value="icons/proposal_accept.png"/>
                   <text value="Conferma"/>
                 </properties>
               </component>
