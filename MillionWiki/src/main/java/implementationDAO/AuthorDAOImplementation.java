@@ -31,7 +31,13 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     try {
-                        return new Author(rs);
+                        Author a = new Author(
+                                rs.getInt("id"),
+                        rs.getString("email"),
+                        rs.getString("nickname")
+                        );
+                        a.setRating(rs.getFloat("rating"));
+                        return a;
                     } catch (Exception e) {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
@@ -49,7 +55,13 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             stmt.setInt(1, id);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Author(rs);
+                    Author a = new Author(
+                            rs.getInt("id"),
+                            rs.getString("email"),
+                            rs.getString("nickname")
+                    );
+                    a.setRating(rs.getFloat("rating"));
+                    return a;
                 }
                 rs.close();
                 stmt.close();
@@ -103,7 +115,13 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
              ResultSet rs = stmt.executeQuery()) {
             while (rs.next()) {
                 try {
-                    authors.add(new Author(rs));
+                    Author a = new Author(
+                            rs.getInt("id"),
+                            rs.getString("email"),
+                            rs.getString("nickname")
+                    );
+                    a.setRating(rs.getFloat("rating"));
+                    authors.add(a);
                 } catch (Exception e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
@@ -137,7 +155,13 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 try {
-                    authors.add(new Author(rs));
+                    Author a = new Author(
+                            rs.getInt("id"),
+                            rs.getString("email"),
+                            rs.getString("nickname")
+                    );
+                    a.setRating(rs.getFloat("rating"));
+                    authors.add(a);
                 } catch (Exception e) {
                     JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                     throw new RuntimeException(e);
@@ -330,7 +354,9 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
                     try {
-                        return new Cookie(rs);
+                        return new Cookie(
+                                rs.getInt("id"),
+                                rs.getString("password"));
                     } catch (Exception e) {
                         e.printStackTrace();
                         JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);

@@ -10,7 +10,6 @@ import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.sql.ResultSet;
 import java.util.IllegalFormatException;
 import java.util.Objects;
 import java.util.Scanner;
@@ -25,11 +24,6 @@ public class Cookie {
     public Cookie(int id, String password) throws Exception {
         setPassword(password);
         setId(id);
-    }
-
-    public Cookie(ResultSet rs) throws Exception {
-        setPassword(rs.getString("password"));
-        setId(rs.getInt("id"));
     }
 
     public static Cookie retriveLogin () throws Exception {

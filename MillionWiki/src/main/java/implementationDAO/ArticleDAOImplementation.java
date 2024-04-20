@@ -31,8 +31,13 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.setInt(1, idArticle);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Article(rs);
+                    return new Article(rs.getInt("id"),
+                            rs.getString("title"),
+                            Controller.getAuthorById(rs.getInt("author")),
+                            rs.getDate("creation_date"));
                 }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -48,8 +53,13 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             stmt.setString(1, articleTitle);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new Article(rs);
+                    return new Article(rs.getInt("id"),
+                            rs.getString("title"),
+                            Controller.getAuthorById(rs.getInt("author")),
+                            rs.getDate("creation_date"));
                 }
+            } catch (Exception e) {
+                throw new RuntimeException(e);
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -102,9 +112,14 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 try {
-                    articles.add(new Article(rs));
+                    articles.add(new Article(rs.getInt("id"),
+                            rs.getString("title"),
+                            Controller.getAuthorById(rs.getInt("author")),
+                            rs.getDate("creation_date")));
                 } catch (RuntimeException e) {
                     e.printStackTrace();
+                } catch (Exception e) {
+                    throw new RuntimeException(e);
                 }
             }
         } catch (SQLException e) {
@@ -137,8 +152,11 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 try {
-                    articles.add(new Article(rs));
-                } catch (RuntimeException e) {
+                    articles.add(new Article(rs.getInt("id"),
+                            rs.getString("title"),
+                            Controller.getAuthorById(rs.getInt("author")),
+                            rs.getDate("creation_date")));
+                } catch (Exception e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -157,8 +175,11 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 try {
-                    articles.add(new Article(rs));
-                } catch (RuntimeException e) {
+                    articles.add(new Article(rs.getInt("id"),
+                            rs.getString("title"),
+                            Controller.getAuthorById(rs.getInt("author")),
+                            rs.getDate("creation_date")));
+                } catch (Exception e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -198,8 +219,11 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 try {
-                    articles.add(new Article(rs));
-                } catch (RuntimeException e) {
+                    articles.add(new Article(rs.getInt("id"),
+                            rs.getString("title"),
+                            Controller.getAuthorById(rs.getInt("author")),
+                            rs.getDate("creation_date")));
+                } catch (Exception e) {
                     e.printStackTrace();
                     JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 }
@@ -213,12 +237,11 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
 
     @Override
     public void saveArticle(Article article) {
-        String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?, ?)";
+        String query = "INSERT INTO articles (title, author, creation_date) VALUES (?, ?, ?)";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, article.getTitle());
             stmt.setString(2, String.valueOf(article.getAuthor().getId()));
             stmt.setDate(3, new java.sql.Date(article.getCreationDate().getTime()));
-            stmt.setBoolean(4, article.isRevision());
             stmt.executeQuery();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -227,14 +250,13 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     @Override
-    public int saveArticle(String title, Date creationDate, boolean revision, Author author) {
+    public int saveArticle(String title, Date creationDate, Author author) {
         int id=-1;
-        String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?, ?) RETURNING id";
+        String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, title);
             stmt.setString(2, String.valueOf(author.getId()));
             stmt.setDate(3, new java.sql.Date(creationDate.getTime()));
-            stmt.setBoolean(4, revision);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("id");
@@ -246,13 +268,12 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         return id;
     }
 
-    public int saveArticle(String title, boolean revision, int idAuthor) {
+    public int saveArticle(String title, int idAuthor) {
         int id=-1;
-        String query = "INSERT INTO articles (title, author, revision) VALUES (?, ?, ?) RETURNING id";
+        String query = "INSERT INTO articles (title, author) VALUES (?, ?) RETURNING id";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, title);
             stmt.setInt(2, idAuthor);
-            stmt.setBoolean(3, revision);
             ResultSet rs = stmt.executeQuery();
             if (rs.next()) {
                 id = rs.getInt("id");
@@ -269,33 +290,6 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
             stmt.setString(1, title);
             stmt.setInt(2, idArticle);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-    @Override
-    public void updateArticle(Article article, Article newArticle) {
-        String query = "UPDATE articles (title, author, creation_date, revision, current_version_article) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, article.getTitle());
-            stmt.setString(2, String.valueOf(article.getAuthor().getId()));
-            stmt.setDate(3, new java.sql.Date(article.getCreationDate().getTime()));
-            stmt.setBoolean(4, article.isRevision());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    @Override
-    public void updateRevisionArticle(Article article, boolean newArticleRevisionStatus) {
-        String query = "UPDATE articles SET revision = ? WHERE title = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setBoolean(1, newArticleRevisionStatus);
-            stmt.setString(2, article.getTitle());
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();

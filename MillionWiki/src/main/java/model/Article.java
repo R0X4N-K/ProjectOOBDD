@@ -1,9 +1,4 @@
 package model;
-import controller.Controller;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.lang.Exception;
 
@@ -12,52 +7,26 @@ public class Article {
     int id;
     String title;
     Date creationDate;
-    boolean revision = false;
     private Author author;
-
-
     private int views;
 
-    public Article (String title, Author author) throws Exception {
+    public Article (int id, String title, Author author, Date creationDate) throws Exception {
         setTitle (title);
         setAuthor (author);
+        setId(id);
+        setCreationDate(creationDate);
         this.creationDate = new Date();
 
         // TODO: dataCreazione deve riferirsi a orario Server
     }
 
-    public Article (ResultSet resultSet) throws SQLException, RuntimeException {
 
-        try {
-            setId(resultSet.getInt("id"));
-            setTitle (resultSet.getString("title"));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
-        setCreationDate (resultSet.getDate("creation_date"));
-        setRevision (resultSet.getBoolean("revision"));
-        setViews(resultSet.getInt("views"));
-        try {
-            this.author = (Controller.getAuthorById(resultSet.getInt("author")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
-    }
-    public boolean isRevision() {
-        return revision;
-    }
-
-    public void setRevision(boolean revision) {
-        this.revision = revision;
     }
 
 

@@ -1,9 +1,5 @@
 package model;
 
-import controller.Controller;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Date;
 
 public class ArticleVersion {
@@ -35,8 +31,9 @@ public class ArticleVersion {
     public ArticleVersion() {
 
     }
-    public ArticleVersion(int id, String text, Date versionDate, Date revisionDate, Article parentArticle, Author authorProposal) {
+    public ArticleVersion(int id, String titleProposal, String text, Date versionDate, Date revisionDate, Article parentArticle, Author authorProposal) {
         setId(id);
+        setTitleProposal(titleProposal);
         setAuthorProposal(authorProposal);
         setText(text);
         setVersionDate(versionDate);
@@ -84,25 +81,6 @@ public class ArticleVersion {
         setStatus(Status.WAITING);
         this.versionDate = new Date();
         setAuthorProposal(authorProposal);
-    }
-
-    public ArticleVersion(ResultSet resultSet) throws SQLException, RuntimeException{
-        String statusString = resultSet.getString("status");
-        try {
-            setStatus(Status.valueOf(statusString));
-        } catch (IllegalArgumentException e) {
-            System.out.println("La stringa fornita non corrisponde a nessuno dei valori dell'enum Status.");
-        }
-        setId(resultSet.getInt("id"));
-        setText(resultSet.getString("text"));
-        setVersionDate(resultSet.getDate("version_date"));
-        setRevisionDate(resultSet.getDate("revision_date"));
-        setParentArticle(Controller.getArticlesById(resultSet.getInt("parent_article")));
-        try {
-            setAuthorProposal(Controller.getAuthorById(resultSet.getInt("author_proposal")));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     public Article getParentArticle() {

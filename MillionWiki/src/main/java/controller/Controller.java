@@ -210,8 +210,8 @@ public final class Controller {
         }
     }
 
-    public static int createArticle(String title,int idAuthor,Boolean revision, String text){
-        int idArticle = articleDAO.saveArticle(title, revision, idAuthor);
+    public static int createArticle(String title, int idAuthor, String text){
+        int idArticle = articleDAO.saveArticle(title, idAuthor);
 
         articleVersionDAO.insertArticleVersion(idArticle, text, idAuthor, title);
         return idArticle;

@@ -35,7 +35,14 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             stmt.setString(2, "ACCEPTED");
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    return new ArticleVersion(rs);
+                    return new ArticleVersion(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("text"),
+                            rs.getDate("version_date"),
+                            rs.getDate("revision_date"),
+                            Controller.getArticlesById(rs.getInt("parent_article")),
+                            Controller.getAuthorById(rs.getInt("author_proposal")));
                 }
             }
         } catch (SQLException e) {
@@ -53,7 +60,14 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             stmt.setInt(1, idArticleVersion);
             try (ResultSet rs = stmt.executeQuery()) {
                 if (rs.next()) {
-                    articleVersion = new ArticleVersion(rs);
+                    articleVersion = new ArticleVersion(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("text"),
+                        rs.getDate("version_date"),
+                        rs.getDate("revision_date"),
+                        Controller.getArticlesById(rs.getInt("parent_article")),
+                        Controller.getAuthorById(rs.getInt("author_proposal")));
                 }
             }
         } catch (SQLException e) {
@@ -70,7 +84,14 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             stmt.setInt(1, authorId);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    ArticleVersion articleVersion = new ArticleVersion(rs);
+                    ArticleVersion articleVersion = new ArticleVersion(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("text"),
+                            rs.getDate("version_date"),
+                            rs.getDate("revision_date"),
+                            Controller.getArticlesById(rs.getInt("parent_article")),
+                            Controller.getAuthorById(rs.getInt("author_proposal")));;
                     articleVersions.add(articleVersion);
                 }
             }
@@ -111,7 +132,14 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             rs = stmt.executeQuery();
 
             while (rs.next()) {
-                ArticleVersion articleVersion = new ArticleVersion(rs);
+                ArticleVersion articleVersion = new ArticleVersion(
+                        rs.getInt("id"),
+                        rs.getString("title"),
+                        rs.getString("text"),
+                        rs.getDate("version_date"),
+                        rs.getDate("revision_date"),
+                        Controller.getArticlesById(rs.getInt("parent_article")),
+                        Controller.getAuthorById(rs.getInt("author_proposal")));
                 articleVersions.add(articleVersion);
             }
         } catch (SQLException | RuntimeException e) {
@@ -141,7 +169,14 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
             stmt.setInt(1, idArticle);
             try (ResultSet rs = stmt.executeQuery()) {
                 while (rs.next()) {
-                    ArticleVersion articleVersion = new ArticleVersion(rs);
+                    ArticleVersion articleVersion = new ArticleVersion(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            rs.getString("text"),
+                            rs.getDate("version_date"),
+                            rs.getDate("revision_date"),
+                            Controller.getArticlesById(rs.getInt("parent_article")),
+                            Controller.getAuthorById(rs.getInt("author_proposal")));
                     articleVersions.add(articleVersion);
                 }
             }

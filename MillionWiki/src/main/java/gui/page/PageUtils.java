@@ -4,14 +4,10 @@ import controller.Controller;
 import model.Article;
 import model.ArticleVersion;
 
-import javax.naming.ldap.Control;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.awt.event.*;
-import java.util.Date;
-
-import static model.ArticleVersion.Status.WAITING;
 
 public class PageUtils {
     JPanel mainPanelPage;
@@ -164,14 +160,14 @@ public class PageUtils {
         pageField.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
+                if (e.getKeyCode() == KeyEvent.VK_ALT) {
                     pageField.setEditable(false);
                 }
             }
 
             @Override
             public void keyReleased(KeyEvent e) {
-                if (e.getKeyCode() == KeyEvent.VK_CONTROL) {
+                if (e.getKeyCode() == KeyEvent.VK_ALT) {
                     pageField.setEditable(true);
                 }
             }
@@ -252,7 +248,7 @@ public class PageUtils {
             //TODO: CONTROLLI SUL TITOLO E SUL TESTO
             if (Controller.getWindow().getPage().getIdArticle() == -1){
                 //Crea pagina
-                Controller.getWindow().getPage().setIdArticle(Controller.createArticle(titlePageField.getText() , Controller.getCookie().getId() , false , pageField.getText()));
+                Controller.getWindow().getPage().setIdArticle(Controller.createArticle(titlePageField.getText(), Controller.getCookie().getId(), pageField.getText()));
                 if (Controller.getWindow().getPage().getIdArticle() != -1){
                     // Finesta -> Operazione avvenuta con successo
                 }
