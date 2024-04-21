@@ -1,4 +1,5 @@
 package gui.page;
+import com.sun.source.tree.TryTree;
 import controller.Controller;
 import gui.page.VersionRevision.PageVersionPreview;
 import model.Article;
@@ -472,14 +473,16 @@ public class Page {
     public void openPage(Article article){
         setViewerMode();
 
-        if(! Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
+
+
+        if (Controller.getCookie() != null && !Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
             sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
             sendButton.setText("Invia proposta");
-        }
-        else {
+        } else {
             sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
             sendButton.setText("Salva articolo");
         }
+
 
         infoPageBtn.setText(article.getAuthor().getNickname());
 
