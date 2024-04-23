@@ -241,7 +241,7 @@ public class Page {
                 PageLinker pageLinker = new PageLinker();
             }
             else{
-
+                PageLinker pageLinker = new PageLinker(pageField.getSelectedText());
             }
 
         });

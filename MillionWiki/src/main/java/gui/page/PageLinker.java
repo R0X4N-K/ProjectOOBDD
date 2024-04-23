@@ -34,10 +34,15 @@ public class PageLinker extends JPanel {
     final Article[] articleToLink = {null};
 
     public PageLinker() {
-        init_component();
+        init_component(null);
     }
 
-    private void init_component(){
+    public PageLinker(String textLink) {
+        init_component(textLink);
+    }
+
+
+    private void init_component(String textLink){
         inputLinkTxtDlg =  new JDialog();
         inputLinkTxtDlg.setTitle("Seleziona una pagina");
         inputLinkTxtDlg.setModal(true);
@@ -75,7 +80,11 @@ public class PageLinker extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 inputLinkTxtDlg.dispose();
-                Controller.getWindow().getPage().insertHTML("LINK", null, articleToLink[0].getTitle(), articleToLink[0].getId());
+
+                if(textLink != null)
+                    Controller.getWindow().getPage().insertHTML("LINK", null, textLink, articleToLink[0].getId());
+                else
+                    Controller.getWindow().getPage().insertHTML("LINK", null, articleToLink[0].getTitle(), articleToLink[0].getId());
             }
         });
 
