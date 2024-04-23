@@ -7,6 +7,7 @@ import model.ArticleVersion;
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
+import java.awt.event.InputEvent;
 
 public class PreviewPage extends JDialog {
     private JTextField titleTxtFld;
@@ -54,6 +55,15 @@ public class PreviewPage extends JDialog {
 
                 titleTxtFld.setText(article.getTitle());
                 textEp.setText(articleVersion.getText());
+            }
+        });
+
+        textEp.addMouseWheelListener(e -> {
+            if ((e.getModifiersEx() & InputEvent.CTRL_DOWN_MASK) != 0) {
+                textEp.setFont(new Font(textEp.getFont().getFontName(), textEp.getFont().getStyle(), (int) (textEp.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
+                titleTxtFld.setFont(new Font(titleTxtFld.getFont().getFontName(),
+                        titleTxtFld.getFont().getStyle(),
+                        (int) (titleTxtFld.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
             }
         });
 
