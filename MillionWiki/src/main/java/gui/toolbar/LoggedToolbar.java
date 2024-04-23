@@ -27,7 +27,7 @@ public class LoggedToolbar {
                 notificationsContainer.setPanelOwner(showNotificationsButton);
             if (SwingUtilities.getWindowAncestor(this.getPanel()).isActive()) {
                 notificationsContainer.loading();
-                notificationsContainer.show(showNotificationsButton, showNotificationsButton.getLocation().x, showNotificationsButton.getLocation().y + showNotificationsButton.getHeight());
+                notificationsContainer.show(showNotificationsButton, showNotificationsButton.getLocation().x - notificationsContainer.getWidth(), showNotificationsButton.getLocation().y + showNotificationsButton.getHeight());
             }
             if(thread == null || !thread.isAlive()){
                 thread = new Thread(notificationsContainer::setCompactNotificationList);
