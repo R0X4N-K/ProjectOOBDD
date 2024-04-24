@@ -33,11 +33,11 @@ public class Home {
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
 
         // Articoli in evidenza
-        featuredLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        featuredLabel.setFont(new Font("Arial", Font.BOLD, 18));
 
 
         // Articoli recenti
-        recentLabel.setFont(new Font("Arial", Font.BOLD, 14));
+        recentLabel.setFont(new Font("Arial", Font.BOLD, 18));
 
 
         // Footer
