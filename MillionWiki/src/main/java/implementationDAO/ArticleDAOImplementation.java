@@ -310,14 +310,9 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
     }
 
     public void incrementArticleViews(int idArticle) {
-        Article article = getArticleById(idArticle);
-
-        //Verifico se l'articolo aperto dall'utente è un articolo creato da se stesso
-            int currentViews = article.getViews() + 1;
-        String query = "UPDATE articles SET views = ? WHERE id = ?";
+        String query = "UPDATE articles SET views = views + 1 WHERE id = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, currentViews);
-            stmt.setInt(2, idArticle);
+            stmt.setInt(1, idArticle);
             stmt.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
