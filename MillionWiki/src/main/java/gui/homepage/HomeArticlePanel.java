@@ -15,11 +15,18 @@ public class HomeArticlePanel extends JPanel{
     private JPanel homeArticleMainPanel;
 
     public HomeArticlePanel(String title, String articleText, int articleId) {
+        String smallText = title;
         setLayout(new BorderLayout());
 
         setBackground(Color.decode("#2c82c9"));
 
-        JLabel titleLabel = new JLabel(title);
+        setToolTipText(title);
+
+        if(title.length() > 21)
+            smallText = smallText.substring(0, 21) + "...";
+
+        JLabel titleLabel = new JLabel(smallText);
+        titleLabel.setToolTipText(title);
         titleLabel.setForeground(Color.WHITE);
         titleLabel.setAlignmentX(CENTER_ALIGNMENT);
         titleLabel.setHorizontalAlignment(SwingConstants.HORIZONTAL);
@@ -37,7 +44,9 @@ public class HomeArticlePanel extends JPanel{
             }
         });
 
+
         JTextPane textPane = new JTextPane();
+        textPane.setToolTipText(title);
         textPane.setContentType("text/html");
         textPane.setText(articleText);
         textPane.getCaret().setVisible(false);
@@ -60,6 +69,9 @@ public class HomeArticlePanel extends JPanel{
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
 
         scrollPane.setBorder(new EmptyBorder(0, 0, 0, 0));
+
+        setMaximumSize(new Dimension(200, 150));
+        setPreferredSize(new Dimension(200, 150));
 
         add(titleLabel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);

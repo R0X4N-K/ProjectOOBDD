@@ -1,5 +1,6 @@
 package gui.toolbar;
 import controller.Controller;
+import gui.page.Page;
 import model.Article;
 import model.ArticleVersion;
 import model.Author;
@@ -140,7 +141,8 @@ public class Toolbar {
             public void actionPerformed(ActionEvent e) {
                 if (Controller.checkLoggedUser()) {
                     Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-                    Controller.getWindow().getPage().createNewPage();
+                    if(Controller.getWindow().getPage().getMode() != Page.Mode.EDITOR)
+                        Controller.getWindow().getPage().createNewPage();
                 }
                 else{
                     if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",

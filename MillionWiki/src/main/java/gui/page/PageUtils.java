@@ -250,19 +250,25 @@ public class PageUtils {
                 //Crea pagina
                 Controller.getWindow().getPage().setIdArticle(Controller.createArticle(titlePageField.getText(), Controller.getCookie().getId(), pageField.getText()));
                 if (Controller.getWindow().getPage().getIdArticle() != -1){
-                    // Finesta -> Operazione avvenuta con successo
+                    JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo avvenuta correttamente !",
+                            "Creazione articolo", JOptionPane.PLAIN_MESSAGE);
                 }
                 else {
-                    // Finestra -> Operazione Fallita
+                    JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo fallita!",
+                            "Errore", JOptionPane.ERROR_MESSAGE);
                 }
             }
             else{
                 //Modifica pagina
                 if (Controller.createProposal(Controller.getWindow().getPage().getIdArticle(), titlePageField.getText(),pageField.getText(), Controller.getCookie().getId()) != -1){
                     // Finesta -> Operazione avvenuta con successo
+                    JOptionPane.showMessageDialog(mainPanelPage, "Modifica avvenuta correttamente !",
+                            "Modifica articolo", JOptionPane.PLAIN_MESSAGE);
                 }
                 else {
                     // Finestra -> Operazione Fallita
+                    JOptionPane.showMessageDialog(mainPanelPage, "Modifica articolo fallita !",
+                            "Errore", JOptionPane.ERROR);
                 }
             }
         });

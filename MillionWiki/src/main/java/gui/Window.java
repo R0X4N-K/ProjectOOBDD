@@ -94,11 +94,34 @@ public class Window extends JFrame {
 
     public void switchPanel(JPanel refPanel) {
 
-        windowPane.removeAll();
-        windowPane.add(refPanel);
-        windowPane.repaint();
-        windowPane.revalidate();
+        if(!checkChangesNotSaved())
+        {
+            windowPane.removeAll();
+            windowPane.add(refPanel);
+            windowPane.repaint();
+            windowPane.revalidate();
+        }else
+        {
+            if((JOptionPane.showConfirmDialog(null, "Attenzione, potresti avere delle modifiche non salvate, continuare ?", "Modifiche non salvate",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
+                windowPane.removeAll();
+                windowPane.add(refPanel);
+                windowPane.repaint();
+                windowPane.revalidate();
 
+                Controller.getWindow().getPage().setViewerMode();
+
+            }
+        }
+
+    }
+
+    private boolean checkChangesNotSaved()
+    {
+        if(pagePanel.getMode() == Page.Mode.EDITOR || pagePanel.getMode() == Page.Mode.REVIEWER)
+            return true;
+        else
+            return false;
     }
 
     public ProfileWindow getprofileWindow() {
