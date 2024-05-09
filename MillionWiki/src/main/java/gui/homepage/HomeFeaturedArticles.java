@@ -26,9 +26,9 @@ public class HomeFeaturedArticles {
             String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
             HomeArticlePanel featuredArticle = new HomeArticlePanel(article.getTitle(), htmlText, article.getId());
             homeFeaturedArticlesMainPanel.add(featuredArticle);
+            homeFeaturedArticlesMainPanel.repaint();
+            homeFeaturedArticlesMainPanel.revalidate();
         }
-        homeFeaturedArticlesMainPanel.repaint();
-        homeFeaturedArticlesMainPanel.revalidate();
     }
     public void setHomeFeaturedArticles() {
         homeFeaturedArticlesMainPanel.removeAll();

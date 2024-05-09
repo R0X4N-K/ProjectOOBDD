@@ -21,11 +21,25 @@ public class Home {
     private HomeRecentArticles homeRecentArticles;
     private HomeFeaturedArticles homeFeaturedArticles;
 
+
+
+    private JButton reloadHome;
+
     public Home() {
         editorButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
+            }
+        });
+
+        reloadHome.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                reloadHome.setIcon(new ImageIcon(Home.class.getResource("/icons/reload.gif")));
+                Controller.getWindow().getHomepage().getHomeFeaturedArticles().setHomeFeaturedArticles();
+                Controller.getWindow().getHomepage().getHomeRecentArticles().setHomeRecentArticles();
+                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
             }
         });
 
@@ -49,6 +63,9 @@ public class Home {
 
     public HomeFeaturedArticles getHomeFeaturedArticles() {
         return homeFeaturedArticles;
+    }
+    public JButton getReloadHome() {
+        return reloadHome;
     }
 
     public JPanel getPanel() {

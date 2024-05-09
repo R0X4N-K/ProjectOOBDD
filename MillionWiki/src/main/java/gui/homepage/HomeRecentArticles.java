@@ -33,9 +33,11 @@ public class HomeRecentArticles {
             String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
             HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
             homeRecentArticlesMainPanel.add(recentArticle);
+            homeRecentArticlesMainPanel.repaint();
+            homeRecentArticlesMainPanel.revalidate();
         }
-        homeRecentArticlesMainPanel.repaint();
-        homeRecentArticlesMainPanel.revalidate();
+
+        Controller.getWindow().getHomepage().getReloadHome().setIcon(new ImageIcon(Home.class.getResource("/icons/reload.png")));
     }
 
     public JPanel getPanel() {
