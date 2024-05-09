@@ -11,6 +11,8 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -45,7 +47,7 @@ public class Page {
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
     private Mode mode = Mode.VIEWER;
-
+    private JMenuItem exportBtnToolMenu;
 
     private int idArticle = -1;
     private Thread thread;
@@ -82,7 +84,8 @@ public class Page {
                 closeSearchBtn,
                 editBtn,
                 sendButton,
-                infoPageBtn
+                infoPageBtn,
+                exportBtnToolMenu
         );
 
         //Set della modalità viewer di Default
@@ -220,6 +223,8 @@ public class Page {
         toolMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/tools.png")));
 
         //Dichiarazione dei sotto menu di toolMenu
+        exportBtnToolMenu = new JMenuItem("Esporta");
+        exportBtnToolMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/export.png")));
         JMenuItem searchBtnToolMenu = new JMenuItem("Cerca");
         searchBtnToolMenu.setIcon(new ImageIcon(Page.class.getResource("/icons/search-interface-symbol.png")));
         JMenuItem zoomInBtnToolMenu = new JMenuItem("Zoom in");
@@ -230,6 +235,7 @@ public class Page {
         zoomOutBtnToolMenu.setToolTipText("Ctrl + Mouse wheel rotation");
 
         //Aggiunta dei sotto menu al toolMenu
+        toolMenu.add(exportBtnToolMenu);
         toolMenu.add(searchBtnToolMenu);
         toolMenu.add(zoomInBtnToolMenu);
         toolMenu.add(zoomOutBtnToolMenu);

@@ -8,6 +8,10 @@ import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class PageUtils {
     JPanel mainPanelPage;
@@ -27,7 +31,7 @@ public class PageUtils {
     JButton editBtn;
     JButton sendButton;
     JButton infoPageBtn;
-
+    JMenuItem exportBtnToolMenu;
     public PageUtils(JPanel mainPanelPage,
                      JEditorPane pageField,
                      JButton boldButton,
@@ -44,7 +48,8 @@ public class PageUtils {
                      JButton closeSearchBtn,
                      JButton editBtn,
                      JButton sendButton,
-                     JButton infoPageBtn) {
+                     JButton infoPageBtn,
+                     JMenuItem exportBtnToolMenu) {
 
         this.mainPanelPage = mainPanelPage;
         this.pageField = pageField;
@@ -63,6 +68,7 @@ public class PageUtils {
         this.editBtn = editBtn;
         this.sendButton = sendButton;
         this.infoPageBtn = infoPageBtn;
+        this.exportBtnToolMenu = exportBtnToolMenu;
 
         init_listeners();
     }
@@ -281,6 +287,34 @@ public class PageUtils {
                 Controller.getWindow().getAuthorWindow().setVisible(true);
             }
         });
+
+        exportBtnToolMenu.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                exportArticle();
+            }
+        });
+    }
+    public void exportArticle() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Salva come HTML");
+
+        int userSelection = fileChooser.showSaveDialog(null);
+
+        if (userSelection == JFileChooser.APPROVE_OPTION) {
+            File fileToSave = fileChooser.getSelectedFile();
+            try {
+                FileWriter fw = new FileWriter(fileToSave);
+                BufferedWriter bw = new BufferedWriter(fw);
+                bw.write(pageField.getText());
+                bw.close();
+                fw.close();
+                JOptionPane.showMessageDialog(null, "Documento HTML esportato con successo.");
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(null, "Si è verificato un errore durante l'esportazione.");
+                ex.printStackTrace();
+            }
+        }
     }
 
 }

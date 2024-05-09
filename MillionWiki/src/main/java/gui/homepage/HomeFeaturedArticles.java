@@ -21,6 +21,7 @@ public class HomeFeaturedArticles {
     }
 
     private void initMostViewedArticles() {
+
         ArrayList<Article> mostViewedArticles = Controller.getMostViewedArticles(10);
         for (Article article : mostViewedArticles) {
             String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
