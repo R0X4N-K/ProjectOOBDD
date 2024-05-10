@@ -47,7 +47,7 @@ public class ProposalCard {
                 int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
                     String link = (String) reloadedJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
                     Article article = Controller.getArticlesById(id);
@@ -66,7 +66,7 @@ public class ProposalCard {
                 int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 1) {
                     String link = (String) reloadedJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     ArticleHistory articleHistory = Controller.getWindow().getArticleHistory();
                     articleHistory.setIdArticle(id);
@@ -86,7 +86,7 @@ public class ProposalCard {
                 int col = reloadedJTable.columnAtPoint(e.getPoint());
                 if (col == 2) {
                     String link = (String) reloadedJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     // Codice per aprire la finestra AuthorWindow
                     Controller.getWindow().getAuthorWindow().setIdAuthor(id);

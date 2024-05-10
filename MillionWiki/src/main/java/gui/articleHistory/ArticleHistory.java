@@ -53,7 +53,7 @@ public class ArticleHistory extends JDialog {
                 int col = articleHistoryJTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
                     String link = (String) articleHistoryJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getArticleHistoryTextWindow().setIdArticleVersion(id);
                     Controller.getWindow().getArticleHistoryTextWindow().setArticleHistoryTextWindow();
@@ -71,7 +71,7 @@ public class ArticleHistory extends JDialog {
                 int col = articleHistoryJTable.columnAtPoint(e.getPoint());
                 if (col == 2) {
                     String link = (String) articleHistoryJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getAuthorWindow().setIdAuthor(id);
                     Controller.getWindow().getAuthorWindow().setAuthorWindow();

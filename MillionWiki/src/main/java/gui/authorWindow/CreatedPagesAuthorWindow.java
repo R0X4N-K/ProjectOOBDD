@@ -53,7 +53,7 @@ public class CreatedPagesAuthorWindow {
                 int col = createdPagesJTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
                     String link = (String) createdPagesJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
                     Article article = Controller.getArticlesById(id);

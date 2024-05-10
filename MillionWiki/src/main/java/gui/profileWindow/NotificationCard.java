@@ -33,7 +33,7 @@ public class NotificationCard {
                 int col = notificationJTable.columnAtPoint(e.getPoint());
                 if (col == 0) {
                     String link = (String) notificationJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
                     Article article = Controller.getArticlesById(id);
@@ -51,7 +51,7 @@ public class NotificationCard {
                 int col = notificationJTable.columnAtPoint(e.getPoint());
                 if (col == 1) {
                     String link = (String) notificationJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.lastIndexOf("'"));
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
                     Controller.getWindow().getPage().setReviewerMode(id);
