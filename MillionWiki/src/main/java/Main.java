@@ -1,4 +1,5 @@
 import com.formdev.flatlaf.FlatIntelliJLaf;
+import com.formdev.flatlaf.FlatLightLaf;
 import controller.Controller;
 import gui.*;
 import gui.SplashScreen;
@@ -21,7 +22,7 @@ public class Main {
         /*Controller controller = new Controller();
         controller.getArticleByTitle("prova");*/
         //Session.getInstance();
-        FlatIntelliJLaf.setup();
+        FlatLightLaf.setup();
 
         UIManager.put("Button.background", UIManager.getDefaults());
 

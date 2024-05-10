@@ -1,5 +1,4 @@
 package gui.page;
-import com.sun.source.tree.TryTree;
 import controller.Controller;
 import gui.page.VersionRevision.PageVersionPreview;
 import model.Article;
@@ -11,8 +10,6 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -43,6 +40,7 @@ public class Page {
     private PageVersionPreview pageVersionPreview;
     private JButton infoPageBtn;
     private JPanel infoPagePnl;
+    private JButton closeEditorMode;
     private JPanel editorPanelPage;
     private int searchOccurrenceIndex;
     private ArrayList<Point> searchOccurrencePositions;
@@ -85,7 +83,8 @@ public class Page {
                 editBtn,
                 sendButton,
                 infoPageBtn,
-                exportBtnToolMenu
+                exportBtnToolMenu,
+                closeEditorMode
         );
 
         //Set della modalità viewer di Default
@@ -454,10 +453,14 @@ public class Page {
         editBtn.setVisible(mode == Mode.VIEWER);
         pageVersionPreview.getPanel().setVisible(mode == Mode.REVIEWER);
 
-        if(mode == Mode.VIEWER)
+        if(mode == Mode.VIEWER) {
             infoPageBtn.setVisible(true);
-        else
+            closeEditorMode.setVisible(false);
+        }
+        else{
             infoPageBtn.setVisible(false);
+            closeEditorMode.setVisible(true);
+        }
 
         if (mode == Mode.REVIEWER){
             pageVersionPreview.setEditorPane(pageField, titlePageField);

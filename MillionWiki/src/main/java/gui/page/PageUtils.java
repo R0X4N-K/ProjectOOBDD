@@ -32,6 +32,7 @@ public class PageUtils {
     JButton sendButton;
     JButton infoPageBtn;
     JMenuItem exportBtnToolMenu;
+    JButton closeEditorMode;
     public PageUtils(JPanel mainPanelPage,
                      JEditorPane pageField,
                      JButton boldButton,
@@ -49,7 +50,8 @@ public class PageUtils {
                      JButton editBtn,
                      JButton sendButton,
                      JButton infoPageBtn,
-                     JMenuItem exportBtnToolMenu) {
+                     JMenuItem exportBtnToolMenu,
+                     JButton closeEditorMode) {
 
         this.mainPanelPage = mainPanelPage;
         this.pageField = pageField;
@@ -69,6 +71,7 @@ public class PageUtils {
         this.sendButton = sendButton;
         this.infoPageBtn = infoPageBtn;
         this.exportBtnToolMenu = exportBtnToolMenu;
+        this.closeEditorMode = closeEditorMode;
 
         init_listeners();
     }
@@ -294,6 +297,14 @@ public class PageUtils {
                 exportArticle();
             }
         });
+
+        closeEditorMode.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Controller.getWindow().getPage().setViewerMode();
+            }
+        });
+
     }
     public void exportArticle() {
         JFileChooser fileChooser = new JFileChooser();

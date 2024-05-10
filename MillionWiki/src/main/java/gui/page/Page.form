@@ -117,6 +117,15 @@
                   <text value="Invia"/>
                 </properties>
               </component>
+              <component id="63661" class="javax.swing.JButton" binding="closeEditorMode">
+                <constraints/>
+                <properties>
+                  <borderPainted value="false"/>
+                  <icon value="icons/close.png"/>
+                  <label value=""/>
+                  <text value=""/>
+                </properties>
+              </component>
               <nested-form id="96d06" form-file="gui/page/VersionRevision/PageVersionPreview.form" binding="pageVersionPreview">
                 <constraints/>
               </nested-form>
