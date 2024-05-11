@@ -268,7 +268,7 @@ public final class Controller {
         try {
             getSplashScreen().dispose();
         }catch(NullPointerException e){
-            System.out.println("Splash screen è null");
+            //System.out.println("Splash screen è null");
         }
     }
 

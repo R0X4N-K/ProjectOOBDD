@@ -10,8 +10,11 @@ import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
 import javax.swing.text.html.HTMLEditorKit;
 import java.awt.*;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Objects;
 
@@ -62,6 +65,21 @@ public class Page {
         EDITOR,
         REVIEWER
     }
+
+    private final WindowAdapter editOnWindowChangeListener = new WindowAdapter() {
+        @Override
+
+        public void windowDeactivated(WindowEvent e) {
+            super.windowDeactivated(e);
+            pageField.setEditable(true);
+        }
+
+        @Override
+        public void windowLostFocus(WindowEvent e) {
+            super.windowLostFocus(e);
+            pageField.setEditable(true);
+        }
+    };
 
     public Page(){
 
@@ -244,8 +262,7 @@ public class Page {
             //Verifica se l'utente ha selezionato del testo
             if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
                 PageLinker pageLinker = new PageLinker();
-            }
-            else{
+            } else {
                 PageLinker pageLinker = new PageLinker(pageField.getSelectedText());
             }
 
@@ -456,12 +473,10 @@ public class Page {
         if(mode == Mode.VIEWER) {
             infoPageBtn.setVisible(true);
             closeEditorMode.setVisible(false);
-        }
-        else{
+        } else {
             infoPageBtn.setVisible(false);
             closeEditorMode.setVisible(true);
         }
-
         if (mode == Mode.REVIEWER){
             pageVersionPreview.setEditorPane(pageField, titlePageField);
         }
@@ -469,8 +484,12 @@ public class Page {
         if(mode == Mode.EDITOR){
             pageField.setCaretColor(Color.BLACK);
             titlePageField.setCaretColor(Color.BLACK);
+            if(SwingUtilities.getWindowAncestor(getPanel()) != null && !Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
+                Controller.getWindow().addWindowListener(editOnWindowChangeListener);
         }
         else{
+            if(SwingUtilities.getWindowAncestor(getPanel()) != null && Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
+                Controller.getWindow().removeWindowListener(editOnWindowChangeListener);
             pageField.setCaretColor(pageField.getBackground());
             titlePageField.setCaretColor(Color.BLACK);
             titlePageField.setCaretColor(Color.BLACK);
@@ -482,12 +501,11 @@ public class Page {
     public void openPage(Article article){
         setViewerMode();
 
-
-
-        if (Controller.getCookie() != null && !Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
+        if(! Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
             sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
             sendButton.setText("Invia proposta");
-        } else {
+        }
+        else {
             sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
             sendButton.setText("Salva articolo");
         }

@@ -29,7 +29,7 @@ public class Toolbar {
     private JButton createPageButton;
     private JComboBox typeSearchCb;
 
-    private JDialog searchDialog;
+    private AnchoredDialog searchDialog;
     private JPanel searchDialogPanel;
 
     private Thread searchThread;
@@ -53,27 +53,6 @@ public class Toolbar {
         createSearchDialogComponent();
 
         //LISTENERS
-        searchDialog.addComponentListener(new ComponentListener() {
-            @Override
-            public void componentResized(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentMoved(ComponentEvent e) {
-                updateSearchDialogPos();
-            }
-
-            @Override
-            public void componentShown(ComponentEvent e) {
-
-            }
-
-            @Override
-            public void componentHidden(ComponentEvent e) {
-
-            }
-        });
 
 
         homeBtn.addActionListener(new ActionListener() {
@@ -154,11 +133,10 @@ public class Toolbar {
         });
     }
 
-    //TODO: ricerca per autori e per articoli
     private void search(){
         if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
             searchDialog.setVisible(true);
-            updateSearchDialogPos();
+            searchDialog.updateDialogPos();
 
             searchDialogPanel.removeAll();
 
@@ -284,28 +262,12 @@ public class Toolbar {
         searchDialogPanel.repaint();
     }
 
-
     private void createSearchDialogComponent(){
-        searchDialog = new JDialog();
-        searchDialog.setLayout(new BorderLayout());
-        searchDialog.setSize(200, 200);
-        searchDialog.setResizable(false);
-        searchDialog.setVisible(false);
-        searchDialog.setType(Window.Type.UTILITY);
-        searchDialog.setAlwaysOnTop(true);
-        searchDialog.setFocusableWindowState(false);
-        searchDialog.setUndecorated(true);
 
         searchDialogPanel = new JPanel();
         searchDialogPanel.setLayout(new BoxLayout(searchDialogPanel, BoxLayout.Y_AXIS));
+        searchDialog = new AnchoredDialog(searchTxtFld, null, 200, 200, searchDialogPanel, AnchoredDialog.SizeAnchoring.WIDTH, AnchoredDialog.AnchoringPointX.LEFT, AnchoredDialog.AnchoringPointY.UP, AnchoredDialog.SpawnPoint.DOWN);
 
-        searchDialog.add(searchDialogPanel, BorderLayout.CENTER);
-        searchDialog.add(new JScrollPane(searchDialogPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-    }
-
-    public void updateSearchDialogPos(){
-        searchDialog.setLocation((int) searchTxtFld.getLocationOnScreen().getX(), (int) (searchTxtFld.getLocationOnScreen().getY() + searchTxtFld.getHeight()));
-        searchDialog.setSize(searchTxtFld.getWidth(), searchDialog.getHeight());
     }
 
 

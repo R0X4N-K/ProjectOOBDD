@@ -68,7 +68,6 @@ public class Window extends JFrame {
         addComponentListener(new ComponentListener() {
             @Override
             public void componentResized(ComponentEvent e) {
-                toolbarMainPanel.updateSearchDialogPos();
                 homePanel.getHomeRecentArticles().getPanel().setLayout(
                         new GridLayout(2, 5, calculate_spacing_articles_home().x, calculate_spacing_articles_home().y)
                 );
@@ -82,9 +81,7 @@ public class Window extends JFrame {
                 homePanel.getHomeFeaturedArticles().getPanel().repaint();
             }
             @Override
-            public void componentMoved(ComponentEvent e) {
-                toolbarMainPanel.updateSearchDialogPos();
-            }
+            public void componentMoved(ComponentEvent e) {}
             @Override
             public void componentShown(ComponentEvent e) {}
             @Override

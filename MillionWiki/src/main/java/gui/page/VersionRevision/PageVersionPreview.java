@@ -123,8 +123,6 @@ public class PageVersionPreview {
         while (accepted.size() > 1){
             accepted.getFirst().setStatus(ArticleVersion.Status.REJECTED);
             rejectedCount += 1;
-            System.out.println(accepted.remove(accepted.getFirst()));
-            System.out.println(accepted.size());
         }
     }
 

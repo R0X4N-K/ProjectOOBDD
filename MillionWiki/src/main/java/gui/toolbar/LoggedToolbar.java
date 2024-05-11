@@ -14,21 +14,16 @@ public class LoggedToolbar {
     private JPanel loggedUserPanel;
     private JButton showNotificationsButton;
     private JButton showProfileButton;
-    private final NotificationsContainer notificationsContainer = new NotificationsContainer();
-    private boolean setPopupMenu = false;
+    private final NotificationsContainer notificationsContainer = new NotificationsContainer(showNotificationsButton);
     private Thread thread = null;
 
     public LoggedToolbar() {
-        getPanel().setComponentPopupMenu(notificationsContainer);
 
 
         showNotificationsButton.addActionListener(e -> {
-            if (!setPopupMenu)
-                notificationsContainer.setPanelOwner(showNotificationsButton);
-            if (SwingUtilities.getWindowAncestor(this.getPanel()).isActive()) {
-                notificationsContainer.loading();
-                notificationsContainer.show(showNotificationsButton, showNotificationsButton.getLocation().x - notificationsContainer.getWidth(), showNotificationsButton.getLocation().y + showNotificationsButton.getHeight());
-            }
+            notificationsContainer.loading();
+            notificationsContainer.updateDialogPos();
+            notificationsContainer.setVisible(true);
             if(thread == null || !thread.isAlive()){
                 thread = new Thread(notificationsContainer::setCompactNotificationList);
                 thread.start();

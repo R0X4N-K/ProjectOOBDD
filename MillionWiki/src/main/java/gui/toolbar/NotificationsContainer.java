@@ -7,11 +7,12 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 
-public class NotificationsContainer extends JPopupMenu {
+public class NotificationsContainer extends AnchoredDialog {
     private JLabel notificationCountLabel;
-    private JPanel notificationsContainerMainPanel;
     private JPanel notificationsLoadingPane;
+    protected JPanel mainNotificationsContainerPanel;
     private JLabel loadingLabel;
     private JScrollPane notificationsScrollPane;
     private final ArrayList<Notification> notificationsList;
@@ -21,39 +22,14 @@ public class NotificationsContainer extends JPopupMenu {
     private final GridBagConstraints constraints = new GridBagConstraints();
 
     private Component owner = null;
-    private final HierarchyBoundsListener closeOnPanelChangeListener = new HierarchyBoundsListener() {
-
-        public void ancestorMoved(HierarchyEvent e) {
-            setLocation((int) owner.getLocationOnScreen().getX(), (int) (owner.getLocationOnScreen().getY() + owner.getHeight()));
-            setVisible(false);
-        }
-
-        public void ancestorResized(HierarchyEvent e) {
-            setLocation((int) owner.getLocationOnScreen().getX(), (int) (owner.getLocationOnScreen().getY() + owner.getHeight()));
-            setVisible(false);
-        }
-    };
 
     private final WindowAdapter closeOnWindowChangeListener = new WindowAdapter() {
         @Override
-
         public void windowDeactivated(WindowEvent e) {
             super.windowDeactivated(e);
             setVisible(false);
         }
     };
-
-    void setPanelOwner(Component panelOwner) {
-        if (owner != null) {
-            owner.removeHierarchyBoundsListener(closeOnPanelChangeListener);
-            SwingUtilities.getWindowAncestor(owner).removeWindowListener(closeOnWindowChangeListener);
-        }
-
-        owner = panelOwner;
-        SwingUtilities.getWindowAncestor(owner).addWindowListener(closeOnWindowChangeListener);
-        owner.addHierarchyBoundsListener(closeOnPanelChangeListener);
-    }
-
 
     public void setNotificationList() {
         ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
@@ -118,8 +94,13 @@ public class NotificationsContainer extends JPopupMenu {
     private Thread getAddNotificationThread(CompactNotification cn) {
         Thread thread = new Thread(() -> {
             notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
-            if (notificationsContainerMainPanel.getPreferredSize().width < cn.getPanel().getPreferredSize().width) {
-                notificationsContainerMainPanel.setPreferredSize(new Dimension(cn.getPanel().getPreferredSize().width, notificationsContainerMainPanel.getPreferredSize().height));
+            resetPanels();
+            if (mainNotificationsContainerPanel.getSize().width < cn.getPanel().getSize().width) {
+                notificationsVisualizerPanel.setSize(new Dimension(cn.getPanel().getSize().width, mainNotificationsContainerPanel.getSize().height));
+                notificationsScrollPane.setSize(notificationsVisualizerPanel.getSize());
+                notificationsContainerScrollablePanel.setSize(notificationsVisualizerPanel.getSize());
+                mainNotificationsContainerPanel.setSize(new Dimension(notificationsVisualizerPanel.getWidth(), notificationsVisualizerPanel.getHeight() + notificationCountLabel.getHeight()));
+                setSize(mainNotificationsContainerPanel.getSize());
             }
             notificationsContainerScrollablePanel.repaint();
         });
@@ -138,30 +119,72 @@ public class NotificationsContainer extends JPopupMenu {
         return notificationsList.size();
     }
 
-    public NotificationsContainer() {
+    public NotificationsContainer(JComponent anchorTo) {
+        super(anchorTo, null,
+            532,
+            158,
+            null, SizeAnchoring.NONE,
+           AnchoringPointX.CENTER, AnchoringPointY.UP, SpawnPoint.DOWN);
+
+        super.getPanel().add(mainNotificationsContainerPanel);
+
         constraints.anchor = GridBagConstraints.NORTH;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.0;
         constraints.weighty = 0.0;
         constraints.gridx = 0;
-
-        add(notificationsContainerMainPanel);
         notificationsScrollPane.getVerticalScrollBar().setUnitIncrement(12);
         notificationsList = new ArrayList<Notification>();
         compactNotificationsList = new ArrayList<CompactNotification>();
 
+        addComponentListener(new ComponentListener() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+
+            }
+
+            @Override
+            public void componentMoved(ComponentEvent e) {
+                updateDialogPos();
+            }
+
+            @Override
+            public void componentShown(ComponentEvent e) {
+                if(!Arrays.stream(SwingUtilities.getWindowAncestor(anchorComponent).getWindowListeners()).toList().contains(closeOnWindowChangeListener))
+                    SwingUtilities.getWindowAncestor(anchorComponent).addWindowListener(closeOnWindowChangeListener);
+            }
+
+            @Override
+            public void componentHidden(ComponentEvent e) {
+
+            }
+        });
+
+    }
+
+    private void resetPanels() {
+        notificationsVisualizerPanel.setSize(new Dimension(mainNotificationsContainerPanel.getPreferredSize().width, mainNotificationsContainerPanel.getPreferredSize().height - notificationCountLabel.getHeight()));
+        notificationsScrollPane.setSize(notificationsVisualizerPanel.getSize());
+        notificationsContainerScrollablePanel.setSize(notificationsVisualizerPanel.getSize());
+        mainNotificationsContainerPanel.setSize(mainNotificationsContainerPanel.getPreferredSize());
+        setSize(mainNotificationsContainerPanel.getSize());
     }
 
     public void loading() {
-        ((CardLayout) notificationsContainerMainPanel.getLayout()).show(notificationsContainerMainPanel, "Card2");
+        ((CardLayout) mainNotificationsContainerPanel.getLayout()).show(mainNotificationsContainerPanel, "Card2");
+        setSize(mainNotificationsContainerPanel.getPreferredSize());
+        mainNotificationsContainerPanel.setSize(mainNotificationsContainerPanel.getPreferredSize());
+        System.out.println(getSize());
     }
 
     private void loaded() {
-        ((CardLayout) notificationsContainerMainPanel.getLayout()).show(notificationsContainerMainPanel, "Card1");
-    }
-
-    public JPanel getPanel() {
-        return notificationsContainerMainPanel;
+        setSize(mainNotificationsContainerPanel.getPreferredSize());
+        ((CardLayout) mainNotificationsContainerPanel.getLayout()).show(mainNotificationsContainerPanel, "Card1");
+        notificationsContainerScrollablePanel.setVisible(!compactNotificationsList.isEmpty());
+        System.out.println(getSize());
+        System.out.println(mainNotificationsContainerPanel.getSize());
+        System.out.println(notificationsVisualizerPanel.getSize());
+        System.out.println(notificationsContainerScrollablePanel.getSize());
     }
 
 }

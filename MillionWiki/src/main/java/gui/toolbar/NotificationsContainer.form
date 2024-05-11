@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <form xmlns="http://www.intellij.com/uidesigner/form/" version="1" bind-to-class="gui.toolbar.NotificationsContainer">
-  <grid id="27dc6" binding="notificationsContainerMainPanel" layout-manager="CardLayout" hgap="0" vgap="0">
+  <grid id="27dc6" binding="mainNotificationsContainerPanel" layout-manager="CardLayout" hgap="0" vgap="0">
     <constraints>
       <xy x="20" y="20" width="532" height="400"/>
     </constraints>
     <properties>
       <maximumSize width="2147483647" height="2147483647"/>
+      <preferredSize width="562" height="158"/>
     </properties>
     <border type="none"/>
     <children>
