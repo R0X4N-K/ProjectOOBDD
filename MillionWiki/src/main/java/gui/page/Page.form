@@ -219,6 +219,7 @@
         <constraints border-constraint="Center"/>
         <properties>
           <contentType value="text/html"/>
+          <font size="18"/>
           <maximumSize width="2147483647" height="2147483647"/>
           <text value="&lt;html lang=&quot;&quot;&gt;&#10;  &lt;head&gt;&#10;    &#10;  &lt;/head&gt;&#10;  &lt;body&gt;&#10;  &lt;/body&gt;&#10;&lt;/html&gt;&#10;"/>
         </properties>

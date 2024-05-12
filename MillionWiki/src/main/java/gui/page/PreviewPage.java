@@ -33,6 +33,8 @@ public class PreviewPage extends JDialog {
         textEp = new JEditorPane();
         scrollPane = new JScrollPane(textEp);
 
+        textEp.setFont(new Font(textEp.getFont().getFontName(), textEp.getFont().getStyle(), 18));
+
         textEp.setContentType("text/html");
         textEp.setText(text);
 
