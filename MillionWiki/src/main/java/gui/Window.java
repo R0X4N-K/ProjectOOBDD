@@ -164,18 +164,24 @@ public class Window extends JFrame {
         window.toolbarMainPanel.switchToUnloggedToolbar();
     }
 
-    private Point calculate_spacing_articles_home(){
+    private Point calculate_spacing_articles_home() {
         int width = getWidth();
         int height = getHeight();
-        int propWidth = 1200;
-        int propHeigth = 700;
 
+        int articleWidth = 200;
+        int articleHeight = 150;
 
-        int hgap = (((propWidth * width) / 10000) - 50);
+        int baseGap = 5;
 
-        int vgap =   (propHeigth * hgap) / 10000;
+        int residualWidth = width - (5 * articleWidth);
+        int hgap = (residualWidth / 6) + (residualWidth * baseGap / 100);
+        if (hgap < 0) hgap = 0;
+
+        int vgap = (height - (4 * articleHeight)) / 5;
+        if (vgap < 0) vgap = 0;
 
         return new Point(hgap, vgap);
     }
+
 
 }
