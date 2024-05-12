@@ -1,5 +1,6 @@
 package implementationDAO;
 import controller.Controller;
+import dao.ArticleDAO;
 import database.DatabaseConnection;
 import model.Article;
 import model.Author;
@@ -12,7 +13,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class ArticleDAOImplementation implements dao.ArticleDAO {
+public class ArticleDAOImplementation implements ArticleDAO {
     public DatabaseConnection dbConnection;
 
     public ArticleDAOImplementation() throws RuntimeException {
@@ -318,5 +319,22 @@ public class ArticleDAOImplementation implements dao.ArticleDAO {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
+    }
+
+    public Article pickRandomArticle(){
+        String query = "SELECT id FROM articles ORDER BY RANDOM() LIMIT 1";
+        int randomId = -1;
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
+            stmt.executeQuery();
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                randomId = rs.getInt("id");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return Controller.getArticlesById(randomId);
     }
 }

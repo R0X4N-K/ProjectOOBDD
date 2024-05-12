@@ -25,4 +25,5 @@ public interface ArticleDAO {
     void deleteArticle(Article articleToDelete);
     void incrementArticleViews(int idArticle);
     ArrayList<Article> getMostViewedArticles(int numberArticles);
+    Article pickRandomArticle();
 }

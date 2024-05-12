@@ -77,6 +77,10 @@ public final class Controller {
         return null;
     }
 
+    public static Article pickRandomArticle(){
+        return new ArticleDAOImplementation().pickRandomArticle();
+    }
+
     public static void incrementArticleViews(int idArticle){
         articleDAO.incrementArticleViews(idArticle);
     }

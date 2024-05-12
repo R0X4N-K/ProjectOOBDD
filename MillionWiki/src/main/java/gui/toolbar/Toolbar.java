@@ -28,6 +28,7 @@ public class Toolbar {
     private JButton switchToUnloggedButton;
     private JButton createPageButton;
     private JComboBox typeSearchCb;
+    private JButton randomButton;
 
     private AnchoredDialog searchDialog;
     private JPanel searchDialogPanel;
@@ -128,6 +129,17 @@ public class Toolbar {
                             JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
                         Controller.getWindow().switchPanel(Controller.getWindow().getLoginPanel());
                     }
+                }
+            }
+        });
+
+        randomButton.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                if(Controller.getWindow().getPage().getMode() != Page.Mode.EDITOR) {
+                    Controller.getWindow().getPage().openPage(
+                            Controller.pickRandomArticle()
+                    );
+                    Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
                 }
             }
         });

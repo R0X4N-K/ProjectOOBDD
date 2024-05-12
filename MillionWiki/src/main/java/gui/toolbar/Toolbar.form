@@ -73,6 +73,15 @@
         <properties/>
         <border type="none"/>
         <children>
+          <component id="6ecdb" class="javax.swing.JButton" binding="randomButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <borderPainted value="false"/>
+              <icon value="random.png"/>
+              <label value="Casuale"/>
+              <text value="Casuale"/>
+            </properties>
+          </component>
           <component id="d54fd" class="javax.swing.JButton" binding="createPageButton">
             <constraints/>
             <properties>

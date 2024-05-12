@@ -20,6 +20,7 @@ public class HomeRecentArticles {
                     System.out.println("Errore creazione splash screen");
                 }
                 Controller.getWindow().setSize(1200, 700);
+                Controller.getWindow().setMinimumSize(new Dimension(1200, 700));
                 Controller.getWindow().setLocationRelativeTo(null);
             });
         }
