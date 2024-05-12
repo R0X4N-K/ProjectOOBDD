@@ -10,7 +10,6 @@ import java.awt.event.ActionListener;
 
 public class Home {
     private JPanel mainPanelHome;
-    private JButton editorButton;
     private JLabel titleLabel;
     private JLabel featuredLabel;
     private JLabel recentLabel;
@@ -26,12 +25,6 @@ public class Home {
     private JButton reloadHome;
 
     public Home() {
-        editorButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-            }
-        });
 
         reloadHome.addActionListener(new ActionListener() {
             @Override
