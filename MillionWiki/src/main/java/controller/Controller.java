@@ -109,8 +109,14 @@ public final class Controller {
     public static ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle){
         return articleVersionDAO.getAllArticleVersionByArticleId(idArticle);
     }
+    public static ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByArticleId(int idArticle){
+        return articleVersionDAO.getAllArticleVersionExcludingTextByArticleId(idArticle);
+    }
     public static ArrayList<ArticleVersion> getAllArticleVersionByAuthorId(int authorId){
         return articleVersionDAO.getAllArticleVersionByAuthorId(authorId);
+    }
+    public static ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByAuthorId(int authorId){
+        return articleVersionDAO.getAllArticleVersionExcludingTextByAuthorId(authorId);
     }
     public static Article getArticlesById(int idArticle){
         return articleDAO.getArticleById(idArticle);

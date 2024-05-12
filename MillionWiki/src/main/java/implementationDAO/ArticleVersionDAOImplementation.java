@@ -101,6 +101,30 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         }
         return articleVersions;
     }
+    public ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByAuthorId(int authorId){
+        ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
+        String getArticleQuery = "SELECT * FROM article_versions WHERE author_proposal = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
+            stmt.setInt(1, authorId);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ArticleVersion articleVersion = new ArticleVersion(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            "",
+                            rs.getDate("version_date"),
+                            rs.getDate("revision_date"),
+                            Controller.getArticlesById(rs.getInt("parent_article")),
+                            Controller.getAuthorById(rs.getInt("author_proposal")));;
+                    articleVersions.add(articleVersion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+        return articleVersions;
+    }
 
     public int getVersionArticlesNumberSent(int idAuthor) {
         int count = 0;
@@ -173,6 +197,30 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                             rs.getInt("id"),
                             rs.getString("title"),
                             rs.getString("text"),
+                            rs.getDate("version_date"),
+                            rs.getDate("revision_date"),
+                            Controller.getArticlesById(rs.getInt("parent_article")),
+                            Controller.getAuthorById(rs.getInt("author_proposal")));
+                    articleVersions.add(articleVersion);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        }
+        return articleVersions;
+    }
+    public ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByArticleId(int idArticle){
+        ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
+        String getArticleQuery = "SELECT * FROM article_versions WHERE parent_article = ?";
+        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
+            stmt.setInt(1, idArticle);
+            try (ResultSet rs = stmt.executeQuery()) {
+                while (rs.next()) {
+                    ArticleVersion articleVersion = new ArticleVersion(
+                            rs.getInt("id"),
+                            rs.getString("title"),
+                            "",
                             rs.getDate("version_date"),
                             rs.getDate("revision_date"),
                             Controller.getArticlesById(rs.getInt("parent_article")),

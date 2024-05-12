@@ -125,7 +125,7 @@ public class ArticleHistory extends JDialog {
         thread.start();
        }
     private JTable createJTable() {
-        ArrayList<ArticleVersion> articleVersions = Controller.getAllArticleVersionByArticleId(idArticle);
+        ArrayList<ArticleVersion> articleVersions = Controller.getAllArticleVersionExcludingTextByArticleId(idArticle);
 
         // Fa il sort delle versioni dell'articolo in base alla data di revisione
         articleVersions.sort(Comparator.comparing(ArticleVersion::getVersionDate));

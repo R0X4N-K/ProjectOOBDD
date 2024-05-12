@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import static controller.Controller.getAllArticleVersionByArticleId;
+import static controller.Controller.getAllArticleVersionExcludingTextByArticleId;
 
 public class CreatedPagesAuthorWindow {
     private JPanel cardLayoutPanel;

@@ -13,7 +13,9 @@ public interface ArticleVersionDAO {
     ArrayList<ArticleVersion> getAllArticleVersionsWaitingFull(int articleId);
     void reviewArticles(ArrayList<ArticleVersion> a);
     ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle);
+    ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByArticleId(int idArticle);
     ArrayList<ArticleVersion> getAllArticleVersionByAuthorId(int authorId);
+    ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByAuthorId(int authorId);
     int getVersionArticlesNumberSent(int idAuthor);
     ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion);
     int insertArticleVersion(ArticleVersion articleVersion);

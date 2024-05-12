@@ -17,6 +17,7 @@ import java.util.Date;
 import java.util.List;
 
 import static controller.Controller.getAllArticleVersionByArticleId;
+import static controller.Controller.getAllArticleVersionExcludingTextByArticleId;
 
 public class CreatedPagesCard {
     private JPanel createdPagesCardMainPanel;
@@ -102,7 +103,7 @@ public class CreatedPagesCard {
         Object[][] data = new Object[articles.size()][7]; // Modifica la dimensione dell'array a 7
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
-            ArrayList<ArticleVersion> articleVersions = getAllArticleVersionByArticleId(article.getId());
+            ArrayList<ArticleVersion> articleVersions = getAllArticleVersionExcludingTextByArticleId(article.getId());
             Date lastRevisionDate = getLastRevisionDate(articleVersions);
             data[i][0] = "<html><a href='" + article.getId() + "'>" + article.getTitle() + "</a></html>";
             data[i][1] = "<html><a href='"+ article.getId() + "'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
