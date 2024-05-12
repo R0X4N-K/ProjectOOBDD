@@ -153,7 +153,7 @@ public class Toolbar {
                     articleItem.setBorder(new EmptyBorder(4, 2, 0, 0));
 
                     JPanel articleItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                    articleItemPnl.setMaximumSize(new Dimension(searchTxtFld.getWidth(), 30));
+                    articleItemPnl.setMaximumSize(new Dimension(1000, 30));
                     articleItemPnl.add(articleItem);
 
                     articleItemPnl.addMouseListener(new MouseAdapter() {
