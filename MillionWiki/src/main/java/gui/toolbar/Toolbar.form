@@ -13,7 +13,7 @@
       <grid id="40c79" binding="commonToolbar" layout-manager="FlowLayout" hgap="-1" vgap="-1" flow-align="0">
         <constraints border-constraint="West"/>
         <properties>
-          <preferredSize width="500" height="28"/>
+          <preferredSize width="550" height="28"/>
         </properties>
         <border type="none"/>
         <children>

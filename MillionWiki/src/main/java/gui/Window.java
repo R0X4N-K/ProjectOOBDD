@@ -115,7 +115,7 @@ public class Window extends JFrame {
 
     private boolean checkChangesNotSaved()
     {
-        if(pagePanel.getMode() == Page.Mode.EDITOR || pagePanel.getMode() == Page.Mode.REVIEWER)
+        if(pagePanel.getMode() == Page.Mode.EDITOR)
             return true;
         else
             return false;

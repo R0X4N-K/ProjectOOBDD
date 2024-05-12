@@ -6,6 +6,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Objects;
 
 
 public class Home {
@@ -23,8 +24,16 @@ public class Home {
 
 
     private JButton reloadHome;
+    private JButton infoBtn;
 
     public Home() {
+
+        infoBtn.addActionListener(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                Controller.getWindow().getPage().openPage(Objects.requireNonNull(Controller.getArticleByTitle("MillionWiki")));
+                Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+            }
+        });
 
         reloadHome.addActionListener(new ActionListener() {
             @Override

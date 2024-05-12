@@ -98,7 +98,6 @@ public class PageLinker extends JPanel {
         inputLinkButtonsPanel.add(sendBtn);
         inputLinkButtonsPanel.add(closeBtn);
 
-
         searchPageToLinkBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
