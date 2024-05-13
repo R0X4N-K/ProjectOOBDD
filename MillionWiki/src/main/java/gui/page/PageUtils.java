@@ -261,6 +261,8 @@ public class PageUtils {
                 if (Controller.getWindow().getPage().getIdArticle() != -1){
                     JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo avvenuta correttamente !",
                             "Creazione articolo", JOptionPane.PLAIN_MESSAGE);
+
+                    Controller.getWindow().getPage().setViewerMode();
                 }
                 else {
                     JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo fallita!",
@@ -273,6 +275,8 @@ public class PageUtils {
                     // Finesta -> Operazione avvenuta con successo
                     JOptionPane.showMessageDialog(mainPanelPage, "Modifica avvenuta correttamente !",
                             "Modifica articolo", JOptionPane.PLAIN_MESSAGE);
+
+                    Controller.getWindow().getPage().setViewerMode();
                 }
                 else {
                     // Finestra -> Operazione Fallita

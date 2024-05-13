@@ -494,13 +494,14 @@ public class Page {
             titlePageField.setCaretColor(Color.BLACK);
             titlePageField.setCaretColor(Color.BLACK);
         }
-
         this.mode = mode;
+
     }
 
     public void openPage(Article article){
         setViewerMode();
-
+        searchPanel.setVisible(false);
+        searchTxtFld.setText("");
         if(! Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
             sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
             sendButton.setText("Invia proposta");

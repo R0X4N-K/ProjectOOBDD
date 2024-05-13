@@ -33,7 +33,7 @@
               <horizontalAlignment value="2"/>
               <margin top="2" left="9" bottom="2" right="6"/>
               <minimumSize width="100" height="30"/>
-              <preferredSize width="250" height="30"/>
+              <preferredSize width="250" height="25"/>
             </properties>
           </component>
           <component id="7d59e" class="javax.swing.JComboBox" binding="typeSearchCb">
