@@ -103,7 +103,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
     }
     public ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByAuthorId(int authorId){
         ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
-        String getArticleQuery = "SELECT * FROM article_versions WHERE author_proposal = ?";
+        String getArticleQuery = "SELECT id, title, version_date, revision_date, parent_article FROM article_versions WHERE author_proposal = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
             stmt.setInt(1, authorId);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -115,7 +115,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                             rs.getDate("version_date"),
                             rs.getDate("revision_date"),
                             Controller.getArticlesById(rs.getInt("parent_article")),
-                            Controller.getAuthorById(rs.getInt("author_proposal")));;
+                            Controller.getAuthorById(authorId));;
                     articleVersions.add(articleVersion);
                 }
             }
@@ -212,7 +212,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
     }
     public ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByArticleId(int idArticle){
         ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
-        String getArticleQuery = "SELECT * FROM article_versions WHERE parent_article = ?";
+        String getArticleQuery = "SELECT id, title, version_date, revision_date, parent_article, author_proposal FROM article_versions WHERE parent_article = ?";
         try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
             stmt.setInt(1, idArticle);
             try (ResultSet rs = stmt.executeQuery()) {
@@ -223,7 +223,7 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
                             "",
                             rs.getDate("version_date"),
                             rs.getDate("revision_date"),
-                            Controller.getArticlesById(rs.getInt("parent_article")),
+                            Controller.getArticlesById(idArticle),
                             Controller.getAuthorById(rs.getInt("author_proposal")));
                     articleVersions.add(articleVersion);
                 }
