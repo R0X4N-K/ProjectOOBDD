@@ -502,13 +502,14 @@ public class Page {
         setViewerMode();
         searchPanel.setVisible(false);
         searchTxtFld.setText("");
-        if(! Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
-            sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
-            sendButton.setText("Invia proposta");
-        }
-        else {
-            sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
-            sendButton.setText("Salva articolo");
+        if(Controller.getCookie() != null) {
+            if (!Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
+                sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
+                sendButton.setText("Invia proposta");
+            } else {
+                sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
+                sendButton.setText("Salva articolo");
+            }
         }
 
 
