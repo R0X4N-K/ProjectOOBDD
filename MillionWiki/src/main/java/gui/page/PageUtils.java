@@ -6,7 +6,15 @@ import model.ArticleVersion;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
+import javax.swing.event.UndoableEditEvent;
+import javax.swing.event.UndoableEditListener;
+import javax.swing.undo.CannotRedoException;
+import javax.swing.undo.CannotUndoException;
+import javax.swing.undo.UndoManager;
 import java.awt.*;
+import java.awt.datatransfer.DataFlavor;
+import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.*;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -72,11 +80,12 @@ public class PageUtils {
         this.infoPageBtn = infoPageBtn;
         this.exportBtnToolMenu = exportBtnToolMenu;
         this.closeEditorMode = closeEditorMode;
+        final UndoManager undoMgr = new UndoManager();
 
-        init_listeners();
+        init_listeners(undoMgr);
     }
 
-    public void init_listeners(){
+    public void init_listeners(UndoManager undoMgr){
         boldButton.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
             if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
@@ -178,6 +187,23 @@ public class PageUtils {
             public void keyReleased(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ALT) {
                     pageField.setEditable(true);
+                }
+            }
+        });
+        pageField.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                super.keyPressed(e);
+                if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_V) {
+                    String data = null;
+                    try {
+                        data = (String) Toolkit.getDefaultToolkit()
+                                .getSystemClipboard().getData(DataFlavor.stringFlavor);
+                    } catch (UnsupportedFlavorException | IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+
+                    Toolkit.getDefaultToolkit().getSystemClipboard().setContents(new StringSelection(data), null);
                 }
             }
         });
