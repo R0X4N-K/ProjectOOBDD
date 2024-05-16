@@ -502,6 +502,7 @@ public class Page {
         setViewerMode();
         searchPanel.setVisible(false);
         searchTxtFld.setText("");
+        titlePageField.setForeground(Color.BLACK);
         if(Controller.getCookie() != null) {
             if (!Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
                 sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));

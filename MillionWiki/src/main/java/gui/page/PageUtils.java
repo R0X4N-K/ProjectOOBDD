@@ -219,7 +219,7 @@ public class PageUtils {
                     searchTxtFld.requestFocus();
                 }
 
-                if(titlePageField.getText().isBlank()){
+                if(titlePageField.getText().isBlank() && titlePageField.getText().isEmpty()){
                     titlePageField.setForeground(Color.GRAY);
                     titlePageField.setText("Inserisci il titolo");
                     titlePageField.setCaretPosition(0);
