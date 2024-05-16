@@ -7,6 +7,7 @@ import model.Cookie;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
@@ -29,7 +30,6 @@ public class Login {
     private JToggleButton viewPasswordBtn;
 
     public Login() {
-
         toRegistrationPanelBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

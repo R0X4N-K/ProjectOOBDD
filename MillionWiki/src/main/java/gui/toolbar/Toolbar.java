@@ -146,11 +146,15 @@ public class Toolbar {
     }
 
     private void search(){
+        JLabel loadingSearchIcon = new JLabel(new ImageIcon(Toolbar.class.getResource("/icons/loading.gif")));
         if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
             searchDialog.setVisible(true);
             searchDialog.updateDialogPos();
 
             searchDialogPanel.removeAll();
+            searchDialogPanel.add(loadingSearchIcon);
+            searchDialogPanel.repaint();
+            searchDialogPanel.revalidate();
 
             ArrayList<Article> matchesArticles = null;
             ArrayList<Author> matchesAuthors = null;
@@ -158,9 +162,9 @@ public class Toolbar {
             if(typeSearchCb.getSelectedItem().equals("Articoli")){
                 matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
 
-                for (Article mathesArticle : matchesArticles) {
+                for (Article matchesArticle : matchesArticles) {
 
-                    JLabel articleItem = new JLabel(mathesArticle.getTitle());
+                    JLabel articleItem = new JLabel(matchesArticle.getTitle());
                     articleItem.setFont(new Font(searchTxtFld.getFont().getFontName(), searchTxtFld.getFont().getStyle(), searchTxtFld.getFont().getSize() + 1));
                     articleItem.setBorder(new EmptyBorder(4, 2, 0, 0));
 
@@ -185,10 +189,10 @@ public class Toolbar {
 
                         @Override
                         public void mouseClicked(MouseEvent e) {
-                            ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(mathesArticle.getId());
+                            ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(matchesArticle.getId());
                             if(articleVersion != null){
                                 Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-                                Controller.getWindow().getPage().openPage(mathesArticle);
+                                Controller.getWindow().getPage().openPage(matchesArticle);
                                 searchDialog.setVisible(false);
                             }
 
@@ -197,6 +201,8 @@ public class Toolbar {
 
                     searchDialogPanel.add(articleItemPnl);
                 }
+
+                searchDialogPanel.remove(loadingSearchIcon);
 
                 if(matchesArticles.size() < 9)
                     searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
@@ -251,6 +257,8 @@ public class Toolbar {
 
                     searchDialogPanel.add(authorItemPnl);
                 }
+
+                searchDialogPanel.remove(loadingSearchIcon);
 
                 if(matchesAuthors.size() < 9)
                     searchDialog.setSize(searchDialog.getWidth(), matchesAuthors.size() * 35);

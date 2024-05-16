@@ -114,6 +114,7 @@
               <component id="e236b" class="javax.swing.JButton" binding="sendButton">
                 <constraints/>
                 <properties>
+                  <borderPainted value="false"/>
                   <text value="Invia"/>
                 </properties>
               </component>

@@ -4,6 +4,7 @@ import gui.page.VersionRevision.PageVersionPreview;
 import model.Article;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
@@ -113,7 +114,6 @@ public class Page {
 
         pageField.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
         pageField.setEditorKit(new HTMLEditorKit());
-
 
         JScrollPane scrollPane = new JScrollPane(pageField);
         mainPanelPage.add(scrollPane);
