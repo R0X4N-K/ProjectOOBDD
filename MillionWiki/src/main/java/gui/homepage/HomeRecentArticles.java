@@ -31,9 +31,13 @@ public class HomeRecentArticles {
     private void initRecentArticles() {
         ArrayList<Integer> recentArticles = Controller.getRecentArticles(10);
         for (Integer articleId : recentArticles) {
-            String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
-            HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
-            homeRecentArticlesMainPanel.add(recentArticle);
+            try {
+                String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
+                HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
+                homeRecentArticlesMainPanel.add(recentArticle);
+            }catch (Exception e){
+                e.printStackTrace();
+            }
             homeRecentArticlesMainPanel.repaint();
             homeRecentArticlesMainPanel.revalidate();
         }

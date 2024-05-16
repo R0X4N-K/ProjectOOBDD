@@ -533,10 +533,14 @@ public class Page {
 
         sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
         sendButton.setText("Crea articolo");
+        infoPageBtn.setText(Controller.getNicknameAuthorById(Controller.getCookie().getId()));
 
         setIdArticle(-1);
         pageField.setText("");
         titlePageField.setText("");
+        titlePageField.setForeground(Color.GRAY);
+        titlePageField.setText("Inserisci il titolo");
+        titlePageField.setCaretPosition(0);
     }
 
     public int getIdArticle() {

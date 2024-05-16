@@ -8,6 +8,7 @@ import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import javax.swing.event.UndoableEditEvent;
 import javax.swing.event.UndoableEditListener;
+import javax.swing.text.BadLocationException;
 import javax.swing.undo.CannotRedoException;
 import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
@@ -217,6 +218,13 @@ public class PageUtils {
                         searchPanel.setVisible(true);
                     searchTxtFld.requestFocus();
                 }
+
+                if(titlePageField.getText().isBlank()){
+                    titlePageField.setForeground(Color.GRAY);
+                    titlePageField.setText("Inserisci il titolo");
+                    titlePageField.setCaretPosition(0);
+                }
+
             }
         });
 
@@ -227,6 +235,21 @@ public class PageUtils {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER || e.getKeyCode() == KeyEvent.VK_TAB) {
                     e.consume();
                     pageField.requestFocus();
+                }
+
+                if(titlePageField.getForeground() == Color.GRAY && e.getKeyCode() != KeyEvent.VK_BACK_SPACE){
+                    titlePageField.setCaretPosition(0);
+                    titlePageField.setText("");
+                    titlePageField.setForeground(Color.BLACK);
+                }
+            }
+        });
+
+        titlePageField.addFocusListener(new FocusAdapter() {
+            public void focusGained(FocusEvent e) {
+                super.focusGained(e);
+                if(titlePageField.getForeground() == Color.GRAY){
+                    titlePageField.setCaretPosition(0);
                 }
             }
         });
@@ -280,36 +303,54 @@ public class PageUtils {
         });
 
         sendButton.addActionListener(e -> {
+            System.out.println(pageField.getText());
             //TODO: CONTROLLI SUL TITOLO E SUL TESTO
-            if (Controller.getWindow().getPage().getIdArticle() == -1){
-                //Crea pagina
-                Controller.getWindow().getPage().setIdArticle(Controller.createArticle(titlePageField.getText(), Controller.getCookie().getId(), pageField.getText()));
-                if (Controller.getWindow().getPage().getIdArticle() != -1){
-                    JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo avvenuta correttamente !",
-                            "Creazione articolo", JOptionPane.PLAIN_MESSAGE);
+            try {
+                if(!titlePageField.getText().isBlank() &&
+                        pageField.getDocument().getLength() != 0 &&
+                        titlePageField.getForeground() != Color.GRAY &&
+                        pageField.getDocument().getText(0, pageField.getDocument().getLength()) != null &&
+                        !pageField.getDocument().getText(0, pageField.getDocument().getLength()).trim().isEmpty()
+                ){
+                    if (Controller.getWindow().getPage().getIdArticle() == -1){
+                        //Crea pagina
+                        Controller.getWindow().getPage().setIdArticle(Controller.createArticle(titlePageField.getText(), Controller.getCookie().getId(), pageField.getText()));
+                        if (Controller.getWindow().getPage().getIdArticle() != -1){
+                            JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo avvenuta correttamente !",
+                                    "Creazione articolo", JOptionPane.PLAIN_MESSAGE);
 
-                    Controller.getWindow().getPage().setViewerMode();
+                            Controller.getWindow().getPage().setViewerMode();
+                        }
+                        else {
+                            JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo fallita!",
+                                    "Errore", JOptionPane.ERROR_MESSAGE);
+                        }
+                    }
+                    else{
+                        //Modifica pagina
+                        if (Controller.createProposal(Controller.getWindow().getPage().getIdArticle(), titlePageField.getText(),pageField.getText(), Controller.getCookie().getId()) != -1){
+                            // Finesta -> Operazione avvenuta con successo
+                            JOptionPane.showMessageDialog(mainPanelPage, "Modifica avvenuta correttamente !",
+                                    "Modifica articolo", JOptionPane.PLAIN_MESSAGE);
+
+                            Controller.getWindow().getPage().setViewerMode();
+                        }
+                        else {
+                            // Finestra -> Operazione Fallita
+                            JOptionPane.showMessageDialog(mainPanelPage, "Modifica articolo fallita !",
+                                    "Errore", JOptionPane.ERROR);
+                        }
+                    }
                 }
-                else {
-                    JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo fallita!",
+                else{
+                    //TITOLO O TESTO VUOTO
+                    JOptionPane.showMessageDialog(mainPanelPage, "Titolo o testo mancante",
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
+            } catch (BadLocationException ex) {
+                throw new RuntimeException(ex);
             }
-            else{
-                //Modifica pagina
-                if (Controller.createProposal(Controller.getWindow().getPage().getIdArticle(), titlePageField.getText(),pageField.getText(), Controller.getCookie().getId()) != -1){
-                    // Finesta -> Operazione avvenuta con successo
-                    JOptionPane.showMessageDialog(mainPanelPage, "Modifica avvenuta correttamente !",
-                            "Modifica articolo", JOptionPane.PLAIN_MESSAGE);
 
-                    Controller.getWindow().getPage().setViewerMode();
-                }
-                else {
-                    // Finestra -> Operazione Fallita
-                    JOptionPane.showMessageDialog(mainPanelPage, "Modifica articolo fallita !",
-                            "Errore", JOptionPane.ERROR);
-                }
-            }
         });
 
         infoPageBtn.addActionListener(new ActionListener() {
