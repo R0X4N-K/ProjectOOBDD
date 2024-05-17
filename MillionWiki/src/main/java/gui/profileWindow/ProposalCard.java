@@ -168,7 +168,8 @@ public class ProposalCard {
 
     private void setProposalCardJTable() {
         switchPanel(reloading);
-        reloadingJLabel.setText("Caricamento");
+        reloadingJLabel.setText("");
+        reloadingJLabel.setIcon(new ImageIcon(ProposalCard.class.getResource("/icons/loading.gif")));
         reloadedJTable = createJTable();
         if (reloadedJTable.getRowCount() > 0) {
             switchPanel(reloaded);

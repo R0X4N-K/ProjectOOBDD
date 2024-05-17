@@ -203,8 +203,12 @@ public class Toolbar {
                 }
 
                 searchDialogPanel.remove(loadingSearchIcon);
+                searchDialogPanel.repaint();
+                searchDialogPanel.revalidate();
 
-                if(matchesArticles.size() < 9)
+                if(matchesArticles.size() == 1)
+                    searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 40);
+                else if(matchesArticles.size() < 9)
                     searchDialog.setSize(searchDialog.getWidth(), matchesArticles.size() * 35);
                 else
                     searchDialog.setSize(searchDialog.getWidth(), 200);
@@ -257,10 +261,12 @@ public class Toolbar {
 
                     searchDialogPanel.add(authorItemPnl);
                 }
-
                 searchDialogPanel.remove(loadingSearchIcon);
+                searchDialogPanel.repaint();
+                searchDialogPanel.revalidate();
 
-                if(matchesAuthors.size() < 9)
+
+                if(matchesAuthors.size() < 5)
                     searchDialog.setSize(searchDialog.getWidth(), matchesAuthors.size() * 35);
                 else
                     searchDialog.setSize(searchDialog.getWidth(), 200);
@@ -283,11 +289,9 @@ public class Toolbar {
     }
 
     private void createSearchDialogComponent(){
-
         searchDialogPanel = new JPanel();
         searchDialogPanel.setLayout(new BoxLayout(searchDialogPanel, BoxLayout.Y_AXIS));
         searchDialog = new AnchoredDialog(searchTxtFld, null, 200, 200, searchDialogPanel, AnchoredDialog.SizeAnchoring.WIDTH, AnchoredDialog.AnchoringPointX.LEFT, AnchoredDialog.AnchoringPointY.UP, AnchoredDialog.SpawnPoint.DOWN);
-
     }
 
 

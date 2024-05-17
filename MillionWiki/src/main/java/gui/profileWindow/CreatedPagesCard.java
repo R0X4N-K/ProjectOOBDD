@@ -150,7 +150,8 @@ public class CreatedPagesCard {
     }
     public void setCreatedPages() {
         switchPanel(reloading);
-        reloadingJLabel.setText("Caricamento");
+        reloadingJLabel.setText("");
+        reloadingJLabel.setIcon(new ImageIcon(CreatedPagesCard.class.getResource("/icons/loading.gif")));
         setCreatedPagesJTable();
         if (reloadedJTable.getRowCount() > 0){
             switchPanel(reloaded);

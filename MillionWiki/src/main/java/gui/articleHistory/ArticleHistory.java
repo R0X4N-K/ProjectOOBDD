@@ -98,7 +98,8 @@ public class ArticleHistory extends JDialog {
         articleTitle.setText("Articolo: " + article.getTitle());
         authorArticle.setText("Autore: " + article.getAuthor().getNickname());
         switchPanel(cardReloading);
-        reloadingJLabel.setText("Caricamento");
+        reloadingJLabel.setText("");
+        reloadingJLabel.setIcon(new ImageIcon(ArticleHistory.class.getResource("/icons/loading.gif")));
         setArticleHistoryJTable();
     }
     public void setArticleHistoryJTable(){

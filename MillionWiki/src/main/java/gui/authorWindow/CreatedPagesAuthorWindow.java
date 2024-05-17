@@ -125,7 +125,8 @@ public class CreatedPagesAuthorWindow {
     }
     public void setCreatedPages() {
         switchPanel(cardCardLayoutPanel2);
-        cardCardLayoutPanel2JLabel.setText("Caricamento");
+        cardCardLayoutPanel2JLabel.setText("");
+        cardCardLayoutPanel2JLabel.setIcon(new ImageIcon(CreatedPagesAuthorWindow.class.getResource("/icons/loading.gif")));
         setCreatedPagesJTable();
         if (createdPagesJTable.getRowCount() > 0) {
             switchPanel(cardCardLayoutPanelJTable);
