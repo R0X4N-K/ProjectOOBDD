@@ -5,6 +5,7 @@ import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 import java.util.Arrays;
+import java.util.Objects;
 
 public class AnchoredDialog extends JDialog {   // An anchored dialog is a dialog that follows a JComponent position and can
                                                 // modify it's size to match the one of the JComponent we anchor it to
@@ -67,20 +68,15 @@ public class AnchoredDialog extends JDialog {   // An anchored dialog is a dialo
         setFocusableWindowState(false);
         setUndecorated(true);
 
-        if (panel == null){
-            mainPanel = new JPanel();
-        } else {
-            mainPanel = panel;
-        }
+        mainPanel = Objects.requireNonNullElseGet(panel, JPanel::new);
 
         if (panelLayout != null) {
-            mainPanel.setLayout(panelLayout);
+            setLayout(panelLayout);
+            add(mainPanel);
+        } else {
+            add(mainPanel, BorderLayout.NORTH);
+            add(new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
         }
-
-
-        add(mainPanel, BorderLayout.NORTH);
-        add(new JScrollPane(mainPanel, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED));
-
 
         setAnchorTo(anchorTo);
 

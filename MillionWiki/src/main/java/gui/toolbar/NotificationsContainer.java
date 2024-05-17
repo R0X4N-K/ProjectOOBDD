@@ -15,13 +15,11 @@ public class NotificationsContainer extends AnchoredDialog {
     protected JPanel mainNotificationsContainerPanel;
     private JLabel loadingLabel;
     private JScrollPane notificationsScrollPane;
-    private final ArrayList<Notification> notificationsList;
     private final ArrayList<CompactNotification> compactNotificationsList;
     private JPanel notificationsContainerScrollablePanel;
     private JPanel notificationsVisualizerPanel;
     private final GridBagConstraints constraints = new GridBagConstraints();
-
-    private Component owner = null;
+    private int isMouseEntered = 0;
 
     private final WindowAdapter closeOnWindowChangeListener = new WindowAdapter() {
         @Override
@@ -31,29 +29,24 @@ public class NotificationsContainer extends AnchoredDialog {
         }
     };
 
-    public void setNotificationList() {
-        ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
-        notificationsContainerScrollablePanel.removeAll();
-        notificationsScrollPane.getVerticalScrollBar().setValue(0);
-        notificationsList.clear();
-
-        if (notificationsPool != null) {
-            for (ArticleVersion version : notificationsPool) {
-                Notification n = new Notification(version);
-                notificationsList.add(n);
-                notificationsContainerScrollablePanel.add(n.getPanel(), constraints);
-            }
-        } else {
-            System.out.println("WARNING! La pool di notifiche è uguale a NULL");
+    private final MouseAdapter mouseClosure = new MouseAdapter() {
+        @Override
+        public void mouseExited(MouseEvent e) {
+            decrementIsMouseEntered(mainNotificationsContainerPanel);
         }
-        notificationCountLabel.setText("<html> Hai " + "<b>" + notificationsList.size() + "</b>" + " nuove notifiche" + "</html>");
 
-    }
+        @Override
+        public void mouseEntered(MouseEvent e) {
+            incrementIsMouseEntered(mainNotificationsContainerPanel);
+        }
+    };
+
 
     public void setCompactNotificationList() {
         ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
         notificationsContainerScrollablePanel.removeAll();
         notificationsScrollPane.getVerticalScrollBar().setValue(0);
+        notificationsScrollPane.getHorizontalScrollBar().setValue(0);
         compactNotificationsList.clear();
 
         if (notificationsPool != null) {
@@ -75,6 +68,7 @@ public class NotificationsContainer extends AnchoredDialog {
                 if (!foundSameVersion){
                     try {
                         CompactNotification cn = new CompactNotification(version);
+                        cn.getPanel().addMouseListener(mouseClosure);
                         compactNotificationsList.add(cn);
                         Thread thread = getAddNotificationThread(cn);
                         thread.start();
@@ -92,35 +86,14 @@ public class NotificationsContainer extends AnchoredDialog {
     }
 
     private Thread getAddNotificationThread(CompactNotification cn) {
-        Thread thread = new Thread(() -> {
+        return new Thread(() -> {
             notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
-            resetPanels();
-            if (mainNotificationsContainerPanel.getSize().width < cn.getPanel().getSize().width) {
-                notificationsVisualizerPanel.setSize(new Dimension(cn.getPanel().getSize().width, mainNotificationsContainerPanel.getSize().height));
-                notificationsScrollPane.setSize(notificationsVisualizerPanel.getSize());
-                notificationsContainerScrollablePanel.setSize(notificationsVisualizerPanel.getSize());
-                mainNotificationsContainerPanel.setSize(new Dimension(notificationsVisualizerPanel.getWidth(), notificationsVisualizerPanel.getHeight() + notificationCountLabel.getHeight()));
-                setSize(mainNotificationsContainerPanel.getSize());
-            }
-            notificationsContainerScrollablePanel.repaint();
+            cn.getPanel().setSize(cn.getPanel().getPreferredSize());
         });
-        return thread;
-    }
-
-    public void demoList() { // TODO: Rimuovere Funzione
-        notificationsContainerScrollablePanel.removeAll();
-        for (int i = 0; i < 100; i++) {
-            Notification n = new Notification();
-            notificationsContainerScrollablePanel.add(n.getPanel(), constraints);
-        }
-    }
-
-    public int getNotificationNumber() {
-        return notificationsList.size();
     }
 
     public NotificationsContainer(JComponent anchorTo) {
-        super(anchorTo, null,
+        super(anchorTo, new GridLayout(),
             532,
             158,
             null, SizeAnchoring.NONE,
@@ -128,13 +101,13 @@ public class NotificationsContainer extends AnchoredDialog {
 
         super.getPanel().add(mainNotificationsContainerPanel);
 
-        constraints.anchor = GridBagConstraints.NORTH;
+        constraints.anchor = GridBagConstraints.CENTER;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.0;
-        constraints.weighty = 0.0;
         constraints.gridx = 0;
+        notificationsScrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+        notificationsScrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_ALWAYS);
         notificationsScrollPane.getVerticalScrollBar().setUnitIncrement(12);
-        notificationsList = new ArrayList<Notification>();
         compactNotificationsList = new ArrayList<CompactNotification>();
 
         addComponentListener(new ComponentListener() {
@@ -160,31 +133,83 @@ public class NotificationsContainer extends AnchoredDialog {
             }
         });
 
+        addFocusListener(new FocusListener() {
+            @Override
+            public void focusGained(FocusEvent e) {
+
+            }
+
+            @Override
+            public void focusLost(FocusEvent e) {
+                setVisible(false);
+            }
+        });
+
+        Toolkit.getDefaultToolkit().addAWTEventListener( listener, AWTEvent.MOUSE_EVENT_MASK );
+        addMouseListener(mouseClosure);
+        notificationsScrollPane.getHorizontalScrollBar().addMouseListener(mouseClosure);
+        notificationsScrollPane.getVerticalScrollBar().addMouseListener(mouseClosure);
+
     }
 
     private void resetPanels() {
-        notificationsVisualizerPanel.setSize(new Dimension(mainNotificationsContainerPanel.getPreferredSize().width, mainNotificationsContainerPanel.getPreferredSize().height - notificationCountLabel.getHeight()));
-        notificationsScrollPane.setSize(notificationsVisualizerPanel.getSize());
-        notificationsContainerScrollablePanel.setSize(notificationsVisualizerPanel.getSize());
-        mainNotificationsContainerPanel.setSize(mainNotificationsContainerPanel.getPreferredSize());
+        int heightNotifications = 0;
+        if (!compactNotificationsList.isEmpty()) {
+            for (CompactNotification cn : compactNotificationsList) {
+                cn.getPanel().setSize(compactNotificationsList.getLast().getPanel().getSize());
+                System.out.println(cn.getPanel().getSize());
+            }
+            heightNotifications = (int) ((compactNotificationsList.getFirst().getPanel().getPreferredSize().getHeight() * compactNotificationsList.size()) - mainNotificationsContainerPanel.getPreferredSize().getHeight());
+            heightNotifications = Math.max(heightNotifications, 0);
+        }
+
+
+        notificationsVisualizerPanel.setSize(new Dimension(mainNotificationsContainerPanel.getPreferredSize().width,
+                mainNotificationsContainerPanel.getPreferredSize().height)); //+ heightNotifications));
+
+        notificationsScrollPane.setSize(new Dimension(notificationsVisualizerPanel.getSize().width,
+                notificationsVisualizerPanel.getSize().height - notificationCountLabel.getHeight()));
+
+        notificationsContainerScrollablePanel.setSize(notificationsScrollPane.getSize());
+        mainNotificationsContainerPanel.setSize(notificationsVisualizerPanel.getSize());
         setSize(mainNotificationsContainerPanel.getSize());
     }
 
     public void loading() {
         ((CardLayout) mainNotificationsContainerPanel.getLayout()).show(mainNotificationsContainerPanel, "Card2");
-        setSize(mainNotificationsContainerPanel.getPreferredSize());
-        mainNotificationsContainerPanel.setSize(mainNotificationsContainerPanel.getPreferredSize());
-        System.out.println(getSize());
+        resetPanels();
     }
 
     private void loaded() {
         setSize(mainNotificationsContainerPanel.getPreferredSize());
         ((CardLayout) mainNotificationsContainerPanel.getLayout()).show(mainNotificationsContainerPanel, "Card1");
         notificationsContainerScrollablePanel.setVisible(!compactNotificationsList.isEmpty());
+        resetPanels();
+    }
+
+    private void printPanelsSize() {
         System.out.println(getSize());
         System.out.println(mainNotificationsContainerPanel.getSize());
         System.out.println(notificationsVisualizerPanel.getSize());
-        System.out.println(notificationsContainerScrollablePanel.getSize());
+        System.out.println(notificationsScrollPane.getSize());
+        System.out.println(notificationsContainerScrollablePanel.getSize() + "\n\n");
     }
 
+    public void decrementIsMouseEntered (Component c) {
+        isMouseEntered = isMouseEntered == 0 ? 0 : isMouseEntered - 1;
+    }
+
+    public void incrementIsMouseEntered (Component c) {
+        isMouseEntered = isMouseEntered == getComponentCount() ? 0 : isMouseEntered + 1;
+    }
+
+
+    final AWTEventListener listener = event -> {
+        MouseEvent me = ( MouseEvent ) event;
+        Component c = me.getComponent ();
+
+        if ( event.getID () == MouseEvent.MOUSE_PRESSED ) {
+            setVisible(isMouseEntered > 0);
+        }
+    };
 }

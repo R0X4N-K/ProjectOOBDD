@@ -72,6 +72,9 @@ public class PreviewPage extends JDialog {
         add(titleTxtFld, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
+        scrollPane.getVerticalScrollBar().setValue(0);
+        scrollPane.getHorizontalScrollBar().setValue(0);
+
         setModal(true);
         setVisible(true);
     }

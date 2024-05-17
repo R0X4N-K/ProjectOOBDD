@@ -25,6 +25,9 @@ public class LoggedToolbar {
             notificationsContainer.updateDialogPos();
             notificationsContainer.setVisible(true);
             if(thread == null || !thread.isAlive()){
+                notificationsContainer.loading();
+                notificationsContainer.updateDialogPos();
+                notificationsContainer.setVisible(true);
                 thread = new Thread(notificationsContainer::setCompactNotificationList);
                 thread.start();
             }
