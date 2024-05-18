@@ -1,6 +1,7 @@
 package gui.authorWindow;
 
 import controller.Controller;
+import gui.profileWindow.ProposalCard;
 import model.Article;
 import model.ArticleVersion;
 
@@ -138,6 +139,9 @@ public class CreatedPagesAuthorWindow {
             createdPagesJTableJScrollPane.revalidate();
             createdPagesJTableJScrollPane.repaint();
         } else{
+            cardCardLayoutPanel2JLabel.setIcon(
+                    new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
+            );
             cardCardLayoutPanel2JLabel.setText("Nessuna pagina ancora creata dall'autore");
         }
     }

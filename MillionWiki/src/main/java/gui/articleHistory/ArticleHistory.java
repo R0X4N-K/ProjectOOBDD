@@ -1,5 +1,6 @@
 package gui.articleHistory;
 import gui.profileWindow.CreatedPagesCard;
+import gui.profileWindow.ProposalCard;
 import model.Article;
 import model.ArticleVersion;
 import controller.Controller;
@@ -119,6 +120,9 @@ public class ArticleHistory extends JDialog {
                 }
                 else{
                     switchPanel(cardReloading);
+                    reloadingJLabel.setIcon(
+                            new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
+                    );
                     reloadingJLabel.setText("Nessuna versione trovata");
                 }
             });

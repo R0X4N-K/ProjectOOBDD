@@ -18,7 +18,7 @@
         <properties>
           <minimumSize width="350" height="60"/>
           <preferredSize width="350" height="158"/>
-          <visible value="true"/>
+          <visible value="false"/>
         </properties>
         <border type="none"/>
         <children>
@@ -78,7 +78,7 @@
         </constraints>
         <properties>
           <enabled value="true"/>
-          <visible value="false"/>
+          <visible value="true"/>
         </properties>
         <border type="none"/>
         <children>
@@ -88,6 +88,7 @@
               <gridbag weightx="0.0" weighty="0.0"/>
             </constraints>
             <properties>
+              <icon value="icons/loading.gif"/>
               <text value="Caricamento"/>
             </properties>
           </component>

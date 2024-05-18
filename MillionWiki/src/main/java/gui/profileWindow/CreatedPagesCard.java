@@ -167,6 +167,9 @@ public class CreatedPagesCard {
             reloadedJScrollPane.revalidate();
             reloadedJScrollPane.repaint();}
         else {
+            reloadingJLabel.setIcon(
+                    new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
+            );
             reloadingJLabel.setText("Nessuna pagina ancora creata");
         }
     }

@@ -92,7 +92,12 @@ public class NotificationCard {
             scrollPaneJTable.setViewportView(notificationJTable);
             scrollPaneJTable.revalidate();
             scrollPaneJTable.repaint();
-        } else{reloadingJLabel.setText("Nessuna notifica");}
+        } else{
+            reloadingJLabel.setIcon(
+                    new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
+            );
+            reloadingJLabel.setText("Nessuna notifica");
+        }
 
 
     }
