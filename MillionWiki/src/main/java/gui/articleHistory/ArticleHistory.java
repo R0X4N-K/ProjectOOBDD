@@ -1,4 +1,5 @@
 package gui.articleHistory;
+import gui.profileWindow.CreatedPagesCard;
 import model.Article;
 import model.ArticleVersion;
 import controller.Controller;
@@ -10,9 +11,10 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
-import java.util.ArrayList;
-import java.util.Comparator;
+import java.util.*;
 import java.util.List;
+import java.util.Timer;
+import java.util.concurrent.TimeUnit;
 
 public class ArticleHistory extends JDialog {
     private JPanel articleHistoryMainPanel;
@@ -99,7 +101,6 @@ public class ArticleHistory extends JDialog {
         authorArticle.setText("Autore: " + article.getAuthor().getNickname());
         switchPanel(cardReloading);
         reloadingJLabel.setText("");
-        reloadingJLabel.setIcon(new ImageIcon(ArticleHistory.class.getResource("/icons/loading.gif")));
         setArticleHistoryJTable();
     }
     public void setArticleHistoryJTable(){
@@ -126,12 +127,15 @@ public class ArticleHistory extends JDialog {
         thread.start();
        }
     private JTable createJTable() {
+        reloadingJLabel.setIcon(new ImageIcon(CreatedPagesCard.class.getResource("/icons/loading.gif")));
+        reloadingJLabel.setText("Inizio caricamento");
         ArrayList<ArticleVersion> articleVersions = Controller.getAllArticleVersionExcludingTextByArticleId(idArticle);
 
         // Fa il sort delle versioni dell'articolo in base alla data di revisione
         articleVersions.sort(Comparator.comparing(ArticleVersion::getVersionDate));
 
         Object[][] data = new Object[articleVersions.size()][5]; // Modifica la dimensione dell'array a 5
+        reloadingJLabel.setText("Caricamento storico");
         for (int i = 0; i < articleVersions.size(); i++) {
             ArticleVersion articleVersion = articleVersions.get(i);
             data[i][0] = "<html><a href='"+articleVersion.getId()+"'>Visualizza</a></html>";

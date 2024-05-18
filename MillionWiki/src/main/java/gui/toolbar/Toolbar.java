@@ -217,9 +217,6 @@ public class Toolbar {
                     searchDialog.setSize(searchDialog.getWidth(), 25);
                     searchDialogPanel.add(new JLabel("Nessun risultato"));
                 }
-
-
-
             }
 
             else{

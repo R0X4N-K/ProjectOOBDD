@@ -83,7 +83,6 @@ public class NotificationCard {
 
     public void setNotificationCard(){
         switchPanel(reloading);
-        reloadingJLabel.setText("Caricamento");
         notificationJTable = createJTable();
         if(notificationJTable.getRowCount() > 0){
             switchPanel(reloaded);
@@ -102,6 +101,9 @@ public class NotificationCard {
         notificationJTable = new JTable();
     }
     private JTable createJTable() {
+        reloadingJLabel.setIcon(new ImageIcon(
+                NotificationCard.class.getResource("/icons/loading.gif")
+        ));reloadingJLabel.setText("Caricamento notifiche");
         List<ArticleVersion> versionArticles = Controller.getNotifications();
         Set<Integer> uniqueArticleIds = new HashSet<>();
         for (ArticleVersion versionArticle : versionArticles) {

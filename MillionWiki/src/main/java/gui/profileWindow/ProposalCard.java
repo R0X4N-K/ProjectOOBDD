@@ -113,6 +113,7 @@ public class ProposalCard {
 
     private JTable createJTable() {
         int idAuthor= Controller.getCookie().getId();
+        reloadingJLabel.setText("Caricamento proposte");
         List<ArticleVersion> versionArticles = Controller.getAllArticleVersionExcludingTextByAuthorId(idAuthor);
         Set<Integer> uniqueArticleIds = new HashSet<>();
         for (ArticleVersion versionArticle : versionArticles) {

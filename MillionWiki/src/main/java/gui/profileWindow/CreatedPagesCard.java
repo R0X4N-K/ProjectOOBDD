@@ -99,12 +99,17 @@ public class CreatedPagesCard {
 
     private JTable createJTable() {
         int idAuthor= Controller.getCookie().getId();
+        reloadingJLabel.setIcon(new ImageIcon(CreatedPagesCard.class.getResource("/icons/loading.gif")));
+        reloadingJLabel.setText("Inizio caricamento");
         List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
+        reloadingJLabel.setText("Caricamento articoli terminato");
         Object[][] data = new Object[articles.size()][7]; // Modifica la dimensione dell'array a 7
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
+            reloadingJLabel.setText("Caricamento versioni articoli per l'articolo: " + article.getTitle());
             ArrayList<ArticleVersion> articleVersions = getAllArticleVersionExcludingTextByArticleId(article.getId());
             Date lastRevisionDate = getLastRevisionDate(articleVersions);
+            reloadingJLabel.setText("Caricamento dell' ultima versione articolo aggiornata di: " + article.getTitle());
             data[i][0] = "<html><a href='" + article.getId() + "'>" + article.getTitle() + "</a></html>";
             data[i][1] = "<html><a href='"+ article.getId() + "'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
             data[i][2] = article.getCreationDate();
@@ -117,6 +122,7 @@ public class CreatedPagesCard {
             data[i][5] = getCountWaitingProposal(articleVersions);
             data[i][6] = getCountAcceptedProposal(articleVersions);
         }
+        System.out.println("All done");
 
         String[] columns = {"Titolo", "Storico", "Data Creazione", "Ultima Revisione", "Mod. Ricevute","Mod. in Attesa", "Mod. Apportate"}; // Aggiunge la nuova colonna "Storico"
         DefaultTableModel model = new DefaultTableModel(data, columns) {
@@ -151,7 +157,6 @@ public class CreatedPagesCard {
     public void setCreatedPages() {
         switchPanel(reloading);
         reloadingJLabel.setText("");
-        reloadingJLabel.setIcon(new ImageIcon(CreatedPagesCard.class.getResource("/icons/loading.gif")));
         setCreatedPagesJTable();
         if (reloadedJTable.getRowCount() > 0){
             switchPanel(reloaded);

@@ -80,11 +80,13 @@ public class CreatedPagesAuthorWindow {
 
     private JTable createJTable() {
         int idAuthor= Controller.getWindow().getAuthorWindow().getIdAuthor();
+        cardCardLayoutPanel2JLabel.setText("Caricamento delle pagine create da " + Controller.getNicknameAuthorById(idAuthor));
         List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
         Object[][] data = new Object[articles.size()][6];
         for (int i = 0; i < articles.size(); i++) {
             Article article = articles.get(i);
-            ArrayList<ArticleVersion> articleVersions = getAllArticleVersionByArticleId(article.getId());
+            cardCardLayoutPanel2JLabel.setText("Caricamento versione aggiornata dell' articolo: " + article.getTitle());
+            ArrayList<ArticleVersion> articleVersions = getAllArticleVersionExcludingTextByArticleId(article.getId());
             Date lastRevisionDate = getLastRevisionDate(articleVersions);
             data[i][0] = "<html><a href='"+article.getId()+"'>" + article.getTitle() + "</a></html>";
             data[i][1] = article.getCreationDate();
