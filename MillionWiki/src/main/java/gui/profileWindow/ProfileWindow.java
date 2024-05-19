@@ -3,6 +3,9 @@ package gui.profileWindow;
 import gui.profileWindow.profileCard.ProfileCard;
 
 import javax.swing.*;
+import javax.swing.border.LineBorder;
+import javax.swing.border.MatteBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -24,9 +27,14 @@ public class ProfileWindow extends JDialog {
         super(parent, true);
         setContentPane(profileWindowMainPanel);
         pack();
+        setTitle("Il mio profilo");
         setSize(700, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+
+        profileWindowJScrollPane.setBorder(new MatteBorder(
+                0, 0, 0, 1, Color.LIGHT_GRAY
+        ));
         buttonToProfile.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {

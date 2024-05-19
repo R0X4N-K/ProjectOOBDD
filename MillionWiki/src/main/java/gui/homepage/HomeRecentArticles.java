@@ -32,6 +32,7 @@ public class HomeRecentArticles {
         ArrayList<Integer> recentArticles = Controller.getRecentArticles(10);
         for (Integer articleId : recentArticles) {
             try {
+                Controller.getSplashScreen().incrementProgressBar();
                 String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
                 HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
                 homeRecentArticlesMainPanel.add(recentArticle);
