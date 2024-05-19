@@ -32,7 +32,9 @@ public class ArticleHistory extends JDialog {
         super(parent, true);
         setContentPane(articleHistoryMainPanel);
         pack();
+        setTitle("Storico");
         setSize(700, 600);
+        setMinimumSize(new Dimension(600, 500));
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
@@ -98,10 +100,11 @@ public class ArticleHistory extends JDialog {
     }
     public void setArticleHistory(){
         Article article = Controller.getArticlesById(idArticle);
-        articleTitle.setText("Articolo: " + article.getTitle());
-        authorArticle.setText("Autore: " + article.getAuthor().getNickname());
+        articleTitle.setText(article.getTitle());
+        authorArticle.setText(article.getAuthor().getNickname());
         switchPanel(cardReloading);
         reloadingJLabel.setText("");
+        setTitle(article.getTitle() + " | Storico");
         setArticleHistoryJTable();
     }
     public void setArticleHistoryJTable(){

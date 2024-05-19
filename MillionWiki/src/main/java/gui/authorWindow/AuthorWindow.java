@@ -1,5 +1,7 @@
 package gui.authorWindow;
 
+import controller.Controller;
+
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,6 +22,7 @@ public class AuthorWindow extends JDialog{
         super(parent, true);
         setContentPane(authorWindowMainPanel);
         pack();
+        setTitle("Profilo");
         setSize(700, 600);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
@@ -61,6 +64,11 @@ public class AuthorWindow extends JDialog{
 
   public void setProfileCard() {
         profileAuthorWindow.setProfile();
+        try {
+            setTitle("Profilo di " + Controller.getAuthorById(idAuthor).getNickname());
+        }catch (Exception e) {
+            setTitle("Profilo");
+        }
     }
 
 

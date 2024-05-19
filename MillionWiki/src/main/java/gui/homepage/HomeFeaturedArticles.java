@@ -24,9 +24,14 @@ public class HomeFeaturedArticles {
 
         ArrayList<Article> mostViewedArticles = Controller.getMostViewedArticles(10);
         for (Article article : mostViewedArticles) {
-            String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
-            HomeArticlePanel featuredArticle = new HomeArticlePanel(article.getTitle(), htmlText, article.getId());
-            homeFeaturedArticlesMainPanel.add(featuredArticle);
+            try {
+                Controller.getSplashScreen().incrementProgressBar();
+                String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
+                HomeArticlePanel featuredArticle = new HomeArticlePanel(article.getTitle(), htmlText, article.getId());
+                homeFeaturedArticlesMainPanel.add(featuredArticle);
+            }catch (Exception e) {
+                e.printStackTrace();
+            }
             homeFeaturedArticlesMainPanel.repaint();
             homeFeaturedArticlesMainPanel.revalidate();
         }
