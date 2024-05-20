@@ -108,7 +108,7 @@ public class NotificationsContainer extends AnchoredDialog {
 
         super.getPanel().add(mainNotificationsContainerPanel);
 
-        constraints.anchor = GridBagConstraints.CENTER;
+        constraints.anchor = GridBagConstraints.NORTH;
         constraints.fill = GridBagConstraints.HORIZONTAL;
         constraints.weightx = 0.0;
         constraints.gridx = 0;
@@ -164,42 +164,45 @@ public class NotificationsContainer extends AnchoredDialog {
         if (!compactNotificationsList.isEmpty()) {
             for (CompactNotification cn : compactNotificationsList) {
                 cn.getPanel().setSize(compactNotificationsList.getLast().getPanel().getSize());
-                System.out.println(cn.getPanel().getSize());
+                //System.out.println(cn.getPanel().getSize());
             }
             heightNotifications = (int) ((compactNotificationsList.getFirst().getPanel().getPreferredSize().getHeight() * compactNotificationsList.size()) - mainNotificationsContainerPanel.getPreferredSize().getHeight());
             heightNotifications = Math.max(heightNotifications, 0);
         }
 
+        setSize(new Dimension(mainNotificationsContainerPanel.getPreferredSize().width,
+                mainNotificationsContainerPanel.getPreferredSize().height + heightNotifications));
 
-        notificationsVisualizerPanel.setSize(new Dimension(mainNotificationsContainerPanel.getPreferredSize().width,
-                mainNotificationsContainerPanel.getPreferredSize().height)); //+ heightNotifications));
+        mainNotificationsContainerPanel.setSize(getSize());
 
-        notificationsScrollPane.setSize(new Dimension(notificationsVisualizerPanel.getSize().width,
-                notificationsVisualizerPanel.getSize().height - notificationCountLabel.getHeight()));
+
+        notificationsVisualizerPanel.setSize(getSize());
+
+        notificationsScrollPane.setSize(new Dimension(getSize().width,
+                getSize().height - notificationCountLabel.getHeight()));
 
         notificationsContainerScrollablePanel.setSize(notificationsScrollPane.getSize());
-        mainNotificationsContainerPanel.setSize(notificationsVisualizerPanel.getSize());
-        setSize(mainNotificationsContainerPanel.getSize());
+
+        printPanelsSize();
     }
 
     public void loading() {
-        ((CardLayout) mainNotificationsContainerPanel.getLayout()).show(mainNotificationsContainerPanel, "Card2");
         resetPanels();
+        ((CardLayout) mainNotificationsContainerPanel.getLayout()).show(mainNotificationsContainerPanel, "Card2");
     }
 
     private void loaded() {
-        setSize(mainNotificationsContainerPanel.getPreferredSize());
         ((CardLayout) mainNotificationsContainerPanel.getLayout()).show(mainNotificationsContainerPanel, "Card1");
         notificationsContainerScrollablePanel.setVisible(!compactNotificationsList.isEmpty());
         resetPanels();
     }
 
     private void printPanelsSize() {
-        System.out.println(getSize());
-        System.out.println(mainNotificationsContainerPanel.getSize());
-        System.out.println(notificationsVisualizerPanel.getSize());
-        System.out.println(notificationsScrollPane.getSize());
-        System.out.println(notificationsContainerScrollablePanel.getSize() + "\n\n");
+        System.out.println("DIALOG SIZE: " + getSize());
+        System.out.println("MAIN PANEL SIZE: " + mainNotificationsContainerPanel.getSize());
+        System.out.println("VISUALIZER PANEL SIZE: " + notificationsVisualizerPanel.getSize());
+        System.out.println("SCROLLPANE SIZE: " + notificationsScrollPane.getSize());
+        System.out.println("SCROLLABLE PANEL SIZE: " + notificationsContainerScrollablePanel.getSize() + "\n\n");
     }
 
     public void decrementIsMouseEntered (Component c) {
