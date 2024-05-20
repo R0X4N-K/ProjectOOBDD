@@ -7,6 +7,7 @@ import gui.profileWindow.ProfileWindow;
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 
 public class ProfileCard {
     private JPanel profileCardMainPanel;
@@ -62,7 +63,11 @@ public class ProfileCard {
     }
 
     public void setProfile() {
-        setWelcomeMessage(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
-        setEmailJLabel(Controller.getAuthorById(Controller.getCookie().getId()).getEmail());
+        try {
+            setWelcomeMessage(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
+            setEmailJLabel(Controller.getAuthorById(Controller.getCookie().getId()).getEmail());
+        } catch (SQLException | IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

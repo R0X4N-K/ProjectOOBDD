@@ -1,11 +1,13 @@
 package gui.page.VersionRevision;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import model.ArticleVersion;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PageVersionPreview {
@@ -77,16 +79,20 @@ public class PageVersionPreview {
     }
 
     public void setArticleVersions(int articleId) {
-        if (articleId != -1) {
-            ArrayList<ArticleVersion> temp = Controller.getNotificationsText(articleId);
-            if (temp != null) {
-                reviewed.clear();
-                articleVersions = temp;
-                currentArticlePosition = 0;
-                changeProposal();
+        try {
+            if (articleId != -1) {
+                ArrayList<ArticleVersion> temp = Controller.getNotificationsText(articleId);
+                if (temp != null) {
+                    reviewed.clear();
+                    articleVersions = temp;
+                    currentArticlePosition = 0;
+                    changeProposal();
+                }
+            } else {
+                System.err.println("Articolo inesistente");
             }
-        } else {
-            System.err.println("PUPÙ");
+        } catch (SQLException | IllegalArgumentException e) {
+            ErrorDisplayer.showError(e);
         }
     }
 
@@ -111,12 +117,17 @@ public class PageVersionPreview {
                     dialog.pack();
                     dialog.setVisible(true);
                 } else {
-                    Controller.reviewArticles(articleVersions);
+                    try {
+                        Controller.reviewArticles(articleVersions);
+                    } catch (SQLException e) {
+                        ErrorDisplayer.showError(e);
+                    }
                     Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
                 }
             }
         } else {
             System.out.println("Devi vedere anche le altre");
+            JOptionPane.showMessageDialog(null, "Impossibile procedere alla revisione. Non tutte le versioni sono state visualizate");
         }
     }
     void setLastAccepted () {

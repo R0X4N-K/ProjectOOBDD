@@ -1,16 +1,13 @@
 package gui.page;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import model.Article;
 import model.ArticleVersion;
 
 import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
-import javax.swing.event.UndoableEditEvent;
-import javax.swing.event.UndoableEditListener;
 import javax.swing.text.BadLocationException;
-import javax.swing.undo.CannotRedoException;
-import javax.swing.undo.CannotUndoException;
 import javax.swing.undo.UndoManager;
 import java.awt.*;
 import java.awt.datatransfer.DataFlavor;
@@ -21,6 +18,7 @@ import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.SQLException;
 
 public class PageUtils {
     JPanel mainPanelPage;
@@ -148,9 +146,13 @@ public class PageUtils {
 
         pageField.addHyperlinkListener(e -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                Article article = Controller.getArticlesById(Integer.parseInt(e.getDescription()));
-                ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(Integer.parseInt(e.getDescription()));
-                new PreviewPage(article.getTitle(), articleVersion.getText());
+                try {
+                    Article article = Controller.getArticlesById(Integer.parseInt(e.getDescription()));
+                    ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(Integer.parseInt(e.getDescription()));
+                    new PreviewPage(article.getTitle(), articleVersion.getText());
+                } catch (SQLException | IllegalArgumentException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -347,7 +349,7 @@ public class PageUtils {
                     JOptionPane.showMessageDialog(mainPanelPage, "Titolo o testo mancante",
                             "Errore", JOptionPane.ERROR_MESSAGE);
                 }
-            } catch (BadLocationException ex) {
+            } catch (BadLocationException | SQLException ex) {
                 throw new RuntimeException(ex);
             }
 
@@ -356,9 +358,13 @@ public class PageUtils {
         infoPageBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Controller.getWindow().getAuthorWindow().setIdAuthor(Controller.getAuthorByNickname(infoPageBtn.getText()).getId());
-                Controller.getWindow().getAuthorWindow().setAuthorWindow();
-                Controller.getWindow().getAuthorWindow().setVisible(true);
+                try {
+                    Controller.getWindow().getAuthorWindow().setIdAuthor(Controller.getAuthorByNickname(infoPageBtn.getText()).getId());
+                    Controller.getWindow().getAuthorWindow().setAuthorWindow();
+                    Controller.getWindow().getAuthorWindow().setVisible(true);
+                } catch (SQLException ex) {
+                    ErrorDisplayer.showError(ex);
+                }
             }
         });
 

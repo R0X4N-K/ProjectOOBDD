@@ -1,11 +1,11 @@
 package gui.homepage;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.sql.SQLException;
 import java.util.Objects;
 
 
@@ -28,21 +28,20 @@ public class Home {
 
     public Home() {
 
-        infoBtn.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
+        infoBtn.addActionListener(e -> {
+            try {
                 Controller.getWindow().getPage().openPage(Objects.requireNonNull(Controller.getArticleByTitle("MillionWiki")));
-                Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+            } catch (SQLException ex) {
+                ErrorDisplayer.showError(ex);
             }
+            Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
         });
 
-        reloadHome.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                reloadHome.setIcon(new ImageIcon(Home.class.getResource("/icons/reload.gif")));
-                Controller.getWindow().getHomepage().getHomeFeaturedArticles().setHomeFeaturedArticles();
-                Controller.getWindow().getHomepage().getHomeRecentArticles().setHomeRecentArticles();
-                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
-            }
+        reloadHome.addActionListener(e -> {
+            reloadHome.setIcon(new ImageIcon(Home.class.getResource("/icons/reload.gif")));
+            Controller.getWindow().getHomepage().getHomeFeaturedArticles().setHomeFeaturedArticles();
+            Controller.getWindow().getHomepage().getHomeRecentArticles().setHomeRecentArticles();
+            Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
         });
 
         // Titolo

@@ -1,6 +1,7 @@
 package gui.profileWindow;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import gui.articleHistory.ArticleHistory;
 import model.Article;
 import model.ArticleVersion;
@@ -13,8 +14,11 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
+
+import static gui.profileWindow.ProfileWindow.getMouseAdapter;
 
 public class ProposalCard {
 
@@ -40,23 +44,8 @@ public class ProposalCard {
             reloadedJTable = new JTable();
     }
     private MouseAdapter createArticleMouseListener() {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = reloadedJTable.rowAtPoint(e.getPoint());
-                int col = reloadedJTable.columnAtPoint(e.getPoint());
-                if (col == 0) {
-                    String link = (String) reloadedJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
-                    int id = Integer.parseInt(idString);
-                    Controller.getWindow().getprofileWindow().setVisible(false);
-                    Article article = Controller.getArticlesById(id);
-                    Controller.getWindow().getPage().setTitlePageField(article.getTitle());
-                    Controller.getWindow().getPage().setTextPageField(Controller.getLastArticleVersionByArticleId(id).getText());
-                    Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
-                }
-            }
-        };}
+        return getMouseAdapter(reloadedJTable);
+    }
 
     private MouseAdapter createArticleHistoryMouseListener() {
         return new MouseAdapter() {
@@ -112,59 +101,65 @@ public class ProposalCard {
     }
 
     private JTable createJTable() {
-        int idAuthor= Controller.getCookie().getId();
+        int idAuthor = Controller.getCookie().getId();
         reloadingJLabel.setText("Caricamento proposte");
-        List<ArticleVersion> versionArticles = Controller.getAllArticleVersionExcludingTextByAuthorId(idAuthor);
-        Set<Integer> uniqueArticleIds = new HashSet<>();
-        for (ArticleVersion versionArticle : versionArticles) {
-            if (versionArticle.getParentArticle().getAuthor().getId() != idAuthor) {
-                uniqueArticleIds.add(versionArticle.getParentArticle().getId());
-            }
-        }
-        Object[][] data = new Object[uniqueArticleIds.size()][8]; // Modifica la dimensione dell'array a 8
-        int j = 0;
-        for (Integer idArticle : uniqueArticleIds) {
-            List<ArticleVersion> filteredArticles = new ArrayList<>();
+        try {
+            List<ArticleVersion> versionArticles = Controller.getAllArticleVersionsExcludingTextByAuthorId(idAuthor);
+            Set<Integer> uniqueArticleIds = new HashSet<>();
             for (ArticleVersion versionArticle : versionArticles) {
-                if (versionArticle.getParentArticle().getId() == idArticle) {
-                    filteredArticles.add(versionArticle);
+                if (versionArticle.getParentArticle().getAuthor().getId() != idAuthor) {
+                    uniqueArticleIds.add(versionArticle.getParentArticle().getId());
                 }
             }
-            if (!filteredArticles.isEmpty()) {
-                data[j][0] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>" + filteredArticles.get(0).getParentArticle().getTitle() + "</a></html>";
-                data[j][1] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
-                data[j][2] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getAuthor().getId() + "'>" + Controller.getNicknameAuthorById(filteredArticles.get(0).getParentArticle().getAuthor().getId()) + "</a></html>";
-                data[j][3] = getSentProposalCount(filteredArticles, idArticle);
-                data[j][4] = getLastSentProposalDate(filteredArticles, idArticle);
-                data[j][5] = getAcceptedProposalCount(filteredArticles, idArticle);
-                data[j][6] = getRejectedProposalCount(filteredArticles, idArticle);
-                data[j][7] = getWaitedProposalCount(filteredArticles, idArticle);
-                j++;
+            Object[][] data = new Object[uniqueArticleIds.size()][8]; // Modifica la dimensione dell'array a 8
+            int j = 0;
+            for (Integer idArticle : uniqueArticleIds) {
+                List<ArticleVersion> filteredArticles = new ArrayList<>();
+                for (ArticleVersion versionArticle : versionArticles) {
+                    if (versionArticle.getParentArticle().getId() == idArticle) {
+                        filteredArticles.add(versionArticle);
+                    }
+                }
+                if (!filteredArticles.isEmpty()) {
+                    data[j][0] = "<html><a href='" + filteredArticles.getFirst().getParentArticle().getId() + "'>" + filteredArticles.getFirst().getParentArticle().getTitle() + "</a></html>";
+                    data[j][1] = "<html><a href='" + filteredArticles.getFirst().getParentArticle().getId() + "'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
+                    data[j][2] = "<html><a href='" + filteredArticles.getFirst().getParentArticle().getAuthor().getId() + "'>" + Controller.getNicknameAuthorById(filteredArticles.getFirst().getParentArticle().getAuthor().getId()) + "</a></html>";
+                    data[j][3] = getSentProposalCount(filteredArticles, idArticle);
+                    data[j][4] = getLastSentProposalDate(filteredArticles, idArticle);
+                    data[j][5] = getAcceptedProposalCount(filteredArticles, idArticle);
+                    data[j][6] = getRejectedProposalCount(filteredArticles, idArticle);
+                    data[j][7] = getWaitedProposalCount(filteredArticles, idArticle);
+                    j++;
+                }
             }
-        }
 
-        String[] columns = {"Articolo", "Storico", "Autore", "Proposte inviate", "Ultima Inviata", "Proposte Accettate", "Proposte Rifiutate", "Proposte in Attesa"}; // Aggiunge la nuova colonna "Storico"
-        DefaultTableModel model = new DefaultTableModel(data, columns) {
-            @Override
-            public boolean isCellEditable(int row, int column) {
-                // Tutte le celle non sono modificabili
-                return false;
-            }
-        };
+            String[] columns = {"Articolo", "Storico", "Autore", "Proposte inviate", "Ultima Inviata", "Proposte Accettate", "Proposte Rifiutate", "Proposte in Attesa"}; // Aggiunge la nuova colonna "Storico"
+            DefaultTableModel model = new DefaultTableModel(data, columns) {
+                @Override
+                public boolean isCellEditable(int row, int column) {
+                    // Tutte le celle non sono modificabili
+                    return false;
+                }
+            };
 
-        JTable table = new JTable(model);
-        table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
-        TableColumnModel columnModel = table.getColumnModel();
-        for (int i = 0; i < columnModel.getColumnCount(); i++) {
-            TableColumn column = columnModel.getColumn(i);
-            column.setPreferredWidth(100); // Imposta la larghezza preferita della colonna
-            if (i>0){ // Imposta le colonne non modificabili dalla seconda in poi
-                column.setResizable(false);
+            JTable table = new JTable(model);
+            table.setAutoResizeMode(JTable.AUTO_RESIZE_OFF);
+            TableColumnModel columnModel = table.getColumnModel();
+            for (int i = 0; i < columnModel.getColumnCount(); i++) {
+                TableColumn column = columnModel.getColumn(i);
+                column.setPreferredWidth(100); // Imposta la larghezza preferita della colonna
+                if (i > 0) { // Imposta le colonne non modificabili dalla seconda in poi
+                    column.setResizable(false);
+                }
             }
+            columnModel.getColumn(1).setPreferredWidth(50);
+            columnModel.getColumn(5).setPreferredWidth(110);
+            return table;
+        }  catch (SQLException | IllegalArgumentException e) {
+            ErrorDisplayer.showError(e);
+            reloadingJLabel.setText("Caricamento proposte fallito");
         }
-        columnModel.getColumn(1).setPreferredWidth(50);
-        columnModel.getColumn(5).setPreferredWidth(110);
-        return table;
+        return null;
     }
 
     private void setProposalCardJTable() {
@@ -172,20 +167,24 @@ public class ProposalCard {
         reloadingJLabel.setText("");
         reloadingJLabel.setIcon(new ImageIcon(ProposalCard.class.getResource("/icons/loading.gif")));
         reloadedJTable = createJTable();
-        if (reloadedJTable.getRowCount() > 0) {
-            switchPanel(reloaded);
-            reloadedJTable.addMouseListener(createArticleMouseListener());
-            reloadedJTable.addMouseListener(createAuthorMouseListener());
-            reloadedJTable.addMouseListener(createArticleHistoryMouseListener());
-            addHandCursorToTable();
-            reloadedJScrollPane.setViewportView(reloadedJTable);
-            reloadedJScrollPane.revalidate();
-            reloadedJScrollPane.repaint();
+        if (reloadedJTable != null){
+            if (reloadedJTable.getRowCount() > 0) {
+                switchPanel(reloaded);
+                reloadedJTable.addMouseListener(createArticleMouseListener());
+                reloadedJTable.addMouseListener(createAuthorMouseListener());
+                reloadedJTable.addMouseListener(createArticleHistoryMouseListener());
+                addHandCursorToTable();
+                reloadedJScrollPane.setViewportView(reloadedJTable);
+                reloadedJScrollPane.revalidate();
+                reloadedJScrollPane.repaint();
+            } else {
+                reloadingJLabel.setIcon(
+                        new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
+                );
+                reloadingJLabel.setText("Nessuna Proposta di modifica inviata");
+            }
         } else {
-            reloadingJLabel.setIcon(
-                    new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
-            );
-            reloadingJLabel.setText("Nessuna Proposta di modifica inviata");
+            reloadingJLabel.setText("Caricamento Fallito");
         }
     }
     public void setProposalCard(){

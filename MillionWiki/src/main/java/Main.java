@@ -1,7 +1,5 @@
-import com.formdev.flatlaf.FlatIntelliJLaf;
 import com.formdev.flatlaf.FlatLightLaf;
 import controller.Controller;
-import gui.*;
 import gui.SplashScreen;
 import gui.Window;
 import implementationDAO.ArticleDAOImplementation;
@@ -9,10 +7,7 @@ import implementationDAO.ArticleVersionDAOImplementation;
 import implementationDAO.AuthorDAOImplementation;
 
 import javax.swing.*;
-import javax.swing.border.Border;
-import java.awt.*;
-import java.net.URL;
-import java.nio.file.attribute.FileAttribute;
+import java.sql.SQLException;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
@@ -26,13 +21,17 @@ public class Main {
 
         UIManager.put("Button.background", UIManager.getDefaults());
 
-        if (Controller.verifyAppIstances()) {
-            Controller.notifyOtherAppIstances();
+        if (Controller.verifyAppInstances()) {
+            Controller.notifyOtherAppInstances();
         } else {
             Controller.setSplashScreen(new SplashScreen());
-            Controller.setArticleDAO(new ArticleDAOImplementation());
-            Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
-            Controller.setAuthorDAO(new AuthorDAOImplementation());
+            try {
+                Controller.setArticleDAO(new ArticleDAOImplementation());
+                Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
+                Controller.setAuthorDAO(new AuthorDAOImplementation());
+            } catch (SQLException e) {
+                // TODO: showError da errorDisplayer
+            }
             Controller.checkIfRememberedLogin();
             Controller.setWindow(new Window());
         }

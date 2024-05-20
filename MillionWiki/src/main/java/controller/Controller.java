@@ -5,7 +5,6 @@ import dao.ArticleVersionDAO;
 import dao.AuthorDAO;
 import gui.SplashScreen;
 import gui.Window;
-import implementationDAO.*;
 import model.*;
 
 import java.io.File;
@@ -14,8 +13,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.Objects;
+
 
 public final class Controller {
 
@@ -54,10 +52,10 @@ public final class Controller {
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
-        if (cookie != null && cookie.getId() >= 0 && cookie.getPassword() != null) {
-            //System.out.println(cookie.getId());
-            //System.out.println(cookie.getPassword());
-        }
+        /*if (cookie != null && cookie.getId() >= 0 && cookie.getPassword() != null) {
+            System.out.println(cookie.getId());
+            System.out.println(cookie.getPassword());
+        }*/
     }
 
     public static void setCookie(Cookie cookie) {
@@ -68,99 +66,86 @@ public final class Controller {
         Cookie.deleteCookie();
     }
 
-    public static Article getArticleByTitle(String articleTitle){
-        try {
-            return new ArticleDAOImplementation().getArticleByTitle(articleTitle);
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static Article getArticleByTitle(String articleTitle) throws SQLException {
+        return articleDAO.getArticleByTitle(articleTitle);
     }
 
-    public static Article pickRandomArticle(){
-        return new ArticleDAOImplementation().pickRandomArticle();
+    public static Article pickRandomArticle() throws SQLException, IllegalArgumentException {
+        return articleDAO.pickRandomArticle();
     }
 
-    public static void incrementArticleViews(int idArticle){
+    public static void incrementArticleViews(int idArticle) throws SQLException {
         articleDAO.incrementArticleViews(idArticle);
     }
 
-    public static ArrayList<Article> getMostViewedArticles(int numberArticles){
+    public static ArrayList<Article> getMostViewedArticles(int numberArticles) throws SQLException {
         return articleDAO.getMostViewedArticles(numberArticles);
     }
 
-    public static void changeNickname(String newNickname){
+    public static void changeNickname(String newNickname) throws SQLException {
         authorDAO.updateNicknameAuthor(cookie.getId(),newNickname);
     }
-    public static void changeEmail(String newEmail){
+    public static void changeEmail(String newEmail) throws SQLException {
         authorDAO.updateEmailAuthor(cookie.getId(),newEmail);
     }
-    public static void changePassword(String newPassword){
+    public static void changePassword(String newPassword) throws SQLException {
         authorDAO.updatePasswordAuthor(cookie.getId(), newPassword);
     }
 
-    public static String getTitleByArticleId(int idArticle){
-        return articleDAO.getTitleArticleByArticleId(idArticle);
-    }
-
-    public static ArticleVersion getLastArticleVersionByArticleId(int idArticle){
+    public static ArticleVersion getLastArticleVersionByArticleId(int idArticle) throws SQLException, IllegalArgumentException {
         return articleVersionDAO.getLastArticleVersionByArticleId(idArticle);
     }
 
-    public static ArrayList<Integer> getRecentArticles(int numberArticles){
+    public static ArrayList<Integer> getRecentArticles(int numberArticles) throws SQLException {
         return articleDAO.getRecentArticles(numberArticles);
     }
-    public static ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle){
-        return articleVersionDAO.getAllArticleVersionByArticleId(idArticle);
+
+    public static ArrayList<ArticleVersion> getAllArticleVersionsExcludingTextByArticleId(int idArticle) throws SQLException, IllegalArgumentException {
+        return articleVersionDAO.getAllArticleVersionsExcludingTextByArticleId(idArticle);
     }
-    public static ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByArticleId(int idArticle){
-        return articleVersionDAO.getAllArticleVersionExcludingTextByArticleId(idArticle);
+
+    public static ArrayList<ArticleVersion> getAllArticleVersionsExcludingTextByAuthorId(int authorId) throws SQLException, IllegalArgumentException {
+        return articleVersionDAO.getAllArticleVersionsExcludingTextByAuthorId(authorId);
     }
-    public static ArrayList<ArticleVersion> getAllArticleVersionByAuthorId(int authorId){
-        return articleVersionDAO.getAllArticleVersionByAuthorId(authorId);
-    }
-    public static ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByAuthorId(int authorId){
-        return articleVersionDAO.getAllArticleVersionExcludingTextByAuthorId(authorId);
-    }
-    public static Article getArticlesById(int idArticle){
+    public static Article getArticlesById(int idArticle) throws SQLException, IllegalArgumentException {
         return articleDAO.getArticleById(idArticle);
     }
 
-    public static ArrayList<Article> getMatchesArticlesByTitle(String articleTitle){
+    public static ArrayList<Article> getMatchesArticlesByTitle(String articleTitle) throws SQLException {
         return articleDAO.getMatchesArticlesByTitle(articleTitle);
     }
 
-    public static ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor){
+    public static ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor) throws SQLException, IllegalArgumentException {
         return authorDAO.getMatchesAuthorByNickname(nicknameAuthor);
     }
 
-    public static ArrayList<Article> getArticlesByIdAuthor(int idAuthor){
+    public static ArrayList<Article> getArticlesByIdAuthor(int idAuthor) throws SQLException, IllegalArgumentException {
         return articleDAO.getAllArticlesByIdAuthor(idAuthor);
     }
-    public static int getArticlesNumberByIdAuthor(int idAuthor){
+    public static int getArticlesNumberByIdAuthor(int idAuthor) throws SQLException {
         return articleDAO.getAllArticlesNumberByIdAuthor(idAuthor);
     }
-    public static int getArticlesNumberSentByIdAuthor(int idAuthor){
+    public static int getArticlesNumberSentByIdAuthor(int idAuthor) throws SQLException {
         return articleVersionDAO.getVersionArticlesNumberSent(idAuthor);
     }
-    public static ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion){
+    public static ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion) throws SQLException {
         return articleVersionDAO.getArticleVersionByIdArticleVersion(idArticleVersion);
     }
-    public static Author getAuthorByNickname(String nickname){
+    public static Author getAuthorByNickname(String nickname) throws SQLException, IllegalArgumentException {
         return authorDAO.getAuthorByNickname(nickname);
     }
-    public static float getRatingByAuthorId(int id){
+    public static float getRatingByAuthorId(int id) throws SQLException {
         return authorDAO.getRatingByAuthorId(id);
     }
-    public static String getNicknameAuthorById(int idAuthor){
+    public static String getNicknameAuthorById(int idAuthor) throws SQLException {
         return authorDAO.getNicknameById(idAuthor);
     }
 
-    public static boolean isAuthorRegisteredWithEmail(String email){
+    public static boolean isAuthorRegisteredWithEmail(String email) throws SQLException {
         return authorDAO.isEmailUsed(email);
     }
 
-    public static boolean isAuthorRegisteredWithNickname(String nickname){
+    public static boolean isAuthorRegisteredWithNickname(String nickname) throws SQLException {
         return authorDAO.isNicknameUsed(nickname);
     }
 
@@ -176,7 +161,7 @@ public final class Controller {
         return cookie;
     }
 
-    public static boolean doRegistration(String email, String nickname, String password){
+    public static boolean doRegistration(String email, String nickname, String password) throws SQLException {
         if (isAuthorRegisteredWithEmail(email) || isAuthorRegisteredWithNickname(nickname)){
             return false;
         }
@@ -184,15 +169,15 @@ public final class Controller {
         return true;
     }
 
-    public static ArrayList<ArticleVersion> getNotifications() {
+    public static ArrayList<ArticleVersion> getNotifications() throws SQLException, IllegalArgumentException {
         return articleVersionDAO.getAllArticleVersionsWaiting(cookie.getId());
     }
 
-    public static ArrayList<ArticleVersion> getNotificationsText(int articleId) {
+    public static ArrayList<ArticleVersion> getNotificationsText(int articleId) throws SQLException, IllegalArgumentException {
         return articleVersionDAO.getAllArticleVersionsWaitingFull(articleId);
     }
 
-    public static void reviewArticles(ArrayList<ArticleVersion> a) {
+    public static void reviewArticles(ArrayList<ArticleVersion> a) throws SQLException {
         articleVersionDAO.reviewArticles(a);
     }
 
@@ -220,7 +205,7 @@ public final class Controller {
         }
     }
 
-    public static int createArticle(String title, int idAuthor, String text){
+    public static int createArticle(String title, int idAuthor, String text) throws SQLException {
         int idArticle = articleDAO.saveArticle(title, idAuthor);
 
         articleVersionDAO.insertArticleVersion(idArticle, text, idAuthor, title);
@@ -228,28 +213,16 @@ public final class Controller {
     }
 
     public static int createProposal(int idArticle, String titleArticle,
-                                     String text, int idAuthor){
-        /*if (idAuthor == cookie.getId()) {
-            articleDAO.updateArticle(idArticle, titleArticle);
-        }*/ // TODO: RIMUOVERE FUNZIONE
+                                     String text, int idAuthor) throws SQLException {
         return articleVersionDAO.insertArticleVersion(idArticle, text, idAuthor, titleArticle);
-    }
-
-    public static int createProposal(Article parentArticle, String text,
-                                     Author authorProposal, String titleProposal) {
-        return articleVersionDAO.insertArticleVersion(parentArticle.getId(), text, authorProposal.getId(), titleProposal);
-    }
-    public static int createProposal(String title,String text,
-                                     Author authorProposal, String titleProposal) {
-        return articleVersionDAO.insertArticleVersion(authorProposal.getId(), text, Objects.requireNonNull(getArticleByTitle(title)).getId(), titleProposal);
     }
 
     public static boolean checkLoggedUser(){
         return cookie != null;
     }
 
-    public static boolean verifyAppIstances() {
-        boolean thereAreIstances = true;
+    public static boolean verifyAppInstances() {
+        boolean thereAreInstances = true;
 
         File f = new File(lockFilePath);
 
@@ -258,18 +231,18 @@ public final class Controller {
                 Files.createDirectories(Paths.get(Cookie.getConfigFolder()));
                 f.createNewFile();
 
-                thereAreIstances = false;
+                thereAreInstances = false;
 
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
         }
 
-        return  thereAreIstances;
+        return  thereAreInstances;
     }
 
 
-    public static void notifyOtherAppIstances() {
+    public static void notifyOtherAppInstances() {
 
         System.out.println("Un'altra istanza di questa applicazione è attualmente in esecuzione, " +
                 "ti preghiamo di chiudere quell'istanza prima di aprirne una nuova. Se non sono aperte altre istanze, elimina il file: "
@@ -277,7 +250,7 @@ public final class Controller {
 
         try {
             getSplashScreen().dispose();
-        }catch(NullPointerException e){
+        } catch(NullPointerException e){
             //System.out.println("Splash screen è null");
         }
     }
@@ -288,7 +261,7 @@ public final class Controller {
             f.delete();
         }
     }
-    public static Author getAuthorById(int id){
+    public static Author getAuthorById(int id) throws SQLException, IllegalArgumentException {
         return authorDAO.getAuthorById(id);
     }
 

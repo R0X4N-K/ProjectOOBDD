@@ -1,23 +1,18 @@
 package dao;
 
 import model.ArticleVersion;
-import model.Author;
 
+import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public interface ArticleVersionDAO {
-    ArticleVersion getLastArticleVersionByArticleId(int idArticle);
-    ArrayList<ArticleVersion> getAllArticleVersions();
-    ArrayList<ArticleVersion> getAllArticleVersionsWaiting(int authorId);
-    ArrayList<ArticleVersion> getAllArticleVersionsWaitingFull(int articleId);
-    void reviewArticles(ArrayList<ArticleVersion> a);
-    ArrayList<ArticleVersion> getAllArticleVersionByArticleId(int idArticle);
-    ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByArticleId(int idArticle);
-    ArrayList<ArticleVersion> getAllArticleVersionByAuthorId(int authorId);
-    ArrayList<ArticleVersion> getAllArticleVersionExcludingTextByAuthorId(int authorId);
-    int getVersionArticlesNumberSent(int idAuthor);
-    ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion);
-    int insertArticleVersion(ArticleVersion articleVersion);
-    int insertArticleVersion(int idArticle, String text, int idAuthor, String titleProposal);
+    ArticleVersion getLastArticleVersionByArticleId(int idArticle) throws SQLException, IllegalArgumentException;
+    ArrayList<ArticleVersion> getAllArticleVersionsWaiting(int authorId) throws SQLException, IllegalArgumentException;
+    ArrayList<ArticleVersion> getAllArticleVersionsWaitingFull(int articleId) throws SQLException, IllegalArgumentException;
+    void reviewArticles(ArrayList<ArticleVersion> a) throws SQLException;
+    ArrayList<ArticleVersion> getAllArticleVersionsExcludingTextByArticleId(int idArticle) throws SQLException, IllegalArgumentException;
+    ArrayList<ArticleVersion> getAllArticleVersionsExcludingTextByAuthorId(int authorId) throws SQLException, IllegalArgumentException;
+    int getVersionArticlesNumberSent(int idAuthor) throws SQLException;
+    ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion) throws SQLException, IllegalArgumentException;
+    int insertArticleVersion(int idArticle, String text, int idAuthor, String titleProposal) throws SQLException;
 }

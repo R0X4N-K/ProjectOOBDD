@@ -1,6 +1,7 @@
 package gui.profileWindow.profileCard;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
@@ -14,6 +15,7 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 
 public class ProfileChangeDialog extends JDialog {
     private JTextField inputField;
@@ -49,13 +51,25 @@ public class ProfileChangeDialog extends JDialog {
                 String newValue = inputField.getText();
                 switch (changeType) {
                     case "Nickname":
-                        Controller.changeNickname(newValue);
+                        try {
+                            Controller.changeNickname(newValue);
+                        } catch (SQLException ex) {
+                            ErrorDisplayer.showError(ex);
+                        }
                         break;
                     case "Password":
-                        Controller.changePassword(passwordEncryption(newValue));
+                        try {
+                            Controller.changePassword(passwordEncryption(newValue));
+                        } catch (SQLException ex) {
+                            ErrorDisplayer.showError(ex);
+                        }
                         break;
                     case "Email":
-                        Controller.changeEmail(newValue);
+                        try {
+                            Controller.changeEmail(newValue);
+                        } catch (SQLException ex) {
+                            ErrorDisplayer.showError(ex);
+                        }
                         break;
                 }
                 profileCard.setProfile();

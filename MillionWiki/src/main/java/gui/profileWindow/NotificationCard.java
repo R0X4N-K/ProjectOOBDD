@@ -1,6 +1,7 @@
 package gui.profileWindow;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import gui.articleHistory.ArticleHistory;
 import model.Article;
 import model.ArticleVersion;
@@ -13,8 +14,12 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.SQLException;
 import java.util.*;
 import java.util.List;
+
+import static gui.profileWindow.ProfileWindow.getMouseAdapter;
+import static gui.profileWindow.ProfileWindow.getMouseMotionListener;
 
 public class NotificationCard {
     private JPanel notificationCardMainPanel;
@@ -26,23 +31,9 @@ public class NotificationCard {
     private JLabel reloadingJLabel;
 
     private MouseAdapter createArticleMouseListener() {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = notificationJTable.rowAtPoint(e.getPoint());
-                int col = notificationJTable.columnAtPoint(e.getPoint());
-                if (col == 0) {
-                    String link = (String) notificationJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
-                    int id = Integer.parseInt(idString);
-                    Controller.getWindow().getprofileWindow().setVisible(false);
-                    Article article = Controller.getArticlesById(id);
-                    Controller.getWindow().getPage().setTitlePageField(article.getTitle());
-                    Controller.getWindow().getPage().setTextPageField(Controller.getLastArticleVersionByArticleId(id).getText());
-                    Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
-                }
-            }
-        };}
+        return getMouseAdapter(notificationJTable);
+    }
+
     private MouseAdapter createOpenNotificationMouseListener() {
         return new MouseAdapter() {
             @Override
@@ -59,18 +50,9 @@ public class NotificationCard {
             }
         };}
     private void addHandCursorToTable() {
-        notificationJTable.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                int col = notificationJTable.columnAtPoint(e.getPoint());
-                if (col == 0 || col == 1) {
-                    notificationJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                } else {
-                    notificationJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                }
-            }
-        });
+        getMouseMotionListener(notificationJTable);
     }
+
     public JPanel getPanel(){
         return notificationCardMainPanel;
     }
@@ -105,31 +87,40 @@ public class NotificationCard {
     private void createUIComponents() {
         notificationJTable = new JTable();
     }
+
     private JTable createJTable() {
         reloadingJLabel.setIcon(new ImageIcon(
                 NotificationCard.class.getResource("/icons/loading.gif")
-        ));reloadingJLabel.setText("Caricamento notifiche");
-        List<ArticleVersion> versionArticles = Controller.getNotifications();
-        Set<Integer> uniqueArticleIds = new HashSet<>();
-        for (ArticleVersion versionArticle : versionArticles) {
-            uniqueArticleIds.add(versionArticle.getParentArticle().getId());
-        }
-        Object[][] data = new Object[uniqueArticleIds.size()][4];
-        int j = 0;
-        for (Integer idArticle : uniqueArticleIds) {
-            List<ArticleVersion> filteredArticles = new ArrayList<>();
+        ));
+
+        reloadingJLabel.setText("Caricamento notifiche");
+        Object[][] data = new Object[1][4];
+
+        try {
+            List<ArticleVersion> versionArticles = Controller.getNotifications();
+            Set<Integer> uniqueArticleIds = new HashSet<>();
             for (ArticleVersion versionArticle : versionArticles) {
-                if (versionArticle.getParentArticle().getId() == idArticle) {
-                    filteredArticles.add(versionArticle);
+                uniqueArticleIds.add(versionArticle.getParentArticle().getId());
+            }
+            data = new Object[uniqueArticleIds.size()][4];
+            int j = 0;
+            for (Integer idArticle : uniqueArticleIds) {
+                List<ArticleVersion> filteredArticles = new ArrayList<>();
+                for (ArticleVersion versionArticle : versionArticles) {
+                    if (versionArticle.getParentArticle().getId() == idArticle) {
+                        filteredArticles.add(versionArticle);
+                    }
+                }
+                if (!filteredArticles.isEmpty()) {
+                    data[j][0] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>" + filteredArticles.get(0).getParentArticle().getTitle() + "</a></html>";
+                    data[j][1] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>" + "Apri";
+                    data[j][2] = getUnreviewedModificationsCount(filteredArticles, idArticle);
+                    data[j][3] = getLastUnreviewedModificationDate(filteredArticles, idArticle);
+                    j++;
                 }
             }
-            if (!filteredArticles.isEmpty()) {
-                data[j][0] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>" + filteredArticles.get(0).getParentArticle().getTitle() + "</a></html>";
-                data[j][1] = "<html><a href='" + filteredArticles.get(0).getParentArticle().getId() + "'>" + "Apri";
-                data[j][2] = getUnreviewedModificationsCount(filteredArticles, idArticle);
-                data[j][3] = getLastUnreviewedModificationDate(filteredArticles, idArticle);
-                j++;
-            }
+        } catch (SQLException | IllegalArgumentException e) {
+            ErrorDisplayer.showError(e);
         }
 
         String[] columns = {"Articolo", "Apri", "Modifiche non valutate", "Ultima modifica non valutata"};
@@ -150,6 +141,7 @@ public class NotificationCard {
         columnModel.getColumn(3).setPreferredWidth(170);
         return table;
     }
+
     private int getUnreviewedModificationsCount(List<ArticleVersion> versionArticles, int idArticle) {
         int count = 0;
         for (ArticleVersion versionArticle : versionArticles) {

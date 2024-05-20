@@ -1,6 +1,7 @@
 package gui.profileWindow;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import model.Article;
 import model.ArticleVersion;
 
@@ -8,16 +9,17 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
 import javax.swing.table.TableColumnModel;
-import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseMotionAdapter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
-import static controller.Controller.getAllArticleVersionByArticleId;
-import static controller.Controller.getAllArticleVersionExcludingTextByArticleId;
+import static controller.Controller.getAllArticleVersionsExcludingTextByArticleId;
+import static gui.profileWindow.ProfileWindow.getMouseAdapter;
+import static gui.profileWindow.ProfileWindow.getMouseMotionListener;
 
 public class CreatedPagesCard {
     private JPanel createdPagesCardMainPanel;
@@ -34,22 +36,7 @@ public class CreatedPagesCard {
 
 
     private MouseAdapter createArticleTitleMouseListener() {
-        return new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                int row = reloadedJTable.rowAtPoint(e.getPoint());
-                int col = reloadedJTable.columnAtPoint(e.getPoint());
-                if (col == 0) {
-                    String link = (String) reloadedJTable.getValueAt(row, col);
-                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
-                    int id = Integer.parseInt(idString);
-                    Controller.getWindow().getprofileWindow().setVisible(false);
-                    Article article = Controller.getArticlesById(id);
-                    Controller.getWindow().getPage().openPage(article);
-                    Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
-                }
-            }
-        };
+        return getMouseAdapter(reloadedJTable);
     }
     private MouseAdapter createArticleHistoryMouseListener() {
         return new MouseAdapter() {
@@ -69,17 +56,7 @@ public class CreatedPagesCard {
         };
     }
     private void addHandCursorToTable() {
-        reloadedJTable.addMouseMotionListener(new MouseMotionAdapter() {
-            @Override
-            public void mouseMoved(MouseEvent e) {
-                int col = reloadedJTable.columnAtPoint(e.getPoint());
-                if (col == 0 || col == 1) {
-                    reloadedJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
-                } else {
-                    reloadedJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
-                }
-            }
-        });
+        getMouseMotionListener(reloadedJTable);
     }
 
     public JPanel getPanel() {
@@ -101,28 +78,29 @@ public class CreatedPagesCard {
         int idAuthor= Controller.getCookie().getId();
         reloadingJLabel.setIcon(new ImageIcon(CreatedPagesCard.class.getResource("/icons/loading.gif")));
         reloadingJLabel.setText("Inizio caricamento");
-        List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
-        reloadingJLabel.setText("Caricamento articoli terminato");
-        Object[][] data = new Object[articles.size()][7]; // Modifica la dimensione dell'array a 7
-        for (int i = 0; i < articles.size(); i++) {
-            Article article = articles.get(i);
-            reloadingJLabel.setText("Caricamento versioni articoli per l'articolo: " + article.getTitle());
-            ArrayList<ArticleVersion> articleVersions = getAllArticleVersionExcludingTextByArticleId(article.getId());
-            Date lastRevisionDate = getLastRevisionDate(articleVersions);
-            reloadingJLabel.setText("Caricamento dell' ultima versione articolo aggiornata di: " + article.getTitle());
-            data[i][0] = "<html><a href='" + article.getId() + "'>" + article.getTitle() + "</a></html>";
-            data[i][1] = "<html><a href='"+ article.getId() + "'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
-            data[i][2] = article.getCreationDate();
-            if (lastRevisionDate != null) {
-                data[i][3] = lastRevisionDate;
-            } else {
-                data[i][3] = "N/A";
+        Object[][] data = new Object[1][7];
+        try {
+            List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
+            reloadingJLabel.setText("Caricamento articoli terminato");
+            data = new Object[articles.size()][7]; // Modifica la dimensione dell'array a 7
+            for (int i = 0; i < articles.size(); i++) {
+                Article article = articles.get(i);
+                reloadingJLabel.setText("Caricamento versioni articoli per l'articolo: " + article.getTitle());
+                ArrayList<ArticleVersion> articleVersions = getAllArticleVersionsExcludingTextByArticleId(article.getId());
+                Date lastRevisionDate = getLastRevisionDate(articleVersions);
+                reloadingJLabel.setText("Caricamento dell' ultima versione articolo aggiornata di: " + article.getTitle());
+                data[i][0] = "<html><a href='" + article.getId() + "'>" + article.getTitle() + "</a></html>";
+                data[i][1] = "<html><a href='" + article.getId() + "'>Link</a></html>"; // Aggiunge la nuova colonna "Storico"
+                data[i][2] = article.getCreationDate();
+                data[i][3] = Objects.requireNonNullElse(lastRevisionDate, "N/A");
+                data[i][4] = articleVersions.size();
+                data[i][5] = getCountWaitingProposal(articleVersions);
+                data[i][6] = getCountAcceptedProposal(articleVersions);
             }
-            data[i][4] = articleVersions.size();
-            data[i][5] = getCountWaitingProposal(articleVersions);
-            data[i][6] = getCountAcceptedProposal(articleVersions);
+            System.out.println("All done");
+        } catch (SQLException | IllegalArgumentException e) {
+            ErrorDisplayer.showError(e);
         }
-        System.out.println("All done");
 
         String[] columns = {"Titolo", "Storico", "Data Creazione", "Ultima Revisione", "Mod. Ricevute","Mod. in Attesa", "Mod. Apportate"}; // Aggiunge la nuova colonna "Storico"
         DefaultTableModel model = new DefaultTableModel(data, columns) {

@@ -1,9 +1,11 @@
 package gui.articleHistory;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import model.ArticleVersion;
 
 import javax.swing.*;
+import java.sql.SQLException;
 
 public class ArticleHistoryTextWindow extends JDialog{
     private JPanel articleHistoryTextWindowMainPanel;
@@ -30,11 +32,17 @@ public class ArticleHistoryTextWindow extends JDialog{
         textPane.setEditable(false);
         textPane.getCaret().setVisible(false);
         textPane.setCaretColor(textPane.getBackground());
-        ArticleVersion articleVersion = Controller.getArticleVersionByIdArticleVersion(idArticleVersion);
-        articleTitleJLabel.setText("Titolo Articolo: " + articleVersion.getParentArticle().getTitle());
-        authorProposalJLabel.setText("Autore Proposta: "+ articleVersion.getAuthorProposal().getNickname());
-
-        textPane.setText(articleVersion.getText());
+        try {
+            ArticleVersion articleVersion = Controller.getArticleVersionByIdArticleVersion(idArticleVersion);
+            articleTitleJLabel.setText("Titolo Articolo: " + articleVersion.getParentArticle().getTitle());
+            authorProposalJLabel.setText("Autore Proposta: " + articleVersion.getAuthorProposal().getNickname());
+            textPane.setText(articleVersion.getText());
+        } catch (SQLException e) {
+            ErrorDisplayer.showError(e);
+            articleTitleJLabel.setText("Titolo Articolo: " + "!ERRORE DI VISUALIZZAZIONE!");
+            authorProposalJLabel.setText("Autore Proposta: " + "!ERRORE DI VISUALIZZAZIONE!");
+            textPane.setText("!ERRORE DI VISUALIZZAZIONE!");
+        }
 
     }
     public void setIdArticleVersion(int idArticleVersion) {

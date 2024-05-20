@@ -1,10 +1,12 @@
 package gui.homepage;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import model.Article;
 
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class HomeFeaturedArticles {
@@ -22,20 +24,26 @@ public class HomeFeaturedArticles {
 
     private void initMostViewedArticles() {
 
-        ArrayList<Article> mostViewedArticles = Controller.getMostViewedArticles(10);
-        for (Article article : mostViewedArticles) {
-            try {
-                Controller.getSplashScreen().incrementProgressBar();
-                String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
-                HomeArticlePanel featuredArticle = new HomeArticlePanel(article.getTitle(), htmlText, article.getId());
-                homeFeaturedArticlesMainPanel.add(featuredArticle);
-            }catch (Exception e) {
-                e.printStackTrace();
+        try{
+            ArrayList<Article> mostViewedArticles = Controller.getMostViewedArticles(10);
+            for (Article article : mostViewedArticles) {
+                try {
+                    Controller.getSplashScreen().incrementProgressBar();
+                    String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
+                    HomeArticlePanel featuredArticle = new HomeArticlePanel(article.getTitle(), htmlText, article.getId());
+                    homeFeaturedArticlesMainPanel.add(featuredArticle);
+                } catch (SQLException | IllegalArgumentException e) {
+                    ErrorDisplayer.showError(e);
+                }
+                homeFeaturedArticlesMainPanel.repaint();
+                homeFeaturedArticlesMainPanel.revalidate();
             }
-            homeFeaturedArticlesMainPanel.repaint();
-            homeFeaturedArticlesMainPanel.revalidate();
+        } catch (SQLException e) {
+            ErrorDisplayer.showError(e);
         }
     }
+
+
     public void setHomeFeaturedArticles() {
         homeFeaturedArticlesMainPanel.removeAll();
         if (thread == null || !thread.isAlive()) {

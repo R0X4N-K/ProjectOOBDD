@@ -1,13 +1,16 @@
 package gui.profileWindow;
 
+import controller.Controller;
+import gui.ErrorDisplayer;
 import gui.profileWindow.profileCard.ProfileCard;
+import model.Article;
 
 import javax.swing.*;
 import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
+import java.sql.SQLException;
 
 public class ProfileWindow extends JDialog {
     private JPanel profileWindowMainPanel;
@@ -117,6 +120,44 @@ public class ProfileWindow extends JDialog {
         profilePanelCards.add(refPanel);
         profilePanelCards.repaint();
         profilePanelCards.revalidate();
+    }
+
+    static MouseAdapter getMouseAdapter(JTable adapterTable) {
+        return new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                int row = adapterTable.rowAtPoint(e.getPoint());
+                int col = adapterTable.columnAtPoint(e.getPoint());
+                if (col == 0) {
+                    String link = (String) adapterTable.getValueAt(row, col);
+                    String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
+                    int id = Integer.parseInt(idString);
+                    Controller.getWindow().getprofileWindow().setVisible(false);
+                    try {
+                        Article article = Controller.getArticlesById(id);
+                        Controller.getWindow().getPage().setTitlePageField(article.getTitle());
+                        Controller.getWindow().getPage().setTextPageField(Controller.getLastArticleVersionByArticleId(id).getText());
+                        Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+                    } catch (SQLException | IllegalArgumentException ex) {
+                        ErrorDisplayer.showError(ex);
+                    }
+                }
+            }
+        };
+    }
+
+    static void getMouseMotionListener(JTable listenedTable) {
+        listenedTable.addMouseMotionListener(new MouseMotionAdapter() {
+            @Override
+            public void mouseMoved(MouseEvent e) {
+                int col = listenedTable.columnAtPoint(e.getPoint());
+                if (col == 0 || col == 1) {
+                    listenedTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
+                } else {
+                    listenedTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
+                }
+            }
+        });
     }
 
 }

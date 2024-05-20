@@ -1,8 +1,11 @@
 package gui.homepage;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
+
 import javax.swing.*;
 import java.awt.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class HomeRecentArticles {
@@ -29,21 +32,25 @@ public class HomeRecentArticles {
     }
 
     private void initRecentArticles() {
-        ArrayList<Integer> recentArticles = Controller.getRecentArticles(10);
-        for (Integer articleId : recentArticles) {
-            try {
-                Controller.getSplashScreen().incrementProgressBar();
-                String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
-                HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
-                homeRecentArticlesMainPanel.add(recentArticle);
-            }catch (Exception e){
-                e.printStackTrace();
+        try {
+            ArrayList<Integer> recentArticles = Controller.getRecentArticles(10);
+            for (Integer articleId : recentArticles) {
+                try {
+                    Controller.getSplashScreen().incrementProgressBar();
+                    String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
+                    HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
+                    homeRecentArticlesMainPanel.add(recentArticle);
+                } catch (SQLException | IllegalArgumentException e) {
+                    ErrorDisplayer.showError(e);
+                }
+                homeRecentArticlesMainPanel.repaint();
+                homeRecentArticlesMainPanel.revalidate();
             }
-            homeRecentArticlesMainPanel.repaint();
-            homeRecentArticlesMainPanel.revalidate();
-        }
 
-        Controller.getWindow().getHomepage().getReloadHome().setIcon(new ImageIcon(Home.class.getResource("/icons/reload.png")));
+            Controller.getWindow().getHomepage().getReloadHome().setIcon(new ImageIcon(Home.class.getResource("/icons/reload.png")));
+        } catch (SQLException e) {
+            ErrorDisplayer.showError(e);
+        }
     }
 
     public JPanel getPanel() {

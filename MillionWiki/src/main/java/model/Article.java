@@ -10,7 +10,7 @@ public class Article {
     private Author author;
     private int views;
 
-    public Article (int id, String title, Author author, Date creationDate) throws Exception {
+    public Article (int id, String title, Author author, Date creationDate) throws IllegalArgumentException {
         setTitle (title);
         setAuthor (author);
         setId(id);
@@ -43,13 +43,13 @@ public class Article {
         return title;
     }
 
-    public void setTitle(String title) throws Exception {
+    public void setTitle(String title) throws IllegalArgumentException {
 
         if(!title.isEmpty() && !title.isBlank()) {
             this.title = title;
         }
         else {
-            throw new Exception("Titolo Vuoto"); // TODO: Creare eccezione ad hoc
+            throw new IllegalArgumentException("Titolo Vuoto");
         }
     }
 

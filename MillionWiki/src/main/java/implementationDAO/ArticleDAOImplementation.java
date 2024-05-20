@@ -3,136 +3,95 @@ import controller.Controller;
 import dao.ArticleDAO;
 import database.DatabaseConnection;
 import model.Article;
-import model.Author;
-import model.Cookie;
 
-import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
 public class ArticleDAOImplementation implements ArticleDAO {
     public DatabaseConnection dbConnection;
 
-    public ArticleDAOImplementation() throws RuntimeException {
+    public ArticleDAOImplementation() throws SQLException {
         try {
             dbConnection = DatabaseConnection.getInstance();
         } catch (SQLException e) {
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-            throw new RuntimeException(e);
+            throw new SQLException(e);
         }
     }
 
     @Override
-    public Article getArticleById(int idArticle){
+    public Article getArticleById(int idArticle) throws SQLException, IllegalArgumentException {
         String getArticleQuery = "SELECT * FROM articles WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
-            stmt.setInt(1, idArticle);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return new Article(rs.getInt("id"),
-                            rs.getString("title"),
-                            Controller.getAuthorById(rs.getInt("author")),
-                            rs.getDate("creation_date"));
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery);
+        stmt.setInt(1, idArticle);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Article(rs.getInt("id"),
+                    rs.getString("title"),
+                    Controller.getAuthorById(rs.getInt("author")),
+                    rs.getDate("creation_date"));
         }
         return null;
     }
 
     @Override
-    public Article getArticleByTitle(String articleTitle) throws SQLException {
+    public Article getArticleByTitle(String articleTitle) throws SQLException, IllegalArgumentException {
         String getArticleQuery = "SELECT * FROM articles WHERE title = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery)){
-            stmt.setString(1, articleTitle);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return new Article(rs.getInt("id"),
-                            rs.getString("title"),
-                            Controller.getAuthorById(rs.getInt("author")),
-                            rs.getDate("creation_date"));
-                }
-            } catch (Exception e) {
-                throw new RuntimeException(e);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-        return null;
-    }
-    public String getTitleArticleByArticleId(int articleId){
-        String query = "SELECT title FROM articles WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)){
-            stmt.setInt(1, articleId);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("title");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(getArticleQuery);
+        stmt.setString(1, articleTitle);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return new Article(rs.getInt("id"),
+                    rs.getString("title"),
+                    Controller.getAuthorById(rs.getInt("author")),
+                    rs.getDate("creation_date"));
         }
         return null;
     }
 
-    public ArrayList<Integer> getRecentArticles(int numberArticles) {
+    public int getAllArticlesNumberByIdAuthor(int idAuthor) throws SQLException{
+        String query = "SELECT COUNT(*) FROM articles WHERE author = ?";
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setInt(1, idAuthor);
+        try (ResultSet rs = stmt.executeQuery()) {
+            if (rs.next()) {
+                return rs.getInt(1);
+            }
+        }
+        return 0;
+    }
+
+    public ArrayList<Integer> getRecentArticles(int numberArticles) throws SQLException {
         ArrayList<Integer> articles = new ArrayList<>();
         String query = "SELECT id FROM articles ORDER BY creation_date DESC LIMIT ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, numberArticles);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                try {
-                    articles.add(rs.getInt("id"));
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setInt(1, numberArticles);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            articles.add(rs.getInt("id"));
         }
         return articles;
     }
 
-    public ArrayList<Article> getMostViewedArticles(int numberArticles) {
+    public ArrayList<Article> getMostViewedArticles(int numberArticles) throws SQLException, IllegalArgumentException {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles ORDER BY views DESC LIMIT ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, numberArticles);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                try {
-                    articles.add(new Article(rs.getInt("id"),
-                            rs.getString("title"),
-                            Controller.getAuthorById(rs.getInt("author")),
-                            rs.getDate("creation_date")));
-                } catch (RuntimeException e) {
-                    e.printStackTrace();
-                } catch (Exception e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setInt(1, numberArticles);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            articles.add(new Article(rs.getInt("id"),
+                    rs.getString("title"),
+                    Controller.getAuthorById(rs.getInt("author")),
+                    rs.getDate("creation_date")));
         }
         return articles;
     }
 
 
     @Override
-    public ArrayList<Article> getMatchesArticlesByTitle(String title) {
+    public ArrayList<Article> getMatchesArticlesByTitle(String title) throws SQLException, IllegalArgumentException {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "";
 
@@ -142,199 +101,70 @@ public class ArticleDAOImplementation implements ArticleDAO {
             query = "SELECT * FROM articles WHERE title ILIKE ? LIMIT 10";
 
 
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            if(title.length() >= 4) {
-                stmt.setString(1,title + "%");
-                stmt.setString(2, "%" + title + "%");
-                // deep search -> stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
-            }
-            else
-                stmt.setString(1,title + "%");
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                try {
-                    articles.add(new Article(rs.getInt("id"),
-                            rs.getString("title"),
-                            Controller.getAuthorById(rs.getInt("author")),
-                            rs.getDate("creation_date")));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        if(title.length() >= 4) {
+            stmt.setString(1,title + "%");
+            stmt.setString(2, "%" + title + "%");
+            // deep search -> stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
+        }
+        else
+            stmt.setString(1,title + "%");
+        ResultSet rs = stmt.executeQuery();
+
+        while (rs.next()) {
+            articles.add(new Article(rs.getInt("id"),
+                rs.getString("title"),
+                Controller.getAuthorById(rs.getInt("author")),
+                rs.getDate("creation_date")));
         }
         return articles;
     }
 
-    @Override
-    public ArrayList<Article> getAllArticles() {
-        ArrayList<Article> articles = new ArrayList<>();
-        String query = "SELECT * FROM articles";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                try {
-                    articles.add(new Article(rs.getInt("id"),
-                            rs.getString("title"),
-                            Controller.getAuthorById(rs.getInt("author")),
-                            rs.getDate("creation_date")));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-        return articles;
-    }
-
-    @Override
-    public ArrayList<Article> getAllArticlesByAuthor(int id) throws RuntimeException {
-        return null;
-    }
-    public int getAllArticlesNumberByIdAuthor(int idAuthor){
-        String query = "SELECT COUNT(*) FROM articles WHERE author = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, idAuthor);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getInt(1);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-        return 0;
-    }
-
-    public ArrayList<Article> getAllArticlesByIdAuthor(int id) {
+    public ArrayList<Article> getAllArticlesByIdAuthor(int id) throws SQLException, IllegalArgumentException {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "SELECT * FROM articles WHERE author = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                try {
-                    articles.add(new Article(rs.getInt("id"),
-                            rs.getString("title"),
-                            Controller.getAuthorById(rs.getInt("author")),
-                            rs.getDate("creation_date")));
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            articles.add(new Article(rs.getInt("id"),
+                rs.getString("title"),
+                Controller.getAuthorById(rs.getInt("author")),
+                rs.getDate("creation_date")));
         }
+
         return articles;
     }
 
-    @Override
-    public void saveArticle(Article article) {
-        String query = "INSERT INTO articles (title, author, creation_date) VALUES (?, ?, ?)";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, article.getTitle());
-            stmt.setString(2, String.valueOf(article.getAuthor().getId()));
-            stmt.setDate(3, new java.sql.Date(article.getCreationDate().getTime()));
-            stmt.executeQuery();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    @Override
-    public int saveArticle(String title, Date creationDate, Author author) {
-        int id=-1;
-        String query = "INSERT INTO articles (title, author, creation_date, revision) VALUES (?, ?, ?) RETURNING id";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, title);
-            stmt.setString(2, String.valueOf(author.getId()));
-            stmt.setDate(3, new java.sql.Date(creationDate.getTime()));
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                id = rs.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-        return id;
-    }
-
-    public int saveArticle(String title, int idAuthor) {
-        int id=-1;
+    public int saveArticle(String title, int idAuthor) throws SQLException {
+        int id = -1;
         String query = "INSERT INTO articles (title, author) VALUES (?, ?) RETURNING id";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, title);
-            stmt.setInt(2, idAuthor);
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                id = rs.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, title);
+        stmt.setInt(2, idAuthor);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            id = rs.getInt("id");
         }
         return id;
     }
 
-    public void updateArticle(int idArticle, String title){
-        String query = "UPDATE articles SET title = ? WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, title);
-            stmt.setInt(2, idArticle);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    @Override
-    public void deleteArticle(Article articleToDelete) {
-        String query = "DELETE FROM articles WHERE title = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, articleToDelete.getTitle());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void incrementArticleViews(int idArticle) {
+    public void incrementArticleViews(int idArticle) throws SQLException{
         String query = "UPDATE articles SET views = views + 1 WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, idArticle);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setInt(1, idArticle);
+        stmt.executeUpdate();
     }
 
-    public Article pickRandomArticle(){
+    public Article pickRandomArticle() throws SQLException, IllegalArgumentException {
         String query = "SELECT id FROM articles ORDER BY RANDOM() LIMIT 1";
         int randomId = -1;
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.executeQuery();
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                randomId = rs.getInt("id");
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.executeQuery();
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            randomId = rs.getInt("id");
         }
-
         return Controller.getArticlesById(randomId);
     }
 }

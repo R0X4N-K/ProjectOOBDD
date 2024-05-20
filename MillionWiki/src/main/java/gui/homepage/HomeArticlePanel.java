@@ -1,6 +1,7 @@
 package gui.homepage;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 
 import javax.swing.*;
 import javax.swing.border.BevelBorder;
@@ -11,6 +12,7 @@ import javax.swing.event.CaretListener;
 import javax.swing.text.DefaultCaret;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 
 public class HomeArticlePanel extends JPanel{
 
@@ -41,8 +43,12 @@ public class HomeArticlePanel extends JPanel{
         titleLabel.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                Controller.getWindow().getPage().openPage(Controller.getArticlesById(articleId));
-                Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+                try {
+                    Controller.getWindow().getPage().openPage(Controller.getArticlesById(articleId));
+                    Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+                } catch (SQLException | IllegalArgumentException ex) {
+                    throw new RuntimeException(ex);
+                }
             }
         });
 
@@ -55,13 +61,18 @@ public class HomeArticlePanel extends JPanel{
         textPane.setCaretColor(textPane.getBackground());
         textPane.setEditable(false);
         textPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
-        textPane.addMouseListener(new MouseAdapter() {
-            @Override
-            public void mouseClicked(MouseEvent e) {
-                Controller.getWindow().getPage().openPage(Controller.getArticlesById(articleId));
-                Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
-               }
-        });
+
+            textPane.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    try {
+                        Controller.getWindow().getPage().openPage(Controller.getArticlesById(articleId));
+                        Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+                    } catch (SQLException | IllegalArgumentException ex) {
+                        ErrorDisplayer.showError(ex);
+                    }
+                }
+            });
 
         textPane.setCaret(new DefaultCaret() {
             @Override

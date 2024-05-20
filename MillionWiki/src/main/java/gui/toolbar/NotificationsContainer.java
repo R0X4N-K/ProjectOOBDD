@@ -1,11 +1,13 @@
 package gui.toolbar;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import model.ArticleVersion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -43,44 +45,49 @@ public class NotificationsContainer extends AnchoredDialog {
 
 
     public void setCompactNotificationList() {
-        ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
         notificationsContainerScrollablePanel.removeAll();
         notificationsScrollPane.getVerticalScrollBar().setValue(0);
         notificationsScrollPane.getHorizontalScrollBar().setValue(0);
         compactNotificationsList.clear();
+        try {
+            ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
 
-        if (notificationsPool != null) {
-            for (ArticleVersion version : notificationsPool) {
-                int i = 0;
-                boolean foundSameVersion = false;
-                while (i < compactNotificationsList.size() && !foundSameVersion) {
-                    if (version.getParentArticle().getId() == compactNotificationsList.get(i).getArticleVersion().getParentArticle().getId()) {
-                        foundSameVersion = true;
+            if (notificationsPool != null) {
+                for (ArticleVersion version : notificationsPool) {
+                    int i = 0;
+                    boolean foundSameVersion = false;
+                    while (i < compactNotificationsList.size() && !foundSameVersion) {
+                        if (version.getParentArticle().getId() == compactNotificationsList.get(i).getArticleVersion().getParentArticle().getId()) {
+                            foundSameVersion = true;
+                            try {
+                                compactNotificationsList.get(i).incrementModificationsCount(version);
+                            } catch (Exception e) {
+                                System.err.println("Article_Version == NULL, incremento fallito");
+                            }
+                        }
+                        i++;
+                    }
+
+                    if (!foundSameVersion){
                         try {
-                            compactNotificationsList.get(i).incrementModificationsCount(version);
+                            CompactNotification cn = new CompactNotification(version);
+                            cn.getPanel().addMouseListener(mouseClosure);
+                            compactNotificationsList.add(cn);
+                            Thread thread = getAddNotificationThread(cn);
+                            thread.start();
                         } catch (Exception e) {
-                            System.err.println("Article_Version == NULL, incremento fallito");
+                            System.err.println("Article_Version == NULL, creazione fallita");
                         }
                     }
-                    i++;
                 }
-
-                if (!foundSameVersion){
-                    try {
-                        CompactNotification cn = new CompactNotification(version);
-                        cn.getPanel().addMouseListener(mouseClosure);
-                        compactNotificationsList.add(cn);
-                        Thread thread = getAddNotificationThread(cn);
-                        thread.start();
-                    } catch (Exception e) {
-                        System.err.println("Article_Version == NULL, creazione fallita");
-                    }
-                }
+            } else {
+                System.out.println("WARNING! La pool di notifiche è uguale a NULL");
             }
-        } else {
-            System.out.println("WARNING! La pool di notifiche è uguale a NULL");
+            notificationCountLabel.setText("<html> Hai " + "<b>" + compactNotificationsList.size() + "</b>" + " nuove notifiche" + "</html>");
+
+        } catch (SQLException | IllegalArgumentException e) {
+            ErrorDisplayer.showError(e);
         }
-        notificationCountLabel.setText("<html> Hai " + "<b>" + compactNotificationsList.size() + "</b>" + " nuove notifiche" + "</html>");
 
         loaded();
     }

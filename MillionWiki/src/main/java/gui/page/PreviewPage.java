@@ -1,6 +1,7 @@
 package gui.page;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import model.Article;
 import model.ArticleVersion;
 
@@ -8,6 +9,7 @@ import javax.swing.*;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.awt.event.InputEvent;
+import java.sql.SQLException;
 
 public class PreviewPage extends JDialog {
     private JTextField titleTxtFld;
@@ -52,11 +54,17 @@ public class PreviewPage extends JDialog {
 
         textEp.addHyperlinkListener(e -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
-                Article article = Controller.getArticlesById(Integer.parseInt(e.getDescription()));
-                ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(Integer.parseInt(e.getDescription()));
+                try {
+                    Article article = Controller.getArticlesById(Integer.parseInt(e.getDescription()));
+                    ArticleVersion articleVersion = Controller.getLastArticleVersionByArticleId(Integer.parseInt(e.getDescription()));
 
-                titleTxtFld.setText(article.getTitle());
-                textEp.setText(articleVersion.getText());
+                    titleTxtFld.setText(article.getTitle());
+                    textEp.setText(articleVersion.getText());
+                } catch (SQLException | IllegalArgumentException ex) {
+                    ErrorDisplayer.showError(ex);
+                    titleTxtFld.setText("!ERRORE DI VISUALIZZAZIONE!");
+                    textEp.setText("!ERRORE DI VISUALIZZAZIONE!");
+                }
             }
         });
 

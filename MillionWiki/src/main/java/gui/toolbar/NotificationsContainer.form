@@ -18,7 +18,7 @@
         <properties>
           <minimumSize width="350" height="60"/>
           <preferredSize width="350" height="158"/>
-          <visible value="false"/>
+          <visible value="true"/>
         </properties>
         <border type="none"/>
         <children>
@@ -53,20 +53,7 @@
                   <visible value="true"/>
                 </properties>
                 <border type="none"/>
-                <children>
-                  <nested-form id="3758" form-file="gui/toolbar/Notification.form">
-                    <constraints>
-                      <grid row="0" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                  </nested-form>
-                  <nested-form id="1a6a" form-file="gui/toolbar/Notification.form">
-                    <constraints>
-                      <grid row="1" column="0" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-                      <gridbag weightx="0.0" weighty="0.0"/>
-                    </constraints>
-                  </nested-form>
-                </children>
+                <children/>
               </grid>
             </children>
           </scrollpane>
@@ -78,7 +65,7 @@
         </constraints>
         <properties>
           <enabled value="true"/>
-          <visible value="true"/>
+          <visible value="false"/>
         </properties>
         <border type="none"/>
         <children>

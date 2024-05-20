@@ -1,6 +1,7 @@
 package gui.session;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import gui.Window;
 import model.Cookie;
 
@@ -17,6 +18,7 @@ import java.math.BigInteger;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 import java.security.spec.InvalidKeySpecException;
+import java.sql.SQLException;
 
 public class Registration {
     private JTextField mailTxtFld;
@@ -54,22 +56,26 @@ public class Registration {
                 System.out.println(passwordTxtFld.getText());
                 String passwordEncrypted = passwordEncryption(passwordTxtFld.getText());
 
-                if (Controller.doRegistration(mailTxtFld.getText(), nicknameTxtFld.getText(), passwordEncrypted)) {
-                    System.out.println("Registrazione avvenuta con successo");
+                try {
+                    if (Controller.doRegistration(mailTxtFld.getText(), nicknameTxtFld.getText(), passwordEncrypted)) {
+                        System.out.println("Registrazione avvenuta con successo");
 
 
-                    try {
-                        Cookie c = new Cookie(Controller.getAuthorByNickname(nicknameTxtFld.getText()).getId(), passwordEncrypted);
-                        Controller.setCookie(c);
-                        Window.switchToLoggedWindow(Controller.getWindow());
-                        if (rembemberMeCheckbox.isSelected()) {
-                            c.writeCookie();
+                        try {
+                            Cookie c = new Cookie(Controller.getAuthorByNickname(nicknameTxtFld.getText()).getId(), passwordEncrypted);
+                            Controller.setCookie(c);
+                            Window.switchToLoggedWindow(Controller.getWindow());
+                            if (rembemberMeCheckbox.isSelected()) {
+                                c.writeCookie();
+                            }
+                        } catch (Exception ex) {
+                            throw new RuntimeException(ex);
                         }
-                    } catch (Exception ex) {
-                        throw new RuntimeException(ex);
+                    } else {
+                        System.out.println("Registrazione fallita");
                     }
-                } else {
-                    System.out.println("Registrazione fallita");
+                } catch (SQLException ex) {
+                    ErrorDisplayer.showError(ex);
                 }
             }
         });
@@ -117,22 +123,30 @@ public class Registration {
 
 
     public void checkNicknameFld(String text) {
-        if (checkNickname(text) && !checkNicknameIsRegistered(text)) {
-            nicknameTxtFld.setBorder(new LineBorder(Color.GREEN));
-            setErrLbl(nicknameErrLbl, true, "Nickname valido !", Color.GREEN);
-        } else {
-            nicknameTxtFld.setBorder(new LineBorder(Color.RED));
-            setErrLbl(nicknameErrLbl, true, "Nickname non valido !", Color.RED);
+        try {
+            if (checkNickname(text) && !checkNicknameIsRegistered(text)) {
+                nicknameTxtFld.setBorder(new LineBorder(Color.GREEN));
+                setErrLbl(nicknameErrLbl, true, "Nickname valido !", Color.GREEN);
+            } else {
+                nicknameTxtFld.setBorder(new LineBorder(Color.RED));
+                setErrLbl(nicknameErrLbl, true, "Nickname non valido !", Color.RED);
+            }
+        } catch (SQLException ex) {
+            throw new RuntimeException(ex);
         }
     }
 
     public void checkEmailFld(String text) {
-        if (checkEmailSyntax(text) && !checkEmailIsRegistered(text)) {
-            mailTxtFld.setBorder(new LineBorder(Color.GREEN));
-            setErrLbl(mailErrLbl, true, "Mail valida !", Color.GREEN);
-        } else {
-            mailTxtFld.setBorder(new LineBorder(Color.RED));
-            setErrLbl(mailErrLbl, true, "Mail non valida !", Color.RED);
+        try {
+            if (checkEmailSyntax(text) && !checkEmailIsRegistered(text)) {
+                mailTxtFld.setBorder(new LineBorder(Color.GREEN));
+                setErrLbl(mailErrLbl, true, "Mail valida !", Color.GREEN);
+            } else {
+                mailTxtFld.setBorder(new LineBorder(Color.RED));
+                setErrLbl(mailErrLbl, true, "Mail non valida !", Color.RED);
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -166,11 +180,11 @@ public class Registration {
         return text.length() >= 4 && text.length() <= 18;
     }
 
-    public boolean checkEmailIsRegistered(String email) {
+    public boolean checkEmailIsRegistered(String email) throws SQLException {
         return Controller.isAuthorRegisteredWithEmail(email);
     }
 
-    public boolean checkNicknameIsRegistered(String nickname) {
+    public boolean checkNicknameIsRegistered(String nickname) throws SQLException {
         return Controller.isAuthorRegisteredWithNickname(nickname);
     }
 

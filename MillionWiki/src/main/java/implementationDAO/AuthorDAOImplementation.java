@@ -1,11 +1,9 @@
 package implementationDAO;
 
 import database.DatabaseConnection;
-import model.Article;
 import model.Author;
 import model.Cookie;
 
-import javax.swing.*;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -14,331 +12,138 @@ import java.util.ArrayList;
 public class AuthorDAOImplementation implements dao.AuthorDAO{
 
     public DatabaseConnection dbConnection;
-    public AuthorDAOImplementation() {
-        try {
-            dbConnection = DatabaseConnection.getInstance();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
+    public AuthorDAOImplementation() throws SQLException {
+        dbConnection = DatabaseConnection.getInstance();
     }
 
     @Override
-    public Author getAuthorByNickname(String nickname) {
+    public Author getAuthorByNickname(String nickname) throws SQLException, IllegalArgumentException {
         String query = "SELECT * FROM authors WHERE nickname = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, nickname);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    try {
-                        Author a = new Author(
-                                rs.getInt("id"),
-                        rs.getString("email"),
-                        rs.getString("nickname")
-                        );
-                        a.setRating(rs.getFloat("rating"));
-                        return a;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-        return null;
-    }
-    public Author getAuthorById(int id) {
-        String query = "SELECT * FROM authors WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    Author a = new Author(
-                            rs.getInt("id"),
-                            rs.getString("email"),
-                            rs.getString("nickname")
-                    );
-                    a.setRating(rs.getFloat("rating"));
-                    return a;
-                }
-                rs.close();
-                stmt.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, nickname);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            Author a = new Author(
+                    rs.getInt("id"),
+                    rs.getString("email"),
+                    rs.getString("nickname")
+            );
+            a.setRating(rs.getFloat("rating"));
+            return a;
         }
         return null;
     }
 
-    public String getNicknameById(int id) {
+    public Author getAuthorById(int id) throws SQLException, IllegalArgumentException {
+        String query = "SELECT * FROM authors WHERE id = ?";
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            Author a = new Author(
+                    rs.getInt("id"),
+                    rs.getString("email"),
+                    rs.getString("nickname")
+            );
+            a.setRating(rs.getFloat("rating"));
+            return a;
+        }
+        rs.close();
+        stmt.close();
+        return null;
+    }
+
+    public String getNicknameById(int id) throws SQLException {
         String query = "SELECT nickname FROM authors WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getString("nickname");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getString("nickname");
         }
         return null;
     }
-    public float getRatingByAuthorId(int id) {
+
+    public float getRatingByAuthorId(int id) throws SQLException {
         String query = "SELECT rating FROM authors WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return rs.getFloat("rating");
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setInt(1, id);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return rs.getFloat("rating");
         }
         return 0;
     }
 
     @Override
-    public ArrayList<Author> getAllAuthors() {
-        ArrayList<Author> authors = new ArrayList<>();
-        String query = "SELECT * FROM authors";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
-             ResultSet rs = stmt.executeQuery()) {
-            while (rs.next()) {
-                try {
-                    Author a = new Author(
-                            rs.getInt("id"),
-                            rs.getString("email"),
-                            rs.getString("nickname")
-                    );
-                    a.setRating(rs.getFloat("rating"));
-                    authors.add(a);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-        return authors;
-    }
-
-    @Override
-    public ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor){
+    public ArrayList<Author> getMatchesAuthorByNickname(String nicknameAuthor) throws SQLException, IllegalArgumentException {
         ArrayList<Author> authors = new ArrayList<>();
         String query = "";
 
-        if(nicknameAuthor.length() >= 4)
+        if (nicknameAuthor.length() >= 4)
             query = "SELECT * FROM authors WHERE nickname ILIKE ? OR nickname ILIKE ? LIMIT 10";
         else
             query = "SELECT * FROM authors WHERE nickname ILIKE ? LIMIT 10";
 
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            if(nicknameAuthor.length() >= 4) {
-                stmt.setString(1, nicknameAuthor + "%");
-                stmt.setString(2, "%" + nicknameAuthor + "%");
-                // deep search -> stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
-            }
-            else
-                stmt.setString(1,nicknameAuthor + "%");
-            ResultSet rs = stmt.executeQuery();
-            while (rs.next()) {
-                try {
-                    Author a = new Author(
-                            rs.getInt("id"),
-                            rs.getString("email"),
-                            rs.getString("nickname")
-                    );
-                    a.setRating(rs.getFloat("rating"));
-                    authors.add(a);
-                } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                    throw new RuntimeException(e);
-
-
-                }
-            }
-        }catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        if (nicknameAuthor.length() >= 4) {
+            stmt.setString(1, nicknameAuthor + "%");
+            stmt.setString(2, "%" + nicknameAuthor + "%");
+            // deep search -> stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
+        } else
+            stmt.setString(1, nicknameAuthor + "%");
+        ResultSet rs = stmt.executeQuery();
+        while (rs.next()) {
+            Author a = new Author(
+                    rs.getInt("id"),
+                    rs.getString("email"),
+                    rs.getString("nickname")
+            );
+            a.setRating(rs.getFloat("rating"));
+            authors.add(a);
         }
         return authors;
     }
 
-    @Override
-    public void saveAuthor(Author author, String password) {
-        String query = "INSERT INTO authors (nickname, password, rating, id, email) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, author.getNickname());
-            stmt.setString(2, password);
-            stmt.setFloat(3, author.getRating());
-            stmt.setInt(4, author.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
-
-    @Override
-    public void updateAuthor(Author author, Author newAuthor, String password) {
-        String query = "UPDATE authors (nickname, password, rating, id, email) VALUES (?, ?, ?, ?, ?)";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, author.getNickname());
-            stmt.setString(2, password);
-            stmt.setFloat(3, author.getRating());
-            stmt.setInt(4, author.getId());
-            stmt.setString(5, author.getEmail());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
-
-    @Override
-    public void updateNicknameAuthor(Author author, String newNickname) {
-        String query = "UPDATE authors SET nickname = ? WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, newNickname);
-            stmt.setInt(2, author.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
-
-    public void updateNicknameAuthor(int id, String newNickname){
+    public void updateNicknameAuthor(int id, String newNickname) throws SQLException {
             String query = "UPDATE authors SET nickname = ? WHERE id = ?";
-            try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-                stmt.setString(1, newNickname);
-                stmt.setInt(2, id);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-    }
-
-    public void updateEmailAuthor(Author author, String newEmail) {
-        String query = "UPDATE authors SET email = ? WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, newEmail);
-            stmt.setInt(2, author.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    public void updateEmailAuthor(int id, String newEmail) {
-        String query = "UPDATE authors SET email = ? WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, newEmail);
+            PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+            stmt.setString(1, newNickname);
             stmt.setInt(2, id);
             stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
     }
 
-    @Override
-    public void updatePasswordAuthor(Author author, String newPassword) {
+    public void updateEmailAuthor(int id, String newEmail) throws SQLException {
+        String query = "UPDATE authors SET email = ? WHERE id = ?";
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, newEmail);
+        stmt.setInt(2, id);
+        stmt.executeUpdate();
+    }
+
+
+    public void updatePasswordAuthor(int id, String newPassword) throws SQLException {
 
         String query = "UPDATE authors SET password = ? WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, newPassword);
-            stmt.setInt(2, author.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, newPassword);
+        stmt.setInt(2, id);
+        stmt.executeUpdate();
     }
 
-    public void updatePasswordAuthor(int id, String newPassword) {
 
-        String query = "UPDATE authors SET password = ? WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, newPassword);
-            stmt.setInt(2, id);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    @Override
-    public void updateAuthorRating(Author author, float newRating) {
-        String query = "UPDATE authors SET rating = ? WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setFloat(1, newRating);
-            stmt.setInt(2, author.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-    @Override
-    public void updateAuthorArticles(Author author, ArrayList<Article> newArticles, String password) {
-        String query = "UPDATE authors SET articles = ? WHERE id = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setArray(1, dbConnection.connection.createArrayOf("articles", newArticles.toArray()));
-            stmt.setInt(2, author.getId());
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-    }
-
-        @Override
-        public void deleteAuthor (int id){
-            String query = "DELETE FROM authors WHERE id = ?";
-            try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-                stmt.setInt(1, id);
-                stmt.executeUpdate();
-            } catch (SQLException e) {
-                e.printStackTrace();
-                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-        }
-    public void registerAuthor(String nickname, String password, float rating, String email) {
+    public void registerAuthor(String nickname, String password, float rating, String email) throws SQLException {
         String query = "INSERT INTO authors (nickname, password, rating, email) VALUES (?, ?, ?, ?)";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, nickname);
-            stmt.setString(2, password);
-            stmt.setFloat(3, rating);
-            stmt.setString(4, email);
-            stmt.executeUpdate();
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, nickname);
+        stmt.setString(2, password);
+        stmt.setFloat(3, rating);
+        stmt.setString(4, email);
+        stmt.executeUpdate();
     }
 
 
-    public Cookie loginAuthor(String email, String nickname, String password) {
+    public Cookie loginAuthor(String email, String nickname, String password) throws SQLException {
         String query = "";
         String emailOrNickname = "";
         if (email != null) {
@@ -349,74 +154,37 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
             query = "SELECT * FROM authors WHERE nickname = ?";
             emailOrNickname = nickname;
         }
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, emailOrNickname);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    try {
-                        return new Cookie(
-                                rs.getInt("id"),
-                                rs.getString("password"));
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-                    }
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-        return null;
-    }
-    @Override
-    public Cookie loginAuthor(int id, String password) {
-        String query = "SELECT password FROM authors WHERE id = ? AND password = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setInt(1, id);
-            stmt.setString(2, password);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return new Cookie(id, password);
-                }
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, emailOrNickname);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            try { // TODO: REMOVE THIS
+                return new Cookie(
+                    rs.getInt("id"),
+                    rs.getString("password"));
             } catch (Exception e) {
-                JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
                 throw new RuntimeException(e);
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
         }
         return null;
     }
-    public boolean isEmailUsed(String email) {
+
+
+    public boolean isEmailUsed(String email) throws SQLException {
         String query = "SELECT * FROM authors WHERE email = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, email);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
-        }
-        return false;
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, email);
+        ResultSet rs = stmt.executeQuery();
+        return rs.next();
     }
 
-    public boolean isNicknameUsed(String nickname) {
+    public boolean isNicknameUsed(String nickname) throws SQLException {
         String query = "SELECT * FROM authors WHERE nickname = ?";
-        try (PreparedStatement stmt = dbConnection.connection.prepareStatement(query)) {
-            stmt.setString(1, nickname);
-            try (ResultSet rs = stmt.executeQuery()) {
-                if (rs.next()) {
-                    return true;
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(null, "Si è verificato un errore: " + e.getMessage(), "Errore", JOptionPane.ERROR_MESSAGE);
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, nickname);
+        ResultSet rs = stmt.executeQuery();
+        if (rs.next()) {
+            return true;
         }
         return false;
     }

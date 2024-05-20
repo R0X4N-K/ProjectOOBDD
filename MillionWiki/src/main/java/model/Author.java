@@ -7,7 +7,7 @@ public class Author extends User {
     private String nickname;
     private float rating;
     private final ArrayList<Article> createdPages;
-    public Author(int id, String email, String nickname) throws Exception {
+    public Author(int id, String email, String nickname) throws IllegalArgumentException {
         setId(id);
         setEmail(email);
         setNickname(nickname);
@@ -20,8 +20,12 @@ public class Author extends User {
         return nickname;
     }
 
-    public void setNickname(String nome) throws Exception{
-        nickname = nome;
+    public void setNickname(String name) throws IllegalArgumentException {
+        if (name == null || name.isEmpty()) {
+            throw new IllegalArgumentException("Nickname cannot be null or empty");
+        } else {
+            nickname = name;
+        }
     }
 
     public float getRating(){

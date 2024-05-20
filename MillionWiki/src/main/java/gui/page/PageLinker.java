@@ -1,6 +1,7 @@
 package gui.page;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import model.Article;
 
 import javax.swing.*;
@@ -10,6 +11,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PageLinker extends JPanel {
@@ -133,48 +135,57 @@ public class PageLinker extends JPanel {
     }
 
     private void createSearchedPages(){
-        ArrayList<Article> articlesFound = Controller.getMatchesArticlesByTitle(
-                searchPageToLinkTxtFld.getText());
+        articlesFoundPanel.removeAll();
 
-        if(articlesFound.isEmpty()){
-        }
-        else{
-            articlesFoundPanel.removeAll();
-            for(Article article : articlesFound){
-                JPanel articleFoundItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
-                articleFoundItemPnl.setMaximumSize(new Dimension(320, 25));
-                JLabel articleFoundItemLbl = new JLabel(article.getTitle());
-                articleFoundItemPnl.add(articleFoundItemLbl);
-                articleFoundItemPnl.addMouseListener(new MouseAdapter() {
-                    @Override
-                    public void mouseClicked(MouseEvent e) {
-                        super.mouseClicked(e);
-                        sendBtn.setEnabled(true);
-                        articlePreviewFld.setText(
-                                Controller.getLastArticleVersionByArticleId(
-                                        article.getId()
-                                ).getText()
-                        );
 
-                        for (int i = 0 ; i < articlesFoundPanel.getComponentCount(); i++) {
-                            articlesFoundPanel.getComponent(i).setBackground(null);
-                            JPanel panel = (JPanel)  articlesFoundPanel.getComponent(i);
-                            for (Component innerComponent : panel.getComponents()) {
-                                if (innerComponent instanceof JLabel) {
-                                    JLabel label = (JLabel) innerComponent;
-                                    label.setForeground(null);
+        try {
+            ArrayList<Article> articlesFound = Controller.getMatchesArticlesByTitle(
+                    searchPageToLinkTxtFld.getText());
+
+            if (!articlesFound.isEmpty()) {
+                for (Article article : articlesFound) {
+                    JPanel articleFoundItemPnl = new JPanel(new FlowLayout(FlowLayout.LEFT));
+                    articleFoundItemPnl.setMaximumSize(new Dimension(320, 25));
+                    JLabel articleFoundItemLbl = new JLabel(article.getTitle());
+                    articleFoundItemPnl.add(articleFoundItemLbl);
+                    articleFoundItemPnl.addMouseListener(new MouseAdapter() {
+                        @Override
+                        public void mouseClicked(MouseEvent e) {
+                            super.mouseClicked(e);
+                            sendBtn.setEnabled(true);
+                            try {
+                                articlePreviewFld.setText(
+                                        Controller.getLastArticleVersionByArticleId(
+                                                article.getId()
+                                        ).getText()
+                                );
+                            } catch (SQLException ex) {
+                                ErrorDisplayer.showError(ex);
+                                articlePreviewFld.setText("!ERRORE DI PREVISUALIZZAZIONE!");
+                            }
+
+                            for (int i = 0; i < articlesFoundPanel.getComponentCount(); i++) {
+                                articlesFoundPanel.getComponent(i).setBackground(null);
+                                JPanel panel = (JPanel) articlesFoundPanel.getComponent(i);
+                                for (Component innerComponent : panel.getComponents()) {
+                                    if (innerComponent instanceof JLabel) {
+                                        JLabel label = (JLabel) innerComponent;
+                                        label.setForeground(null);
+                                    }
                                 }
                             }
+                            articleFoundItemPnl.setBackground(Color.decode("#007bff"));
+                            articleFoundItemLbl.setForeground(Color.WHITE);
+                            articleToLink[0] = article;
                         }
-                        articleFoundItemPnl.setBackground(Color.decode("#007bff"));
-                        articleFoundItemLbl.setForeground(Color.WHITE);
-                        articleToLink[0] = article;
-                    }
-                });
-                articlesFoundPanel.add(articleFoundItemPnl);
+                    });
+                    articlesFoundPanel.add(articleFoundItemPnl);
+                }
+                articlesFoundPanel.revalidate();
+                articlesFoundPanel.repaint();
             }
-            articlesFoundPanel.revalidate();
-            articlesFoundPanel.repaint();
+        } catch (SQLException e) {
+            ErrorDisplayer.showError(e);
         }
     }
 

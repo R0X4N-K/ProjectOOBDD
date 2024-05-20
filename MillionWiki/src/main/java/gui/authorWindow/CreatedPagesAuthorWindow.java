@@ -1,6 +1,7 @@
 package gui.authorWindow;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import gui.profileWindow.ProposalCard;
 import model.Article;
 import model.ArticleVersion;
@@ -13,12 +14,12 @@ import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static controller.Controller.getAllArticleVersionByArticleId;
-import static controller.Controller.getAllArticleVersionExcludingTextByArticleId;
+import static controller.Controller.getAllArticleVersionsExcludingTextByArticleId;
 
 public class CreatedPagesAuthorWindow {
     private JPanel cardLayoutPanel;
@@ -58,9 +59,13 @@ public class CreatedPagesAuthorWindow {
                     String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
                     Controller.getWindow().getprofileWindow().setVisible(false);
-                    Article article = Controller.getArticlesById(id);
-                    Controller.getWindow().getPage().openPage(article);
-                    Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+                    try {
+                        Article article = Controller.getArticlesById(id);
+                        Controller.getWindow().getPage().openPage(article);
+                        Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+                    } catch (SQLException | IllegalArgumentException ex) {
+                        ErrorDisplayer.showError(ex);
+                    }
                 }
             }
         };
@@ -81,24 +86,30 @@ public class CreatedPagesAuthorWindow {
 
     private JTable createJTable() {
         int idAuthor= Controller.getWindow().getAuthorWindow().getIdAuthor();
-        cardCardLayoutPanel2JLabel.setText("Caricamento delle pagine create da " + Controller.getNicknameAuthorById(idAuthor));
-        List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
-        Object[][] data = new Object[articles.size()][6];
-        for (int i = 0; i < articles.size(); i++) {
-            Article article = articles.get(i);
-            cardCardLayoutPanel2JLabel.setText("Caricamento versione aggiornata dell' articolo: " + article.getTitle());
-            ArrayList<ArticleVersion> articleVersions = getAllArticleVersionExcludingTextByArticleId(article.getId());
-            Date lastRevisionDate = getLastRevisionDate(articleVersions);
-            data[i][0] = "<html><a href='"+article.getId()+"'>" + article.getTitle() + "</a></html>";
-            data[i][1] = article.getCreationDate();
-            if (lastRevisionDate != null) {
-                data[i][2] = lastRevisionDate;
-            } else {
-                data[i][2] = "N/A";
+        Object[][] data = new Object[1][6]; // Modifica la dimensione dell'array a 5
+
+        try {
+            cardCardLayoutPanel2JLabel.setText("Caricamento delle pagine create da " + Controller.getNicknameAuthorById(idAuthor));
+            List<Article> articles = Controller.getArticlesByIdAuthor(idAuthor);
+            data = new Object[articles.size()][6];
+            for (int i = 0; i < articles.size(); i++) {
+                Article article = articles.get(i);
+                cardCardLayoutPanel2JLabel.setText("Caricamento versione aggiornata dell' articolo: " + article.getTitle());
+                ArrayList<ArticleVersion> articleVersions = getAllArticleVersionsExcludingTextByArticleId(article.getId());
+                Date lastRevisionDate = getLastRevisionDate(articleVersions);
+                data[i][0] = "<html><a href='" + article.getId() + "'>" + article.getTitle() + "</a></html>";
+                data[i][1] = article.getCreationDate();
+                if (lastRevisionDate != null) {
+                    data[i][2] = lastRevisionDate;
+                } else {
+                    data[i][2] = "N/A";
+                }
+                data[i][3] = articleVersions.size();
+                data[i][4] = getCountWaitingProposal(articleVersions);
+                data[i][5] = getCountAcceptedProposal(articleVersions);
             }
-            data[i][3] = articleVersions.size();
-            data[i][4] = getCountWaitingProposal(articleVersions);
-            data[i][5] = getCountAcceptedProposal(articleVersions);
+        } catch (SQLException | IllegalArgumentException e) {
+            ErrorDisplayer.showError(e);
         }
 
         String[] columns = {"Titolo", "Data Creazione", "Ultima Revisione", "Mod. Ricevute","Mod. in Attesa", "Mod. Apportate"};

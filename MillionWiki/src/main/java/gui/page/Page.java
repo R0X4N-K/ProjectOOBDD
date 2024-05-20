@@ -1,10 +1,10 @@
 package gui.page;
 import controller.Controller;
+import gui.ErrorDisplayer;
 import gui.page.VersionRevision.PageVersionPreview;
 import model.Article;
 
 import javax.swing.*;
-import javax.swing.border.*;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.text.*;
 import javax.swing.text.html.HTML;
@@ -14,6 +14,7 @@ import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -504,12 +505,17 @@ public class Page {
         searchTxtFld.setText("");
         titlePageField.setForeground(Color.BLACK);
         if(Controller.getCookie() != null) {
-            if (!Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
-                sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
-                sendButton.setText("Invia proposta");
-            } else {
-                sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
-                sendButton.setText("Salva articolo");
+            try {
+                if (!Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
+                    sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
+                    sendButton.setText("Invia proposta");
+                } else {
+                    sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
+                    sendButton.setText("Salva articolo");
+                }
+            } catch (SQLException | IllegalArgumentException e) {
+                ErrorDisplayer.showError(e);
+                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
             }
         }
 
@@ -517,11 +523,20 @@ public class Page {
         infoPageBtn.setText(article.getAuthor().getNickname());
 
         setTitlePageField(article.getTitle());
-        setTextPageField(Controller.getLastArticleVersionByArticleId(article.getId()).getText());
+        try {
+            setTextPageField(Controller.getLastArticleVersionByArticleId(article.getId()).getText());
+        } catch (SQLException e) {
+            ErrorDisplayer.showError(e);
+            setTextPageField("!ERRORE DI VISUALIZZAZIONE!");
+        }
         setIdArticle(article.getId());
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
-                Controller.incrementArticleViews(article.getId());
+                try {
+                    Controller.incrementArticleViews(article.getId());
+                } catch (SQLException e) {
+                    ErrorDisplayer.showError(e);
+                }
             });
         }
         thread.setDaemon(true);
@@ -533,15 +548,20 @@ public class Page {
         setEditorMode();
 
         sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
-        sendButton.setText("Crea articolo");
-        infoPageBtn.setText(Controller.getNicknameAuthorById(Controller.getCookie().getId()));
+        try {
+            sendButton.setText("Crea articolo");
+            infoPageBtn.setText(Controller.getNicknameAuthorById(Controller.getCookie().getId()));
 
-        setIdArticle(-1);
-        pageField.setText("");
-        titlePageField.setText("");
-        titlePageField.setForeground(Color.GRAY);
-        titlePageField.setText("Inserisci il titolo");
-        titlePageField.setCaretPosition(0);
+            setIdArticle(-1);
+            pageField.setText("");
+            titlePageField.setText("");
+            titlePageField.setForeground(Color.GRAY);
+            titlePageField.setText("Inserisci il titolo");
+            titlePageField.setCaretPosition(0);
+        } catch (SQLException e) {
+            ErrorDisplayer.showError(e);
+            Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
+        }
     }
 
     public int getIdArticle() {
