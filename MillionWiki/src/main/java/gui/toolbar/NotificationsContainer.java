@@ -73,8 +73,9 @@ public class NotificationsContainer extends AnchoredDialog {
                             CompactNotification cn = new CompactNotification(version);
                             cn.getPanel().addMouseListener(mouseClosure);
                             compactNotificationsList.add(cn);
-                            Thread thread = getAddNotificationThread(cn);
-                            thread.start();
+                            addNotification(cn);
+                            /* Thread thread = getAddNotificationThread(cn);
+                            thread.start();*/
                         } catch (Exception e) {
                             System.err.println("Article_Version == NULL, creazione fallita");
                         }
@@ -92,11 +93,13 @@ public class NotificationsContainer extends AnchoredDialog {
         loaded();
     }
 
-    private Thread getAddNotificationThread(CompactNotification cn) {
-        return new Thread(() -> {
-            notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
-            cn.getPanel().setSize(cn.getPanel().getPreferredSize());
-        });
+    /*private Thread getAddNotificationThread(CompactNotification cn) {
+        return new Thread(() -> {addNotification(cn);});
+    }*/
+
+    private void addNotification(CompactNotification cn) {
+        notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
+        cn.getPanel().setSize(cn.getPanel().getPreferredSize());
     }
 
     public NotificationsContainer(JComponent anchorTo) {
