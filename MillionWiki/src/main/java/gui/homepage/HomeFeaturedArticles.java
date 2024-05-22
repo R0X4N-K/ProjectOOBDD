@@ -7,6 +7,7 @@ import model.Article;
 import javax.swing.*;
 import javax.swing.border.*;
 import java.awt.*;
+import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -17,24 +18,32 @@ public class HomeFeaturedArticles {
     public HomeFeaturedArticles() {
         homeFeaturedArticlesMainPanel.setLayout(new GridLayout(2, 5, 10, 10));
 
-        // Crea un nuovo font per il titolo del bordo
         Font titleFont = new Font("Times New Roman", Font.PLAIN, 30);
+        TitledBorder titledBorder = null;
 
-        // Crea un bordo con il titolo personalizzato e applica il font
-        TitledBorder titledBorder = new TitledBorder("Articoli popolari");
-        titledBorder.setTitleFont(titleFont);
+        try {
+
+            URL iconUrl = getClass().getResource("/icons/trending.png");
+            ImageIcon icon = new ImageIcon(iconUrl);
+
+            String titledBorderTxt = "<html><img src=\"" + iconUrl + "\" style=\"vertical-align: bottom;\">" +
+                    "<span style=\"font-family: 'Times New Roman'; font-size: 22px;vertical-align: bottom;\">&nbsp;Articoli popolari</span></html>";
+
+            titledBorder = new TitledBorder(titledBorderTxt.toString());
+
+        }catch (Exception e){
+            titledBorder = new TitledBorder("Articoli popolari");
+            titledBorder.setTitleFont(titleFont);
+        }
+
         titledBorder.setTitleJustification(TitledBorder.LEFT);
         titledBorder.setTitlePosition(TitledBorder.TOP);
 
-        // Crea un EmptyBorder per il padding interno
-        EmptyBorder paddingBorder = new EmptyBorder(10, 10, 10, 10);  // Imposta il padding desiderato
+        EmptyBorder paddingBorder = new EmptyBorder(10, 10, 10, 10);
 
-        // Combina i due bordi
         CompoundBorder compoundBorder = new CompoundBorder(titledBorder, paddingBorder);
 
-        // Applica il bordo composto al pannello
         homeFeaturedArticlesMainPanel.setBorder(compoundBorder);
-
 
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(this::initMostViewedArticles);
