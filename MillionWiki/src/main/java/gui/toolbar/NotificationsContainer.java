@@ -49,6 +49,7 @@ public class NotificationsContainer extends AnchoredDialog {
         notificationsScrollPane.getVerticalScrollBar().setValue(0);
         notificationsScrollPane.getHorizontalScrollBar().setValue(0);
         compactNotificationsList.clear();
+        int totalHeight = 0;
         try {
             ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
 
@@ -74,8 +75,7 @@ public class NotificationsContainer extends AnchoredDialog {
                             cn.getPanel().addMouseListener(mouseClosure);
                             compactNotificationsList.add(cn);
                             addNotification(cn);
-                            /* Thread thread = getAddNotificationThread(cn);
-                            thread.start();*/
+                            totalHeight += cn.getPanel().getPreferredSize().height;
                         } catch (Exception e) {
                             System.err.println("Article_Version == NULL, creazione fallita");
                         }
@@ -89,6 +89,10 @@ public class NotificationsContainer extends AnchoredDialog {
         } catch (SQLException | IllegalArgumentException e) {
             ErrorDisplayer.showError(e);
         }
+
+        notificationsContainerScrollablePanel.setPreferredSize(new Dimension(notificationsContainerScrollablePanel.getPreferredSize().width, totalHeight));
+        notificationsContainerScrollablePanel.revalidate();
+        notificationsContainerScrollablePanel.repaint();
 
         loaded();
     }
@@ -167,7 +171,6 @@ public class NotificationsContainer extends AnchoredDialog {
         if (!compactNotificationsList.isEmpty()) {
             for (CompactNotification cn : compactNotificationsList) {
                 cn.getPanel().setSize(compactNotificationsList.getLast().getPanel().getSize());
-                System.out.println(cn.getPanel().getSize());
             }
             heightNotifications = (int) ((compactNotificationsList.getFirst().getPanel().getPreferredSize().getHeight() * compactNotificationsList.size()) - mainNotificationsContainerPanel.getPreferredSize().getHeight());
             heightNotifications = Math.max(heightNotifications, 0);
