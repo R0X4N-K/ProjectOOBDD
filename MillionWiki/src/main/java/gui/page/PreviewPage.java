@@ -6,8 +6,13 @@ import model.Article;
 import model.ArticleVersion;
 
 import javax.swing.*;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
+import java.awt.event.ComponentAdapter;
+import java.awt.event.ComponentEvent;
+import java.awt.event.HierarchyEvent;
 import java.awt.event.InputEvent;
 import java.sql.SQLException;
 
@@ -18,12 +23,12 @@ public class PreviewPage extends JDialog {
 
     public PreviewPage(String title, String text){
         init_component(title, text);
+
     }
 
     public PreviewPage(String titleDlg, String title, String text){
         setTitle(titleDlg);
         init_component(title, text);
-
     }
 
 
@@ -32,6 +37,8 @@ public class PreviewPage extends JDialog {
     }
 
     private void init_component(String title, String text){
+        setModal(true);
+
         titleTxtFld = new JTextField(title);
         textEp = new JEditorPane();
         scrollPane = new JScrollPane(textEp);
@@ -54,10 +61,17 @@ public class PreviewPage extends JDialog {
         titleTxtFld.setCaretColor(titleTxtFld.getBackground());
         textEp.setCaretColor(textEp.getBackground());
 
-
-        SwingUtilities.invokeLater(() -> {
-            scrollPane.getVerticalScrollBar().setValue(0);
+        textEp.addComponentListener(new ComponentAdapter() {
+            @Override
+            public void componentResized(ComponentEvent e) {
+                if (textEp.getWidth() > 0 && textEp.getHeight() > 0) {
+                    SwingUtilities.invokeLater(() -> {
+                        scrollPane.getVerticalScrollBar().setValue(0);
+                    });
+                }
+            }
         });
+
 
         textEp.addHyperlinkListener(e -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
@@ -82,17 +96,22 @@ public class PreviewPage extends JDialog {
                         titleTxtFld.getFont().getStyle(),
                         (int) (titleTxtFld.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
             }
+            else
+            {
+                if (scrollPane != null)
+                    scrollPane.dispatchEvent(SwingUtilities.convertMouseEvent(textEp, e, scrollPane));
+            }
         });
+
 
         add(titleTxtFld, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
 
-        scrollPane.getVerticalScrollBar().setValue(0);
-        scrollPane.getHorizontalScrollBar().setValue(0);
 
-        setModal(true);
         setVisible(true);
+
     }
+
 
     public JTextField getTitleTxtFld() {
         return titleTxtFld;
