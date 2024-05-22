@@ -540,8 +540,14 @@ public class Page {
                 }
             });
         }
+
         thread.setDaemon(true);
         thread.start();
+
+
+        SwingUtilities.invokeLater(() -> {
+            scrollPanePage.getVerticalScrollBar().setValue(0);
+        });
 
     }
 
