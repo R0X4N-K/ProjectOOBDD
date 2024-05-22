@@ -4,6 +4,8 @@ import controller.Controller;
 import gui.ErrorDisplayer;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 import java.sql.SQLException;
 
 public class ProfileAuthorWindow {
@@ -32,29 +34,61 @@ public class ProfileAuthorWindow {
     public void setProfile(){
         switchPanel(cardReloading);
         try {
-            nicknameProfileJLabel.setText("<html> Benvenuto, questo è il profilo di " + "<b>" + Controller.getNicknameAuthorById(Controller.getWindow().getAuthorWindow().getIdAuthor()) + "</b>" + "</html>");
+            nicknameProfileJLabel.setText(Controller.getNicknameAuthorById(Controller.getWindow().getAuthorWindow().getIdAuthor()));
+            nicknameProfileJLabel.setFont(new Font(
+                    nicknameProfileJLabel.getFont().getFontName(),
+                    Font.BOLD,
+                    22)
+            );
+            nicknameProfileJLabel.setBorder(
+                    new TitledBorder("Nome utente")
+            );
         } catch (SQLException e) {
             ErrorDisplayer.showError(e);
             nicknameProfileJLabel.setText("!ERRORE DI VISUALIZZAZIONE!");
         }
 
         try {
-            createdArticlesJLabel.setText("<html> Ha creato " + "<b>" + Controller.getArticlesNumberByIdAuthor(Controller.getWindow().getAuthorWindow().getIdAuthor()) + "</b>" + " articoli" + "</html>");
+            createdArticlesJLabel.setText(String.valueOf(Controller.getArticlesNumberByIdAuthor(Controller.getWindow().getAuthorWindow().getIdAuthor())));
+            createdArticlesJLabel.setFont(new Font(
+                    nicknameProfileJLabel.getFont().getFontName(),
+                    Font.BOLD,
+                    22)
+            );
+            createdArticlesJLabel.setBorder(
+                    new TitledBorder("Articoli creati")
+            );
         } catch (SQLException e) {
             ErrorDisplayer.showError(e);
-            createdArticlesJLabel.setText("<html> Impossibile visualizzare il numero di articoli creati" + "</html>");
+            createdArticlesJLabel.setText("Impossibile visualizzare il numero di articoli creati");
         }
 
         try {
-            sentProposalsJLabel.setText("<html> Ha inviato " + "<b>" +Controller.getArticlesNumberSentByIdAuthor(Controller.getWindow().getAuthorWindow().getIdAuthor()) + "</b>" + " proposte" + "</html>");
+            sentProposalsJLabel.setText(String.valueOf(Controller.getArticlesNumberSentByIdAuthor(Controller.getWindow().getAuthorWindow().getIdAuthor())));
+            sentProposalsJLabel.setFont(new Font(
+                    nicknameProfileJLabel.getFont().getFontName(),
+                    Font.BOLD,
+                    22)
+            );
+            sentProposalsJLabel.setBorder(
+                    new TitledBorder("Proposte inviate")
+            );
         } catch (SQLException e) {
             ErrorDisplayer.showError(e);
-            sentProposalsJLabel.setText("<html> Impossibile visualizzare il numero di proposte" + "</html>");
+            sentProposalsJLabel.setText("Impossibile visualizzare il numero di proposte");
         }
         try {
             float rating = Controller.getRatingByAuthorId(Controller.getWindow().getAuthorWindow().getIdAuthor());
             if (rating != 0) {
-                ratingJLabel.setText("<html> Il suo rating (Proposte Accettate/Inviate) è del " + "<b>" + rating * 100 + " %" + "</b>" + "</html>");
+                ratingJLabel.setText(rating * 100 + " %");
+                ratingJLabel.setFont(new Font(
+                        nicknameProfileJLabel.getFont().getFontName(),
+                        Font.BOLD,
+                        22)
+                );
+                ratingJLabel.setBorder(
+                        new TitledBorder("Valutazione")
+                );
             } else {
                 ratingJLabel.setText("Nessuna proposta ancora valutata");
             }
