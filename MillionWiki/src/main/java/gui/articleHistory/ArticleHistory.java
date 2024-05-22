@@ -1,5 +1,6 @@
 package gui.articleHistory;
 import gui.ErrorDisplayer;
+import gui.page.PreviewPage;
 import gui.profileWindow.CreatedPagesCard;
 import gui.profileWindow.ProposalCard;
 import model.Article;
@@ -59,9 +60,24 @@ public class ArticleHistory extends JDialog {
                     String link = (String) articleHistoryJTable.getValueAt(row, col);
                     String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
-                    Controller.getWindow().getArticleHistoryTextWindow().setIdArticleVersion(id);
+
+                    //TODO: rimuovere tutto ArticleHistoryTextWindow
+                    /*Controller.getWindow().getArticleHistoryTextWindow().setIdArticleVersion(id);
                     Controller.getWindow().getArticleHistoryTextWindow().setArticleHistoryTextWindow();
-                    Controller.getWindow().getArticleHistoryTextWindow().setVisible(true);
+                    Controller.getWindow().getArticleHistoryTextWindow().setVisible(true);*/
+
+
+                    try {
+                        ArticleVersion a = Controller.getArticleVersionByIdArticleVersion(id);
+                        String titleDlg = "Articolo: '" + a.getParentArticle().getTitle() + "' - Revisione del " + a.getRevisionDate();
+
+
+                        new PreviewPage(titleDlg, a.getTitleProposal(), a.getText());
+
+                    } catch (SQLException ex) {
+                        ex.printStackTrace();
+                    }
+
                 }
             }
         };

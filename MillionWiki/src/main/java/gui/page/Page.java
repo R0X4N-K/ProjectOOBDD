@@ -54,6 +54,7 @@ public class Page {
 
     private int idArticle = -1;
     private Thread thread;
+    private JScrollPane scrollPanePage;
 
 
     //TODO: scorporare la classe ->
@@ -84,9 +85,13 @@ public class Page {
     };
 
     public Page(){
+        scrollPanePage = new JScrollPane(pageField);
+        mainPanelPage.add(scrollPanePage);
+
 
         new PageUtils(
                 mainPanelPage,
+                scrollPanePage,
                 pageField,
                 boldButton,
                 italicButton,
@@ -115,9 +120,6 @@ public class Page {
 
         pageField.putClientProperty(JEditorPane.HONOR_DISPLAY_PROPERTIES, Boolean.TRUE);
         pageField.setEditorKit(new HTMLEditorKit());
-
-        JScrollPane scrollPane = new JScrollPane(pageField);
-        mainPanelPage.add(scrollPane);
 
         menuBar.setBackground(Color.decode("#e8e4f0"));
 
@@ -518,7 +520,6 @@ public class Page {
                 Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
             }
         }
-
 
         infoPageBtn.setText(article.getAuthor().getNickname());
 

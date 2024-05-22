@@ -19,15 +19,15 @@ public class PreviewPage extends JDialog {
     public PreviewPage(String title, String text){
         init_component(title, text);
     }
-    public PreviewPage(){
-        init_component(null, null);
+
+    public PreviewPage(String titleDlg, String title, String text){
+        setTitle(titleDlg);
+        init_component(title, text);
     }
 
-    public void setTitle(String title){
-        titleTxtFld.setText(title);
-    }
-    public void setText(String text){
-        textEp.setText(text);
+
+    public PreviewPage(){
+        init_component(null, null);
     }
 
     private void init_component(String title, String text){
@@ -43,6 +43,7 @@ public class PreviewPage extends JDialog {
         setLayout(new BorderLayout());
         setSize((int) Controller.getWindow().getSize().getWidth(), (int) Controller.getWindow().getSize().getHeight());
         setLocationRelativeTo(Controller.getWindow());
+        setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
 
         titleTxtFld.setFont(new Font(titleTxtFld.getFont().getFontName(), Font.BOLD, titleTxtFld.getFont().getSize() + 15));
         titleTxtFld.setEditable(false);

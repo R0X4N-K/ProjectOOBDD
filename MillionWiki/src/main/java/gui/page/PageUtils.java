@@ -22,6 +22,7 @@ import java.sql.SQLException;
 
 public class PageUtils {
     JPanel mainPanelPage;
+    JScrollPane scrollPanePage;
     JEditorPane pageField;
     JButton boldButton;
     JButton italicButton;
@@ -41,6 +42,7 @@ public class PageUtils {
     JMenuItem exportBtnToolMenu;
     JButton closeEditorMode;
     public PageUtils(JPanel mainPanelPage,
+                     JScrollPane scrollPanePage,
                      JEditorPane pageField,
                      JButton boldButton,
                      JButton italicButton,
@@ -61,6 +63,7 @@ public class PageUtils {
                      JButton closeEditorMode) {
 
         this.mainPanelPage = mainPanelPage;
+        this.scrollPanePage = scrollPanePage;
         this.pageField = pageField;
         this.boldButton = boldButton;
         this.italicButton = italicButton;
@@ -162,6 +165,10 @@ public class PageUtils {
                 titlePageField.setFont(new Font(titlePageField.getFont().getFontName(),
                         titlePageField.getFont().getStyle(),
                         (int) (titlePageField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
+            }
+            else{
+                if (scrollPanePage != null)
+                    scrollPanePage.dispatchEvent(SwingUtilities.convertMouseEvent(pageField, e, scrollPanePage));
             }
         });
 
@@ -359,7 +366,9 @@ public class PageUtils {
             @Override
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Controller.getWindow().getAuthorWindow().setIdAuthor(Controller.getAuthorByNickname(infoPageBtn.getText()).getId());
+                    Controller.getWindow().getAuthorWindow().setIdAuthor(
+                            Controller.getAuthorByNickname(infoPageBtn.getText()).getId()
+                    );
                     Controller.getWindow().getAuthorWindow().setAuthorWindow();
                     Controller.getWindow().getAuthorWindow().setVisible(true);
                 } catch (SQLException ex) {
