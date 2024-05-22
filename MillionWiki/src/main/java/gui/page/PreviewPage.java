@@ -23,6 +23,7 @@ public class PreviewPage extends JDialog {
     public PreviewPage(String titleDlg, String title, String text){
         setTitle(titleDlg);
         init_component(title, text);
+
     }
 
 
@@ -52,6 +53,11 @@ public class PreviewPage extends JDialog {
         textEp.setEditable(false);
         titleTxtFld.setCaretColor(titleTxtFld.getBackground());
         textEp.setCaretColor(textEp.getBackground());
+
+
+        SwingUtilities.invokeLater(() -> {
+            scrollPane.getVerticalScrollBar().setValue(0);
+        });
 
         textEp.addHyperlinkListener(e -> {
             if (e.getEventType() == HyperlinkEvent.EventType.ACTIVATED) {
