@@ -12,8 +12,6 @@ import java.util.Objects;
 public class Home {
     private JPanel mainPanelHome;
     private JLabel titleLabel;
-    private JLabel featuredLabel;
-    private JLabel recentLabel;
     private JLabel footerLabel;
 
 
@@ -46,14 +44,6 @@ public class Home {
 
         // Titolo
         titleLabel.setFont(new Font("Arial", Font.BOLD, 24));
-
-        // Articoli in evidenza
-        featuredLabel.setFont(new Font("Arial", Font.BOLD, 18));
-
-
-        // Articoli recenti
-        recentLabel.setFont(new Font("Arial", Font.BOLD, 18));
-
 
         // Footer
         footerLabel.setFont(new Font("Arial", Font.PLAIN, 10));

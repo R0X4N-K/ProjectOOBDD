@@ -4,6 +4,9 @@ import controller.Controller;
 import gui.ErrorDisplayer;
 
 import javax.swing.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -14,6 +17,25 @@ public class HomeRecentArticles {
 
     public HomeRecentArticles() {
         homeRecentArticlesMainPanel.setLayout(new GridLayout(2, 5, 10, 10));
+
+        // Crea un nuovo font per il titolo del bordo
+        Font titleFont = new Font("Times New Roman", Font.PLAIN, 30);
+
+        // Crea un bordo con il titolo personalizzato e applica il font
+        TitledBorder titledBorder = new TitledBorder("Articoli recenti");
+        titledBorder.setTitleFont(titleFont);
+        titledBorder.setTitleJustification(TitledBorder.LEFT);
+        titledBorder.setTitlePosition(TitledBorder.TOP);
+
+        // Crea un EmptyBorder per il padding interno
+        EmptyBorder paddingBorder = new EmptyBorder(10, 10, 10, 10);  // Imposta il padding desiderato
+
+        // Combina i due bordi
+        CompoundBorder compoundBorder = new CompoundBorder(titledBorder, paddingBorder);
+
+        // Applica il bordo composto al pannello
+        homeRecentArticlesMainPanel.setBorder(compoundBorder);
+
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
                 initRecentArticles();

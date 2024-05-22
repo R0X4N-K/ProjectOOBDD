@@ -5,6 +5,7 @@ import gui.ErrorDisplayer;
 import model.Article;
 
 import javax.swing.*;
+import javax.swing.border.*;
 import java.awt.*;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,6 +16,26 @@ public class HomeFeaturedArticles {
 
     public HomeFeaturedArticles() {
         homeFeaturedArticlesMainPanel.setLayout(new GridLayout(2, 5, 10, 10));
+
+        // Crea un nuovo font per il titolo del bordo
+        Font titleFont = new Font("Times New Roman", Font.PLAIN, 30);
+
+        // Crea un bordo con il titolo personalizzato e applica il font
+        TitledBorder titledBorder = new TitledBorder("Articoli popolari");
+        titledBorder.setTitleFont(titleFont);
+        titledBorder.setTitleJustification(TitledBorder.LEFT);
+        titledBorder.setTitlePosition(TitledBorder.TOP);
+
+        // Crea un EmptyBorder per il padding interno
+        EmptyBorder paddingBorder = new EmptyBorder(10, 10, 10, 10);  // Imposta il padding desiderato
+
+        // Combina i due bordi
+        CompoundBorder compoundBorder = new CompoundBorder(titledBorder, paddingBorder);
+
+        // Applica il bordo composto al pannello
+        homeFeaturedArticlesMainPanel.setBorder(compoundBorder);
+
+
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(this::initMostViewedArticles);
         }
