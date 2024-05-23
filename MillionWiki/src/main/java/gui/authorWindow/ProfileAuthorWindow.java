@@ -25,6 +25,8 @@ public class ProfileAuthorWindow {
     private JLabel loadingLbl;
     private JProgressBar progressBar;
 
+    private JPanel ratingPnl;
+
     public ProfileAuthorWindow(){
 
     }
@@ -99,15 +101,16 @@ public class ProfileAuthorWindow {
                     Font.BOLD,
                     22)
             );
-            ratingJLabel.setBorder(
+            ratingPnl.setBorder(
                     new TitledBorder("Valutazione")
             );
 
-                ratingJLabel.setOpaque(true);
+            ratingJLabel.setOpaque(true);
 
             if (rating != 0) {
                 rating = rating * 100;
                 progressBar.setValue((int) rating);
+                progressBar.setVisible(true);
                 ratingJLabel.setText(String.format("%.1f", rating) + " %");
 
                 if(rating > 50){
@@ -119,6 +122,9 @@ public class ProfileAuthorWindow {
                                     )
                             )
                     );
+                    progressBar.setForeground(Color.decode("#5EAC24"));
+                    progressBar.setBackground(Color.GRAY);
+
                 }else if(rating < 50){
                     ratingJLabel.setForeground(Color.decode("#ED1C24"));
                     ratingJLabel.setIcon(
@@ -128,6 +134,9 @@ public class ProfileAuthorWindow {
                                     )
                             )
                     );
+
+                    progressBar.setForeground(Color.decode("#ED1C24"));
+                    progressBar.setBackground(Color.GRAY);
                 }else if(rating == 50){
                     ratingJLabel.setForeground(Color.decode("#FDBF40"));
                     ratingJLabel.setIcon(
@@ -137,6 +146,9 @@ public class ProfileAuthorWindow {
                                     )
                             )
                     );
+
+                    progressBar.setForeground(Color.decode("#FDBF40"));
+                    progressBar.setBackground(Color.GRAY);
                 }
 
             } else {
@@ -152,6 +164,10 @@ public class ProfileAuthorWindow {
         switchPanel(cardReloaded);
     }
 
+
+    public JPanel getRatingPnl() {
+        return ratingPnl;
+    }
 
 
 }

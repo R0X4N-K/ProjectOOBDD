@@ -13,6 +13,7 @@ public class AuthorWindow extends JDialog{
     private JPanel authorPanelCards;
     private JPanel authorWindowMainPanel;
     private CreatedPagesAuthorWindow createdPagesAuthorWindow;
+
     private ProfileAuthorWindow profileAuthorWindow;
     private JPanel authorWindowJPanelButtons2;
     private int idAuthor = -1;
@@ -95,5 +96,8 @@ public class AuthorWindow extends JDialog{
     }
     public JButton getButtonToCreatedPages(){
         return buttonToCreatedPages;
+    }
+    public ProfileAuthorWindow getProfileAuthorWindow() {
+        return profileAuthorWindow;
     }
 }
