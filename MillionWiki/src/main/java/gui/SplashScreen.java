@@ -22,10 +22,12 @@ public class SplashScreen extends JFrame {
         setSize(1200, 500);
         setPreferredSize(new Dimension(1200, 500));
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
+        setResizable(false);
 
         add(mainPanelSplashScreen, BorderLayout.CENTER);
         add(createLogsFrame(), BorderLayout.SOUTH);
 
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
         setLocationRelativeTo(null);
         setVisible(true);
 

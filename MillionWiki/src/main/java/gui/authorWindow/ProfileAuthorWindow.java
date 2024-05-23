@@ -23,6 +23,7 @@ public class ProfileAuthorWindow {
     private JLabel sentProposalsJLabel;
     private JLabel ratingJLabel;
     private JLabel loadingLbl;
+    private JProgressBar progressBar;
 
     public ProfileAuthorWindow(){
 
@@ -106,19 +107,43 @@ public class ProfileAuthorWindow {
 
             if (rating != 0) {
                 rating = rating * 100;
+                progressBar.setValue((int) rating);
                 ratingJLabel.setText(String.format("%.1f", rating) + " %");
 
                 if(rating > 50){
-                    ratingJLabel.setForeground(Color.GREEN);
+                    ratingJLabel.setForeground(Color.decode("#5EAC24"));
+                    ratingJLabel.setIcon(
+                            new ImageIcon(
+                                    ProfileAuthorWindow.class.getResource(
+                                            "/icons/up.png"
+                                    )
+                            )
+                    );
                 }else if(rating < 50){
-                    ratingJLabel.setForeground(Color.RED);
+                    ratingJLabel.setForeground(Color.decode("#ED1C24"));
+                    ratingJLabel.setIcon(
+                            new ImageIcon(
+                                    ProfileAuthorWindow.class.getResource(
+                                            "/icons/down.png"
+                                    )
+                            )
+                    );
                 }else if(rating == 50){
-                    ratingJLabel.setForeground(Color.ORANGE);
+                    ratingJLabel.setForeground(Color.decode("#FDBF40"));
+                    ratingJLabel.setIcon(
+                            new ImageIcon(
+                                    ProfileAuthorWindow.class.getResource(
+                                            "/icons/middle.png"
+                                    )
+                            )
+                    );
                 }
 
             } else {
                 ratingJLabel.setForeground(Color.GRAY);
                 ratingJLabel.setText("...");
+                ratingJLabel.setIcon(null);
+                progressBar.setVisible(false);
             }
         } catch (SQLException e) {
             ErrorDisplayer.showError(e);
