@@ -22,6 +22,7 @@ public class ProfileAuthorWindow {
     private JLabel createdArticlesJLabel;
     private JLabel sentProposalsJLabel;
     private JLabel ratingJLabel;
+    private JLabel loadingLbl;
 
     public ProfileAuthorWindow(){
 
@@ -92,18 +93,32 @@ public class ProfileAuthorWindow {
         }
         try {
             float rating = Controller.getRatingByAuthorId(Controller.getWindow().getAuthorWindow().getIdAuthor());
+            ratingJLabel.setFont(new Font(
+                    nicknameProfileJLabel.getFont().getFontName(),
+                    Font.BOLD,
+                    22)
+            );
+            ratingJLabel.setBorder(
+                    new TitledBorder("Valutazione")
+            );
+
+                ratingJLabel.setOpaque(true);
+
             if (rating != 0) {
-                ratingJLabel.setText(rating * 100 + " %");
-                ratingJLabel.setFont(new Font(
-                        nicknameProfileJLabel.getFont().getFontName(),
-                        Font.BOLD,
-                        22)
-                );
-                ratingJLabel.setBorder(
-                        new TitledBorder("Valutazione")
-                );
+                rating = rating * 100;
+                ratingJLabel.setText(String.format("%.1f", rating) + " %");
+
+                if(rating > 50){
+                    ratingJLabel.setForeground(Color.GREEN);
+                }else if(rating < 50){
+                    ratingJLabel.setForeground(Color.RED);
+                }else if(rating == 50){
+                    ratingJLabel.setForeground(Color.ORANGE);
+                }
+
             } else {
-                ratingJLabel.setText("0");
+                ratingJLabel.setForeground(Color.GRAY);
+                ratingJLabel.setText("...");
             }
         } catch (SQLException e) {
             ErrorDisplayer.showError(e);
