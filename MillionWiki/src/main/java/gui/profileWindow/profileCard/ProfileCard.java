@@ -5,6 +5,8 @@ import gui.Window;
 import gui.profileWindow.ProfileWindow;
 
 import javax.swing.*;
+import javax.swing.border.TitledBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
@@ -26,7 +28,6 @@ public class ProfileCard {
             public void actionPerformed(ActionEvent e) {
                 Window.switchToUnloggedWindow(Controller.getWindow());
                 Controller.getWindow().getprofileWindow().getDialog().dispose();
-                welcomeJLabel.setText("Benvenuto!");
             }
         });
         changeNicknameButton.addActionListener(new ActionListener() {
@@ -52,10 +53,20 @@ public class ProfileCard {
     }
 
     void setWelcomeMessage(String nickname) {
-        welcomeJLabel.setText("Benvenuto, " + nickname + "!");
+        welcomeJLabel.setText("<html><span style='font-size:22px; color:black;'>Benvenuto, </span>" +
+                "<span style='font-size:22px; font-weight:bold; color:#2c82c9'>" + nickname + "</span>" +
+                "<span style='font-size:22px; color:black;'>!</span></html>");
     }
     void setEmailJLabel(String email){
-        emailJLabel.setText(("La tua Email è: " + email));
+        emailJLabel.setText(email);
+        emailJLabel.setFont(new Font(
+                emailJLabel.getFont().getFontName(),
+                Font.PLAIN,
+                15)
+        );
+        emailJLabel.setBorder(
+                new TitledBorder("Email")
+        );
     }
 
     public JPanel getPanel() {

@@ -6,6 +6,10 @@ import gui.ErrorDisplayer;
 import javax.swing.*;
 import javax.swing.border.TitledBorder;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
 import java.sql.SQLException;
 
 public class ProfileAuthorWindow {
@@ -55,6 +59,15 @@ public class ProfileAuthorWindow {
                     Font.BOLD,
                     22)
             );
+            createdArticlesJLabel.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    super.mouseClicked(e);
+                    for (ActionListener listener : Controller.getWindow().getAuthorWindow().getButtonToCreatedPages().getActionListeners()) {
+                        listener.actionPerformed(new ActionEvent(Controller.getWindow().getAuthorWindow().getButtonToCreatedPages(), ActionEvent.ACTION_PERFORMED, "Trigger from AuthorWindow"));
+                    }
+                }
+            });
             createdArticlesJLabel.setBorder(
                     new TitledBorder("Articoli creati")
             );
@@ -90,7 +103,7 @@ public class ProfileAuthorWindow {
                         new TitledBorder("Valutazione")
                 );
             } else {
-                ratingJLabel.setText("Nessuna proposta ancora valutata");
+                ratingJLabel.setText("0");
             }
         } catch (SQLException e) {
             ErrorDisplayer.showError(e);

@@ -93,4 +93,7 @@ public class AuthorWindow extends JDialog{
     public void setIdAuthor(int idAuthor){
         this.idAuthor = idAuthor;
     }
+    public JButton getButtonToCreatedPages(){
+        return buttonToCreatedPages;
+    }
 }
