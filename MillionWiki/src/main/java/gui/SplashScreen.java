@@ -2,13 +2,18 @@ package gui;
 
 import controller.Controller;
 
+
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import java.awt.*;
+import java.awt.event.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class SplashScreen extends JFrame {
     private JPanel mainPanelSplashScreen;
     private JProgressBar progressBar;
+
 
     public SplashScreen() {
         setLayout(new BorderLayout());
@@ -17,30 +22,17 @@ public class SplashScreen extends JFrame {
         setSize(1200, 500);
         setPreferredSize(new Dimension(1200, 500));
         setCursor(new Cursor(Cursor.WAIT_CURSOR));
-        add(mainPanelSplashScreen);
+
+        add(mainPanelSplashScreen, BorderLayout.CENTER);
+        add(createLogsFrame(), BorderLayout.SOUTH);
 
         setLocationRelativeTo(null);
         setVisible(true);
 
-        createLogsFrame();
 
     }
 
-    private void createLogsFrame() {
-        JDialog logsDialog = new JDialog(this);
-        logsDialog.setLayout(new BorderLayout());
-        logsDialog.setAlwaysOnTop(true);
-        logsDialog.setUndecorated(true);
-        logsDialog.setSize(new Dimension(1200, 20));  // Dimensione per occupare tutta la larghezza
-        logsDialog.setResizable(false);
-
-        Point location = this.getLocation();
-        int x = location.x;
-        int y = location.y + this.getHeight() - logsDialog.getHeight();  // Posizione per essere in basso
-
-        logsDialog.setLocation(x, y);  // Imposta la posizione calcolata
-
-
+    private JPanel createLogsFrame() {
         progressBar = new JProgressBar(0, 20);
         progressBar.setValue(0);
         progressBar.setStringPainted(true);
@@ -61,12 +53,10 @@ public class SplashScreen extends JFrame {
 
         logsPanel.add(progressBar, BorderLayout.CENTER);
 
-        logsDialog.add(logsPanel, BorderLayout.CENTER);
-        logsDialog.setVisible(true);
-
-
         logsPanel.revalidate();
         logsPanel.repaint();
+
+        return logsPanel;
 
     }
 
