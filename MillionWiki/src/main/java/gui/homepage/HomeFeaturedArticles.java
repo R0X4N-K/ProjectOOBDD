@@ -61,6 +61,7 @@ public class HomeFeaturedArticles {
                     Controller.getSplashScreen().incrementProgressBar();
                     String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
                     HomeArticlePanel featuredArticle = new HomeArticlePanel(article.getTitle(), htmlText, article.getId());
+                    featuredArticle.setBackground(Color.decode("#FF641A"));
                     homeFeaturedArticlesMainPanel.add(featuredArticle);
                 } catch (SQLException | IllegalArgumentException e) {
                     ErrorDisplayer.showError(e);
