@@ -59,13 +59,10 @@ public class PageVersionPreview {
         });
 
         confirmButton.addActionListener(e -> checkReception());
-        profileButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Controller.getWindow().getAuthorWindow().setIdAuthor(articleVersions.get(currentArticlePosition).getAuthorProposal().getId());
-                Controller.getWindow().getAuthorWindow().setAuthorWindow();
-                Controller.getWindow().getAuthorWindow().setVisible(true);
-            }
+        profileButton.addActionListener(e -> {
+            Controller.getWindow().getAuthorWindow().setIdAuthor(articleVersions.get(currentArticlePosition).getAuthorProposal().getId());
+            Controller.getWindow().getAuthorWindow().setAuthorWindow();
+            Controller.getWindow().getAuthorWindow().setVisible(true);
         });
     }
 
@@ -79,6 +76,9 @@ public class PageVersionPreview {
     }
 
     public void setArticleVersions(int articleId) {
+        reviewed.clear();
+        accepted.clear();
+        rejectedCount = 0;
         try {
             if (articleId != -1) {
                 ArrayList<ArticleVersion> temp = Controller.getNotificationsText(articleId);
