@@ -59,7 +59,8 @@ public class HomeFeaturedArticles {
             for (Article article : mostViewedArticles) {
                 try {
                     Controller.getSplashScreen().incrementProgressBar();
-                    Controller.getWindow().getHomepage().incrementProgressBarHome();
+                    if(Controller.getWindow() != null)
+                        Controller.getWindow().getHomepage().incrementProgressBarHome();
                     String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
                     HomeArticlePanel featuredArticle = new HomeArticlePanel(article.getTitle(), htmlText, article.getId());
                     featuredArticle.setBackground(Color.decode("#FF641A"));
