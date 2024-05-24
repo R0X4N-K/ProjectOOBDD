@@ -38,9 +38,9 @@ public class Home {
         });
 
         reloadHome.addActionListener(e -> {
-            if(!reloadHome.getIcon().toString().equals(
-                    new ImageIcon(Home.class.getResource("/icons/reload.gif").toString()))){
-
+            if(
+                !getHomeFeaturedArticles().getThread().isAlive()
+            ){
                 reloadHome.setIcon(new ImageIcon(Home.class.getResource("/icons/reload.gif")));
                 if (!Controller.getSplashScreen().isVisible())
                     progressBarHome.setVisible(true);

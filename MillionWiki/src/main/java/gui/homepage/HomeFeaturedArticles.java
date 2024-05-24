@@ -13,6 +13,15 @@ import java.util.ArrayList;
 
 public class HomeFeaturedArticles {
     private JPanel homeFeaturedArticlesMainPanel;
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
+    }
+
     private Thread thread;
 
     public HomeFeaturedArticles() {
