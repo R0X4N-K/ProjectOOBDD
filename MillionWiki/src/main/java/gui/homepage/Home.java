@@ -38,14 +38,17 @@ public class Home {
         });
 
         reloadHome.addActionListener(e -> {
-            reloadHome.setIcon(new ImageIcon(Home.class.getResource("/icons/reload.gif")));
+            if(!reloadHome.getIcon().toString().equals(
+                    new ImageIcon(Home.class.getResource("/icons/reload.gif").toString()))){
 
-            if(!Controller.getSplashScreen().isVisible())
-                progressBarHome.setVisible(true);
+                reloadHome.setIcon(new ImageIcon(Home.class.getResource("/icons/reload.gif")));
+                if (!Controller.getSplashScreen().isVisible())
+                    progressBarHome.setVisible(true);
 
-            Controller.getWindow().getHomepage().getHomeFeaturedArticles().setHomeFeaturedArticles();
-            Controller.getWindow().getHomepage().getHomeRecentArticles().setHomeRecentArticles();
-            Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
+                Controller.getWindow().getHomepage().getHomeFeaturedArticles().setHomeFeaturedArticles();
+                Controller.getWindow().getHomepage().getHomeRecentArticles().setHomeRecentArticles();
+                Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
+            }
         });
 
         // Titolo
