@@ -55,9 +55,12 @@ public class HomeRecentArticles {
                 }catch (NullPointerException e){
                     System.out.println("Errore creazione splash screen");
                 }
-                Controller.getWindow().setSize(1200, 700);
-                Controller.getWindow().setMinimumSize(new Dimension(1200, 700));
-                Controller.getWindow().setLocationRelativeTo(null);
+
+                if(Controller.getWindow() != null) {
+                    Controller.getWindow().setSize(1200, 700);
+                    Controller.getWindow().setMinimumSize(new Dimension(1200, 700));
+                    Controller.getWindow().setLocationRelativeTo(null);
+                }
             });
         }
         thread.setDaemon(true);
@@ -70,6 +73,8 @@ public class HomeRecentArticles {
             for (Integer articleId : recentArticles) {
                 try {
                     Controller.getSplashScreen().incrementProgressBar();
+                    if(Controller.getWindow() != null)
+                        Controller.getWindow().getHomepage().incrementProgressBarHome();
                     String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
                     HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
                     homeRecentArticlesMainPanel.add(recentArticle);
@@ -79,8 +84,12 @@ public class HomeRecentArticles {
                 homeRecentArticlesMainPanel.repaint();
                 homeRecentArticlesMainPanel.revalidate();
             }
+            if(Controller.getWindow() != null) {
+                Controller.getWindow().getHomepage().getReloadHome().setIcon(new ImageIcon(Home.class.getResource("/icons/reload.png")));
+                Controller.getWindow().getHomepage().getProgressBarHome().setVisible(false);
+                Controller.getWindow().getHomepage().getProgressBarHome().setValue(0);
+            }
 
-            Controller.getWindow().getHomepage().getReloadHome().setIcon(new ImageIcon(Home.class.getResource("/icons/reload.png")));
         } catch (SQLException e) {
             ErrorDisplayer.showError(e);
         }

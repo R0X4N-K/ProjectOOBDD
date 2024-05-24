@@ -360,6 +360,16 @@ public class PageUtils {
                 throw new RuntimeException(ex);
             }
 
+            try {
+                Controller.getWindow().getPage().openPage(
+                        Controller.getArticlesById(
+                                Controller.getWindow().getPage().getIdArticle()
+                        )
+                );
+            } catch (SQLException ex) {
+                throw new RuntimeException(ex);
+            }
+
         });
 
         infoPageBtn.addActionListener(new ActionListener() {

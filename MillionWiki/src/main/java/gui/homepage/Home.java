@@ -24,6 +24,8 @@ public class Home {
     private JButton reloadHome;
     private JButton infoBtn;
 
+    private JProgressBar progressBarHome;
+
     public Home() {
 
         infoBtn.addActionListener(e -> {
@@ -37,6 +39,10 @@ public class Home {
 
         reloadHome.addActionListener(e -> {
             reloadHome.setIcon(new ImageIcon(Home.class.getResource("/icons/reload.gif")));
+
+            if(!Controller.getSplashScreen().isVisible())
+                progressBarHome.setVisible(true);
+
             Controller.getWindow().getHomepage().getHomeFeaturedArticles().setHomeFeaturedArticles();
             Controller.getWindow().getHomepage().getHomeRecentArticles().setHomeRecentArticles();
             Controller.getWindow().switchPanel(Controller.getWindow().getHomePanel());
@@ -62,4 +68,12 @@ public class Home {
     public JPanel getPanel() {
         return mainPanelHome;
     }
+    public JProgressBar getProgressBarHome() {
+        return progressBarHome;
+    }
+
+    public void incrementProgressBarHome(){
+        progressBarHome.setValue(progressBarHome.getValue() + 1);
+    }
+
 }
