@@ -4,6 +4,7 @@ import dao.ArticleDAO;
 import database.DatabaseConnection;
 import model.Article;
 
+import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,12 +13,8 @@ import java.util.ArrayList;
 public class ArticleDAOImplementation implements ArticleDAO {
     public DatabaseConnection dbConnection;
 
-    public ArticleDAOImplementation() throws SQLException {
-        try {
-            dbConnection = DatabaseConnection.getInstance();
-        } catch (SQLException e) {
-            throw new SQLException(e);
-        }
+    public ArticleDAOImplementation() throws SQLException, FileNotFoundException, ClassNotFoundException {
+        dbConnection = DatabaseConnection.getInstance();
     }
 
     @Override

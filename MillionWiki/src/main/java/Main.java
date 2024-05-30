@@ -1,5 +1,6 @@
 import com.formdev.flatlaf.FlatLightLaf;
 import controller.Controller;
+import gui.ErrorDisplayer;
 import gui.SplashScreen;
 import gui.Window;
 import implementationDAO.ArticleDAOImplementation;
@@ -7,6 +8,7 @@ import implementationDAO.ArticleVersionDAOImplementation;
 import implementationDAO.AuthorDAOImplementation;
 
 import javax.swing.*;
+import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -29,8 +31,8 @@ public class Main {
                 Controller.setArticleDAO(new ArticleDAOImplementation());
                 Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
                 Controller.setAuthorDAO(new AuthorDAOImplementation());
-            } catch (SQLException e) {
-                // TODO: showError da errorDisplayer
+            } catch (SQLException | FileNotFoundException | ClassNotFoundException e) {
+                ErrorDisplayer.showError(e);
             }
             Controller.checkIfRememberedLogin();
             Controller.setWindow(new Window());

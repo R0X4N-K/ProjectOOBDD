@@ -9,6 +9,7 @@ import model.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileSystems;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.SQLException;
@@ -21,10 +22,19 @@ public final class Controller {
     private static ArticleDAO articleDAO = null;
     private static ArticleVersionDAO articleVersionDAO = null;
     private static AuthorDAO authorDAO = null;
-    private static final String lockFilePath = Cookie.getConfigFolder().concat("lockFile");
+    private static final String configFolder = System.getProperty("user.home")
+            .concat(FileSystems.getDefault().getSeparator())
+            .concat(".MillionWiki")
+            .concat(FileSystems.getDefault().getSeparator());
+    private static final String lockFilePath = configFolder.concat("lockFile");
+
 
     public static Window getWindow() {
         return window;
+    }
+
+    public static String getConfigFolder() {
+        return configFolder;
     }
 
     public static SplashScreen getSplashScreen() {
@@ -228,7 +238,7 @@ public final class Controller {
 
         if (!f.exists()) {
             try {
-                Files.createDirectories(Paths.get(Cookie.getConfigFolder()));
+                Files.createDirectories(Paths.get(configFolder));
                 f.createNewFile();
 
                 thereAreInstances = false;

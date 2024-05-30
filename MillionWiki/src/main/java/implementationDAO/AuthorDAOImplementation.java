@@ -4,6 +4,7 @@ import database.DatabaseConnection;
 import model.Author;
 import model.Cookie;
 
+import java.io.FileNotFoundException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -12,7 +13,7 @@ import java.util.ArrayList;
 public class AuthorDAOImplementation implements dao.AuthorDAO{
 
     public DatabaseConnection dbConnection;
-    public AuthorDAOImplementation() throws SQLException {
+    public AuthorDAOImplementation() throws SQLException, FileNotFoundException, ClassNotFoundException {
         dbConnection = DatabaseConnection.getInstance();
     }
 
