@@ -93,9 +93,9 @@ public class ArticleDAOImplementation implements ArticleDAO {
         String query = "";
 
         if(title.length() >= 4)
-            query = "SELECT * FROM articles WHERE title ILIKE ? OR title ILIKE ? LIMIT 10";
+            query = "SELECT * FROM articles WHERE title ILIKE ? OR title ILIKE ? ORDER BY views DESC LIMIT 10";
         else
-            query = "SELECT * FROM articles WHERE title ILIKE ? LIMIT 10";
+            query = "SELECT * FROM articles WHERE title ILIKE ? ORDER BY views DESC LIMIT 10";
 
 
         PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
