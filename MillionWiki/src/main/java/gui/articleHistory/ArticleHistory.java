@@ -28,6 +28,7 @@ public class ArticleHistory extends JDialog {
     private JLabel articleTitle;
     private JLabel authorArticle;
     private int idArticle;
+
     public ArticleHistory(JFrame parent) {
         super(parent, true);
         setContentPane(articleHistoryMainPanel);
@@ -38,18 +39,22 @@ public class ArticleHistory extends JDialog {
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
+
     private void createUIComponents() {
         articleHistoryJTable = new JTable();
     }
+
     private JPanel getPanel() {
         return articleHistoryMainPanel;
     }
+
     private void switchPanel(JPanel panel) {
         articleHistoryCards.removeAll();
         articleHistoryCards.add(panel);
         articleHistoryCards.repaint();
         articleHistoryCards.revalidate();
     }
+
     private MouseAdapter createArticleMouseListener() {
         return new MouseAdapter() {
             @Override
@@ -113,7 +118,8 @@ public class ArticleHistory extends JDialog {
             }
         });
     }
-    public void setArticleHistory(){
+
+    public void setArticleHistory() {
         try {
             Article article = Controller.getArticlesById(idArticle);
             articleTitle.setText(article.getTitle());
@@ -126,12 +132,13 @@ public class ArticleHistory extends JDialog {
             ErrorDisplayer.showError(e);
         }
     }
-    public void setArticleHistoryJTable(){
+
+    public void setArticleHistoryJTable() {
         Thread thread = null;
         if (thread == null || !thread.isAlive()) {
             thread = new Thread(() -> {
-                articleHistoryJTable= createJTable();
-                if (articleHistoryJTable.getRowCount() >0 ){
+                articleHistoryJTable = createJTable();
+                if (articleHistoryJTable.getRowCount() > 0) {
                     switchPanel(cardReloaded);
                     articleHistoryJTable.addMouseListener(createArticleMouseListener());
                     articleHistoryJTable.addMouseListener(createAuthorMouseListener());
@@ -139,8 +146,7 @@ public class ArticleHistory extends JDialog {
                     articleHistoryJTableJScrollPane.setViewportView(articleHistoryJTable);
                     articleHistoryJTableJScrollPane.revalidate();
                     articleHistoryJTableJScrollPane.repaint();
-                }
-                else{
+                } else {
                     switchPanel(cardReloading);
                     reloadingJLabel.setIcon(
                             new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
@@ -151,7 +157,8 @@ public class ArticleHistory extends JDialog {
         }
         thread.setDaemon(true);
         thread.start();
-       }
+    }
+
     private JTable createJTable() {
         reloadingJLabel.setIcon(new ImageIcon(CreatedPagesCard.class.getResource("/icons/loading.gif")));
         reloadingJLabel.setText("Inizio caricamento");
@@ -195,7 +202,7 @@ public class ArticleHistory extends JDialog {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
             column.setPreferredWidth(100);
-            if (i>0){
+            if (i > 0) {
                 column.setResizable(false);
             }
         }
@@ -206,6 +213,7 @@ public class ArticleHistory extends JDialog {
     public void setIdArticle(int idArticle) {
         this.idArticle = idArticle;
     }
+
     public int getIdArticle() {
         return idArticle;
     }

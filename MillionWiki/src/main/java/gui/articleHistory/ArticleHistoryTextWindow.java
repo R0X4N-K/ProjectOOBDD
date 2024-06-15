@@ -7,7 +7,7 @@ import model.ArticleVersion;
 import javax.swing.*;
 import java.sql.SQLException;
 
-public class ArticleHistoryTextWindow extends JDialog{
+public class ArticleHistoryTextWindow extends JDialog {
     private JPanel articleHistoryTextWindowMainPanel;
     private JScrollPane articleHistoryTextWindwoJScrollPane;
     private JLabel articleTitleJLabel;
@@ -16,7 +16,7 @@ public class ArticleHistoryTextWindow extends JDialog{
     private int idArticleVersion;
     private int idAuthorProposal;
 
-    public ArticleHistoryTextWindow(JFrame parent){
+    public ArticleHistoryTextWindow(JFrame parent) {
         super(parent, true);
         setContentPane(articleHistoryTextWindowMainPanel);
         pack();
@@ -24,9 +24,11 @@ public class ArticleHistoryTextWindow extends JDialog{
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
     }
-    public JPanel getPanel(){
+
+    public JPanel getPanel() {
         return articleHistoryTextWindowMainPanel;
     }
+
     public void setArticleHistoryTextWindow() {
         textPane.setContentType("text/html");
         textPane.setEditable(false);
@@ -45,7 +47,9 @@ public class ArticleHistoryTextWindow extends JDialog{
         }
 
     }
+
     public void setIdArticleVersion(int idArticleVersion) {
         this.idArticleVersion = idArticleVersion;
     }
+
 }

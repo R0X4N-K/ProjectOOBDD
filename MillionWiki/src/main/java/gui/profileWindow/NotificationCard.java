@@ -48,25 +48,28 @@ public class NotificationCard {
                     Controller.getWindow().getPage().setReviewerMode(id);
                 }
             }
-        };}
+        };
+    }
+
     private void addHandCursorToTable() {
         getMouseMotionListener(notificationJTable);
     }
 
-    public JPanel getPanel(){
+    public JPanel getPanel() {
         return notificationCardMainPanel;
     }
-    public void switchPanel(JPanel refPanel){
+
+    public void switchPanel(JPanel refPanel) {
         notificationCards.removeAll();
         notificationCards.add(refPanel);
         notificationCards.repaint();
         notificationCards.revalidate();
     }
 
-    public void setNotificationCard(){
+    public void setNotificationCard() {
         switchPanel(reloading);
         notificationJTable = createJTable();
-        if(notificationJTable.getRowCount() > 0){
+        if (notificationJTable.getRowCount() > 0) {
             switchPanel(reloaded);
             notificationJTable.addMouseListener(createArticleMouseListener());
             notificationJTable.addMouseListener(createOpenNotificationMouseListener());
@@ -74,7 +77,7 @@ public class NotificationCard {
             scrollPaneJTable.setViewportView(notificationJTable);
             scrollPaneJTable.revalidate();
             scrollPaneJTable.repaint();
-        } else{
+        } else {
             reloadingJLabel.setIcon(
                     new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
             );

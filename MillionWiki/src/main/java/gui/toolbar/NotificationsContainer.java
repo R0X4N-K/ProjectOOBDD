@@ -69,7 +69,7 @@ public class NotificationsContainer extends AnchoredDialog {
                         i++;
                     }
 
-                    if (!foundSameVersion){
+                    if (!foundSameVersion) {
                         try {
                             CompactNotification cn = new CompactNotification(version);
                             cn.getPanel().addMouseListener(mouseClosure);
@@ -108,10 +108,10 @@ public class NotificationsContainer extends AnchoredDialog {
 
     public NotificationsContainer(JComponent anchorTo) {
         super(anchorTo, new GridLayout(),
-            532,
-            158,
-            null, SizeAnchoring.NONE,
-           AnchoringPointX.CENTER, AnchoringPointY.UP, SpawnPoint.DOWN);
+                532,
+                158,
+                null, SizeAnchoring.NONE,
+                AnchoringPointX.CENTER, AnchoringPointY.UP, SpawnPoint.DOWN);
 
         super.getPanel().add(mainNotificationsContainerPanel);
 
@@ -137,7 +137,7 @@ public class NotificationsContainer extends AnchoredDialog {
 
             @Override
             public void componentShown(ComponentEvent e) {
-                if(!Arrays.stream(SwingUtilities.getWindowAncestor(anchorComponent).getWindowListeners()).toList().contains(closeOnWindowChangeListener))
+                if (!Arrays.stream(SwingUtilities.getWindowAncestor(anchorComponent).getWindowListeners()).toList().contains(closeOnWindowChangeListener))
                     SwingUtilities.getWindowAncestor(anchorComponent).addWindowListener(closeOnWindowChangeListener);
             }
 
@@ -159,7 +159,7 @@ public class NotificationsContainer extends AnchoredDialog {
             }
         });
 
-        Toolkit.getDefaultToolkit().addAWTEventListener( listener, AWTEvent.MOUSE_EVENT_MASK );
+        Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.MOUSE_EVENT_MASK);
         addMouseListener(mouseClosure);
         notificationsScrollPane.getHorizontalScrollBar().addMouseListener(mouseClosure);
         notificationsScrollPane.getVerticalScrollBar().addMouseListener(mouseClosure);
@@ -208,21 +208,22 @@ public class NotificationsContainer extends AnchoredDialog {
         System.out.println(notificationsContainerScrollablePanel.getSize() + "\n\n");
     }
 
-    public void decrementIsMouseEntered (Component c) {
+    public void decrementIsMouseEntered(Component c) {
         isMouseEntered = isMouseEntered == 0 ? 0 : isMouseEntered - 1;
     }
 
-    public void incrementIsMouseEntered (Component c) {
+    public void incrementIsMouseEntered(Component c) {
         isMouseEntered = isMouseEntered == getComponentCount() ? 0 : isMouseEntered + 1;
     }
 
 
     final AWTEventListener listener = event -> {
-        MouseEvent me = ( MouseEvent ) event;
-        Component c = me.getComponent ();
+        MouseEvent me = (MouseEvent) event;
+        Component c = me.getComponent();
 
-        if ( event.getID () == MouseEvent.MOUSE_PRESSED ) {
+        if (event.getID() == MouseEvent.MOUSE_PRESSED) {
             setVisible(isMouseEntered > 0);
         }
     };
+
 }

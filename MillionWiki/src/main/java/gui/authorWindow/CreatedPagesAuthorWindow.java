@@ -35,17 +35,20 @@ public class CreatedPagesAuthorWindow {
 
         createdPagesJTable.addMouseListener(createMouseListener());
     }
+
     public JPanel getPanel() {
         return createdPagesAuthorMainPanel;
     }
+
     public void switchPanel(JPanel refPanel) {
         cardLayoutPanel.removeAll();
         cardLayoutPanel.add(refPanel);
         cardLayoutPanel.repaint();
         cardLayoutPanel.revalidate();
     }
+
     private void createUIComponents() {
-        createdPagesJTable= new JTable();
+        createdPagesJTable = new JTable();
     }
 
     private MouseAdapter createMouseListener() {
@@ -70,6 +73,7 @@ public class CreatedPagesAuthorWindow {
             }
         };
     }
+
     private void addHandCursorToTable() {
         createdPagesJTable.addMouseMotionListener(new MouseMotionAdapter() {
             @Override
@@ -85,7 +89,7 @@ public class CreatedPagesAuthorWindow {
     }
 
     private JTable createJTable() {
-        int idAuthor= Controller.getWindow().getAuthorWindow().getIdAuthor();
+        int idAuthor = Controller.getWindow().getAuthorWindow().getIdAuthor();
         Object[][] data = new Object[1][6]; // Modifica la dimensione dell'array a 5
 
         try {
@@ -112,7 +116,7 @@ public class CreatedPagesAuthorWindow {
             ErrorDisplayer.showError(e);
         }
 
-        String[] columns = {"Titolo", "Data Creazione", "Ultima Revisione", "Mod. Ricevute","Mod. in Attesa", "Mod. Apportate"};
+        String[] columns = {"Titolo", "Data Creazione", "Ultima Revisione", "Mod. Ricevute", "Mod. in Attesa", "Mod. Apportate"};
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -127,16 +131,17 @@ public class CreatedPagesAuthorWindow {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
             column.setPreferredWidth(95); // Imposta la larghezza preferita della colonna
-            if (i>0){ // Imposta le colonne non modificabili dalla seconda in poi
+            if (i > 0) { // Imposta le colonne non modificabili dalla seconda in poi
                 column.setResizable(false);
             }
         }
         return table;
     }
 
-    public void setCreatedPagesJTable(){
+    public void setCreatedPagesJTable() {
         createdPagesJTable = createJTable();
     }
+
     public void setCreatedPages() {
         switchPanel(cardCardLayoutPanel2);
         cardCardLayoutPanel2JLabel.setText("");
@@ -149,13 +154,14 @@ public class CreatedPagesAuthorWindow {
             createdPagesJTableJScrollPane.setViewportView(createdPagesJTable);
             createdPagesJTableJScrollPane.revalidate();
             createdPagesJTableJScrollPane.repaint();
-        } else{
+        } else {
             cardCardLayoutPanel2JLabel.setIcon(
                     new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
             );
             cardCardLayoutPanel2JLabel.setText("Nessuna pagina ancora creata dall'autore");
         }
     }
+
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
         for (ArticleVersion articleVersion : articleVersions) {
@@ -165,6 +171,7 @@ public class CreatedPagesAuthorWindow {
         }
         return waitingCount;
     }
+
     private int getCountAcceptedProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
         for (ArticleVersion articleVersion : articleVersions) {
@@ -174,6 +181,7 @@ public class CreatedPagesAuthorWindow {
         }
         return waitingCount;
     }
+
     private Date getLastRevisionDate(ArrayList<ArticleVersion> articleVersions) {
         Date lastRevisionDate = null;
         for (ArticleVersion articleVersion : articleVersions) {
@@ -184,4 +192,5 @@ public class CreatedPagesAuthorWindow {
         }
         return lastRevisionDate;
     }
+
 }

@@ -227,4 +227,5 @@ public class ProfileChangeDialog extends JDialog {
             return hex;
         }
     }
+
 }

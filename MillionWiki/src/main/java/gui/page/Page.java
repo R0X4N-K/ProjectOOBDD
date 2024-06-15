@@ -84,7 +84,7 @@ public class Page {
         }
     };
 
-    public Page(){
+    public Page() {
         scrollPanePage = new JScrollPane(pageField);
         mainPanelPage.add(scrollPanePage);
 
@@ -125,7 +125,7 @@ public class Page {
 
     }
 
-    public void createColorChooserComponent(){
+    public void createColorChooserComponent() {
         //JDialog Color Chooser
         JDialog colorChooserDialog = new JDialog();
         colorChooserDialog.setModal(true);
@@ -134,9 +134,9 @@ public class Page {
         //Color Chooser Component
         JColorChooser colorChooser = new JColorChooser();
         AbstractColorChooserPanel[] defaultPanels = colorChooser.getChooserPanels();
-        colorChooser.removeChooserPanel( defaultPanels[4] ); // CMYK
-        colorChooser.removeChooserPanel( defaultPanels[2] );  // HSL
-        colorChooser.removeChooserPanel( defaultPanels[1] );  // HSV
+        colorChooser.removeChooserPanel(defaultPanels[4]); // CMYK
+        colorChooser.removeChooserPanel(defaultPanels[2]);  // HSL
+        colorChooser.removeChooserPanel(defaultPanels[1]);  // HSV
 
         //Buttons
         JPanel buttonsPanel = getButtonsPanel(colorChooserDialog, colorChooser);
@@ -150,7 +150,7 @@ public class Page {
         colorChooserDialog.setVisible(true);
     }
 
-    public void search(){
+    public void search() {
         String textToSearch = null;
         String text = null;
         resetIndexOfSearch();
@@ -170,14 +170,13 @@ public class Page {
         }
 
         //Check case-sensitive
-        if(!caseSensitiveToggleButton.isSelected())
-        {
+        if (!caseSensitiveToggleButton.isSelected()) {
             textToSearch = textToSearch.toLowerCase();
             text = text.toLowerCase();
         }
 
         //search
-        if(!textToSearch.isBlank() && !text.isBlank()){
+        if (!textToSearch.isBlank() && !text.isBlank()) {
             pageField.requestFocus();
             if (text.contains(textToSearch)) {
                 searchErrorLbl.setVisible(false);
@@ -190,8 +189,7 @@ public class Page {
                     index += textToSearch.length();
                 }
                 pageField.select(getCurrentSearchOccurrenceIndex().x, getCurrentSearchOccurrenceIndex().y);
-            }
-            else{
+            } else {
                 searchErrorLbl.setVisible(true);
                 pageField.select(-1, -1);
             }
@@ -209,7 +207,7 @@ public class Page {
 
         applyColor.addActionListener(e12 -> {
             //CHECK SELECTED TEXT TAG
-            if(isLink())
+            if (isLink())
                 JOptionPane.showMessageDialog(mainPanelPage, "Non puoi cambiare colore ad un link!",
                         "Errore", JOptionPane.ERROR_MESSAGE);
             else
@@ -263,7 +261,7 @@ public class Page {
         //Implementazione degli ActionListeners dei sotto menu di createMenu
         linkBtnNewMenu.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
-            if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
+            if (pageField.getSelectionStart() == pageField.getSelectionEnd()) {
                 PageLinker pageLinker = new PageLinker();
             } else {
                 PageLinker pageLinker = new PageLinker(pageField.getSelectedText());
@@ -275,11 +273,10 @@ public class Page {
             String textToSearch = "";
             // Get the selected text as search
 
-            if(!searchPanel.isVisible()) {
+            if (!searchPanel.isVisible()) {
                 searchPanel.setVisible(true);
                 searchTxtFld.requestFocus();
-            }
-            else {
+            } else {
                 searchPanel.setVisible(false);
                 pageField.requestFocus();
             }
@@ -309,7 +306,7 @@ public class Page {
         int selectionEnd = pageField.getSelectionEnd();
         String selectedText = pageField.getSelectedText();
 
-        if(selectionStart == selectionEnd && inputText != null)
+        if (selectionStart == selectionEnd && inputText != null)
             selectedText = inputText;
 
         HTML.Tag HTML_TAG = HTML.Tag.SPAN;
@@ -321,7 +318,7 @@ public class Page {
         MutableAttributeSet attr = htmlEditorKit.getInputAttributes();
 
         // if color is null, default color is Black
-        if(textColor == null){
+        if (textColor == null) {
             textColor = Color.BLACK;
         }
 
@@ -334,8 +331,7 @@ public class Page {
             case "BOLD":
                 if (!attr.containsAttribute(StyleConstants.FontConstants.Bold, Boolean.TRUE)) {
                     attr.addAttribute(StyleConstants.Bold, Boolean.TRUE);
-                }
-                else{
+                } else {
                     attr.removeAttribute(StyleConstants.Bold);
                 }
                 selectedText = "<span style=\"" + getStringFromAttributeSet(attr) + "\">" + selectedText + "</span>";
@@ -344,8 +340,7 @@ public class Page {
             case "ITALIC":
                 if (!attr.containsAttribute(StyleConstants.Italic, Boolean.TRUE)) {
                     attr.addAttribute(StyleConstants.Italic, Boolean.TRUE);
-                }
-                else{
+                } else {
                     attr.removeAttribute(StyleConstants.Italic);
                 }
                 selectedText = "<span style=\"" + getStringFromAttributeSet(attr) + "\">" + selectedText + "</span>";
@@ -368,7 +363,7 @@ public class Page {
         }
         try {
             boolean flag = false;
-            if(selectionStart == 1) {
+            if (selectionStart == 1) {
                 selectionStart++;
                 flag = true;
             }
@@ -377,7 +372,7 @@ public class Page {
 
             htmlEditorKit.insertHTML(doc, selectionStart, selectedText, 0, 0, HTML_TAG);
 
-            if(flag)
+            if (flag)
                 doc.remove(1, 1);
         } catch (BadLocationException | IOException e) {
             e.printStackTrace();
@@ -385,7 +380,7 @@ public class Page {
     }
 
     // Method to check if selected text is a link
-    private boolean isLink(){
+    private boolean isLink() {
         StyledEditorKit styledEditorKit = (StyledEditorKit) pageField.getEditorKit();
 
         AttributeSet attr = styledEditorKit.getInputAttributes();
@@ -393,7 +388,7 @@ public class Page {
 
     }
 
-    private String getStringFromAttributeSet(AttributeSet attr){
+    private String getStringFromAttributeSet(AttributeSet attr) {
         String attributeString = "";
         if (attr != null) {
             StringBuilder stringBuilder = new StringBuilder();
@@ -408,8 +403,8 @@ public class Page {
         return attributeString;
     }
 
-    public Point getCurrentSearchOccurrenceIndex(){
-        if(!getSearchOccurrencePositions().isEmpty())
+    public Point getCurrentSearchOccurrenceIndex() {
+        if (!getSearchOccurrencePositions().isEmpty())
             return getSearchOccurrencePositions().get(getSearchOccurrenceIndex());
         else
             return new Point(-1, -1);
@@ -426,42 +421,48 @@ public class Page {
     private int getSearchOccurrenceIndex() {
         return searchOccurrenceIndex;
     }
+
     private void setSearchOccurrenceIndex(int newIndex) {
         searchOccurrenceIndex = newIndex;
     }
 
     public void incrementIndexOfSearch() {
-        if(!getSearchOccurrencePositions().isEmpty()) {
+        if (!getSearchOccurrencePositions().isEmpty()) {
             if (getSearchOccurrenceIndex() < getSearchOccurrencePositions().size() - 1)
                 setSearchOccurrenceIndex(getSearchOccurrenceIndex() + 1);
             else
                 resetIndexOfSearch();
         }
     }
+
     public void decrementIndexOfSearch() {
-        if(!getSearchOccurrencePositions().isEmpty()) {
+        if (!getSearchOccurrencePositions().isEmpty()) {
             if (getSearchOccurrenceIndex() != 0)
                 setSearchOccurrenceIndex(getSearchOccurrenceIndex() - 1);
             else
                 setSearchOccurrenceIndex(getSearchOccurrencePositions().size() - 1);
         }
     }
-    private void resetIndexOfSearch(){
+
+    private void resetIndexOfSearch() {
         setSearchOccurrenceIndex(0);
     }
-    public void setViewerMode(){
+
+    public void setViewerMode() {
         setMode(Mode.VIEWER);
     }
-    public void setEditorMode(){
+
+    public void setEditorMode() {
         setMode(Mode.EDITOR);
     }
-    public void setReviewerMode(int articleId){
+
+    public void setReviewerMode(int articleId) {
         setMode(Mode.REVIEWER);
         pageVersionPreview.setArticleVersions(articleId);
         Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
     }
 
-    private void setMode(Mode mode){
+    private void setMode(Mode mode) {
         createMenu.setVisible(mode == Mode.EDITOR);
         textButton.setVisible(mode == Mode.EDITOR);
         boldButton.setVisible(mode == Mode.EDITOR);
@@ -473,25 +474,25 @@ public class Page {
         editBtn.setVisible(mode == Mode.VIEWER);
         pageVersionPreview.getPanel().setVisible(mode == Mode.REVIEWER);
 
-        if(mode == Mode.VIEWER) {
-            infoPageBtn.setVisible(true);
-            closeEditorMode.setVisible(false);
-        } else {
+        if (mode == Mode.EDITOR) {
             infoPageBtn.setVisible(false);
             closeEditorMode.setVisible(true);
+        } else {
+            infoPageBtn.setVisible(true);
+            closeEditorMode.setVisible(false);
         }
-        if (mode == Mode.REVIEWER){
+        if (mode == Mode.REVIEWER) {
             pageVersionPreview.setEditorPane(pageField, titlePageField);
+            infoPageBtn.setVisible(true);
         }
 
-        if(mode == Mode.EDITOR){
+        if (mode == Mode.EDITOR) {
             pageField.setCaretColor(Color.BLACK);
             titlePageField.setCaretColor(Color.BLACK);
-            if(SwingUtilities.getWindowAncestor(getPanel()) != null && !Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
+            if (SwingUtilities.getWindowAncestor(getPanel()) != null && !Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
                 Controller.getWindow().addWindowListener(editOnWindowChangeListener);
-        }
-        else{
-            if(SwingUtilities.getWindowAncestor(getPanel()) != null && Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
+        } else {
+            if (SwingUtilities.getWindowAncestor(getPanel()) != null && Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
                 Controller.getWindow().removeWindowListener(editOnWindowChangeListener);
             pageField.setCaretColor(pageField.getBackground());
             titlePageField.setCaretColor(Color.BLACK);
@@ -501,12 +502,12 @@ public class Page {
 
     }
 
-    public void openPage(Article article){
+    public void openPage(Article article) {
         setViewerMode();
         searchPanel.setVisible(false);
         searchTxtFld.setText("");
         titlePageField.setForeground(Color.BLACK);
-        if(Controller.getCookie() != null) {
+        if (Controller.getCookie() != null) {
             try {
                 if (!Objects.equals(article.getAuthor().getNickname(), Controller.getAuthorById(Controller.getCookie().getId()).getNickname())) {
                     sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/send.png")));
@@ -551,7 +552,7 @@ public class Page {
 
     }
 
-    public void createNewPage(){
+    public void createNewPage() {
         setEditorMode();
 
         sendButton.setIcon(new ImageIcon(Page.class.getResource("/icons/save.png")));
@@ -574,6 +575,7 @@ public class Page {
     public int getIdArticle() {
         return idArticle;
     }
+
     public void setIdArticle(int id) {
         idArticle = id;
     }

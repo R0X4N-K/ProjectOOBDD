@@ -3,6 +3,7 @@ package controller;
 import dao.ArticleDAO;
 import dao.ArticleVersionDAO;
 import dao.AuthorDAO;
+import gui.ErrorDisplayer;
 import gui.SplashScreen;
 import gui.Window;
 import model.*;
@@ -254,7 +255,8 @@ public final class Controller {
 
     public static void notifyOtherAppInstances() {
 
-        System.out.println("Un'altra istanza di questa applicazione è attualmente in esecuzione, " +
+        ErrorDisplayer.showError(null, "Errore di Istanza",
+                "Un'altra istanza di questa applicazione è attualmente in esecuzione, " +
                 "ti preghiamo di chiudere quell'istanza prima di aprirne una nuova. Se non sono aperte altre istanze, elimina il file: "
                 + lockFilePath);
 

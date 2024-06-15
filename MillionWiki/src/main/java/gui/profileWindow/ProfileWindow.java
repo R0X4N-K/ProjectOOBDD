@@ -6,7 +6,6 @@ import gui.profileWindow.profileCard.ProfileCard;
 import model.Article;
 
 import javax.swing.*;
-import javax.swing.border.LineBorder;
 import javax.swing.border.MatteBorder;
 import java.awt.*;
 import java.awt.event.*;
@@ -104,12 +103,15 @@ public class ProfileWindow extends JDialog {
     public void setProfileCard() {
         profileCard.setProfile();
     }
-    public void setCreatedPagesCard(){
+
+    public void setCreatedPagesCard() {
         createdPagesCard.setCreatedPages();
     }
-    public void setProposalCard(){
+
+    public void setProposalCard() {
         proposalCard.setProposalCard();
     }
+
     public void setProfileWindow() {
         setProfileCard();
         switchPanel(profileCard.getPanel());

@@ -31,7 +31,7 @@ public class HomeRecentArticles {
 
             titledBorder = new TitledBorder(titledBorderTxt.toString());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             titledBorder = new TitledBorder("Articoli popolari");
             titledBorder.setTitleFont(titleFont);
         }
@@ -52,11 +52,11 @@ public class HomeRecentArticles {
                 initRecentArticles();
                 try {
                     Controller.getSplashScreen().dispose();
-                }catch (NullPointerException e){
-                    System.out.println("Errore creazione splash screen");
+                } catch (NullPointerException e) {
+                    System.err.println("Errore creazione splash screen");
                 }
 
-                if(Controller.getWindow() != null) {
+                if (Controller.getWindow() != null) {
                     Controller.getWindow().setSize(1200, 700);
                     Controller.getWindow().setMinimumSize(new Dimension(1200, 700));
                     Controller.getWindow().setLocationRelativeTo(null);
@@ -73,31 +73,32 @@ public class HomeRecentArticles {
             for (Integer articleId : recentArticles) {
                 try {
                     Controller.getSplashScreen().incrementProgressBar();
-                    if(Controller.getWindow() != null)
+                    if (Controller.getWindow() != null)
                         Controller.getWindow().getHomepage().incrementProgressBarHome();
                     String htmlText = Controller.getLastArticleVersionByArticleId(articleId).getText();
                     HomeArticlePanel recentArticle = new HomeArticlePanel(Controller.getArticlesById(articleId).getTitle(), htmlText, articleId);
                     homeRecentArticlesMainPanel.add(recentArticle);
                 } catch (SQLException | IllegalArgumentException e) {
-                    ErrorDisplayer.showError(e);
+                    ErrorDisplayer.showErrorWithActions(e, null, null, Controller.getWindow());
                 }
                 homeRecentArticlesMainPanel.repaint();
                 homeRecentArticlesMainPanel.revalidate();
             }
-            if(Controller.getWindow() != null) {
+            if (Controller.getWindow() != null) {
                 Controller.getWindow().getHomepage().getReloadHome().setIcon(new ImageIcon(Home.class.getResource("/icons/reload.png")));
                 Controller.getWindow().getHomepage().getProgressBarHome().setVisible(false);
                 Controller.getWindow().getHomepage().getProgressBarHome().setValue(0);
             }
 
         } catch (SQLException e) {
-            ErrorDisplayer.showError(e);
+            ErrorDisplayer.showErrorWithActions(e, null, null, Controller.getWindow());
         }
     }
 
     public JPanel getPanel() {
         return homeRecentArticlesMainPanel;
     }
+
     public void setHomeRecentArticles() {
         homeRecentArticlesMainPanel.removeAll();
         if (thread == null || !thread.isAlive()) {
@@ -106,4 +107,5 @@ public class HomeRecentArticles {
             thread.start();
         }
     }
+
 }

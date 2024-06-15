@@ -40,7 +40,7 @@ public class HomeFeaturedArticles {
 
             titledBorder = new TitledBorder(titledBorderTxt.toString());
 
-        }catch (Exception e){
+        } catch (Exception e) {
             titledBorder = new TitledBorder("Articoli popolari");
             titledBorder.setTitleFont(titleFont);
         }
@@ -63,25 +63,25 @@ public class HomeFeaturedArticles {
 
     private void initMostViewedArticles() {
 
-        try{
+        try {
             ArrayList<Article> mostViewedArticles = Controller.getMostViewedArticles(10);
             for (Article article : mostViewedArticles) {
                 try {
                     Controller.getSplashScreen().incrementProgressBar();
-                    if(Controller.getWindow() != null)
+                    if (Controller.getWindow() != null)
                         Controller.getWindow().getHomepage().incrementProgressBarHome();
                     String htmlText = Controller.getLastArticleVersionByArticleId(article.getId()).getText();
                     HomeArticlePanel featuredArticle = new HomeArticlePanel(article.getTitle(), htmlText, article.getId());
                     featuredArticle.setBackground(Color.decode("#FF641A"));
                     homeFeaturedArticlesMainPanel.add(featuredArticle);
                 } catch (SQLException | IllegalArgumentException e) {
-                    ErrorDisplayer.showError(e);
+                    ErrorDisplayer.showErrorWithActions(e, null, null, Controller.getWindow());
                 }
                 homeFeaturedArticlesMainPanel.repaint();
                 homeFeaturedArticlesMainPanel.revalidate();
             }
         } catch (SQLException e) {
-            ErrorDisplayer.showError(e);
+            ErrorDisplayer.showErrorWithActions(e, null, null, Controller.getWindow());
         }
     }
 
@@ -98,4 +98,5 @@ public class HomeFeaturedArticles {
     public JPanel getPanel() {
         return homeFeaturedArticlesMainPanel;
     }
+
 }

@@ -4,9 +4,7 @@ import controller.Controller;
 import gui.ErrorDisplayer;
 
 import javax.swing.*;
-import javax.swing.border.BevelBorder;
 import javax.swing.border.EmptyBorder;
-import javax.swing.border.LineBorder;
 import javax.swing.event.CaretEvent;
 import javax.swing.event.CaretListener;
 import javax.swing.text.DefaultCaret;
@@ -14,7 +12,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.sql.SQLException;
 
-public class HomeArticlePanel extends JPanel{
+public class HomeArticlePanel extends JPanel {
 
     private JPanel homeArticleMainPanel;
 
@@ -26,7 +24,7 @@ public class HomeArticlePanel extends JPanel{
 
         setToolTipText(title);
 
-        if(title.length() > 21)
+        if (title.length() > 21)
             smallText = smallText.substring(0, 21) + "...";
 
         JLabel titleLabel = new JLabel(smallText);
@@ -62,17 +60,17 @@ public class HomeArticlePanel extends JPanel{
         textPane.setEditable(false);
         textPane.setCursor(new Cursor(Cursor.HAND_CURSOR));
 
-            textPane.addMouseListener(new MouseAdapter() {
-                @Override
-                public void mouseClicked(MouseEvent e) {
-                    try {
-                        Controller.getWindow().getPage().openPage(Controller.getArticlesById(articleId));
-                        Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
-                    } catch (SQLException | IllegalArgumentException ex) {
-                        ErrorDisplayer.showError(ex);
-                    }
+        textPane.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                try {
+                    Controller.getWindow().getPage().openPage(Controller.getArticlesById(articleId));
+                    Controller.getWindow().switchPanel(Controller.getWindow().getPage().getPanel());
+                } catch (SQLException | IllegalArgumentException ex) {
+                    ErrorDisplayer.showError(ex);
                 }
-            });
+            }
+        });
 
         textPane.setCaret(new DefaultCaret() {
             @Override
@@ -91,13 +89,7 @@ public class HomeArticlePanel extends JPanel{
             }
         });
 
-        textPane.addMouseWheelListener(new MouseWheelListener() {
-
-            @Override
-            public void mouseWheelMoved(MouseWheelEvent e) {
-                e.consume();
-            }
-        });
+        textPane.addMouseWheelListener(e -> e.consume());
 
         textPane.addKeyListener(new KeyAdapter() {
             @Override
@@ -108,13 +100,7 @@ public class HomeArticlePanel extends JPanel{
             }
         });
 
-        textPane.addCaretListener(new CaretListener() {
-
-            @Override
-            public void caretUpdate(CaretEvent e) {
-                textPane.setCaretPosition(0);
-            }
-        });
+        textPane.addCaretListener(e -> textPane.setCaretPosition(0));
 
         JScrollPane scrollPane = new JScrollPane(textPane);
         scrollPane.setPreferredSize(new Dimension(200, 150));
@@ -129,4 +115,5 @@ public class HomeArticlePanel extends JPanel{
         add(titleLabel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
     }
+
 }

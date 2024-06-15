@@ -16,7 +16,6 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
-import java.net.URL;
 
 public class Window extends JFrame {
     private JPanel mainPanelWindow;
@@ -36,11 +35,6 @@ public class Window extends JFrame {
         super("Million Wiki");
         setIconImage(new ImageIcon(Window.class.getResource("/icons/logo/png/logo16px.png")).getImage());
 
-        Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
-            public void run() {
-                Controller.deleteLockFile();
-            }
-        }, "Shutdown-thread"));
 
 
         setContentPane(mainPanelWindow);
@@ -91,14 +85,12 @@ public class Window extends JFrame {
 
     public void switchPanel(JPanel refPanel) {
 
-        if(!checkChangesNotSaved())
-        {
+        if(!checkChangesNotSaved()) {
             windowPane.removeAll();
             windowPane.add(refPanel);
             windowPane.repaint();
             windowPane.revalidate();
-        }else
-        {
+        } else {
             if((JOptionPane.showConfirmDialog(null, "Attenzione, potresti avere delle modifiche non salvate, continuare ?", "Modifiche non salvate",
                     JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
                 windowPane.removeAll();
@@ -113,12 +105,8 @@ public class Window extends JFrame {
 
     }
 
-    private boolean checkChangesNotSaved()
-    {
-        if(pagePanel.getMode() == Page.Mode.EDITOR)
-            return true;
-        else
-            return false;
+    private boolean checkChangesNotSaved() {
+        return pagePanel.getMode() == Page.Mode.EDITOR;
     }
 
     public ProfileWindow getprofileWindow() {

@@ -51,9 +51,9 @@ public class Registration {
         submitBtn.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(nicknameTxtFld.getText());
-                System.out.println(mailTxtFld.getText());
-                System.out.println(passwordTxtFld.getText());
+                // System.out.println(nicknameTxtFld.getText());
+                // System.out.println(mailTxtFld.getText());
+                // System.out.println(passwordTxtFld.getText());
                 String passwordEncrypted = passwordEncryption(passwordTxtFld.getText());
 
                 try {
@@ -72,10 +72,11 @@ public class Registration {
                             throw new RuntimeException(ex);
                         }
                     } else {
-                        System.out.println("Registrazione fallita");
+                        ErrorDisplayer.showError(null, "Registrazione fallita",
+                                "Registrazione fallita");
                     }
                 } catch (SQLException ex) {
-                    ErrorDisplayer.showError(ex);
+                    ErrorDisplayer.showError(ex, "Errore di Database", null);
                 }
             }
         });

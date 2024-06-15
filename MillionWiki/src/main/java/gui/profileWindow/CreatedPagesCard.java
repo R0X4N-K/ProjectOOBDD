@@ -38,6 +38,7 @@ public class CreatedPagesCard {
     private MouseAdapter createArticleTitleMouseListener() {
         return getMouseAdapter(reloadedJTable);
     }
+
     private MouseAdapter createArticleHistoryMouseListener() {
         return new MouseAdapter() {
             @Override
@@ -55,6 +56,7 @@ public class CreatedPagesCard {
             }
         };
     }
+
     private void addHandCursorToTable() {
         getMouseMotionListener(reloadedJTable);
     }
@@ -62,6 +64,7 @@ public class CreatedPagesCard {
     public JPanel getPanel() {
         return createdPagesCardMainPanel;
     }
+
     public void switchPanel(JPanel refPanel) {
         cardLayoutPanel.removeAll();
         cardLayoutPanel.add(refPanel);
@@ -70,12 +73,12 @@ public class CreatedPagesCard {
     }
 
     private void createUIComponents() {
-               reloadedJTable = new JTable();
+        reloadedJTable = new JTable();
 
     }
 
     private JTable createJTable() {
-        int idAuthor= Controller.getCookie().getId();
+        int idAuthor = Controller.getCookie().getId();
         reloadingJLabel.setIcon(new ImageIcon(CreatedPagesCard.class.getResource("/icons/loading.gif")));
         reloadingJLabel.setText("Inizio caricamento");
         Object[][] data = new Object[1][7];
@@ -102,7 +105,7 @@ public class CreatedPagesCard {
             ErrorDisplayer.showError(e);
         }
 
-        String[] columns = {"Titolo", "Storico", "Data Creazione", "Ultima Revisione", "Mod. Ricevute","Mod. in Attesa", "Mod. Apportate"}; // Aggiunge la nuova colonna "Storico"
+        String[] columns = {"Titolo", "Storico", "Data Creazione", "Ultima Revisione", "Mod. Ricevute", "Mod. in Attesa", "Mod. Apportate"}; // Aggiunge la nuova colonna "Storico"
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -122,35 +125,37 @@ public class CreatedPagesCard {
                 column.setPreferredWidth(100); // Imposta la larghezza preferita della colonna
             }
             // Imposta la larghezza preferita della colonna
-            if (i>0){ // Imposta le colonne non modificabili dalla seconda in poi
+            if (i > 0) { // Imposta le colonne non modificabili dalla seconda in poi
                 column.setResizable(false);
             }
         }
         return table;
     }
 
-    public void setCreatedPagesJTable(){
+    public void setCreatedPagesJTable() {
         reloadedJTable = createJTable();
     }
+
     public void setCreatedPages() {
         switchPanel(reloading);
         reloadingJLabel.setText("");
         setCreatedPagesJTable();
-        if (reloadedJTable.getRowCount() > 0){
+        if (reloadedJTable.getRowCount() > 0) {
             switchPanel(reloaded);
             reloadedJTable.addMouseListener(createArticleTitleMouseListener());
             reloadedJTable.addMouseListener(createArticleHistoryMouseListener());
             addHandCursorToTable();
             reloadedJScrollPane.setViewportView(reloadedJTable);
             reloadedJScrollPane.revalidate();
-            reloadedJScrollPane.repaint();}
-        else {
+            reloadedJScrollPane.repaint();
+        } else {
             reloadingJLabel.setIcon(
                     new ImageIcon(ProposalCard.class.getResource("/icons/404.png"))
             );
             reloadingJLabel.setText("Nessuna pagina ancora creata");
         }
     }
+
     private int getCountWaitingProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
         for (ArticleVersion articleVersion : articleVersions) {
@@ -160,6 +165,7 @@ public class CreatedPagesCard {
         }
         return waitingCount;
     }
+
     private int getCountAcceptedProposal(ArrayList<ArticleVersion> articleVersions) {
         int waitingCount = 0;
         for (ArticleVersion articleVersion : articleVersions) {
@@ -169,6 +175,7 @@ public class CreatedPagesCard {
         }
         return waitingCount;
     }
+
     private Date getLastRevisionDate(ArrayList<ArticleVersion> articleVersions) {
         Date lastRevisionDate = null;
         for (ArticleVersion articleVersion : articleVersions) {

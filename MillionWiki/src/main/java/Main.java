@@ -8,6 +8,8 @@ import implementationDAO.ArticleVersionDAOImplementation;
 import implementationDAO.AuthorDAOImplementation;
 
 import javax.swing.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
@@ -26,21 +28,26 @@ public class Main {
         if (Controller.verifyAppInstances()) {
             Controller.notifyOtherAppInstances();
         } else {
+            Runtime.getRuntime().addShutdownHook(new Thread(Controller::deleteLockFile, "Shutdown-thread"));
             Controller.setSplashScreen(new SplashScreen());
-            try {
-                Controller.setArticleDAO(new ArticleDAOImplementation());
-                Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
-                Controller.setAuthorDAO(new AuthorDAOImplementation());
-            } catch (SQLException | FileNotFoundException | ClassNotFoundException e) {
-                ErrorDisplayer.showError(e);
-            }
-            Controller.checkIfRememberedLogin();
-            Controller.setWindow(new Window());
+            init();
         }
      //Controller controller = Controller.ge;
      //ArticleDAOImplementation articleDAOImplementation = new ArticleDAOImplementation();
      //articleDAOImplementation.getAllArticles();
 
 
+    }
+
+    private static void init() {
+        try {
+            Controller.setArticleDAO(new ArticleDAOImplementation());
+            Controller.setArticleVersionDAO(new ArticleVersionDAOImplementation());
+            Controller.setAuthorDAO(new AuthorDAOImplementation());
+            Controller.checkIfRememberedLogin();
+            Controller.setWindow(new Window());
+        } catch (SQLException | FileNotFoundException | ClassNotFoundException e) {
+            ErrorDisplayer.showErrorWithActions(e, null, null, e1 -> init(), e2 -> Runtime.getRuntime().exit(2), "Riprova", "Chiudi", Controller.getSplashScreen());
+        }
     }
 }

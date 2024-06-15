@@ -5,8 +5,6 @@ import gui.ErrorDisplayer;
 import model.ArticleVersion;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
@@ -26,14 +24,14 @@ public class PageVersionPreview {
     private ArrayList<ArticleVersion> accepted = new ArrayList<>();
     private int rejectedCount = 0;
 
-    public PageVersionPreview(){
-        backButton.addActionListener( actionEvent -> {
-            currentArticlePosition -=1;
+    public PageVersionPreview() {
+        backButton.addActionListener(actionEvent -> {
+            currentArticlePosition -= 1;
             changeProposal();
         });
 
 
-        nextButton.addActionListener( actionEvent -> {
+        nextButton.addActionListener(actionEvent -> {
             currentArticlePosition += 1;
             changeProposal();
         });
@@ -67,7 +65,7 @@ public class PageVersionPreview {
     }
 
     public void setEditorPane(JEditorPane editorPane, JEditorPane titlePane) {
-        if(editorPane != null && titlePane != null) {
+        if (editorPane != null && titlePane != null) {
             this.titlePane = titlePane;
             this.editorPane = editorPane;
             updateBackButton();
@@ -102,11 +100,11 @@ public class PageVersionPreview {
 
     private void updateBackButton() {
         backButton.setEnabled(currentArticlePosition > 0);
-    }    
-    
+    }
+
     void checkReception() {
 
-        if (reviewed.size() == articleVersions.size()){
+        if (reviewed.size() == articleVersions.size()) {
             if (rejectedCount + accepted.size() < reviewed.size()) {
                 checkExplicitlyReviewedDialog dialog = new checkExplicitlyReviewedDialog(reviewed.size() - (accepted.size() + rejectedCount), this);
                 dialog.pack();
@@ -126,27 +124,27 @@ public class PageVersionPreview {
                 }
             }
         } else {
-            System.out.println("Devi vedere anche le altre");
-            JOptionPane.showMessageDialog(null, "Impossibile procedere alla revisione. Non tutte le versioni sono state visualizate");
+            ErrorDisplayer.showError(null, "Impossibile Procedere", "Impossibile procedere alla revisione. Non tutte le versioni sono state visualizate");
         }
     }
-    void setLastAccepted () {
-        while (accepted.size() > 1){
+
+    void setLastAccepted() {
+        while (accepted.size() > 1) {
             accepted.getFirst().setStatus(ArticleVersion.Status.REJECTED);
             rejectedCount += 1;
         }
     }
 
-    private void openVersion(){
+    private void openVersion() {
         editorPane.setText(articleVersions.get(currentArticlePosition).getText());
         titlePane.setText(articleVersions.get(currentArticlePosition).getTitleProposal());
         acceptRadioButton.setSelected(articleVersions.get(currentArticlePosition).getStatus() == ArticleVersion.Status.ACCEPTED);
         rejectRadioButton.setSelected(articleVersions.get(currentArticlePosition).getStatus() == ArticleVersion.Status.REJECTED);
     }
 
-    private void changeProposal(){
+    private void changeProposal() {
         profileButton.setText(articleVersions.get(currentArticlePosition).getAuthorProposal().getNickname());
-        if(!reviewed.contains(articleVersions.get(currentArticlePosition))) {
+        if (!reviewed.contains(articleVersions.get(currentArticlePosition))) {
             reviewed.add(articleVersions.get(currentArticlePosition));
         }
         openVersion();
@@ -168,4 +166,5 @@ public class PageVersionPreview {
     public JPanel getPanel() {
         return pageVersionPreviewMainPanel;
     }
+
 }

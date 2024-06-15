@@ -15,10 +15,8 @@ public class Home {
     private JLabel footerLabel;
 
 
-
     private HomeRecentArticles homeRecentArticles;
     private HomeFeaturedArticles homeFeaturedArticles;
-
 
 
     private JButton reloadHome;
@@ -38,9 +36,9 @@ public class Home {
         });
 
         reloadHome.addActionListener(e -> {
-            if(
-                !getHomeFeaturedArticles().getThread().isAlive()
-            ){
+            if (
+                    !getHomeFeaturedArticles().getThread().isAlive()
+            ) {
                 reloadHome.setIcon(new ImageIcon(Home.class.getResource("/icons/reload.gif")));
                 if (!Controller.getSplashScreen().isVisible())
                     progressBarHome.setVisible(true);
@@ -57,6 +55,7 @@ public class Home {
         // Footer
         footerLabel.setFont(new Font("Arial", Font.PLAIN, 10));
     }
+
     public HomeRecentArticles getHomeRecentArticles() {
         return homeRecentArticles;
     }
@@ -64,6 +63,7 @@ public class Home {
     public HomeFeaturedArticles getHomeFeaturedArticles() {
         return homeFeaturedArticles;
     }
+
     public JButton getReloadHome() {
         return reloadHome;
     }
@@ -71,11 +71,12 @@ public class Home {
     public JPanel getPanel() {
         return mainPanelHome;
     }
+
     public JProgressBar getProgressBarHome() {
         return progressBarHome;
     }
 
-    public void incrementProgressBarHome(){
+    public void incrementProgressBarHome() {
         progressBarHome.setValue(progressBarHome.getValue() + 1);
     }
 

@@ -19,7 +19,6 @@ public class Toolbar {
     private JButton homeBtn;
 
 
-
     private JTextField searchTxtFld;
     private JPanel accessUserPanel;
     private JPanel mainPanelToolbar;
@@ -95,7 +94,7 @@ public class Toolbar {
             @Override
             public void mouseClicked(MouseEvent e) {
                 super.mouseClicked(e);
-                if(searchDialogPanel.getComponentCount() > 0)
+                if (searchDialogPanel.getComponentCount() > 0)
                     searchDialog.setVisible(true);
             }
         });
@@ -108,6 +107,7 @@ public class Toolbar {
                 searchDialog.setVisible(false);
                 searchTxtFld.setBorder(new LineBorder(Color.GRAY, 1, false));
             }
+
             @Override
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
@@ -116,19 +116,16 @@ public class Toolbar {
         });
 
 
-
-
         createPageButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (Controller.checkLoggedUser()) {
                     Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
-                    if(Controller.getWindow().getPage().getMode() != Page.Mode.EDITOR)
+                    if (Controller.getWindow().getPage().getMode() != Page.Mode.EDITOR)
                         Controller.getWindow().getPage().createNewPage();
-                }
-                else{
-                    if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
-                            JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
+                } else {
+                    if ((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
+                            JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0) {
                         Controller.getWindow().switchPanel(Controller.getWindow().getLoginPanel());
                     }
                 }
@@ -137,7 +134,7 @@ public class Toolbar {
 
         randomButton.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                if(Controller.getWindow().getPage().getMode() != Page.Mode.EDITOR) {
+                if (Controller.getWindow().getPage().getMode() != Page.Mode.EDITOR) {
                     try {
                         Controller.getWindow().getPage().openPage(
                                 Controller.pickRandomArticle()
@@ -151,9 +148,9 @@ public class Toolbar {
         });
     }
 
-    private void search(){
+    private void search() {
         JLabel loadingSearchIcon = new JLabel(new ImageIcon(Toolbar.class.getResource("/icons/loading.gif")));
-        if(!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()){
+        if (!searchTxtFld.getText().isBlank() && !searchTxtFld.getText().isEmpty()) {
             searchDialog.setVisible(true);
             searchDialog.updateDialogPos();
 
@@ -165,7 +162,7 @@ public class Toolbar {
             ArrayList<Article> matchesArticles = null;
             ArrayList<Author> matchesAuthors = null;
 
-            if(typeSearchCb.getSelectedItem().equals("Articoli")){
+            if (typeSearchCb.getSelectedItem().equals("Articoli")) {
                 try {
                     matchesArticles = Controller.getMatchesArticlesByTitle(searchTxtFld.getText());
 
@@ -233,9 +230,7 @@ public class Toolbar {
                     searchDialog.setSize(searchDialog.getWidth(), 25);
                     searchDialogPanel.add(new JLabel("!IMPOSSIBILE CERCARE!"));
                 }
-            }
-
-            else{
+            } else {
                 try {
                     matchesAuthors = Controller.getMatchesAuthorByNickname(searchTxtFld.getText());
 
@@ -295,9 +290,7 @@ public class Toolbar {
             }
 
 
-
-        }
-        else{
+        } else {
             searchDialogPanel.removeAll();
             searchDialog.setVisible(false);
         }
@@ -305,7 +298,7 @@ public class Toolbar {
         searchDialogPanel.repaint();
     }
 
-    private void createSearchDialogComponent(){
+    private void createSearchDialogComponent() {
         searchDialogPanel = new JPanel();
         searchDialogPanel.setLayout(new BoxLayout(searchDialogPanel, BoxLayout.Y_AXIS));
         searchDialog = new AnchoredDialog(searchTxtFld, null, 200, 200, searchDialogPanel, AnchoredDialog.SizeAnchoring.WIDTH, AnchoredDialog.AnchoringPointX.LEFT, AnchoredDialog.AnchoringPointY.UP, AnchoredDialog.SpawnPoint.DOWN);
@@ -330,10 +323,13 @@ public class Toolbar {
     public JPanel getLoggedToolbar() {
         return LoggedToolbar.getPanel();
     }
+
     public JPanel getPanel() {
         return mainPanelToolbar;
     }
+
     public JTextField getSearchTxtFld() {
         return searchTxtFld;
     }
+
 }

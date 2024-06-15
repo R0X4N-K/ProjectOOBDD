@@ -4,7 +4,6 @@ import controller.Controller;
 import model.ArticleVersion;
 
 import javax.swing.*;
-import java.util.ArrayList;
 
 public class CompactNotification {
     private JLabel notificationLabel;
@@ -38,9 +37,12 @@ public class CompactNotification {
         }
     }
 
-    public JPanel getPanel() {return compactNotificationMainPanel;}
+    public JPanel getPanel() {
+        return compactNotificationMainPanel;
+    }
 
     public ArticleVersion getArticleVersion() {
         return version;
     }
+
 }

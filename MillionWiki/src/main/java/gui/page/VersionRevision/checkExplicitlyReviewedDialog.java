@@ -1,6 +1,7 @@
 package gui.page.VersionRevision;
 
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.*;
 
 public class checkExplicitlyReviewedDialog extends JDialog {
@@ -13,7 +14,7 @@ public class checkExplicitlyReviewedDialog extends JDialog {
     public checkExplicitlyReviewedDialog(int unexplicitedCount, PageVersionPreview p) {
         this.p = p;
         setContentPane(contentPane);
-        setModal(true);
+        setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
         getRootPane().setDefaultButton(buttonOK);
         setLocationRelativeTo(null);
         warningLabel.setText("Non hai espresso un parere esplicito su " + unexplicitedCount + " modifiche, sono tutte da rifiutare?");
@@ -42,4 +43,5 @@ public class checkExplicitlyReviewedDialog extends JDialog {
     private void onCancel() {
         dispose();
     }
+
 }

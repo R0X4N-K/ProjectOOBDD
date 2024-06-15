@@ -62,7 +62,8 @@ public class ProfileCard {
                 "<span style='font-size:22px; font-weight:bold; color:#2c82c9'>" + nickname + "</span>" +
                 "<span style='font-size:22px; color:black;'>!</span></html>");
     }
-    void setEmailJLabel(String email){
+
+    void setEmailJLabel(String email) {
         emailJLabel.setText(email);
         emailJLabel.setFont(new Font(
                 emailJLabel.getFont().getFontName(),
@@ -73,7 +74,8 @@ public class ProfileCard {
                 new TitledBorder("Email")
         );
     }
-    void setRating(float rating){
+
+    void setRating(float rating) {
         ratingLbl.setFont(new Font(
                 ratingLbl.getFont().getFontName(),
                 Font.BOLD,
@@ -91,7 +93,7 @@ public class ProfileCard {
             progressBar.setVisible(true);
             ratingLbl.setText(String.format("%.1f", rating) + " %");
 
-            if(rating > 50){
+            if (rating > 50) {
                 ratingLbl.setForeground(Color.decode("#5EAC24"));
                 ratingLbl.setIcon(
                         new ImageIcon(
@@ -103,7 +105,7 @@ public class ProfileCard {
                 progressBar.setForeground(Color.decode("#5EAC24"));
                 progressBar.setBackground(Color.GRAY);
 
-            }else if(rating < 50){
+            } else if (rating < 50) {
                 ratingLbl.setForeground(Color.decode("#ED1C24"));
                 ratingLbl.setIcon(
                         new ImageIcon(
@@ -115,7 +117,7 @@ public class ProfileCard {
 
                 progressBar.setForeground(Color.decode("#ED1C24"));
                 progressBar.setBackground(Color.GRAY);
-            }else if(rating == 50){
+            } else if (rating == 50) {
                 ratingLbl.setForeground(Color.decode("#FDBF40"));
                 ratingLbl.setIcon(
                         new ImageIcon(
@@ -151,4 +153,5 @@ public class ProfileCard {
             throw new RuntimeException(e);
         }
     }
+
 }

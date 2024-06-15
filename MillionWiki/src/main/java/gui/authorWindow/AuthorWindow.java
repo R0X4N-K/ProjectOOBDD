@@ -6,7 +6,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class AuthorWindow extends JDialog{
+public class AuthorWindow extends JDialog {
     private JPanel authorWindowButtonsJPanel;
     private JButton buttonToProfile;
     private JButton buttonToCreatedPages;
@@ -19,7 +19,7 @@ public class AuthorWindow extends JDialog{
     private int idAuthor = -1;
 
 
-    public AuthorWindow(JFrame parent){
+    public AuthorWindow(JFrame parent) {
         super(parent, true);
         setContentPane(authorWindowMainPanel);
         pack();
@@ -63,17 +63,17 @@ public class AuthorWindow extends JDialog{
         return this;
     }
 
-  public void setProfileCard() {
+    public void setProfileCard() {
         profileAuthorWindow.setProfile();
         try {
             setTitle("Profilo di " + Controller.getAuthorById(idAuthor).getNickname());
-        }catch (Exception e) {
+        } catch (Exception e) {
             setTitle("Profilo");
         }
     }
 
 
-    public void setCreatedPagesCard(){
+    public void setCreatedPagesCard() {
         createdPagesAuthorWindow.setCreatedPages();
     }
 
@@ -88,16 +88,21 @@ public class AuthorWindow extends JDialog{
         authorPanelCards.repaint();
         authorPanelCards.revalidate();
     }
-    public int getIdAuthor(){
+
+    public int getIdAuthor() {
         return idAuthor;
     }
-    public void setIdAuthor(int idAuthor){
+
+    public void setIdAuthor(int idAuthor) {
         this.idAuthor = idAuthor;
     }
-    public JButton getButtonToCreatedPages(){
+
+    public JButton getButtonToCreatedPages() {
         return buttonToCreatedPages;
     }
+
     public ProfileAuthorWindow getProfileAuthorWindow() {
         return profileAuthorWindow;
     }
+
 }

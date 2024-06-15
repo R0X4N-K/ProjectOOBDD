@@ -33,6 +33,7 @@ public class ProposalCard {
     public JPanel getPanel() {
         return proposalCardMainPanel;
     }
+
     public void switchPanel(JPanel refPanel) {
         cardLayoutPanel.removeAll();
         cardLayoutPanel.add(refPanel);
@@ -41,8 +42,9 @@ public class ProposalCard {
     }
 
     private void createUIComponents() {
-            reloadedJTable = new JTable();
+        reloadedJTable = new JTable();
     }
+
     private MouseAdapter createArticleMouseListener() {
         return getMouseAdapter(reloadedJTable);
     }
@@ -91,7 +93,7 @@ public class ProposalCard {
             @Override
             public void mouseMoved(MouseEvent e) {
                 int col = reloadedJTable.columnAtPoint(e.getPoint());
-                if (col == 0 || col == 1|| col == 2) {
+                if (col == 0 || col == 1 || col == 2) {
                     reloadedJTable.setCursor(new Cursor(Cursor.HAND_CURSOR));
                 } else {
                     reloadedJTable.setCursor(new Cursor(Cursor.DEFAULT_CURSOR));
@@ -155,7 +157,7 @@ public class ProposalCard {
             columnModel.getColumn(1).setPreferredWidth(50);
             columnModel.getColumn(5).setPreferredWidth(110);
             return table;
-        }  catch (SQLException | IllegalArgumentException e) {
+        } catch (SQLException | IllegalArgumentException e) {
             ErrorDisplayer.showError(e);
             reloadingJLabel.setText("Caricamento proposte fallito");
         }
@@ -167,7 +169,7 @@ public class ProposalCard {
         reloadingJLabel.setText("");
         reloadingJLabel.setIcon(new ImageIcon(ProposalCard.class.getResource("/icons/loading.gif")));
         reloadedJTable = createJTable();
-        if (reloadedJTable != null){
+        if (reloadedJTable != null) {
             if (reloadedJTable.getRowCount() > 0) {
                 switchPanel(reloaded);
                 reloadedJTable.addMouseListener(createArticleMouseListener());
@@ -187,10 +189,12 @@ public class ProposalCard {
             reloadingJLabel.setText("Caricamento Fallito");
         }
     }
-    public void setProposalCard(){
+
+    public void setProposalCard() {
         setProposalCardJTable();
     }
-    private int getSentProposalCount(List<ArticleVersion> versionArticles, int idArticle){
+
+    private int getSentProposalCount(List<ArticleVersion> versionArticles, int idArticle) {
         int count = 0;
         for (ArticleVersion versionArticle : versionArticles) {
             if (versionArticle.getParentArticle().getId() == idArticle) {
@@ -200,7 +204,7 @@ public class ProposalCard {
         return count;
     }
 
-    private Date getLastSentProposalDate(List<ArticleVersion> versionArticles, int idArticle){
+    private Date getLastSentProposalDate(List<ArticleVersion> versionArticles, int idArticle) {
         Date lastProposalDate = null;
         for (ArticleVersion versionArticle : versionArticles) {
             if (versionArticle.getParentArticle().getId() == idArticle) {
@@ -212,7 +216,8 @@ public class ProposalCard {
         }
         return lastProposalDate;
     }
-    private int getAcceptedProposalCount(List<ArticleVersion> versionArticles, int idArticle){
+
+    private int getAcceptedProposalCount(List<ArticleVersion> versionArticles, int idArticle) {
         int count = 0;
         for (ArticleVersion versionArticle : versionArticles) {
             if (versionArticle.getParentArticle().getId() == idArticle && versionArticle.getStatus() == ArticleVersion.Status.ACCEPTED) {
@@ -221,7 +226,8 @@ public class ProposalCard {
         }
         return count;
     }
-    private int getRejectedProposalCount(List<ArticleVersion> versionArticles, int idArticle){
+
+    private int getRejectedProposalCount(List<ArticleVersion> versionArticles, int idArticle) {
         int count = 0;
         for (ArticleVersion versionArticle : versionArticles) {
             if (versionArticle.getParentArticle().getId() == idArticle && versionArticle.getStatus() == ArticleVersion.Status.REJECTED) {
@@ -230,7 +236,8 @@ public class ProposalCard {
         }
         return count;
     }
-    private int getWaitedProposalCount(List<ArticleVersion> versionArticles, int idArticle){
+
+    private int getWaitedProposalCount(List<ArticleVersion> versionArticles, int idArticle) {
         int count = 0;
         for (ArticleVersion versionArticle : versionArticles) {
             if (versionArticle.getParentArticle().getId() == idArticle && versionArticle.getStatus() == ArticleVersion.Status.WAITING) {

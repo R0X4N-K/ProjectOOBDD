@@ -44,4 +44,5 @@ public class checkMultipleAcceptedDialog extends JDialog {
     private void onCancel() {
         dispose();
     }
+
 }

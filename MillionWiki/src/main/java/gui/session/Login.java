@@ -1,15 +1,13 @@
 package gui.session;
 
 import controller.Controller;
+import gui.ErrorDisplayer;
 import gui.Window;
 import model.Cookie;
 
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 import javax.swing.*;
-import javax.swing.border.TitledBorder;
-import java.awt.*;
-import java.awt.event.*;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.sql.SQLException;
@@ -30,52 +28,39 @@ public class Login {
     private JToggleButton viewPasswordBtn;
 
     public Login() {
-        toRegistrationPanelBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        toRegistrationPanelBtn.addActionListener(e -> Controller.getWindow().switchPanel(Controller.getWindow().getRegistrationPanel()));
 
-                Controller.getWindow().switchPanel(Controller.getWindow().getRegistrationPanel());
-            }
+        viewPasswordBtn.addActionListener(actionEvent -> {
+            //Funzione mostra password
+            if (viewPasswordBtn.isSelected())
+                passwordTxtFld.setEchoChar((char) 0);
+            else
+                passwordTxtFld.setEchoChar('•');
         });
 
-        viewPasswordBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent actionEvent) {
-                //Funzione mostra password
-                if(viewPasswordBtn.isSelected())
-                    passwordTxtFld.setEchoChar((char) 0);
-                else
-                    passwordTxtFld.setEchoChar('•');
-            }
-        });
+        submitBtn.addActionListener(e -> submit());
 
-        submitBtn.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    Cookie c = Controller.doLogin(emailNicknameTxtFld.getText(), passwordTxtFld.getText());
-                    String passwordStored = c.getPassword();
-                    if (validatePassword(passwordTxtFld.getText(), passwordStored)) {
-                        System.out.println("Loggato");
-                        if (rembemberMeCheckbox.isSelected()) {
-                            c.writeCookie();
-                        }
-                        Controller.setCookie(c);
-                        Window.switchToLoggedWindow(Controller.getWindow());
-                    } else {
-                        System.out.println("Stuprato");
-                    }
-                } catch (NullPointerException pointerException) {
-                    System.out.println("Stuprato");
-                    throw new NullPointerException();
-                } catch (SQLException ex) {
-                    throw new RuntimeException(ex);
+    }
+
+    private void submit() {
+        try {
+            Cookie c = Controller.doLogin(emailNicknameTxtFld.getText(), passwordTxtFld.getText());
+            String passwordStored = c.getPassword();
+            if (validatePassword(passwordTxtFld.getText(), passwordStored)) {
+                System.out.println("Loggato");
+                if (rembemberMeCheckbox.isSelected()) {
+                    c.writeCookie();
                 }
-
-
+                Controller.setCookie(c);
+                Window.switchToLoggedWindow(Controller.getWindow());
+            } else {
+                ErrorDisplayer.showErrorWithActions(null, "Password errata", "La password inserita non è corretta", e1 -> submit(), null, Controller.getWindow());
             }
-        });
-
+        } catch (NullPointerException pointerException) {
+            ErrorDisplayer.showErrorWithActions(pointerException, null, null, e1 -> submit(), null, Controller.getWindow());
+        } catch (SQLException ex) {
+            ErrorDisplayer.showErrorWithActions(ex, "Errore di Database", null, e1 -> submit(), null, Controller.getWindow());
+        }
     }
 
     private boolean validatePassword(String originalPassword, String storedPassword) {
@@ -86,13 +71,13 @@ public class Login {
         try {
             salt = fromHex(parts[1]);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            ErrorDisplayer.showError(e);
         }
         byte[] hash = new byte[0];
         try {
             hash = fromHex(parts[2]);
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            ErrorDisplayer.showError(e);
         }
 
         PBEKeySpec spec = new PBEKeySpec(originalPassword.toCharArray(),
@@ -101,13 +86,13 @@ public class Login {
         try {
             skf = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
         } catch (NoSuchAlgorithmException e) {
-            throw new RuntimeException(e);
+            ErrorDisplayer.showError(e);
         }
         byte[] testHash = new byte[0];
         try {
             testHash = skf.generateSecret(spec).getEncoded();
         } catch (InvalidKeySpecException e) {
-            throw new RuntimeException(e);
+            ErrorDisplayer.showError(e);
         }
 
         int diff = hash.length ^ testHash.length;

@@ -27,19 +27,22 @@ public class ProfileAuthorWindow {
 
     private JPanel ratingPnl;
 
-    public ProfileAuthorWindow(){
+    public ProfileAuthorWindow() {
 
     }
+
     public JPanel getPanel() {
         return profileAuthorWindowMainPanel;
     }
+
     public void switchPanel(JPanel refPanel) {
         profileAuthorCards.removeAll();
         profileAuthorCards.add(refPanel);
         profileAuthorCards.repaint();
         profileAuthorCards.revalidate();
     }
-    public void setProfile(){
+
+    public void setProfile() {
         switchPanel(cardReloading);
         try {
             nicknameProfileJLabel.setText(Controller.getNicknameAuthorById(Controller.getWindow().getAuthorWindow().getIdAuthor()));
@@ -113,7 +116,7 @@ public class ProfileAuthorWindow {
                 progressBar.setVisible(true);
                 ratingJLabel.setText(String.format("%.1f", rating) + " %");
 
-                if(rating > 50){
+                if (rating > 50) {
                     ratingJLabel.setForeground(Color.decode("#5EAC24"));
                     ratingJLabel.setIcon(
                             new ImageIcon(
@@ -125,7 +128,7 @@ public class ProfileAuthorWindow {
                     progressBar.setForeground(Color.decode("#5EAC24"));
                     progressBar.setBackground(Color.GRAY);
 
-                }else if(rating < 50){
+                } else if (rating < 50) {
                     ratingJLabel.setForeground(Color.decode("#ED1C24"));
                     ratingJLabel.setIcon(
                             new ImageIcon(
@@ -137,7 +140,7 @@ public class ProfileAuthorWindow {
 
                     progressBar.setForeground(Color.decode("#ED1C24"));
                     progressBar.setBackground(Color.GRAY);
-                }else if(rating == 50){
+                } else if (rating == 50) {
                     ratingJLabel.setForeground(Color.decode("#FDBF40"));
                     ratingJLabel.setIcon(
                             new ImageIcon(

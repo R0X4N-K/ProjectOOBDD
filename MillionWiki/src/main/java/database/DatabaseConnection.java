@@ -60,7 +60,7 @@ public class DatabaseConnection {
                         if (!temp.isBlank() && !temp.isEmpty()) {
                             db.driver = temp;
                             db.connection = DriverManager.getConnection(db.url, db.nome, db.password);
-                            System.out.println(db);
+                            //System.out.println(db);
                         } else {
                             throw new IllegalArgumentException("Driver Missing");
                         }

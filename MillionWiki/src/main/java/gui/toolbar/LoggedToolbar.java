@@ -4,7 +4,6 @@ import controller.Controller;
 
 import javax.swing.*;
 
-
 public class LoggedToolbar {
 
     private JPanel loggedUserPanel;
@@ -20,7 +19,7 @@ public class LoggedToolbar {
             notificationsContainer.loading();
             notificationsContainer.updateDialogPos();
             notificationsContainer.setVisible(true);
-            if(thread == null || !thread.isAlive()){
+            if (thread == null || !thread.isAlive()) {
                 notificationsContainer.loading();
                 notificationsContainer.updateDialogPos();
                 notificationsContainer.setVisible(true);
@@ -33,6 +32,7 @@ public class LoggedToolbar {
             Controller.getWindow().getprofileWindow().setVisible(true);
         });
     }
+
     public JPanel getPanel() {
         return loggedUserPanel;
     }
