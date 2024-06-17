@@ -120,12 +120,11 @@ public class CreatedPagesCard {
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
             if (i == 1) {
-                column.setPreferredWidth(50); // Imposta la larghezza preferita della colonna
+                column.setPreferredWidth(50);
             } else {
-                column.setPreferredWidth(100); // Imposta la larghezza preferita della colonna
+                column.setPreferredWidth(100);
             }
-            // Imposta la larghezza preferita della colonna
-            if (i > 0) { // Imposta le colonne non modificabili dalla seconda in poi
+            if (i > 0) {
                 column.setResizable(false);
             }
         }

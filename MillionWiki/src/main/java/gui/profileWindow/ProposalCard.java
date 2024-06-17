@@ -112,7 +112,7 @@ public class ProposalCard {
                     uniqueArticleIds.add(versionArticle.getParentArticle().getId());
                 }
             }
-            Object[][] data = new Object[uniqueArticleIds.size()][8]; // Modifica la dimensione dell'array a 8
+            Object[][] data = new Object[uniqueArticleIds.size()][8];
             int j = 0;
             for (Integer idArticle : uniqueArticleIds) {
                 List<ArticleVersion> filteredArticles = new ArrayList<>();
@@ -138,7 +138,6 @@ public class ProposalCard {
             DefaultTableModel model = new DefaultTableModel(data, columns) {
                 @Override
                 public boolean isCellEditable(int row, int column) {
-                    // Tutte le celle non sono modificabili
                     return false;
                 }
             };
@@ -148,8 +147,8 @@ public class ProposalCard {
             TableColumnModel columnModel = table.getColumnModel();
             for (int i = 0; i < columnModel.getColumnCount(); i++) {
                 TableColumn column = columnModel.getColumn(i);
-                column.setPreferredWidth(100); // Imposta la larghezza preferita della colonna
-                if (i > 0) { // Imposta le colonne non modificabili dalla seconda in poi
+                column.setPreferredWidth(100);
+                if (i > 0) {
                     column.setResizable(false);
                 }
             }

@@ -120,7 +120,7 @@ public class CreatedPagesAuthorWindow {
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Tutte le celle non sono modificabili
+
                 return false;
             }
         };
@@ -130,8 +130,8 @@ public class CreatedPagesAuthorWindow {
         TableColumnModel columnModel = table.getColumnModel();
         for (int i = 0; i < columnModel.getColumnCount(); i++) {
             TableColumn column = columnModel.getColumn(i);
-            column.setPreferredWidth(95); // Imposta la larghezza preferita della colonna
-            if (i > 0) { // Imposta le colonne non modificabili dalla seconda in poi
+            column.setPreferredWidth(95);
+            if (i > 0) {
                 column.setResizable(false);
             }
         }

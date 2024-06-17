@@ -124,7 +124,6 @@ public class NotificationCard {
         DefaultTableModel model = new DefaultTableModel(data, columns) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                // Tutte le celle non sono modificabili
                 return false;
             }
         };

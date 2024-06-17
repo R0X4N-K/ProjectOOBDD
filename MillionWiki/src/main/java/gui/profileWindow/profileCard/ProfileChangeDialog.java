@@ -35,8 +35,6 @@ public class ProfileChangeDialog extends JDialog {
         setResizable(false);
         inputField.setPreferredSize(preferredSize);
         passwordField.setPreferredSize(preferredSize);
-
-        // Ottieni il CardLayout e imposta il campo di input appropriato
         cardLayout = (CardLayout) inputFieldJPanel.getLayout();
         if (changeType.equals("Password")) {
             cardLayout.show(inputFieldJPanel, "Card2");
@@ -94,7 +92,7 @@ public class ProfileChangeDialog extends JDialog {
                 validate();
             }
 
-            // Metodo di validazione
+
             void validate() {
                 String inputText = inputField.getText().trim();
                 boolean isValid = false;
@@ -121,7 +119,7 @@ public class ProfileChangeDialog extends JDialog {
         setContentPane(profileChangeDialogMainPanel);
         pack();
         setLocationRelativeTo(null);
-        // Il tasto invio preme conferma
+
         getRootPane().setDefaultButton(confirmButton);
     }
 
