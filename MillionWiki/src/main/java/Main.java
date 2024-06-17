@@ -35,7 +35,10 @@ public class Main {
             Controller.checkIfRememberedLogin();
             Controller.setWindow(new Window());
         } catch (SQLException | FileNotFoundException | ClassNotFoundException e) {
-            ErrorDisplayer.showErrorWithActions(e, null, null, e1 -> init(), e2 -> Runtime.getRuntime().exit(2), "Riprova", "Chiudi", Controller.getSplashScreen());
+            String message = null;
+            if (e.getClass().getCanonicalName().equals("java.io.FileNotFoundException"))
+                message = " Senza questo file, non ci si può connettere ad alcun server MillionWiki. \n";
+            ErrorDisplayer.showErrorWithActions(e, null, message, e1 -> init(), e2 -> Runtime.getRuntime().exit(2), "Riprova", "Chiudi", Controller.getSplashScreen());
         }
     }
 }
