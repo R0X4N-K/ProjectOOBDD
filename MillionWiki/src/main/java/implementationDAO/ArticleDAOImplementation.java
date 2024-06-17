@@ -1,4 +1,5 @@
 package implementationDAO;
+
 import controller.Controller;
 import dao.ArticleDAO;
 import database.DatabaseConnection;
@@ -47,7 +48,7 @@ public class ArticleDAOImplementation implements ArticleDAO {
         return null;
     }
 
-    public int getAllArticlesNumberByIdAuthor(int idAuthor) throws SQLException{
+    public int getAllArticlesNumberByIdAuthor(int idAuthor) throws SQLException {
         String query = "SELECT COUNT(*) FROM articles WHERE author = ?";
         PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
         stmt.setInt(1, idAuthor);
@@ -92,27 +93,26 @@ public class ArticleDAOImplementation implements ArticleDAO {
         ArrayList<Article> articles = new ArrayList<>();
         String query = "";
 
-        if(title.length() >= 4)
+        if (title.length() >= 4)
             query = "SELECT * FROM articles WHERE title ILIKE ? OR title ILIKE ? ORDER BY views DESC LIMIT 10";
         else
             query = "SELECT * FROM articles WHERE title ILIKE ? ORDER BY views DESC LIMIT 10";
 
 
         PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
-        if(title.length() >= 4) {
-            stmt.setString(1,title + "%");
+        if (title.length() >= 4) {
+            stmt.setString(1, title + "%");
             stmt.setString(2, "%" + title + "%");
             // deep search -> stmt.setString(2, title.subSequence(0, ((title.length() / 2))) + "%");
-        }
-        else
-            stmt.setString(1,title + "%");
+        } else
+            stmt.setString(1, title + "%");
         ResultSet rs = stmt.executeQuery();
 
         while (rs.next()) {
             articles.add(new Article(rs.getInt("id"),
-                rs.getString("title"),
-                Controller.getAuthorById(rs.getInt("author")),
-                rs.getDate("creation_date")));
+                    rs.getString("title"),
+                    Controller.getAuthorById(rs.getInt("author")),
+                    rs.getDate("creation_date")));
         }
         return articles;
     }
@@ -125,9 +125,9 @@ public class ArticleDAOImplementation implements ArticleDAO {
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             articles.add(new Article(rs.getInt("id"),
-                rs.getString("title"),
-                Controller.getAuthorById(rs.getInt("author")),
-                rs.getDate("creation_date")));
+                    rs.getString("title"),
+                    Controller.getAuthorById(rs.getInt("author")),
+                    rs.getDate("creation_date")));
         }
 
         return articles;
@@ -146,7 +146,7 @@ public class ArticleDAOImplementation implements ArticleDAO {
         return id;
     }
 
-    public void incrementArticleViews(int idArticle) throws SQLException{
+    public void incrementArticleViews(int idArticle) throws SQLException {
         String query = "UPDATE articles SET views = views + 1 WHERE id = ?";
         PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
         stmt.setInt(1, idArticle);

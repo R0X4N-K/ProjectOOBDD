@@ -1,4 +1,5 @@
 package gui.page;
+
 import controller.Controller;
 import gui.ErrorDisplayer;
 import gui.page.VersionRevision.PageVersionPreview;
@@ -23,6 +24,20 @@ import java.util.Objects;
 public class Page {
     private JPanel mainPanelPage;
     private JEditorPane pageField;
+    private final WindowAdapter editOnWindowChangeListener = new WindowAdapter() {
+        @Override
+
+        public void windowDeactivated(WindowEvent e) {
+            super.windowDeactivated(e);
+            pageField.setEditable(true);
+        }
+
+        @Override
+        public void windowLostFocus(WindowEvent e) {
+            super.windowLostFocus(e);
+            pageField.setEditable(true);
+        }
+    };
     private JButton italicButton;
     private JButton boldButton;
     private JButton colorPickerButton;
@@ -51,38 +66,9 @@ public class Page {
     private ArrayList<Point> searchOccurrencePositions;
     private Mode mode = Mode.VIEWER;
     private JMenuItem exportBtnToolMenu;
-
     private int idArticle = -1;
     private Thread thread;
-    private JScrollPane scrollPanePage;
-
-
-    //TODO: scorporare la classe ->
-    // continuare a inserire funzionalità in PageUtils:
-    //      - createColorChooserComponent
-    //      - altri listeners
-    //      - funzioni di ricerca
-
-    public enum Mode {
-        VIEWER,
-        EDITOR,
-        REVIEWER
-    }
-
-    private final WindowAdapter editOnWindowChangeListener = new WindowAdapter() {
-        @Override
-
-        public void windowDeactivated(WindowEvent e) {
-            super.windowDeactivated(e);
-            pageField.setEditable(true);
-        }
-
-        @Override
-        public void windowLostFocus(WindowEvent e) {
-            super.windowLostFocus(e);
-            pageField.setEditable(true);
-        }
-    };
+    private final JScrollPane scrollPanePage;
 
     public Page() {
         scrollPanePage = new JScrollPane(pageField);
@@ -300,7 +286,6 @@ public class Page {
         });
     }
 
-
     public void insertHTML(String tag, Color textColor, String inputText, int idArticleLink) {
         int selectionStart = pageField.getSelectionStart();
         int selectionEnd = pageField.getSelectionEnd();
@@ -462,46 +447,6 @@ public class Page {
         Controller.getWindow().switchPanel(Controller.getWindow().getPagePanel());
     }
 
-    private void setMode(Mode mode) {
-        createMenu.setVisible(mode == Mode.EDITOR);
-        textButton.setVisible(mode == Mode.EDITOR);
-        boldButton.setVisible(mode == Mode.EDITOR);
-        colorPickerButton.setVisible(mode == Mode.EDITOR);
-        italicButton.setVisible(mode == Mode.EDITOR);
-        pageField.setEditable(mode == Mode.EDITOR);
-        titlePageField.setEditable(mode == Mode.EDITOR);
-        sendButton.setVisible(mode == Mode.EDITOR);
-        editBtn.setVisible(mode == Mode.VIEWER);
-        pageVersionPreview.getPanel().setVisible(mode == Mode.REVIEWER);
-
-        if (mode == Mode.EDITOR) {
-            infoPageBtn.setVisible(false);
-            closeEditorMode.setVisible(true);
-        } else {
-            infoPageBtn.setVisible(true);
-            closeEditorMode.setVisible(false);
-        }
-        if (mode == Mode.REVIEWER) {
-            pageVersionPreview.setEditorPane(pageField, titlePageField);
-            infoPageBtn.setVisible(true);
-        }
-
-        if (mode == Mode.EDITOR) {
-            pageField.setCaretColor(Color.BLACK);
-            titlePageField.setCaretColor(Color.BLACK);
-            if (SwingUtilities.getWindowAncestor(getPanel()) != null && !Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
-                Controller.getWindow().addWindowListener(editOnWindowChangeListener);
-        } else {
-            if (SwingUtilities.getWindowAncestor(getPanel()) != null && Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
-                Controller.getWindow().removeWindowListener(editOnWindowChangeListener);
-            pageField.setCaretColor(pageField.getBackground());
-            titlePageField.setCaretColor(Color.BLACK);
-            titlePageField.setCaretColor(Color.BLACK);
-        }
-        this.mode = mode;
-
-    }
-
     public void openPage(Article article) {
         setViewerMode();
         searchPanel.setVisible(false);
@@ -584,12 +529,58 @@ public class Page {
         return mode;
     }
 
+    private void setMode(Mode mode) {
+        createMenu.setVisible(mode == Mode.EDITOR);
+        textButton.setVisible(mode == Mode.EDITOR);
+        boldButton.setVisible(mode == Mode.EDITOR);
+        colorPickerButton.setVisible(mode == Mode.EDITOR);
+        italicButton.setVisible(mode == Mode.EDITOR);
+        pageField.setEditable(mode == Mode.EDITOR);
+        titlePageField.setEditable(mode == Mode.EDITOR);
+        sendButton.setVisible(mode == Mode.EDITOR);
+        editBtn.setVisible(mode == Mode.VIEWER);
+        pageVersionPreview.getPanel().setVisible(mode == Mode.REVIEWER);
+
+        if (mode == Mode.EDITOR) {
+            infoPageBtn.setVisible(false);
+            closeEditorMode.setVisible(true);
+        } else {
+            infoPageBtn.setVisible(true);
+            closeEditorMode.setVisible(false);
+        }
+        if (mode == Mode.REVIEWER) {
+            pageVersionPreview.setEditorPane(pageField, titlePageField);
+            infoPageBtn.setVisible(true);
+        }
+
+        if (mode == Mode.EDITOR) {
+            pageField.setCaretColor(Color.BLACK);
+            titlePageField.setCaretColor(Color.BLACK);
+            if (SwingUtilities.getWindowAncestor(getPanel()) != null && !Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
+                Controller.getWindow().addWindowListener(editOnWindowChangeListener);
+        } else {
+            if (SwingUtilities.getWindowAncestor(getPanel()) != null && Arrays.stream(Controller.getWindow().getWindowListeners()).toList().contains(editOnWindowChangeListener))
+                Controller.getWindow().removeWindowListener(editOnWindowChangeListener);
+            pageField.setCaretColor(pageField.getBackground());
+            titlePageField.setCaretColor(Color.BLACK);
+            titlePageField.setCaretColor(Color.BLACK);
+        }
+        this.mode = mode;
+
+    }
+
     public void setTitlePageField(String title) {
         this.titlePageField.setText(title);
     }
 
     public void setTextPageField(String title) {
         this.pageField.setText(title);
+    }
+
+    public enum Mode {
+        VIEWER,
+        EDITOR,
+        REVIEWER
     }
 
 

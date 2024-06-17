@@ -8,13 +8,14 @@ public final class ErrorDisplayer {
     private static final String standardTitle = "Errore";
     private static final String standardErrorMessage = "Si è verificato un errore: ";
 
-    private ErrorDisplayer(){}
+    private ErrorDisplayer() {
+    }
 
-    public static void showError(Exception ex){
+    public static void showError(Exception ex) {
         showError(ex, null, null);
     }
 
-    public static void showError(Exception ex, String title, String message){
+    public static void showError(Exception ex, String title, String message) {
         if (title == null)
             title = standardTitle;
         if (message == null)
@@ -53,7 +54,6 @@ public final class ErrorDisplayer {
         dialog.setAlwaysOnTop(true);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.setModalityType(Dialog.DEFAULT_MODALITY_TYPE);
-        //dialog.setType(Window.Type.POPUP);
         dialog.setSize(500, 300);
         JPanel mainPane = new JPanel(new GridBagLayout());
         GridBagConstraints gbc;

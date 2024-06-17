@@ -96,34 +96,6 @@ public class ProfileWindow extends JDialog {
         });
     }
 
-    public JDialog getDialog() {
-        return this;
-    }
-
-    public void setProfileCard() {
-        profileCard.setProfile();
-    }
-
-    public void setCreatedPagesCard() {
-        createdPagesCard.setCreatedPages();
-    }
-
-    public void setProposalCard() {
-        proposalCard.setProposalCard();
-    }
-
-    public void setProfileWindow() {
-        setProfileCard();
-        switchPanel(profileCard.getPanel());
-    }
-
-    public void switchPanel(JPanel refPanel) {
-        profilePanelCards.removeAll();
-        profilePanelCards.add(refPanel);
-        profilePanelCards.repaint();
-        profilePanelCards.revalidate();
-    }
-
     static MouseAdapter getMouseAdapter(JTable adapterTable) {
         return new MouseAdapter() {
             @Override
@@ -160,6 +132,34 @@ public class ProfileWindow extends JDialog {
                 }
             }
         });
+    }
+
+    public JDialog getDialog() {
+        return this;
+    }
+
+    public void setProfileCard() {
+        profileCard.setProfile();
+    }
+
+    public void setCreatedPagesCard() {
+        createdPagesCard.setCreatedPages();
+    }
+
+    public void setProposalCard() {
+        proposalCard.setProposalCard();
+    }
+
+    public void setProfileWindow() {
+        setProfileCard();
+        switchPanel(profileCard.getPanel());
+    }
+
+    public void switchPanel(JPanel refPanel) {
+        profilePanelCards.removeAll();
+        profilePanelCards.add(refPanel);
+        profilePanelCards.repaint();
+        profilePanelCards.revalidate();
     }
 
 }

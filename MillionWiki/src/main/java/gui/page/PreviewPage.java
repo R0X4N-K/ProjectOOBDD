@@ -6,13 +6,10 @@ import model.Article;
 import model.ArticleVersion;
 
 import javax.swing.*;
-import javax.swing.event.DocumentEvent;
-import javax.swing.event.DocumentListener;
 import javax.swing.event.HyperlinkEvent;
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
-import java.awt.event.HierarchyEvent;
 import java.awt.event.InputEvent;
 import java.sql.SQLException;
 
@@ -21,22 +18,22 @@ public class PreviewPage extends JDialog {
     private JEditorPane textEp;
     private JScrollPane scrollPane;
 
-    public PreviewPage(String title, String text){
+    public PreviewPage(String title, String text) {
         init_component(title, text);
 
     }
 
-    public PreviewPage(String titleDlg, String title, String text){
+    public PreviewPage(String titleDlg, String title, String text) {
         setTitle(titleDlg);
         init_component(title, text);
     }
 
 
-    public PreviewPage(){
+    public PreviewPage() {
         init_component(null, null);
     }
 
-    private void init_component(String title, String text){
+    private void init_component(String title, String text) {
         setModal(true);
 
         titleTxtFld = new JTextField(title);
@@ -95,9 +92,7 @@ public class PreviewPage extends JDialog {
                 titleTxtFld.setFont(new Font(titleTxtFld.getFont().getFontName(),
                         titleTxtFld.getFont().getStyle(),
                         (int) (titleTxtFld.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
-            }
-            else
-            {
+            } else {
                 if (scrollPane != null)
                     scrollPane.dispatchEvent(SwingUtilities.convertMouseEvent(textEp, e, scrollPane));
             }

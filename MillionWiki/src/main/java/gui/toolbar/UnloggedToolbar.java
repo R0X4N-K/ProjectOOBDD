@@ -1,12 +1,10 @@
 package gui.toolbar;
 
-import gui.Window;
+import controller.Controller;
 
 import javax.swing.*;
-import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import controller.Controller;
 
 public class UnloggedToolbar {
 

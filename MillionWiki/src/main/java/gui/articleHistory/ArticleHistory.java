@@ -1,11 +1,13 @@
 package gui.articleHistory;
+
+import controller.Controller;
 import gui.ErrorDisplayer;
 import gui.page.PreviewPage;
 import gui.profileWindow.CreatedPagesCard;
 import gui.profileWindow.ProposalCard;
 import model.Article;
 import model.ArticleVersion;
-import controller.Controller;
+
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableColumn;
@@ -15,7 +17,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.sql.SQLException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Comparator;
 
 public class ArticleHistory extends JDialog {
     private JPanel articleHistoryMainPanel;
@@ -66,23 +69,15 @@ public class ArticleHistory extends JDialog {
                     String idString = link.substring(link.indexOf("'") + 1, link.indexOf("'", link.indexOf("'") + 1));
                     int id = Integer.parseInt(idString);
 
-                    //TODO: rimuovere tutto ArticleHistoryTextWindow
-                    /*Controller.getWindow().getArticleHistoryTextWindow().setIdArticleVersion(id);
-                    Controller.getWindow().getArticleHistoryTextWindow().setArticleHistoryTextWindow();
-                    Controller.getWindow().getArticleHistoryTextWindow().setVisible(true);*/
-
-
                     try {
                         ArticleVersion a = Controller.getArticleVersionByIdArticleVersion(id);
                         String titleDlg = "Articolo: '" + a.getParentArticle().getTitle() + "' - Revisione del " + a.getRevisionDate();
-
 
                         new PreviewPage(titleDlg, a.getTitleProposal(), a.getText());
 
                     } catch (SQLException ex) {
                         ex.printStackTrace();
                     }
-
                 }
             }
         };
@@ -209,13 +204,12 @@ public class ArticleHistory extends JDialog {
         return table;
     }
 
+    public int getIdArticle() {
+        return idArticle;
+    }
 
     public void setIdArticle(int idArticle) {
         this.idArticle = idArticle;
-    }
-
-    public int getIdArticle() {
-        return idArticle;
     }
 
 

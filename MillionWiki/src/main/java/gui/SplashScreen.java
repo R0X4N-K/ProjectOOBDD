@@ -1,14 +1,8 @@
 package gui;
 
-import controller.Controller;
-
-
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicProgressBarUI;
 import java.awt.*;
-import java.awt.event.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class SplashScreen extends JFrame {
     private JPanel mainPanelSplashScreen;
@@ -42,8 +36,13 @@ public class SplashScreen extends JFrame {
         progressBar.setBackground(Color.BLACK);
 
         progressBar.setUI(new BasicProgressBarUI() {
-            protected Color getSelectionBackground() { return Color.WHITE; }
-            protected Color getSelectionForeground() { return Color.WHITE; }
+            protected Color getSelectionBackground() {
+                return Color.WHITE;
+            }
+
+            protected Color getSelectionForeground() {
+                return Color.WHITE;
+            }
         });
 
 
@@ -62,7 +61,7 @@ public class SplashScreen extends JFrame {
 
     }
 
-    public void incrementProgressBar(){
+    public void incrementProgressBar() {
         progressBar.setValue(progressBar.getValue() + 1);
 
     }

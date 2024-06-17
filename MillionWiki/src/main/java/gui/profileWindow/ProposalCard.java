@@ -3,7 +3,6 @@ package gui.profileWindow;
 import controller.Controller;
 import gui.ErrorDisplayer;
 import gui.articleHistory.ArticleHistory;
-import model.Article;
 import model.ArticleVersion;
 
 import javax.swing.*;
@@ -15,8 +14,8 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionAdapter;
 import java.sql.SQLException;
-import java.util.*;
 import java.util.List;
+import java.util.*;
 
 import static gui.profileWindow.ProfileWindow.getMouseAdapter;
 

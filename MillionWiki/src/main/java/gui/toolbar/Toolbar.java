@@ -1,4 +1,5 @@
 package gui.toolbar;
+
 import controller.Controller;
 import gui.ErrorDisplayer;
 import gui.page.Page;
@@ -261,7 +262,6 @@ public class Toolbar {
 
                             @Override
                             public void mouseClicked(MouseEvent e) {
-                                //TODO: apertura profilo autore
                                 Controller.getWindow().getAuthorWindow().setIdAuthor(author.getId());
                                 Controller.getWindow().getAuthorWindow().setAuthorWindow();
                                 Controller.getWindow().getAuthorWindow().setVisible(true);

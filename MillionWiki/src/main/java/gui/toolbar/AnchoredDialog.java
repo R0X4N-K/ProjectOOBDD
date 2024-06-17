@@ -8,30 +8,19 @@ import java.util.Arrays;
 import java.util.Objects;
 
 public class AnchoredDialog extends JDialog {   // An anchored dialog is a dialog that follows a JComponent position and can
-                                                // modify it's size to match the one of the JComponent we anchor it to
-
-    public enum SizeAnchoring {NONE, WIDTH, HEIGHT, BOTH} // Define which size(s) have to match the size of the anchor component
-
-    public enum AnchoringPointX {LEFT, CENTER, RIGHT} // Define which horizontal point of the dialog has to be used
-                                                      // as an anchoring point. If we imagine that the dialog has 9 anchoring
-                                                      // points, we can use one of the points as the one that we stick on the
-                                                      // anchor component
-
-    public enum AnchoringPointY {UP, CENTER, DOWN} // Define which vertical point of the dialog has to be used
-                                                     // as an anchoring point.
-
-    public enum SpawnPoint {UP, DOWN, CENTER, LEFT, RIGHT} // Define on which point of the anchored object the dialog have to spawn,
-                                                           // for example, if we want our dialog to be under the anchor component, we
-                                                           // will use DOWN
-
-
-    private SizeAnchoring sizeAnchor;
-    private AnchoringPointX anchorPointX;
-    private AnchoringPointY anchorPointY;
-    private SpawnPoint spawnPoint;
+    // modify it's size to match the one of the JComponent we anchor it to
 
     protected JComponent anchorComponent; // it's the JComponent on which we anchor the dialog
-    private JPanel mainPanel;
+    private final SizeAnchoring sizeAnchor;
+    // as an anchoring point. If we imagine that the dialog has 9 anchoring
+    // points, we can use one of the points as the one that we stick on the
+    // anchor component
+    private final AnchoringPointX anchorPointX;
+    // as an anchoring point.
+    private final AnchoringPointY anchorPointY;
+    // for example, if we want our dialog to be under the anchor component, we
+    // will use DOWN
+    private final SpawnPoint spawnPoint;
     private final ComponentListener windowListeners = new ComponentListener() {
         @Override
         public void componentResized(ComponentEvent e) {
@@ -53,10 +42,10 @@ public class AnchoredDialog extends JDialog {   // An anchored dialog is a dialo
 
         }
     };
-
-    public AnchoredDialog (JComponent anchorTo, LayoutManager panelLayout,
-                           int width, int height, JPanel panel, SizeAnchoring sizeAnchoring,
-                           AnchoringPointX anchoringPointX, AnchoringPointY anchoringPointY, SpawnPoint spawnPoint) {
+    private final JPanel mainPanel;
+    public AnchoredDialog(JComponent anchorTo, LayoutManager panelLayout,
+                          int width, int height, JPanel panel, SizeAnchoring sizeAnchoring,
+                          AnchoringPointX anchoringPointX, AnchoringPointY anchoringPointY, SpawnPoint spawnPoint) {
         super();
 
         setLayout(new BorderLayout());
@@ -93,7 +82,7 @@ public class AnchoredDialog extends JDialog {   // An anchored dialog is a dialo
 
             @Override
             public void componentShown(ComponentEvent e) {
-                if(!Arrays.stream(SwingUtilities.getWindowAncestor(anchorComponent).getComponentListeners()).toList().contains(windowListeners))
+                if (!Arrays.stream(SwingUtilities.getWindowAncestor(anchorComponent).getComponentListeners()).toList().contains(windowListeners))
                     SwingUtilities.getWindowAncestor(anchorComponent).addComponentListener(windowListeners);
             }
 
@@ -168,7 +157,7 @@ public class AnchoredDialog extends JDialog {   // An anchored dialog is a dialo
         return mainPanel;
     }
 
-    public void updateDialogPos(){
+    public void updateDialogPos() {
         Dimension spawnPoint = calculateSpawnOffset();
         setLocation((int) anchorComponent.getLocationOnScreen().getX() + spawnPoint.width + calculateAnchorOffsetX(), (int) (anchorComponent.getLocationOnScreen().getY() + spawnPoint.height + calculateAnchorOffsetY()));
 
@@ -178,4 +167,12 @@ public class AnchoredDialog extends JDialog {   // An anchored dialog is a dialo
 
         setSize(d);
     }
+
+    public enum SizeAnchoring {NONE, WIDTH, HEIGHT, BOTH} // Define which size(s) have to match the size of the anchor component
+
+    public enum AnchoringPointX {LEFT, CENTER, RIGHT} // Define which horizontal point of the dialog has to be used
+
+    public enum AnchoringPointY {UP, CENTER, DOWN} // Define which vertical point of the dialog has to be used
+
+    public enum SpawnPoint {UP, DOWN, CENTER, LEFT, RIGHT} // Define on which point of the anchored object the dialog have to spawn,
 }

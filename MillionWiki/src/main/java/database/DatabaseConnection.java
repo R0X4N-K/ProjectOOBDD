@@ -12,16 +12,14 @@ import java.util.Scanner;
 
 public class DatabaseConnection {
 
+    private static final String dbCredPath = Controller.getConfigFolder().concat("db_cred.toml");
     // ATTRIBUTI
     private static DatabaseConnection instance = null;
     public Connection connection = null;
-    private String nome;// = "postgres";
-    private String password;// = "j9b!3fsq9k#"; // TODO:  CAMBIARE PASSWORD!!!!!!
-    private String url;// = "jdbc:postgresql://wikidb.cix9wyrt2gqf.eu-south-1.rds.amazonaws.com:5432/wikidb";
-    //private final String url = "jdbc:postgresql://127.0.0.1:5432/wikidb"; // LOCAL
-    private String driver;// = "org.postgresql.Driver";
-
-    private static final String dbCredPath = Controller.getConfigFolder().concat("db_cred.toml");
+    private String nome;
+    private String password;
+    private String url;
+    private String driver;
 
     // COSTRUTTORE
     private DatabaseConnection() {
@@ -38,7 +36,7 @@ public class DatabaseConnection {
     public static DatabaseConnection DBLogin() throws FileNotFoundException, IllegalArgumentException, SQLException, ClassNotFoundException {
         DatabaseConnection db = new DatabaseConnection();
         File f = new File(dbCredPath);
-        if (checkCredIntegrity(f)){
+        if (checkCredIntegrity(f)) {
             Scanner s = new Scanner(f);
             s.nextLine();
             String temp = s.next();
@@ -80,7 +78,7 @@ public class DatabaseConnection {
         return db;
     }
 
-    private static boolean checkCredIntegrity (File f) throws FileNotFoundException {
+    private static boolean checkCredIntegrity(File f) throws FileNotFoundException {
         boolean isValid = false;
         if (f.exists() && f.isFile()) {
             Scanner s = new Scanner(f);
@@ -89,14 +87,14 @@ public class DatabaseConnection {
                     if (s.hasNext()) {
                         s.nextLine();
                         if (s.hasNextLine()) {
-                            if(Objects.equals(s.nextLine(), "[password]")) {
+                            if (Objects.equals(s.nextLine(), "[password]")) {
                                 if (s.hasNextLine()) {
                                     s.nextLine();
-                                    if (s.hasNextLine()){
+                                    if (s.hasNextLine()) {
                                         if (Objects.equals(s.nextLine(), "[url]")) {
                                             if (s.hasNextLine()) {
                                                 s.nextLine();
-                                                if (s.hasNextLine()){
+                                                if (s.hasNextLine()) {
                                                     if (Objects.equals(s.nextLine(), "[driver]")) {
                                                         if (s.hasNextLine()) {
                                                             isValid = true;

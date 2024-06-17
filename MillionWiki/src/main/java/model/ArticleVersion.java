@@ -4,12 +4,6 @@ import java.util.Date;
 
 public class ArticleVersion {
 
-    public enum Status {
-        WAITING,
-        ACCEPTED,
-        REJECTED
-    }
-
     private Article parentArticle;
     private Status status = Status.WAITING;
     private int id;
@@ -17,20 +11,12 @@ public class ArticleVersion {
     private Date versionDate;
     private Date revisionDate = null;
     private Author authorProposal;
-
-    public String getTitleProposal() {
-        return titleProposal;
-    }
-
-    public void setTitleProposal(String titleProposal) {
-        this.titleProposal = titleProposal;
-    }
-
     private String titleProposal;
 
     public ArticleVersion() {
 
     }
+
     public ArticleVersion(int id, String titleProposal, String text, Date versionDate, Date revisionDate, Article parentArticle, Author authorProposal) {
         setId(id);
         setTitleProposal(titleProposal);
@@ -40,6 +26,7 @@ public class ArticleVersion {
         setRevisionDate(revisionDate);
         setParentArticle(parentArticle);
     }
+
     public ArticleVersion(int id, Date versionDate, Article parentArticle, Author authorProposal) {
         setId(id);
         setAuthorProposal(authorProposal);
@@ -74,6 +61,7 @@ public class ArticleVersion {
             e.printStackTrace();
         }
     }
+
     public ArticleVersion(int id, Article parentArticle, String text, Author authorProposal) {
         setId(id);
         setParentArticle(parentArticle);
@@ -81,6 +69,14 @@ public class ArticleVersion {
         setStatus(Status.WAITING);
         this.versionDate = new Date();
         setAuthorProposal(authorProposal);
+    }
+
+    public String getTitleProposal() {
+        return titleProposal;
+    }
+
+    public void setTitleProposal(String titleProposal) {
+        this.titleProposal = titleProposal;
     }
 
     public Article getParentArticle() {
@@ -91,30 +87,38 @@ public class ArticleVersion {
         this.parentArticle = parentArticle;
     }
 
-    public Status getStatus(){
+    public Status getStatus() {
         return status;
     }
 
     public void setStatus(Status status) {
         this.status = status;
     }
+
     public void setStatus(String status) throws Exception {
 
-        switch (status){
-            case "WAITING" : this.status = Status.WAITING; break;
-            case "REJECTED" : this.status = Status.REJECTED; break;
-            case "ACCEPTED" : this.status = Status.ACCEPTED; break;
-            default : throw new Exception("Uno stato può essere uguale solo a waiting, accepted e rejected");
+        switch (status) {
+            case "WAITING":
+                this.status = Status.WAITING;
+                break;
+            case "REJECTED":
+                this.status = Status.REJECTED;
+                break;
+            case "ACCEPTED":
+                this.status = Status.ACCEPTED;
+                break;
+            default:
+                throw new Exception("Uno stato può essere uguale solo a waiting, accepted e rejected");
         }
     }
 
     public int getId() {
         return id;
     }
+
     public int setId(int id) {
         return this.id = id;
     }
-
 
     public String getText() {
         return text;
@@ -124,8 +128,6 @@ public class ArticleVersion {
         this.text = testo;
     }
 
-
-
     public Date getVersionDate() {
         return versionDate;
     }
@@ -133,8 +135,6 @@ public class ArticleVersion {
     public void setVersionDate(Date versionDate) {
         this.versionDate = versionDate;
     }
-
-
 
     public Date getRevisionDate() {
         return revisionDate;
@@ -144,11 +144,18 @@ public class ArticleVersion {
         this.revisionDate = revisionDate;
 
     }
+
     public Author getAuthorProposal() {
         return authorProposal;
     }
 
-    public void setAuthorProposal(Author authorProposal){
+    public void setAuthorProposal(Author authorProposal) {
         this.authorProposal = authorProposal;
+    }
+
+    public enum Status {
+        WAITING,
+        ACCEPTED,
+        REJECTED
     }
 }

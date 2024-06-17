@@ -29,7 +29,7 @@ public class HomeRecentArticles {
             String titledBorderTxt = "<html><img src=\"" + iconUrl + "\" style=\"vertical-align: bottom;\">" +
                     "<span style=\"font-family: 'Times New Roman'; font-size: 22px;vertical-align: bottom;\">&nbsp;Articoli recenti</span></html>";
 
-            titledBorder = new TitledBorder(titledBorderTxt.toString());
+            titledBorder = new TitledBorder(titledBorderTxt);
 
         } catch (Exception e) {
             titledBorder = new TitledBorder("Articoli popolari");

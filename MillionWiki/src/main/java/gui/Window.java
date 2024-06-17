@@ -18,6 +18,10 @@ import java.awt.event.ComponentEvent;
 import java.awt.event.ComponentListener;
 
 public class Window extends JFrame {
+    private final ProfileWindow profileWindow;
+    private final AuthorWindow authorWindow;
+    private final ArticleHistory articleHistory;
+    private final ArticleHistoryTextWindow articleHistoryTextWindow;
     private JPanel mainPanelWindow;
     private JPanel toolbarPanel;
     private JPanel windowPane;
@@ -26,15 +30,10 @@ public class Window extends JFrame {
     private Registration registrationPanel;
     private Page pagePanel;
     private Toolbar toolbarMainPanel;
-    private final ProfileWindow profileWindow;
-    private final AuthorWindow authorWindow;
-    private final ArticleHistory articleHistory;
-    private final ArticleHistoryTextWindow articleHistoryTextWindow;
 
     public Window() {
         super("Million Wiki");
         setIconImage(new ImageIcon(Window.class.getResource("/icons/logo/png/logo16px.png")).getImage());
-
 
 
         setContentPane(mainPanelWindow);
@@ -74,25 +73,41 @@ public class Window extends JFrame {
                 homePanel.getHomeFeaturedArticles().getPanel().revalidate();
                 homePanel.getHomeFeaturedArticles().getPanel().repaint();
             }
+
             @Override
-            public void componentMoved(ComponentEvent e) {}
+            public void componentMoved(ComponentEvent e) {
+            }
+
             @Override
-            public void componentShown(ComponentEvent e) {}
+            public void componentShown(ComponentEvent e) {
+            }
+
             @Override
-            public void componentHidden(ComponentEvent e) {}
+            public void componentHidden(ComponentEvent e) {
+            }
         });
+    }
+
+    public static void switchToLoggedWindow(Window window) {
+        window.toolbarMainPanel.switchToLoggedToolbar();
+        window.switchPanel(window.getHomePanel());
+    }
+
+    public static void switchToUnloggedWindow(Window window) {
+        Controller.deleteCookie();
+        window.toolbarMainPanel.switchToUnloggedToolbar();
     }
 
     public void switchPanel(JPanel refPanel) {
 
-        if(!checkChangesNotSaved()) {
+        if (!checkChangesNotSaved()) {
             windowPane.removeAll();
             windowPane.add(refPanel);
             windowPane.repaint();
             windowPane.revalidate();
         } else {
-            if((JOptionPane.showConfirmDialog(null, "Attenzione, potresti avere delle modifiche non salvate, continuare ?", "Modifiche non salvate",
-                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
+            if ((JOptionPane.showConfirmDialog(null, "Attenzione, potresti avere delle modifiche non salvate, continuare ?", "Modifiche non salvate",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0) {
                 windowPane.removeAll();
                 windowPane.add(refPanel);
                 windowPane.repaint();
@@ -112,17 +127,27 @@ public class Window extends JFrame {
     public ProfileWindow getprofileWindow() {
         return profileWindow;
     }
-    public AuthorWindow getAuthorWindow(){ return authorWindow; }
-    public ArticleHistory getArticleHistory() { return articleHistory; }
-    public ArticleHistoryTextWindow getArticleHistoryTextWindow() { return articleHistoryTextWindow; }
 
+    public AuthorWindow getAuthorWindow() {
+        return authorWindow;
+    }
+
+    public ArticleHistory getArticleHistory() {
+        return articleHistory;
+    }
+
+    public ArticleHistoryTextWindow getArticleHistoryTextWindow() {
+        return articleHistoryTextWindow;
+    }
 
     public JPanel getToolbarMainPanel() {
         return toolbarMainPanel.getPanel();
     }
-    public Home getHomepage(){
+
+    public Home getHomepage() {
         return homePanel;
     }
+
     public JPanel getHomePanel() {
         return homePanel.getPanel();
     }
@@ -138,18 +163,9 @@ public class Window extends JFrame {
     public JPanel getPagePanel() {
         return pagePanel.getPanel();
     }
-    public Page getPage(){
+
+    public Page getPage() {
         return pagePanel;
-    }
-
-    public static void switchToLoggedWindow(Window window) {
-        window.toolbarMainPanel.switchToLoggedToolbar();
-        window.switchPanel(window.getHomePanel());
-    }
-
-    public static void switchToUnloggedWindow(Window window) {
-        Controller.deleteCookie();
-        window.toolbarMainPanel.switchToUnloggedToolbar();
     }
 
     private Point calculate_spacing_articles_home() {

@@ -1,6 +1,6 @@
 package model;
+
 import java.util.Date;
-import java.lang.Exception;
 
 
 public class Article {
@@ -10,14 +10,13 @@ public class Article {
     private Author author;
     private int views;
 
-    public Article (int id, String title, Author author, Date creationDate) throws IllegalArgumentException {
-        setTitle (title);
-        setAuthor (author);
+    public Article(int id, String title, Author author, Date creationDate) throws IllegalArgumentException {
+        setTitle(title);
+        setAuthor(author);
         setId(id);
         setCreationDate(creationDate);
         this.creationDate = new Date();
 
-        // TODO: dataCreazione deve riferirsi a orario Server
     }
 
 
@@ -45,21 +44,21 @@ public class Article {
 
     public void setTitle(String title) throws IllegalArgumentException {
 
-        if(!title.isEmpty() && !title.isBlank()) {
+        if (!title.isEmpty() && !title.isBlank()) {
             this.title = title;
-        }
-        else {
+        } else {
             throw new IllegalArgumentException("Titolo Vuoto");
         }
+    }
+
+    public int getViews() {
+        return views;
     }
 
     public void setViews(int views) {
         this.views = views;
     }
 
-    public int getViews() {
-        return views;
-    }
     public Author getAuthor() {
         return author;
     }

@@ -12,17 +12,8 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class NotificationsContainer extends AnchoredDialog {
-    private JLabel notificationCountLabel;
-    private JPanel notificationsLoadingPane;
-    protected JPanel mainNotificationsContainerPanel;
-    private JLabel loadingLabel;
-    private JScrollPane notificationsScrollPane;
     private final ArrayList<CompactNotification> compactNotificationsList;
-    private JPanel notificationsContainerScrollablePanel;
-    private JPanel notificationsVisualizerPanel;
     private final GridBagConstraints constraints = new GridBagConstraints();
-    private int isMouseEntered = 0;
-
     private final WindowAdapter closeOnWindowChangeListener = new WindowAdapter() {
         @Override
         public void windowDeactivated(WindowEvent e) {
@@ -30,7 +21,14 @@ public class NotificationsContainer extends AnchoredDialog {
             setVisible(false);
         }
     };
-
+    protected JPanel mainNotificationsContainerPanel;
+    private JLabel notificationCountLabel;
+    private JPanel notificationsLoadingPane;
+    private JLabel loadingLabel;
+    private JScrollPane notificationsScrollPane;
+    private JPanel notificationsContainerScrollablePanel;
+    private JPanel notificationsVisualizerPanel;
+    private int isMouseEntered = 0;
     private final MouseAdapter mouseClosure = new MouseAdapter() {
         @Override
         public void mouseExited(MouseEvent e) {
@@ -42,69 +40,18 @@ public class NotificationsContainer extends AnchoredDialog {
             incrementIsMouseEntered(mainNotificationsContainerPanel);
         }
     };
+    final AWTEventListener listener = event -> {
+        MouseEvent me = (MouseEvent) event;
+        Component c = me.getComponent();
 
-
-    public void setCompactNotificationList() {
-        notificationsContainerScrollablePanel.removeAll();
-        notificationsScrollPane.getVerticalScrollBar().setValue(0);
-        notificationsScrollPane.getHorizontalScrollBar().setValue(0);
-        compactNotificationsList.clear();
-        int totalHeight = 0;
-        try {
-            ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
-
-            if (notificationsPool != null) {
-                for (ArticleVersion version : notificationsPool) {
-                    int i = 0;
-                    boolean foundSameVersion = false;
-                    while (i < compactNotificationsList.size() && !foundSameVersion) {
-                        if (version.getParentArticle().getId() == compactNotificationsList.get(i).getArticleVersion().getParentArticle().getId()) {
-                            foundSameVersion = true;
-                            try {
-                                compactNotificationsList.get(i).incrementModificationsCount(version);
-                            } catch (Exception e) {
-                                System.err.println("Article_Version == NULL, incremento fallito");
-                            }
-                        }
-                        i++;
-                    }
-
-                    if (!foundSameVersion) {
-                        try {
-                            CompactNotification cn = new CompactNotification(version);
-                            cn.getPanel().addMouseListener(mouseClosure);
-                            compactNotificationsList.add(cn);
-                            addNotification(cn);
-                            totalHeight += cn.getPanel().getPreferredSize().height;
-                        } catch (Exception e) {
-                            System.err.println("Article_Version == NULL, creazione fallita");
-                        }
-                    }
-                }
-            } else {
-                System.out.println("WARNING! La pool di notifiche è uguale a NULL");
-            }
-            notificationCountLabel.setText("<html> Hai " + "<b>" + compactNotificationsList.size() + "</b>" + " nuove notifiche" + "</html>");
-
-        } catch (SQLException | IllegalArgumentException e) {
-            ErrorDisplayer.showError(e);
+        if (event.getID() == MouseEvent.MOUSE_PRESSED) {
+            setVisible(isMouseEntered > 0);
         }
-
-        notificationsContainerScrollablePanel.setPreferredSize(new Dimension(notificationsContainerScrollablePanel.getPreferredSize().width, totalHeight));
-        notificationsContainerScrollablePanel.revalidate();
-        notificationsContainerScrollablePanel.repaint();
-
-        loaded();
-    }
+    };
 
     /*private Thread getAddNotificationThread(CompactNotification cn) {
         return new Thread(() -> {addNotification(cn);});
     }*/
-
-    private void addNotification(CompactNotification cn) {
-        notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
-        cn.getPanel().setSize(cn.getPanel().getPreferredSize());
-    }
 
     public NotificationsContainer(JComponent anchorTo) {
         super(anchorTo, new GridLayout(),
@@ -166,6 +113,64 @@ public class NotificationsContainer extends AnchoredDialog {
 
     }
 
+    public void setCompactNotificationList() {
+        notificationsContainerScrollablePanel.removeAll();
+        notificationsScrollPane.getVerticalScrollBar().setValue(0);
+        notificationsScrollPane.getHorizontalScrollBar().setValue(0);
+        compactNotificationsList.clear();
+        int totalHeight = 0;
+        try {
+            ArrayList<ArticleVersion> notificationsPool = Controller.getNotifications();
+
+            if (notificationsPool != null) {
+                for (ArticleVersion version : notificationsPool) {
+                    int i = 0;
+                    boolean foundSameVersion = false;
+                    while (i < compactNotificationsList.size() && !foundSameVersion) {
+                        if (version.getParentArticle().getId() == compactNotificationsList.get(i).getArticleVersion().getParentArticle().getId()) {
+                            foundSameVersion = true;
+                            try {
+                                compactNotificationsList.get(i).incrementModificationsCount(version);
+                            } catch (Exception e) {
+                                System.err.println("Article_Version == NULL, incremento fallito");
+                            }
+                        }
+                        i++;
+                    }
+
+                    if (!foundSameVersion) {
+                        try {
+                            CompactNotification cn = new CompactNotification(version);
+                            cn.getPanel().addMouseListener(mouseClosure);
+                            compactNotificationsList.add(cn);
+                            addNotification(cn);
+                            totalHeight += cn.getPanel().getPreferredSize().height;
+                        } catch (Exception e) {
+                            System.err.println("Article_Version == NULL, creazione fallita");
+                        }
+                    }
+                }
+            } else {
+                System.out.println("WARNING! La pool di notifiche è uguale a NULL");
+            }
+            notificationCountLabel.setText("<html> Hai " + "<b>" + compactNotificationsList.size() + "</b>" + " nuove notifiche" + "</html>");
+
+        } catch (SQLException | IllegalArgumentException e) {
+            ErrorDisplayer.showError(e);
+        }
+
+        notificationsContainerScrollablePanel.setPreferredSize(new Dimension(notificationsContainerScrollablePanel.getPreferredSize().width, totalHeight));
+        notificationsContainerScrollablePanel.revalidate();
+        notificationsContainerScrollablePanel.repaint();
+
+        loaded();
+    }
+
+    private void addNotification(CompactNotification cn) {
+        notificationsContainerScrollablePanel.add(cn.getPanel(), constraints);
+        cn.getPanel().setSize(cn.getPanel().getPreferredSize());
+    }
+
     private void resetPanels() {
         int heightNotifications = 0;
         if (!compactNotificationsList.isEmpty()) {
@@ -215,15 +220,5 @@ public class NotificationsContainer extends AnchoredDialog {
     public void incrementIsMouseEntered(Component c) {
         isMouseEntered = isMouseEntered == getComponentCount() ? 0 : isMouseEntered + 1;
     }
-
-
-    final AWTEventListener listener = event -> {
-        MouseEvent me = (MouseEvent) event;
-        Component c = me.getComponent();
-
-        if (event.getID() == MouseEvent.MOUSE_PRESSED) {
-            setVisible(isMouseEntered > 0);
-        }
-    };
 
 }

@@ -9,7 +9,7 @@ public class CompactNotification {
     private JLabel notificationLabel;
     private JButton openButton;
     private JPanel compactNotificationMainPanel;
-    private ArticleVersion version;
+    private final ArticleVersion version;
     private int modificationsCount = 0;
 
     public CompactNotification(ArticleVersion a) throws Exception {
@@ -30,7 +30,7 @@ public class CompactNotification {
         if (version != null) {
             if (version.getParentArticle().getId() == this.version.getParentArticle().getId()) {
                 modificationsCount++;
-                notificationLabel.setText("Hai " + modificationsCount + " modifiche non valutate sull\' articolo: " + version.getParentArticle().getTitle());
+                notificationLabel.setText("Hai " + modificationsCount + " modifiche non valutate sull' articolo: " + version.getParentArticle().getTitle());
             }
         } else {
             throw new Exception("versione non coincidente");

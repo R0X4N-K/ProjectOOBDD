@@ -8,19 +8,12 @@ import implementationDAO.ArticleVersionDAOImplementation;
 import implementationDAO.AuthorDAOImplementation;
 
 import javax.swing.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.FileNotFoundException;
 import java.sql.SQLException;
 
-// Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
-// then press Enter. You can now see whitespace characters in your code.
+
 public class Main {
     public static void main(String[] args) {
-        //ystem.outprintl("Hello MOtherfucker");
-        /*Controller controller = new Controller();
-        controller.getArticleByTitle("prova");*/
-        //Session.getInstance();
         FlatLightLaf.setup();
 
         UIManager.put("Button.background", UIManager.getDefaults());
@@ -32,11 +25,6 @@ public class Main {
             Controller.setSplashScreen(new SplashScreen());
             init();
         }
-     //Controller controller = Controller.ge;
-     //ArticleDAOImplementation articleDAOImplementation = new ArticleDAOImplementation();
-     //articleDAOImplementation.getAllArticles();
-
-
     }
 
     private static void init() {

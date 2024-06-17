@@ -10,9 +10,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-public class AuthorDAOImplementation implements dao.AuthorDAO{
+public class AuthorDAOImplementation implements dao.AuthorDAO {
 
     public DatabaseConnection dbConnection;
+
     public AuthorDAOImplementation() throws SQLException, FileNotFoundException, ClassNotFoundException {
         dbConnection = DatabaseConnection.getInstance();
     }
@@ -107,11 +108,11 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
     }
 
     public void updateNicknameAuthor(int id, String newNickname) throws SQLException {
-            String query = "UPDATE authors SET nickname = ? WHERE id = ?";
-            PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
-            stmt.setString(1, newNickname);
-            stmt.setInt(2, id);
-            stmt.executeUpdate();
+        String query = "UPDATE authors SET nickname = ? WHERE id = ?";
+        PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
+        stmt.setString(1, newNickname);
+        stmt.setInt(2, id);
+        stmt.executeUpdate();
     }
 
     public void updateEmailAuthor(int id, String newEmail) throws SQLException {
@@ -150,8 +151,7 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         if (email != null) {
             query = "SELECT * FROM authors WHERE email = ?";
             emailOrNickname = email;
-        }
-        else if (nickname != null){
+        } else if (nickname != null) {
             query = "SELECT * FROM authors WHERE nickname = ?";
             emailOrNickname = nickname;
         }
@@ -161,8 +161,8 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         if (rs.next()) {
             try { // TODO: REMOVE THIS
                 return new Cookie(
-                    rs.getInt("id"),
-                    rs.getString("password"));
+                        rs.getInt("id"),
+                        rs.getString("password"));
             } catch (Exception e) {
                 throw new RuntimeException(e);
             }
@@ -184,9 +184,6 @@ public class AuthorDAOImplementation implements dao.AuthorDAO{
         PreparedStatement stmt = dbConnection.connection.prepareStatement(query);
         stmt.setString(1, nickname);
         ResultSet rs = stmt.executeQuery();
-        if (rs.next()) {
-            return true;
-        }
-        return false;
+        return rs.next();
     }
 }

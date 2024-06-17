@@ -20,8 +20,8 @@ public class PageVersionPreview {
     private JEditorPane editorPane;
     private ArrayList<ArticleVersion> articleVersions = new ArrayList<>();
     private int currentArticlePosition = 0;
-    private ArrayList<ArticleVersion> reviewed = new ArrayList<>();
-    private ArrayList<ArticleVersion> accepted = new ArrayList<>();
+    private final ArrayList<ArticleVersion> reviewed = new ArrayList<>();
+    private final ArrayList<ArticleVersion> accepted = new ArrayList<>();
     private int rejectedCount = 0;
 
     public PageVersionPreview() {

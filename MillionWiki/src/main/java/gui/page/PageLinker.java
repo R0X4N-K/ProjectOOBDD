@@ -10,13 +10,12 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.net.URL;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
 public class PageLinker extends JPanel {
+    final Article[] articleToLink = {null};
     private Thread searchThread;
-
     private JDialog inputLinkTxtDlg;
     private JPanel inputLinkPnl;
     private JTextField searchPageToLinkTxtFld;
@@ -27,13 +26,8 @@ public class PageLinker extends JPanel {
     private JEditorPane articlePreviewFld;
     private JScrollPane scrollPane;
     private JPanel inputLinkButtonsPanel;
-
-
     private JButton sendBtn;
     private JButton closeBtn;
-
-
-    final Article[] articleToLink = {null};
 
     public PageLinker() {
         init_component(null);
@@ -44,8 +38,8 @@ public class PageLinker extends JPanel {
     }
 
 
-    private void init_component(String textLink){
-        inputLinkTxtDlg =  new JDialog();
+    private void init_component(String textLink) {
+        inputLinkTxtDlg = new JDialog();
         inputLinkTxtDlg.setTitle("Seleziona una pagina");
         inputLinkTxtDlg.setModal(true);
         inputLinkTxtDlg.setLayout(new BorderLayout());
@@ -83,7 +77,7 @@ public class PageLinker extends JPanel {
             public void actionPerformed(ActionEvent e) {
                 inputLinkTxtDlg.dispose();
 
-                if(textLink != null)
+                if (textLink != null)
                     Controller.getWindow().getPage().insertHTML("LINK", null, textLink, articleToLink[0].getId());
                 else
                     Controller.getWindow().getPage().insertHTML("LINK", null, articleToLink[0].getTitle(), articleToLink[0].getId());
@@ -134,7 +128,7 @@ public class PageLinker extends JPanel {
         inputLinkTxtDlg.setVisible(true);
     }
 
-    private void createSearchedPages(){
+    private void createSearchedPages() {
         articlesFoundPanel.removeAll();
 
 
@@ -168,8 +162,7 @@ public class PageLinker extends JPanel {
                                 articlesFoundPanel.getComponent(i).setBackground(null);
                                 JPanel panel = (JPanel) articlesFoundPanel.getComponent(i);
                                 for (Component innerComponent : panel.getComponents()) {
-                                    if (innerComponent instanceof JLabel) {
-                                        JLabel label = (JLabel) innerComponent;
+                                    if (innerComponent instanceof JLabel label) {
                                         label.setForeground(null);
                                     }
                                 }

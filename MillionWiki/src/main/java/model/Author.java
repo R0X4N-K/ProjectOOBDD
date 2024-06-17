@@ -1,12 +1,14 @@
 package model;
+
 import java.util.ArrayList;
 
 public class Author extends User {
+    private final ArrayList<Article> createdPages;
     private int id;
     private String email;
     private String nickname;
     private float rating;
-    private final ArrayList<Article> createdPages;
+
     public Author(int id, String email, String nickname) throws IllegalArgumentException {
         setId(id);
         setEmail(email);
@@ -16,7 +18,7 @@ public class Author extends User {
     }
 
 
-    public String getNickname(){
+    public String getNickname() {
         return nickname;
     }
 
@@ -28,7 +30,7 @@ public class Author extends User {
         }
     }
 
-    public float getRating(){
+    public float getRating() {
 
         return rating;
     }
@@ -41,6 +43,7 @@ public class Author extends User {
     public ArrayList<Article> getCreatedPages() {
         return createdPages;
     }
+
     public void addNewArticle(Article article) {
         this.createdPages.add(article);
     }
@@ -49,12 +52,15 @@ public class Author extends User {
     public int getId() {
         return id;
     }
+
     public void setId(int id) {
         this.id = id;
     }
+
     public String getEmail() {
         return email;
     }
+
     public void setEmail(String email) {
         this.email = email;
     }

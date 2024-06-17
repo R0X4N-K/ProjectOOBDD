@@ -41,6 +41,7 @@ public class PageUtils {
     JButton infoPageBtn;
     JMenuItem exportBtnToolMenu;
     JButton closeEditorMode;
+
     public PageUtils(JPanel mainPanelPage,
                      JScrollPane scrollPanePage,
                      JEditorPane pageField,
@@ -87,14 +88,13 @@ public class PageUtils {
         init_listeners(undoMgr);
     }
 
-    public void init_listeners(UndoManager undoMgr){
+    public void init_listeners(UndoManager undoMgr) {
         boldButton.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
-            if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
+            if (pageField.getSelectionStart() == pageField.getSelectionEnd()) {
                 JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-            else{
+            } else {
                 Controller.getWindow().getPage().insertHTML("BOLD",
                         null, null, -1);
             }
@@ -102,11 +102,10 @@ public class PageUtils {
 
         italicButton.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
-            if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
+            if (pageField.getSelectionStart() == pageField.getSelectionEnd()) {
                 JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-            else{
+            } else {
                 Controller.getWindow().getPage().insertHTML("ITALIC",
                         null, null, -1);
             }
@@ -114,11 +113,10 @@ public class PageUtils {
 
         textButton.addActionListener(e -> {
             //Verifica se l'utente ha selezionato del testo
-            if(pageField.getSelectionStart() == pageField.getSelectionEnd()){
+            if (pageField.getSelectionStart() == pageField.getSelectionEnd()) {
                 JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-            else{
+            } else {
                 Controller.getWindow().getPage().insertHTML("TEXT",
                         null, null, -1);
             }
@@ -128,11 +126,10 @@ public class PageUtils {
             int selectionStart = pageField.getSelectionStart();
             int selectionEnd = pageField.getSelectionEnd();
 
-            if(selectionStart == selectionEnd){
+            if (selectionStart == selectionEnd) {
                 JOptionPane.showMessageDialog(mainPanelPage, "Seleziona prima il testo !",
                         "Errore", JOptionPane.ERROR_MESSAGE);
-            }
-            else {
+            } else {
                 Controller.getWindow().getPage().createColorChooserComponent();
             }
         });
@@ -165,8 +162,7 @@ public class PageUtils {
                 titlePageField.setFont(new Font(titlePageField.getFont().getFontName(),
                         titlePageField.getFont().getStyle(),
                         (int) (titlePageField.getFont().getSize() + (e.getPreciseWheelRotation() * -1))));
-            }
-            else{
+            } else {
                 if (scrollPanePage != null)
                     scrollPanePage.dispatchEvent(SwingUtilities.convertMouseEvent(pageField, e, scrollPanePage));
             }
@@ -178,7 +174,7 @@ public class PageUtils {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F) {
-                    if(!searchPanel.isVisible())
+                    if (!searchPanel.isVisible())
                         searchPanel.setVisible(true);
                     searchTxtFld.requestFocus();
                 }
@@ -223,12 +219,12 @@ public class PageUtils {
             public void keyReleased(KeyEvent e) {
                 super.keyReleased(e);
                 if (e.isControlDown() && e.getKeyCode() == KeyEvent.VK_F) {
-                    if(!searchPanel.isVisible())
+                    if (!searchPanel.isVisible())
                         searchPanel.setVisible(true);
                     searchTxtFld.requestFocus();
                 }
 
-                if(titlePageField.getText().isBlank() && titlePageField.getText().isEmpty()){
+                if (titlePageField.getText().isBlank() && titlePageField.getText().isEmpty()) {
                     titlePageField.setForeground(Color.GRAY);
                     titlePageField.setText("Inserisci il titolo");
                     titlePageField.setCaretPosition(0);
@@ -246,7 +242,7 @@ public class PageUtils {
                     pageField.requestFocus();
                 }
 
-                if(titlePageField.getForeground() == Color.GRAY && e.getKeyCode() != KeyEvent.VK_BACK_SPACE){
+                if (titlePageField.getForeground() == Color.GRAY && e.getKeyCode() != KeyEvent.VK_BACK_SPACE) {
                     titlePageField.setCaretPosition(0);
                     titlePageField.setText("");
                     titlePageField.setForeground(Color.BLACK);
@@ -257,7 +253,7 @@ public class PageUtils {
         titlePageField.addFocusListener(new FocusAdapter() {
             public void focusGained(FocusEvent e) {
                 super.focusGained(e);
-                if(titlePageField.getForeground() == Color.GRAY){
+                if (titlePageField.getForeground() == Color.GRAY) {
                     titlePageField.setCaretPosition(0);
                 }
             }
@@ -291,7 +287,7 @@ public class PageUtils {
         });
 
         closeSearchBtn.addActionListener(e -> {
-            if(searchPanel.isVisible()){
+            if (searchPanel.isVisible()) {
                 searchPanel.setVisible(false);
                 searchErrorLbl.setVisible(false);
                 pageField.requestFocus();
@@ -299,12 +295,11 @@ public class PageUtils {
         });
 
         editBtn.addActionListener(actionEvent -> {
-            if(Controller.checkLoggedUser()){
+            if (Controller.checkLoggedUser()) {
                 Controller.getWindow().getPage().setEditorMode();
-            }
-            else{
-                if((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
-                        JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0){
+            } else {
+                if ((JOptionPane.showConfirmDialog(null, "Devi essere loggato, effettuare il login ?", "Non sei loggato",
+                        JOptionPane.YES_NO_OPTION, JOptionPane.ERROR_MESSAGE)) == 0) {
 
                     Controller.getWindow().switchPanel(Controller.getWindow().getLoginPanel());
                 }
@@ -313,45 +308,40 @@ public class PageUtils {
 
         sendButton.addActionListener(e -> {
             System.out.println(pageField.getText());
-            //TODO: CONTROLLI SUL TITOLO E SUL TESTO
             try {
-                if(!titlePageField.getText().isBlank() &&
+                if (!titlePageField.getText().isBlank() &&
                         pageField.getDocument().getLength() != 0 &&
                         titlePageField.getForeground() != Color.GRAY &&
                         pageField.getDocument().getText(0, pageField.getDocument().getLength()) != null &&
                         !pageField.getDocument().getText(0, pageField.getDocument().getLength()).trim().isEmpty()
-                ){
-                    if (Controller.getWindow().getPage().getIdArticle() == -1){
+                ) {
+                    if (Controller.getWindow().getPage().getIdArticle() == -1) {
                         //Crea pagina
                         Controller.getWindow().getPage().setIdArticle(Controller.createArticle(titlePageField.getText(), Controller.getCookie().getId(), pageField.getText()));
-                        if (Controller.getWindow().getPage().getIdArticle() != -1){
+                        if (Controller.getWindow().getPage().getIdArticle() != -1) {
                             JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo avvenuta correttamente !",
                                     "Creazione articolo", JOptionPane.PLAIN_MESSAGE);
 
                             Controller.getWindow().getPage().setViewerMode();
-                        }
-                        else {
+                        } else {
                             JOptionPane.showMessageDialog(mainPanelPage, "Creazione e salvatggio articolo fallita!",
                                     "Errore", JOptionPane.ERROR_MESSAGE);
                         }
-                    }
-                    else{
+                    } else {
                         //Modifica pagina
-                        if (Controller.createProposal(Controller.getWindow().getPage().getIdArticle(), titlePageField.getText(),pageField.getText(), Controller.getCookie().getId()) != -1){
+                        if (Controller.createProposal(Controller.getWindow().getPage().getIdArticle(), titlePageField.getText(), pageField.getText(), Controller.getCookie().getId()) != -1) {
                             // Finesta -> Operazione avvenuta con successo
                             JOptionPane.showMessageDialog(mainPanelPage, "Modifica avvenuta correttamente !",
                                     "Modifica articolo", JOptionPane.PLAIN_MESSAGE);
 
                             Controller.getWindow().getPage().setViewerMode();
-                        }
-                        else {
+                        } else {
                             // Finestra -> Operazione Fallita
                             JOptionPane.showMessageDialog(mainPanelPage, "Modifica articolo fallita !",
                                     "Errore", JOptionPane.ERROR);
                         }
                     }
-                }
-                else{
+                } else {
                     //TITOLO O TESTO VUOTO
                     JOptionPane.showMessageDialog(mainPanelPage, "Titolo o testo mancante",
                             "Errore", JOptionPane.ERROR_MESSAGE);
@@ -402,6 +392,7 @@ public class PageUtils {
         });
 
     }
+
     public void exportArticle() {
         JFileChooser fileChooser = new JFileChooser();
         fileChooser.setDialogTitle("Salva come HTML");

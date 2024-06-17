@@ -1,4 +1,5 @@
 package implementationDAO;
+
 import controller.Controller;
 import dao.ArticleVersionDAO;
 import database.DatabaseConnection;
@@ -26,13 +27,13 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             return new ArticleVersion(
-                rs.getInt("id"),
-                rs.getString("title"),
-                rs.getString("text"),
-                rs.getDate("version_date"),
-                rs.getDate("revision_date"),
-                Controller.getArticlesById(rs.getInt("parent_article")),
-                Controller.getAuthorById(rs.getInt("author_proposal")));
+                    rs.getInt("id"),
+                    rs.getString("title"),
+                    rs.getString("text"),
+                    rs.getDate("version_date"),
+                    rs.getDate("revision_date"),
+                    Controller.getArticlesById(rs.getInt("parent_article")),
+                    Controller.getAuthorById(rs.getInt("author_proposal")));
         }
         return null;
     }
@@ -46,13 +47,13 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         ResultSet rs = stmt.executeQuery();
         if (rs.next()) {
             articleVersion = new ArticleVersion(
-                rs.getInt("id"),
-                rs.getString("title"),
-                rs.getString("text"),
-                rs.getDate("version_date"),
-                rs.getDate("revision_date"),
-                Controller.getArticlesById(rs.getInt("parent_article")),
-                Controller.getAuthorById(rs.getInt("author_proposal")));
+                    rs.getInt("id"),
+                    rs.getString("title"),
+                    rs.getString("text"),
+                    rs.getDate("version_date"),
+                    rs.getDate("revision_date"),
+                    Controller.getArticlesById(rs.getInt("parent_article")),
+                    Controller.getAuthorById(rs.getInt("author_proposal")));
         }
         return articleVersion;
     }
@@ -140,9 +141,9 @@ public class ArticleVersionDAOImplementation implements ArticleVersionDAO {
         ResultSet rs = stmt.executeQuery();
         while (rs.next()) {
             ArticleVersion articleVersion = new ArticleVersion(rs.getInt("id"),
-                rs.getDate("version_date"),
-                Controller.getArticlesById(rs.getInt("parent_article")),
-                Controller.getAuthorById(rs.getInt("author_proposal"))
+                    rs.getDate("version_date"),
+                    Controller.getArticlesById(rs.getInt("parent_article")),
+                    Controller.getAuthorById(rs.getInt("author_proposal"))
             );
             versionsWaiting.add(articleVersion);
         }

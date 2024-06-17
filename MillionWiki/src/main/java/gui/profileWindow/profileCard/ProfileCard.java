@@ -145,7 +145,6 @@ public class ProfileCard {
 
     public void setProfile() {
         try {
-            //TODO: sistemare
             setWelcomeMessage(Controller.getAuthorById(Controller.getCookie().getId()).getNickname());
             setEmailJLabel(Controller.getAuthorById(Controller.getCookie().getId()).getEmail());
             setRating(Controller.getAuthorById(Controller.getCookie().getId()).getRating());

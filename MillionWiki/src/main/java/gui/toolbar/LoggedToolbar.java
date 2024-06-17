@@ -8,8 +8,8 @@ public class LoggedToolbar {
 
     private JPanel loggedUserPanel;
     private JButton showNotificationsButton;
-    private JButton showProfileButton;
     private final NotificationsContainer notificationsContainer = new NotificationsContainer(showNotificationsButton);
+    private JButton showProfileButton;
     private Thread thread = null;
 
     public LoggedToolbar() {

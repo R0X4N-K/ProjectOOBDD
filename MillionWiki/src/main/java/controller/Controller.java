@@ -6,7 +6,10 @@ import dao.AuthorDAO;
 import gui.ErrorDisplayer;
 import gui.SplashScreen;
 import gui.Window;
-import model.*;
+import model.Article;
+import model.ArticleVersion;
+import model.Author;
+import model.Cookie;
 
 import java.io.File;
 import java.io.IOException;
@@ -19,19 +22,28 @@ import java.util.ArrayList;
 
 public final class Controller {
 
-    private static Cookie cookie;
-    private static ArticleDAO articleDAO = null;
-    private static ArticleVersionDAO articleVersionDAO = null;
-    private static AuthorDAO authorDAO = null;
     private static final String configFolder = System.getProperty("user.home")
             .concat(FileSystems.getDefault().getSeparator())
             .concat(".MillionWiki")
             .concat(FileSystems.getDefault().getSeparator());
     private static final String lockFilePath = configFolder.concat("lockFile");
+    private static Cookie cookie;
+    private static ArticleDAO articleDAO = null;
+    private static ArticleVersionDAO articleVersionDAO = null;
+    private static AuthorDAO authorDAO = null;
+    private static SplashScreen splashScreen;
+    private static Window window;
 
+    private Controller() {
+
+    }
 
     public static Window getWindow() {
         return window;
+    }
+
+    public static void setWindow(Window window) {
+        Controller.window = window;
     }
 
     public static String getConfigFolder() {
@@ -46,17 +58,6 @@ public final class Controller {
         Controller.splashScreen = splashScreen;
     }
 
-    public static void setWindow(Window window) {
-        Controller.window = window;
-    }
-
-    private static SplashScreen splashScreen;
-    private static Window window;
-
-    private Controller() {
-
-    }
-
     public static void checkIfRememberedLogin() {
         try {
             setCookie(Cookie.retriveLogin());
@@ -69,10 +70,14 @@ public final class Controller {
         }*/
     }
 
+    public static Cookie getCookie() {
+        return cookie;
+    }
+
     public static void setCookie(Cookie cookie) {
         Controller.cookie = cookie;
     }
-    public static Cookie getCookie() { return cookie; }
+
     public static void deleteCookie() {
         Cookie.deleteCookie();
     }
@@ -94,11 +99,13 @@ public final class Controller {
     }
 
     public static void changeNickname(String newNickname) throws SQLException {
-        authorDAO.updateNicknameAuthor(cookie.getId(),newNickname);
+        authorDAO.updateNicknameAuthor(cookie.getId(), newNickname);
     }
+
     public static void changeEmail(String newEmail) throws SQLException {
-        authorDAO.updateEmailAuthor(cookie.getId(),newEmail);
+        authorDAO.updateEmailAuthor(cookie.getId(), newEmail);
     }
+
     public static void changePassword(String newPassword) throws SQLException {
         authorDAO.updatePasswordAuthor(cookie.getId(), newPassword);
     }
@@ -118,6 +125,7 @@ public final class Controller {
     public static ArrayList<ArticleVersion> getAllArticleVersionsExcludingTextByAuthorId(int authorId) throws SQLException, IllegalArgumentException {
         return articleVersionDAO.getAllArticleVersionsExcludingTextByAuthorId(authorId);
     }
+
     public static Article getArticlesById(int idArticle) throws SQLException, IllegalArgumentException {
         return articleDAO.getArticleById(idArticle);
     }
@@ -133,21 +141,27 @@ public final class Controller {
     public static ArrayList<Article> getArticlesByIdAuthor(int idAuthor) throws SQLException, IllegalArgumentException {
         return articleDAO.getAllArticlesByIdAuthor(idAuthor);
     }
+
     public static int getArticlesNumberByIdAuthor(int idAuthor) throws SQLException {
         return articleDAO.getAllArticlesNumberByIdAuthor(idAuthor);
     }
+
     public static int getArticlesNumberSentByIdAuthor(int idAuthor) throws SQLException {
         return articleVersionDAO.getVersionArticlesNumberSent(idAuthor);
     }
-    public static ArticleVersion getArticleVersionByIdArticleVersion (int idArticleVersion) throws SQLException {
+
+    public static ArticleVersion getArticleVersionByIdArticleVersion(int idArticleVersion) throws SQLException {
         return articleVersionDAO.getArticleVersionByIdArticleVersion(idArticleVersion);
     }
+
     public static Author getAuthorByNickname(String nickname) throws SQLException, IllegalArgumentException {
         return authorDAO.getAuthorByNickname(nickname);
     }
+
     public static float getRatingByAuthorId(int id) throws SQLException {
         return authorDAO.getRatingByAuthorId(id);
     }
+
     public static String getNicknameAuthorById(int idAuthor) throws SQLException {
         return authorDAO.getNicknameById(idAuthor);
     }
@@ -162,18 +176,17 @@ public final class Controller {
 
     public static Cookie doLogin(String nicknameOrEmail, String password) throws SQLException {
         Cookie cookie = null;
-        if (isAuthorRegisteredWithEmail(nicknameOrEmail)){
+        if (isAuthorRegisteredWithEmail(nicknameOrEmail)) {
             cookie = authorDAO.loginAuthor(nicknameOrEmail, null, password);
 
-        }
-        else if(isAuthorRegisteredWithNickname(nicknameOrEmail)){
+        } else if (isAuthorRegisteredWithNickname(nicknameOrEmail)) {
             cookie = authorDAO.loginAuthor(null, nicknameOrEmail, password);
         }
         return cookie;
     }
 
     public static boolean doRegistration(String email, String nickname, String password) throws SQLException {
-        if (isAuthorRegisteredWithEmail(email) || isAuthorRegisteredWithNickname(nickname)){
+        if (isAuthorRegisteredWithEmail(email) || isAuthorRegisteredWithNickname(nickname)) {
             return false;
         }
         authorDAO.registerAuthor(nickname, password, 0, email);
@@ -192,7 +205,7 @@ public final class Controller {
         articleVersionDAO.reviewArticles(a);
     }
 
-    public static void setArticleDAO (ArticleDAO dao) throws NullPointerException {
+    public static void setArticleDAO(ArticleDAO dao) throws NullPointerException {
         if (dao == null) {
             throw new NullPointerException();
         } else {
@@ -200,7 +213,7 @@ public final class Controller {
         }
     }
 
-    public static void setArticleVersionDAO (ArticleVersionDAO dao) throws NullPointerException {
+    public static void setArticleVersionDAO(ArticleVersionDAO dao) throws NullPointerException {
         if (dao == null) {
             throw new NullPointerException();
         } else {
@@ -208,7 +221,7 @@ public final class Controller {
         }
     }
 
-    public static void setAuthorDAO (AuthorDAO dao) throws NullPointerException {
+    public static void setAuthorDAO(AuthorDAO dao) throws NullPointerException {
         if (dao == null) {
             throw new NullPointerException();
         } else {
@@ -228,7 +241,7 @@ public final class Controller {
         return articleVersionDAO.insertArticleVersion(idArticle, text, idAuthor, titleArticle);
     }
 
-    public static boolean checkLoggedUser(){
+    public static boolean checkLoggedUser() {
         return cookie != null;
     }
 
@@ -249,7 +262,7 @@ public final class Controller {
             }
         }
 
-        return  thereAreInstances;
+        return thereAreInstances;
     }
 
 
@@ -257,22 +270,23 @@ public final class Controller {
 
         ErrorDisplayer.showError(null, "Errore di Istanza",
                 "Un'altra istanza di questa applicazione è attualmente in esecuzione, " +
-                "ti preghiamo di chiudere quell'istanza prima di aprirne una nuova. Se non sono aperte altre istanze, elimina il file: "
-                + lockFilePath);
+                        "ti preghiamo di chiudere quell'istanza prima di aprirne una nuova. Se non sono aperte altre istanze, elimina il file: "
+                        + lockFilePath);
 
         try {
             getSplashScreen().dispose();
-        } catch(NullPointerException e){
+        } catch (NullPointerException e) {
             //System.out.println("Splash screen è null");
         }
     }
 
     public static void deleteLockFile() {
         File f = new File(lockFilePath);
-        if(f.exists()) {
+        if (f.exists()) {
             f.delete();
         }
     }
+
     public static Author getAuthorById(int id) throws SQLException, IllegalArgumentException {
         return authorDAO.getAuthorById(id);
     }

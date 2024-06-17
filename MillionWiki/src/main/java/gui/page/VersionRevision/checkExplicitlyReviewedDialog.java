@@ -2,14 +2,16 @@ package gui.page.VersionRevision;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 public class checkExplicitlyReviewedDialog extends JDialog {
     private JPanel contentPane;
     private JButton buttonOK;
     private JButton buttonCancel;
     private JLabel warningLabel;
-    private PageVersionPreview p;
+    private final PageVersionPreview p;
 
     public checkExplicitlyReviewedDialog(int unexplicitedCount, PageVersionPreview p) {
         this.p = p;

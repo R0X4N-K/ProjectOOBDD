@@ -23,9 +23,9 @@ public class ProfileChangeDialog extends JDialog {
     private JPanel profileChangeDialogMainPanel;
     private JPasswordField passwordField;
     private JPanel inputFieldJPanel;
-    private String changeType;
-    private ProfileCard profileCard;
-    private CardLayout cardLayout;
+    private final String changeType;
+    private final ProfileCard profileCard;
+    private final CardLayout cardLayout;
 
     public ProfileChangeDialog(String changeType, ProfileCard profileCard) {
         this.changeType = changeType;

@@ -5,7 +5,9 @@ import gui.ErrorDisplayer;
 import model.Article;
 
 import javax.swing.*;
-import javax.swing.border.*;
+import javax.swing.border.CompoundBorder;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.TitledBorder;
 import java.awt.*;
 import java.net.URL;
 import java.sql.SQLException;
@@ -13,15 +15,6 @@ import java.util.ArrayList;
 
 public class HomeFeaturedArticles {
     private JPanel homeFeaturedArticlesMainPanel;
-
-    public Thread getThread() {
-        return thread;
-    }
-
-    public void setThread(Thread thread) {
-        this.thread = thread;
-    }
-
     private Thread thread;
 
     public HomeFeaturedArticles() {
@@ -38,7 +31,7 @@ public class HomeFeaturedArticles {
             String titledBorderTxt = "<html><img src=\"" + iconUrl + "\" style=\"vertical-align: bottom;\">" +
                     "<span style=\"font-family: 'Times New Roman'; font-size: 22px;vertical-align: bottom;\">&nbsp;Articoli popolari</span></html>";
 
-            titledBorder = new TitledBorder(titledBorderTxt.toString());
+            titledBorder = new TitledBorder(titledBorderTxt);
 
         } catch (Exception e) {
             titledBorder = new TitledBorder("Articoli popolari");
@@ -59,6 +52,14 @@ public class HomeFeaturedArticles {
         }
         thread.setDaemon(true);
         thread.start();
+    }
+
+    public Thread getThread() {
+        return thread;
+    }
+
+    public void setThread(Thread thread) {
+        this.thread = thread;
     }
 
     private void initMostViewedArticles() {
