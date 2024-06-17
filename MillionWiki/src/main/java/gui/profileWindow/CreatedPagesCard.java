@@ -30,10 +30,8 @@ public class CreatedPagesCard {
     private JPanel reloading;
     private JLabel reloadingJLabel;
 
-
     public CreatedPagesCard() {
     }
-
 
     private MouseAdapter createArticleTitleMouseListener() {
         return getMouseAdapter(reloadedJTable);
