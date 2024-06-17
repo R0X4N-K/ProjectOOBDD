@@ -117,8 +117,8 @@ public final class ErrorDisplayer {
         gbc.fill = GridBagConstraints.HORIZONTAL;
         buttonPane.add(buttonCancel, gbc);
 
-        dialog.setVisible(true);
         dialog.setLocationRelativeTo(null);
+        dialog.setVisible(true);
         dialog.repaint();
 
     }

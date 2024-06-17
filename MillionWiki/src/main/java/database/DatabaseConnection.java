@@ -12,7 +12,7 @@ import java.util.Scanner;
 
 public class DatabaseConnection {
 
-    private static final String dbCredPath = Controller.getConfigFolder().concat("db_cred.toml");
+    public static final String dbCredPath = Controller.getConfigFolder().concat("db_cred.toml");
     // ATTRIBUTI
     private static DatabaseConnection instance = null;
     public Connection connection = null;
@@ -112,7 +112,7 @@ public class DatabaseConnection {
             }
 
         } else {
-            throw new FileNotFoundException("FILE NOT FOUND");
+            throw new FileNotFoundException("File db_cred.toml non trovato nel percorso: " + DatabaseConnection.dbCredPath);
         }
         return isValid;
     }
